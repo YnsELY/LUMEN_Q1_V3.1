@@ -1,0 +1,21 @@
+SEED 211 baseline 0.20528 CG True
+asymmetric {'confirm_relative_improvement_pct_vs_Qplus': 5.466947992442728}
+bgcc_output_cg {'confirm_relative_improvement_pct_vs_Qplus': 2.236999943575757}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 1665}
+SEED 307 baseline 0.21814 CG True
+asymmetric {'confirm_relative_improvement_pct_vs_Qplus': -0.4853218267943049}
+bgcc_output_cg {'confirm_relative_improvement_pct_vs_Qplus': -4.590453814123219}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 1659}
+SEED 401 baseline 0.20465 CG True
+asymmetric {'confirm_relative_improvement_pct_vs_Qplus': 4.98104700031099}
+bgcc_output_cg {'confirm_relative_improvement_pct_vs_Qplus': 0.0}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 1657}
+SEED 503 baseline 0.17757 CG True
+asymmetric {'confirm_relative_improvement_pct_vs_Qplus': 1.556987225735107}
+bgcc_output_cg {'confirm_relative_improvement_pct_vs_Qplus': 0.8284662183106306}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 1653}
+SEED 601 baseline 0.22255 CG True
+asymmetric {'confirm_relative_improvement_pct_vs_Qplus': 6.189122470985331}
+bgcc_output_cg {'confirm_relative_improvement_pct_vs_Qplus': 0.0}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 1661}
+saved /mnt/data/LUMEN_Q1_V3_CORRIGE/results/experiences_synthetiques.json seconds 79.10485216200004

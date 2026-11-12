@@ -1,0 +1,1181 @@
+{
+  "status": "CPU synthetic proof-of-mechanism, NOT Qwen experiments",
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "trials": [
+    {
+      "seed": 17,
+      "dimensions": {
+        "input": 32,
+        "channels": 8,
+        "output": 12,
+        "cal": 256,
+        "select": 192,
+        "confirm": 384
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 493,
+        "select_nmse": 0.16025412806827974,
+        "confirm_nmse": 0.21657709066536143,
+        "model_bpw": 2.4250505891525473,
+        "encoded_bpw": 15.40625
+      },
+      "cg_converged": true,
+      "cg_iterations": 78,
+      "cg_relative_residual": 7.54040984726304e-09,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=0.9",
+          "bytes": 492,
+          "select_nmse": 0.13677230625627715,
+          "confirm_nmse": 0.19304604466690292,
+          "confirm_relative_improvement_pct": 10.864974649981285,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.13524521073993365,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.14521991050138458,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 489,
+              "select_nmse": 0.17141257152527958,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 483,
+              "select_nmse": 0.204120671407615,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.13162428635963985,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.13677230625627715,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.15402160363769904,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.17794069920855582,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.14044344533018677,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.16236880678174379,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.15239684099062875,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.1800347252731047,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 491,
+          "select_nmse": 0.1439607596274096,
+          "confirm_nmse": 0.20648533854035842,
+          "confirm_relative_improvement_pct": 4.659658181758486,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 498,
+              "select_nmse": 0.15308840918365338,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.1439607596274096,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.1662597159201713,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.1746837332755215,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.13473660727431092,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 490,
+              "select_nmse": 0.14767976114214512,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.16325255341594694,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 480,
+              "select_nmse": 0.14982964885087793,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.14550442987017528,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.176743309912201,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.16254796655185424,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.19024955599333723,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 494,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.1764571676517984,
+          "retained_confirm_nmse": 0.21657709066536143,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.2441068636931713,
+          "fixed_table_cal_objective_before": 1.2972572685458919,
+          "fixed_table_cal_objective_after": 0.813525206492785,
+          "accepted_moves": 38
+        }
+      }
+    },
+    {
+      "seed": 29,
+      "dimensions": {
+        "input": 32,
+        "channels": 8,
+        "output": 12,
+        "cal": 256,
+        "select": 192,
+        "confirm": 384
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 493,
+        "select_nmse": 0.2152768251374518,
+        "confirm_nmse": 0.27267166514659763,
+        "model_bpw": 2.404719990952304,
+        "encoded_bpw": 15.40625
+      },
+      "cg_converged": true,
+      "cg_iterations": 83,
+      "cg_relative_residual": 8.980242805897708e-09,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=1.0,step=0.9",
+          "bytes": 493,
+          "select_nmse": 0.19166047165119132,
+          "confirm_nmse": 0.23215661920625932,
+          "confirm_relative_improvement_pct": 14.858546420126206,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.20924678802244037,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.20902888732521022,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.23616087178460773,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.26774351009533054,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.22722417232735065,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 493,
+              "select_nmse": 0.26105247543030735,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.25701506625127946,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.26429800534495534,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.1955318963698012,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 493,
+              "select_nmse": 0.19166047165119132,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.2133204569852868,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 479,
+              "select_nmse": 0.2773238135483317,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 492,
+          "select_nmse": 0.206180192511716,
+          "confirm_nmse": 0.2328134148600246,
+          "confirm_relative_improvement_pct": 14.617672234166267,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.2143986458041571,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.206180192511716,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.24773417638096856,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 483,
+              "select_nmse": 0.2446431546597691,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.20082555679577638,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.22331906193996864,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.23214991830457052,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 483,
+              "select_nmse": 0.2523343441773707,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.23938493412923148,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.2489249860093229,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.26940435785081135,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 483,
+              "select_nmse": 0.3150687361744357,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 493,
+          "feasible": true,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.29088602243617323,
+          "retained_confirm_nmse": 0.27267166514659763,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.25615661468828654,
+          "fixed_table_cal_objective_before": 0.9485272399275771,
+          "fixed_table_cal_objective_after": 0.6690568336932531,
+          "accepted_moves": 38
+        }
+      }
+    },
+    {
+      "seed": 43,
+      "dimensions": {
+        "input": 32,
+        "channels": 8,
+        "output": 12,
+        "cal": 256,
+        "select": 192,
+        "confirm": 384
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 493,
+        "select_nmse": 0.1768500013471701,
+        "confirm_nmse": 0.1718507176073456,
+        "model_bpw": 2.4280461944857605,
+        "encoded_bpw": 15.40625
+      },
+      "cg_converged": true,
+      "cg_iterations": 78,
+      "cg_relative_residual": 8.341330369641712e-09,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=1.0",
+          "bytes": 487,
+          "select_nmse": 0.15345544799001767,
+          "confirm_nmse": 0.16150624859794477,
+          "confirm_relative_improvement_pct": 6.019450575141894,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.15816310295982525,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.15614704385261097,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.15904249979907634,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.1692124827716108,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.1525634924464255,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.15576865769564702,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.15345544799001767,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.1696658545101405,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.14037878615177296,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.15866278385089355,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.16696992196307509,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.16810725594214937,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 491,
+          "select_nmse": 0.15329653417775138,
+          "confirm_nmse": 0.15517374986882515,
+          "confirm_relative_improvement_pct": 9.704334070122966,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.15690650549881136,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.15329653417775138,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.17664211208499855,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.1611262012864098,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.1432853663394087,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 490,
+              "select_nmse": 0.16210656837644707,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.16701416021435614,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.16308941073488092,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 494,
+              "select_nmse": 0.1475912725035995,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.18968712444678082,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.1900958753470915,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 484,
+              "select_nmse": 0.23353167131792432,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 494,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.16215050827058067,
+          "retained_confirm_nmse": 0.1718507176073456,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.17335685656111846,
+          "fixed_table_cal_objective_before": 0.9177624572532102,
+          "fixed_table_cal_objective_after": 0.5616290709202694,
+          "accepted_moves": 38
+        }
+      }
+    },
+    {
+      "seed": 71,
+      "dimensions": {
+        "input": 32,
+        "channels": 8,
+        "output": 12,
+        "cal": 256,
+        "select": 192,
+        "confirm": 384
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 494,
+        "select_nmse": 0.2628455486749595,
+        "confirm_nmse": 0.21010187827299265,
+        "model_bpw": 2.4306888499256916,
+        "encoded_bpw": 15.4375
+      },
+      "cg_converged": true,
+      "cg_iterations": 83,
+      "cg_relative_residual": 6.757086246179754e-09,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=1.0",
+          "bytes": 487,
+          "select_nmse": 0.21596628968618878,
+          "confirm_nmse": 0.20440975746832135,
+          "confirm_relative_improvement_pct": 2.709219380359529,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.20673664428804767,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 489,
+              "select_nmse": 0.23353017142215926,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.23967705846327392,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 480,
+              "select_nmse": 0.24335592726990657,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.21878477935362786,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 490,
+              "select_nmse": 0.24650938864208344,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.21596628968618878,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.24579012008169773,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.20671813856488994,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.21839456915072814,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.26958931315848084,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.32282486956086026,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 490,
+          "select_nmse": 0.22770196857158137,
+          "confirm_nmse": 0.19702618089582624,
+          "confirm_relative_improvement_pct": 6.223503323552726,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.23567514375021517,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 490,
+              "select_nmse": 0.22770196857158137,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.23831955195749369,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.28934103972503605,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 497,
+              "select_nmse": 0.21302516196627008,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.2871952201603402,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.27292190669959426,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.28859608125213765,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.26897076661080027,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 490,
+              "select_nmse": 0.2837840099928867,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 485,
+              "select_nmse": 0.29962742632541334,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.34098543723595126,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 495,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.31172644442007585,
+          "retained_confirm_nmse": 0.21010187827299265,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.21270116905939077,
+          "fixed_table_cal_objective_before": 0.6765167752704252,
+          "fixed_table_cal_objective_after": 0.4438721516184186,
+          "accepted_moves": 43
+        }
+      }
+    },
+    {
+      "seed": 101,
+      "dimensions": {
+        "input": 32,
+        "channels": 8,
+        "output": 12,
+        "cal": 256,
+        "select": 192,
+        "confirm": 384
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 494,
+        "select_nmse": 0.18194562754247454,
+        "confirm_nmse": 0.18927154589324638,
+        "model_bpw": 2.4519200347515424,
+        "encoded_bpw": 15.4375
+      },
+      "cg_converged": true,
+      "cg_iterations": 69,
+      "cg_relative_residual": 8.52117248606476e-09,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=0.9",
+          "bytes": 493,
+          "select_nmse": 0.15726657883571496,
+          "confirm_nmse": 0.1622392570897156,
+          "confirm_relative_improvement_pct": 14.282278234668,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.15680005446686646,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 493,
+              "select_nmse": 0.19637170054779476,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.18298814281069284,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.18878965182519705,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.1599451013836917,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 493,
+              "select_nmse": 0.15726657883571496,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.16865098532994938,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.18214393472952387,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 497,
+              "select_nmse": 0.13877750567546848,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.17717857380364857,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 486,
+              "select_nmse": 0.18812611859845316,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 482,
+              "select_nmse": 0.20570140479007826,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.5,step=1.0",
+          "bytes": 487,
+          "select_nmse": 0.15375249877178607,
+          "confirm_nmse": 0.1736653301614169,
+          "confirm_relative_improvement_pct": 8.245410401324538,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 496,
+              "select_nmse": 0.1424447708492646,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 493,
+              "select_nmse": 0.15560409948925433,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 488,
+              "select_nmse": 0.1720902581070584,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.1766450947355972,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 497,
+              "select_nmse": 0.14396055211298414,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 491,
+              "select_nmse": 0.1568350778168024,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 487,
+              "select_nmse": 0.15375249877178607,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 483,
+              "select_nmse": 0.17082267986828065,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 495,
+              "select_nmse": 0.15329937271512203,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 492,
+              "select_nmse": 0.16520628333380732,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 489,
+              "select_nmse": 0.1831612884848337,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 481,
+              "select_nmse": 0.19990550566312315,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 497,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.17292172349298207,
+          "retained_confirm_nmse": 0.18927154589324638,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.17517202818159466,
+          "fixed_table_cal_objective_before": 0.8148181014624616,
+          "fixed_table_cal_objective_after": 0.5638528076276593,
+          "accepted_moves": 48
+        }
+      }
+    }
+  ],
+  "codec_experiments": {
+    "uniform_shell1": {
+      "0": {
+        "vectors": 8192,
+        "encoded_bytes": 8489,
+        "actual_bpw": 1.0362548828125,
+        "ideal_model_bpw": 0.9904759905520455,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.3348461949999546,
+        "decode_seconds_cpu": 0.18639790100007758,
+        "sha256": "465d1a1d7b5c9182bd4270bc87725c7e25146cc157274dfc454b19cec3e81721"
+      },
+      "1": {
+        "vectors": 8192,
+        "encoded_bytes": 8759,
+        "actual_bpw": 1.0692138671875,
+        "ideal_model_bpw": 0.9925480542917535,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.32760032600003797,
+        "decode_seconds_cpu": 0.11334652400000778,
+        "sha256": "eb2c7eee0cd773b7952555c3c3825ed604f4820ba3951045f3c9ffecce2fe1d6"
+      }
+    },
+    "integer_coset_shell1": {
+      "0": {
+        "vectors": 8192,
+        "encoded_bytes": 8489,
+        "actual_bpw": 1.0362548828125,
+        "ideal_model_bpw": 0.9904759905520455,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.31696007499999723,
+        "decode_seconds_cpu": 0.10721207999995386,
+        "sha256": "862bb518dfac9a2401291f731765bfbb0009e8351020447b9858ba0c86bad1a7"
+      },
+      "1": {
+        "vectors": 8192,
+        "encoded_bytes": 7610,
+        "actual_bpw": 0.928955078125,
+        "ideal_model_bpw": 0.8551399832030825,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.3007885389999956,
+        "decode_seconds_cpu": 0.11385520999999699,
+        "sha256": "8769b7d0519c84d2a9c88d26a8363a8d527eff18a83b029569dbe2586ee5850d"
+      }
+    },
+    "gaussian_E8": {
+      "0": {
+        "vectors": 8192,
+        "encoded_bytes": 17504,
+        "actual_bpw": 2.13671875,
+        "ideal_model_bpw": 2.0904399287531965,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.32646803099999033,
+        "decode_seconds_cpu": 0.13730750599995645,
+        "sha256": "df3ed3c35d999477ad23fae59f2505e5ca7c8e996fefa83b6458097e497f77f8"
+      },
+      "1": {
+        "vectors": 8192,
+        "encoded_bytes": 17770,
+        "actual_bpw": 2.169189453125,
+        "ideal_model_bpw": 2.091936410934127,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.3250509050000119,
+        "decode_seconds_cpu": 0.13185381900007087,
+        "sha256": "886576e9f34335b56213c1d1f825504db55639bcf8d4a9d3baf46ffbc48dc928"
+      }
+    }
+  },
+  "elapsed_seconds": 7.318759986000032
+}

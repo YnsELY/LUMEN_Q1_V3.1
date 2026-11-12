@@ -1,0 +1,532 @@
+{
+  "status": "Synthetic fresh-seed follow-up; not a Qwen gain or a global optimality claim",
+  "hypothesis": "Exact physical byte-neutrality for fixed scales, per-vector shells, and the delivered shell-uniform format; then evaluate true output improvement independently",
+  "seeds_fixed_before_run": [
+    719,
+    809,
+    907,
+    1009,
+    1103
+  ],
+  "numpy": "2.3.5",
+  "python": "3.13.5",
+  "trials": [
+    {
+      "seed": 719,
+      "synthetic": true,
+      "dimensions": [
+        128,
+        32,
+        48
+      ],
+      "cal_select_confirm_positions": [
+        512,
+        384,
+        768
+      ],
+      "control_search": [
+        {
+          "penalty": 0.0,
+          "multiplier": 0.8,
+          "bytes": 1707,
+          "select_nmse": 0.15865865035905108
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 0.9,
+          "bytes": 1628,
+          "select_nmse": 0.1691195334081906
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.0,
+          "bytes": 1557,
+          "select_nmse": 0.17869497470738507
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.15,
+          "bytes": 1468,
+          "select_nmse": 0.20109423690425507
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.8,
+          "bytes": 1700,
+          "select_nmse": 0.15890715694655008
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.9,
+          "bytes": 1619,
+          "select_nmse": 0.1640837391737881
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.0,
+          "bytes": 1548,
+          "select_nmse": 0.18236059833681642
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.15,
+          "bytes": 1455,
+          "select_nmse": 0.19872420449789563
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.8,
+          "bytes": 1604,
+          "select_nmse": 0.1507414861383247
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.9,
+          "bytes": 1527,
+          "select_nmse": 0.16769126391451236
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.0,
+          "bytes": 1457,
+          "select_nmse": 0.1754420163386983
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.15,
+          "bytes": 1371,
+          "select_nmse": 0.19058036221481522
+        }
+      ],
+      "control_bytes": 1604,
+      "candidate_bytes": 1604,
+      "byte_difference": 0,
+      "control_select_nmse": 0.1507414861383247,
+      "candidate_select_nmse": 0.21008472516346466,
+      "accepted_on_select": false,
+      "control_confirm_nmse": 0.15683376088969686,
+      "retained_confirm_nmse": 0.15683376088969686,
+      "candidate_confirm_nmse_diagnostic_only": 0.20828094080736284,
+      "retained_confirm_gain_pct": 0.0,
+      "accepted_code_moves": 514,
+      "fixed_table_cal_before": 3.1564358480914416,
+      "fixed_table_cal_after": 2.1640538456389384
+    },
+    {
+      "seed": 809,
+      "synthetic": true,
+      "dimensions": [
+        128,
+        32,
+        48
+      ],
+      "cal_select_confirm_positions": [
+        512,
+        384,
+        768
+      ],
+      "control_search": [
+        {
+          "penalty": 0.0,
+          "multiplier": 0.8,
+          "bytes": 1704,
+          "select_nmse": 0.19913221782617982
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 0.9,
+          "bytes": 1623,
+          "select_nmse": 0.20169966052909652
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.0,
+          "bytes": 1558,
+          "select_nmse": 0.21837462321544507
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.15,
+          "bytes": 1465,
+          "select_nmse": 0.23836092803937528
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.8,
+          "bytes": 1697,
+          "select_nmse": 0.19551320141789771
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.9,
+          "bytes": 1609,
+          "select_nmse": 0.20828640935020457
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.0,
+          "bytes": 1542,
+          "select_nmse": 0.20893378235073706
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.15,
+          "bytes": 1457,
+          "select_nmse": 0.23882032605905612
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.8,
+          "bytes": 1605,
+          "select_nmse": 0.1988845201241618
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.9,
+          "bytes": 1533,
+          "select_nmse": 0.20492709168513812
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.0,
+          "bytes": 1464,
+          "select_nmse": 0.21596381294430106
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.15,
+          "bytes": 1365,
+          "select_nmse": 0.23081569959581372
+        }
+      ],
+      "control_bytes": 1605,
+      "candidate_bytes": 1605,
+      "byte_difference": 0,
+      "control_select_nmse": 0.1988845201241618,
+      "candidate_select_nmse": 0.25059504339132055,
+      "accepted_on_select": false,
+      "control_confirm_nmse": 0.1841925769099145,
+      "retained_confirm_nmse": 0.1841925769099145,
+      "candidate_confirm_nmse_diagnostic_only": 0.2304769283368679,
+      "retained_confirm_gain_pct": 0.0,
+      "accepted_code_moves": 525,
+      "fixed_table_cal_before": 3.5365965360445006,
+      "fixed_table_cal_after": 2.3576589556123033
+    },
+    {
+      "seed": 907,
+      "synthetic": true,
+      "dimensions": [
+        128,
+        32,
+        48
+      ],
+      "cal_select_confirm_positions": [
+        512,
+        384,
+        768
+      ],
+      "control_search": [
+        {
+          "penalty": 0.0,
+          "multiplier": 0.8,
+          "bytes": 1704,
+          "select_nmse": 0.19135762233725914
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 0.9,
+          "bytes": 1621,
+          "select_nmse": 0.19620355381295052
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.0,
+          "bytes": 1556,
+          "select_nmse": 0.21114416125049396
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.15,
+          "bytes": 1460,
+          "select_nmse": 0.22934062847025594
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.8,
+          "bytes": 1699,
+          "select_nmse": 0.19093265477130103
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.9,
+          "bytes": 1614,
+          "select_nmse": 0.2037434931589473
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.0,
+          "bytes": 1547,
+          "select_nmse": 0.21785199280344872
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.15,
+          "bytes": 1453,
+          "select_nmse": 0.23324389852422178
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.8,
+          "bytes": 1610,
+          "select_nmse": 0.187869814718357
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.9,
+          "bytes": 1525,
+          "select_nmse": 0.20618568017841912
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.0,
+          "bytes": 1461,
+          "select_nmse": 0.214659531502576
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.15,
+          "bytes": 1367,
+          "select_nmse": 0.2234249554162527
+        }
+      ],
+      "control_bytes": 1610,
+      "candidate_bytes": 1610,
+      "byte_difference": 0,
+      "control_select_nmse": 0.187869814718357,
+      "candidate_select_nmse": 0.23325347758207488,
+      "accepted_on_select": false,
+      "control_confirm_nmse": 0.1787836787881527,
+      "retained_confirm_nmse": 0.1787836787881527,
+      "candidate_confirm_nmse_diagnostic_only": 0.23834730367781456,
+      "retained_confirm_gain_pct": 0.0,
+      "accepted_code_moves": 528,
+      "fixed_table_cal_before": 3.6349906958702154,
+      "fixed_table_cal_after": 2.3995120928371247
+    },
+    {
+      "seed": 1009,
+      "synthetic": true,
+      "dimensions": [
+        128,
+        32,
+        48
+      ],
+      "cal_select_confirm_positions": [
+        512,
+        384,
+        768
+      ],
+      "control_search": [
+        {
+          "penalty": 0.0,
+          "multiplier": 0.8,
+          "bytes": 1703,
+          "select_nmse": 0.19030566060343038
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 0.9,
+          "bytes": 1625,
+          "select_nmse": 0.20468337166705097
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.0,
+          "bytes": 1553,
+          "select_nmse": 0.21560392800391964
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.15,
+          "bytes": 1461,
+          "select_nmse": 0.23700213049437113
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.8,
+          "bytes": 1694,
+          "select_nmse": 0.19386984958797332
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.9,
+          "bytes": 1614,
+          "select_nmse": 0.20897841711498036
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.0,
+          "bytes": 1542,
+          "select_nmse": 0.20768765905796438
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.15,
+          "bytes": 1451,
+          "select_nmse": 0.23577123952423074
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.8,
+          "bytes": 1611,
+          "select_nmse": 0.19037125284213757
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.9,
+          "bytes": 1534,
+          "select_nmse": 0.2027945804984979
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.0,
+          "bytes": 1457,
+          "select_nmse": 0.20453025178106235
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.15,
+          "bytes": 1369,
+          "select_nmse": 0.2341102129807224
+        }
+      ],
+      "control_bytes": 1611,
+      "candidate_bytes": 1611,
+      "byte_difference": 0,
+      "control_select_nmse": 0.19037125284213757,
+      "candidate_select_nmse": 0.24435921728892943,
+      "accepted_on_select": false,
+      "control_confirm_nmse": 0.19151095384372635,
+      "retained_confirm_nmse": 0.19151095384372635,
+      "candidate_confirm_nmse_diagnostic_only": 0.23601732026835626,
+      "retained_confirm_gain_pct": 0.0,
+      "accepted_code_moves": 494,
+      "fixed_table_cal_before": 3.185978369387594,
+      "fixed_table_cal_after": 2.129650373875556
+    },
+    {
+      "seed": 1103,
+      "synthetic": true,
+      "dimensions": [
+        128,
+        32,
+        48
+      ],
+      "cal_select_confirm_positions": [
+        512,
+        384,
+        768
+      ],
+      "control_search": [
+        {
+          "penalty": 0.0,
+          "multiplier": 0.8,
+          "bytes": 1711,
+          "select_nmse": 0.19020474539960544
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 0.9,
+          "bytes": 1632,
+          "select_nmse": 0.20286153909814297
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.0,
+          "bytes": 1556,
+          "select_nmse": 0.21216964111317801
+        },
+        {
+          "penalty": 0.0,
+          "multiplier": 1.15,
+          "bytes": 1459,
+          "select_nmse": 0.21464478743753912
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.8,
+          "bytes": 1702,
+          "select_nmse": 0.18511949103844044
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 0.9,
+          "bytes": 1618,
+          "select_nmse": 0.19472955949778933
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.0,
+          "bytes": 1548,
+          "select_nmse": 0.20397405589402298
+        },
+        {
+          "penalty": 0.0001,
+          "multiplier": 1.15,
+          "bytes": 1453,
+          "select_nmse": 0.20782517783886162
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.8,
+          "bytes": 1609,
+          "select_nmse": 0.18768051706297026
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 0.9,
+          "bytes": 1526,
+          "select_nmse": 0.19211355782875014
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.0,
+          "bytes": 1460,
+          "select_nmse": 0.19707196890708042
+        },
+        {
+          "penalty": 0.001,
+          "multiplier": 1.15,
+          "bytes": 1376,
+          "select_nmse": 0.21153760298088037
+        }
+      ],
+      "control_bytes": 1653,
+      "candidate_bytes": 1653,
+      "byte_difference": 0,
+      "control_select_nmse": 0.18653997688600316,
+      "candidate_select_nmse": 0.23540957600178644,
+      "accepted_on_select": false,
+      "control_confirm_nmse": 0.19405926140202495,
+      "retained_confirm_nmse": 0.19405926140202495,
+      "candidate_confirm_nmse_diagnostic_only": 0.25785197060021664,
+      "retained_confirm_gain_pct": 0.0,
+      "accepted_code_moves": 588,
+      "fixed_table_cal_before": 3.1208275429034327,
+      "fixed_table_cal_after": 1.9361130189435416
+    }
+  ],
+  "seconds_cpu": 56.486377807999816,
+  "code_sha256": {
+    "lumen_ref/__init__.py": "d763bb76d086c20556a8818e8ed5419a551837058d141217e24ae122edd50362",
+    "lumen_ref/budget.py": "98b3d5f4cf7d4ae03172ca573804ff1a64c7412ed18e5a128fdab1d58837278b",
+    "lumen_ref/calibration.py": "5d3c8bf1ba0e75f006491a748a3029ebd002e9afeb5b4793c074e665446ee36a",
+    "lumen_ref/e8.py": "fc69f7cb358af6201f0a77427519df9dcca49b4e7f281094ebb4d55df9501e74",
+    "lumen_ref/entropy.py": "e48617c64785e119f0628dc251a9292ba1e55238eb9002f950b139429fde93e9",
+    "lumen_ref/linalg.py": "2a418653fdab4dea8047b2bf37a78b36648a298b36bb74741f7cc2b9768c90a0",
+    "lumen_ref/metrics.py": "b477e12605f22135c4d7c8e7a23cf421dca9f28c161777aea69de3186269df03",
+    "lumen_ref/quantization.py": "56faa16e55197d9a3fc20d548f748abae25e1526e5d09a64d65b48529b11e5d2",
+    "tools/run_isoshell_experiment.py": "539092182a878d18521a3a401443f9ab1f2f0ded6f588479a0fdfe1087ca3b5c"
+  }
+}

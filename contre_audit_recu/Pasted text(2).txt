@@ -1,0 +1,68 @@
+La contre-vérification scientifique et logicielle indépendante de **`LUMEN_Q1_V3_CORRIGE` (`Q1-v3-ref`)** est terminée. Aucun fichier du dossier original `LUMEN_Q1_V3_CORRIGE/` n'a été créé, supprimé ou modifié (contrôle d'intégrité complet avant/après, exécution avec `python -B`).
+
+---
+
+## 1. Fichiers livrés et contrôlés (`Livrables/contre-verification-v3/`)
+
+1. **`Livrables/contre-verification-v3/CONTRE_VERIFICATION_INDEPENDANTE_Q1_V3.md`** (`59 614` octets, SHA-256 `29e3953cc402...`)
+   - Rapport complet : bilan de la réexécution isolée depuis un autre répertoire, dérivations indépendantes, tableau priorisé exhaustif des défauts (`D-01` à `D-25`) et des affirmations déjà retirées (`R-01` à `R-05`) avec fichier/ligne, type strict, contre-exemple reproductible, incidence, correction minimale, nécessité de recalcul et décision motivée brique par brique.
+2. **`Livrables/contre-verification-v3/test_independent_audit_v3.py`** (`40 848` octets, SHA-256 `b04a651f7462...`)
+   - Suite `unittest` exécutable depuis n'importe quel répertoire (`12/12` groupes de tests réussis en `3,45 s` sous `Python 3.12.14` / `NumPy 2.3.5`), incluant un **lecteur/décodeur 100 % indépendant de `LE8CPU3` et `LMATv3`** (sans importer `lumen_ref.entropy` ni `lumen_ref.e8`), une campagne de fuzzing avec recalcul externe du SHA-256, les contrôles denses $G \otimes H$ et BGCC vectorisé, l'énumération brute DP et la reproduction de chaque contre-exemple.
+3. **`Livrables/contre-verification-v3/correctifs_proposes_q1_v3.patch`** (`30 934` octets, `502` lignes, LF Unix, SHA-256 `89b805271e5d...`)
+   - Patch unifié minimal couvrant 11 fichiers, vérifié à froid sur copie temporaire (`git apply --check` code `0`, `git apply` code `0`, `58/58` tests d'origine réussis sans régression et élimination vérifiée de tous les bugs identifiés).
+
+---
+
+## 2. Résultats principaux de la contre-vérification
+
+### A. Réexécution isolée et manifeste d'origine
+- **Échec immédiat de `tools/verify_manifest.py` (`D-18`, `bug`)** : `MANIFEST_SHA256.json` déclare 64 fichiers, mais `PROMPT_REVERIFICATION_V3.md` (`6 983` o) est absent du dossier livré (`63/64` présents $\implies$ `sys.exit(1)`). Les 63 fichiers présents ont des tailles et empreintes SHA-256 exactes.
+- **Comparaison déterministe (`Python 3.12.14` / `NumPy 2.3.5` / `OpenBLAS 0.3.30` Windows vs `Python 3.13.5` / `NumPy 2.3.5` Linux)** :
+  - Les **6 flux binaires `results/codec_*.bin`** sont **100 % identiques bit-à-bit** (`8 489`, `8 759`, `8 489`, `7 610`, `17 504`, `17 770` octets).
+  - Toutes les tailles d'artefacts, décisions discrètes et métriques `select_nmse` / `confirm_nmse` sont identiques.
+  - Deux écarts ont été relevés : *(1)* `str(p.relative_to(ROOT))` sérialise des antislashs Windows `lumen_ref\\linalg.py` dans `code_sha256` ; *(2)* les réductions SIMD d'OpenBLAS font varier `cg_iterations` de 1 à 2 pas sous le seuil `1e-8` sans modifier aucun code $E_8$ quantifié.
+
+### B. Ce qui est mathématiquement juste dans V3 (et déjà retiré par rapport à `originals/`)
+- Les erreurs de `originals/` (terme $k=j$ manquant dans `inverse_unit_upper`, absence de division par 8 dans le coût bas-rang QERA, confusion `total_model_bits` vs octets réels, faux gain de `+623 Mo` sur `Q0` et scores Qwen spéculatifs) appartiennent bien à la catégorie **`affirmation retirée`**.
+- Sur matrices exactement symétriques et entrées bien formées :
+  - `upper_ldl`, `inverse_unit_upper` et `block_ldl` restent exacts à $\sim 10^{-16}$ jusqu'à $\kappa = 10^{12}$, et `quantize_ldlq` coïncide exactement avec la factorisation Block-8 du produit de Kronecker dense $G \otimes H$ ;
+  - l'opérateur `bgcc_output_operator`, sa diagonale exacte et `bgcc_output_cg` coïncident avec le système vectorisé $mn \times mn$ (y compris sur portes nulles, $X_q$ de rang 1 et `down` non orthogonal) ;
+  - `allocate_options` concorde `20/20` avec l'énumération brute exhaustive sur tables additives ;
+  - notre décodeur indépendant relit sans erreur les 6 flux `codec_*.bin`, les 240 racines, les grandes coquilles, les deux co-ensembles, `ESC` jusqu'à `-2**31`, les flux vides `encode_e8([])`, `P = 1` (`0` octet de rang) et `precision = 1` et `16`.
+
+### C. Principaux défauts actifs démontrés par contre-exemples reproductibles
+1. **`D-01` & `D-02` (`lumen_ref/metrics.py:38-61`, `bug` critiques)** :
+   - Faute de vérifier l'unicité par ligne de `ids`, `ids = [[0, 0]]` donne une **KL strictement négative** (`-0,45496 nats` sur `grouped_kl_from_cache` pour `student == teacher`, `-0,01186 nats` sur `exact_grouped_kl`).
+   - `exact_grouped_kl` passe par `np.exp(lp)` et sature à `1e-300` dès $lp \le -745$ : à `-800`, l'oracle retourne `344,69 nats` au lieu de `399,31 nats` (**`54,61 nats` d'erreur**).
+2. **`D-03` (`lumen_ref/linalg.py:15-20`, `bug`)** : `checked_spd` tolère une asymétrie `1e-11` et appelle `np.linalg.cholesky(a)` (triangle inférieur seul) **sans symétriser** $\frac{1}{2}(a + a^\top)$, ce qui permet : *(a)* de faire planter `upper_ldl(a)` en `LinAlgError`, *(b)* de faire planter `refine_quadratic` en `ArithmeticError("Conditional objective increased")`, *(c)* de faire croître silencieusement `quadratic_objective`, et *(d)* d'induire une erreur de transposée dans `fresh_quadratic_target`.
+3. **`D-04` & `D-05` (`lumen_ref/linalg.py:106-119`, `bug`)** : `pcg` **quitte prématurément à `k = 22 < maxiter = 200` avec `converged = False`** dès que le résidu récursif passe sous `rtol` alors que le vrai résidu vaut encore `1,05e-5 > 1e-9` (sans continuer les itérations restantes), et lève à tort `ValueError("not numerically SPD")` par underflow `float64` sur portes quasi-nulles (`1e-160`).
+4. **`D-06`, `D-07`, `D-11` & `D-12` (`lumen_ref/entropy.py`, `lumen_ref/e8.py`, `bug`)** :
+   - `encode_matrix` produit un `LMATv3` muni d'un SHA-256 valide pour `m=0` ou `n=0` que `decode_matrix` refuse de relire ;
+   - `encode_matrix` tronque silencieusement des échelles `float64` non pré-arrondies en FP16 (`step = 3.0e-8` devient `5.9605e-8`, **faussant toute la ligne décodée de `+98,68 %`** sans erreur) ;
+   - `_unpack_ranks` est quadratique $O(\text{group}^2)$ sur des entiers atteignant `118 264` bits (`group_size=4096, m=127`) ;
+   - `e8.nearest([+1e8, 0...])` réussit mais `[-1e8, 0...]` échoue ; `e8.valid([1<<64]*8)` lève `TypeError` ; `e8.valid([True]*8)` renvoie `True` tandis que `e8.shell_size(np.int64(1))` échoue.
+5. **`D-08` & `D-13` (`lumen_ref/budget.py`, `budget_lumen_max_v3.py`, `bug`)** : `continuous_waterfill` viole `budget_bits` dans $[n^\top \ell - 10^{-5}, n^\top \ell)$ ; `allocate_options` accepte `True` comme `1` octet et `ceiling_bytes = NaN` ; et `budget_lumen_max_v3.py` facture à `Mini_text` `3,54 Mo` d'auxiliaires Vision+MTP inexistants (`84 066 560` o au lieu de `80 529 024` o) tout en omettant `protected_alignment_128B_extra_upper_bound` dans `capacity` (`Recalcul requis` pour `budget_faits_et_scenarios.json`).
+6. **`D-09`, `D-10`, `D-14`, `D-15`, `D-16` & `D-17` (`calibration.py`, `quantization.py`, `metrics.py`, `validate_capture.py`, `bug`)** : `ridge = NaN` et `trust_radius = NaN` non rejetés ; `cg.converged` non vérifié dans `run_experiments.py` ; `'table_refitted_after_sweep': True` codé en dur sous `preserve_shell=True` ; overflow FP16 auto-infligé dans `topk_cache` à `-70000` et inversion possible de classement à `~3,9e-7 nats` sur $V = 248\,320$ ; `accept_decoded` contournable par `ceiling_bytes = NaN`, `b""` vide ou nouvelle sentinelle `NaN` ; `validate_capture.py` acceptant `0` token `(5120, 0)`, splits vides `[]` et placeholders `"A_REMPLIR..."`.
+7. **Inflation d'octets post-refit & ruptures d'invariance (`D-21`, `approximation déclarée` vérifiée)** : après `ShellModel.fit` (`preserve_shell=False`), `refine_quadratic` (`491 -> 492` o) et `refine_swiglu_up` (`493 -> 501` o, `+8` o malgré `-53,7 %` sur l'objectif à table fixe) augmentent physiquement la taille du fichier ; hors conditions strictes, basculer de parité en mode 1 (`725 -> 728` o) ou permuter deux vecteurs adjacents `ESC`/non-`ESC` (`135 -> 134` o) modifie également la longueur encodée.
+8. **Protocole expérimental et sources `[S01]`–`[S15]` (`D-19`, `D-20`, `D-23`, `D-25`)** :
+   - Sur graine `601`, `asymmetric` consomme **`+79` octets (`+5,16 %` = `+0,154 bpw`)** de plus que `Qplus` sous plafond lâche ; `search_seconds_cpu` omet le temps de résolution CG/ridge ; `bgcc_output_cg` affiche `-0,30 %` en moyenne face à `Qplus` ; et le polissage discret libre comme iso-coquille échoue **10/10** en sélection (`-24 %` à `-39 %` de sur-apprentissage).
+   - **`[S14]`** : contrairement à ce qu'indique V3, le commit `37561816e66b5b9153b1b64c10968c18c1e6f4a0` est bien le `HEAD` public actif et lisible de `Qwen/Qwen3.8-27B`.
+   - **`[S15]`** : faux titre dans V3 ; le vrai article (`arXiv:2609.31009`, Ruikang Liu et al.) s'intitule **`G^2PTQ: Improving LLM Post-Training Quantization with Generalized Gradient Compensation`**, et son texte complet ainsi que son code MIT `https://github.com/G2PTQ/G2PTQ` sont publiquement accessibles.
+
+---
+
+## 3. Décision finale par brique
+
+- **En l'état brut non patché de `LUMEN_Q1_V3_CORRIGE`** : toutes les briques logicielles sont **`bloquées par un défaut`** de garde, de stabilité numérique ou de manifeste (`D-01` à `D-18`).
+- **Après application du patch vérifié `correctifs_proposes_q1_v3.patch`** :
+  1. **Algèbre LDL/Block-8 & `quantize_ldlq`** : **`prête pour un pilote Qwen`** *(sur sous-matrices CPU ou après portage vectorisé GPU)*.
+  2. **Cible asymétrique ridge (`asymmetric_target`)** : **`prête pour un pilote Qwen`** *(à condition d'imposer une comparaison à octets égalisés sur vraies captures pleine largeur `5120`/`17408`)*.
+  3. **Codec CPU `LE8CPU3` / `LMATv3`**, **Budget/DP additive**, **Métriques Top-$K$ / `accept_decoded`** et **Validateur de captures** : **`intégrables comme outils`** *(oracles de test, de comptabilité et de garde — le schéma de capture devant être complété avec `Y_fp`, `SwiGLU`, `RMSNorm` `1+w`, états `GatedDeltaNet` et branche `MTP` avant un essai complet)*.
+  4. **Solveur `bgcc_output_cg`**, **Polissage discret libre et iso-coquille (`refine_quadratic` / `refine_swiglu_up`)** et **`fresh_quadratic_target`** : **`reportées`** *(gain synthétique moyen nul ou négatif pour `bgcc_output_cg`, 10/10 rejets en sélection pour le polissage discret, et absence totale d'évaluation pour `fresh_quadratic_target`)*.
+
+---
+
+## 4. Limites explicites
+
+- Conformément au mandat et aux ressources locales, **aucun poids BF16 complet de `Qwen/Qwen3.8-27B` n'a été téléchargé ni exécuté** (`0/11` domaines évalués sur le modèle cible) : la conclusion scientifique demeure strictement **« testé algébriquement ou synthétiquement ; transfert à Qwen non établi »**.
+- La réexécution locale a utilisé `Python 3.12.14` + `NumPy 2.3.5` + `OpenBLAS 0.3.30` sous Windows (le `venv` `Python 3.13.2` local ne contenant pas `numpy`), avec parité bit-à-bit vérifiée sur tous les flux encodés.

@@ -1,0 +1,502 @@
+--- a/lumen_ref/linalg.py
++++ b/lumen_ref/linalg.py
+@@ -16,6 +16,7 @@
+     a = as_finite(a, 2)
+     if a.shape[0] != a.shape[1] or not np.allclose(a, a.T, rtol=1e-11, atol=1e-12):
+         raise ValueError("A symmetric square matrix is required")
++    a = 0.5 * (a + a.T)
+     np.linalg.cholesky(a)  # Fail on non-SPD inputs; no silent clipping of pivots.
+     return a
+ 
+@@ -103,19 +104,23 @@
+     diag=np.ones_like(b) if diagonal is None else as_finite(diagonal)
+     if diag.shape!=b.shape or np.any(diag<=0):
+         raise ValueError("Preconditioner must have the RHS shape and be positive")
+-    z=r/diag; p=z.copy(); rz=float(np.vdot(r,z))
++    b_u=b/normb; r=b_u.copy(); z=r/diag; p=z.copy(); rz=float(np.vdot(r,z))
+     for k in range(1,maxiter+1):
+         ap=as_finite(matvec(p))
+         denom=float(np.vdot(p,ap))
+         if denom<=0 or not np.isfinite(denom):
+             raise ValueError("Operator is not numerically SPD on the CG direction")
+         alpha=rz/denom; x+=alpha*p; r-=alpha*ap
+-        rel=float(np.linalg.norm(r)/normb)
++        rel=float(np.linalg.norm(r))
+         if rel<=rtol:
+             # True residual, not only recursively accumulated residual.
+-            rel=float(np.linalg.norm(b-matvec(x))/normb)
+-            return CGResult(x,k,rel,rel<=rtol)
++            true_r=b_u-as_finite(matvec(x)); rel=float(np.linalg.norm(true_r))
++            if rel<=rtol:
++                return CGResult(x*normb,k,rel,True)
++            r=true_r; z=r/diag; p=z.copy(); rz=float(np.vdot(r,z))
++            continue
+         z=r/diag; new_rz=float(np.vdot(r,z))
++        if rz==0.: break
+         p=z+(new_rz/rz)*p; rz=new_rz
+-    rel=float(np.linalg.norm(b-matvec(x))/normb)
+-    return CGResult(x,maxiter,rel,False)
++    rel=float(np.linalg.norm(b_u-as_finite(matvec(x))))
++    return CGResult(x*normb,maxiter,rel,rel<=rtol)
+--- a/lumen_ref/calibration.py
++++ b/lumen_ref/calibration.py
+@@ -18,7 +18,7 @@
+     full published GPTAQ algorithm. Biases must be accounted for by caller.
+     """
+     w=as_finite(w,2);xf=as_finite(x_reference,2);xq=as_finite(x_student,2)
+-    if xf.shape!=xq.shape or w.shape[1]!=len(xf) or xf.shape[1]==0 or ridge<=0:
++    if xf.shape!=xq.shape or w.shape[1]!=len(xf) or xf.shape[1]==0 or not np.isfinite(ridge) or ridge<=0:
+         raise ValueError("Invalid dimensions or ridge")
+     n=xq.shape[1];h=xq@xq.T/n+ridge*np.eye(len(xq))
+     b=(w@xf)@xq.T/n+ridge*w
+@@ -28,7 +28,7 @@
+ def bgcc_row_target(anchor,xq,gate_quantized,target_product,ridge:float):
+     """Exact single-row ridge target; keeps the weighted metric for rounding."""
+     a=as_finite(anchor,1);x=as_finite(xq,2);g=as_finite(gate_quantized,1);y=as_finite(target_product,1)
+-    if x.shape!=(len(a),len(g)) or len(y)!=len(g) or len(g)==0 or ridge<=0:
++    if x.shape!=(len(a),len(g)) or len(y)!=len(g) or len(g)==0 or not np.isfinite(ridge) or ridge<=0:
+         raise ValueError("Invalid BGCC inputs")
+     f=x*g[None,:];n=len(g)
+     h=f@f.T/n+ridge*np.eye(len(a));b=f@y/n+ridge*a
+@@ -42,7 +42,7 @@
+     D.T@D is NEVER materialized. Coupling between up rows is retained.
+     """
+     x=as_finite(xq,2);g=as_finite(gates,2);d=as_finite(down,2)
+-    if x.shape[1]!=g.shape[1] or d.shape[1]!=g.shape[0] or ridge<=0 or not x.shape[1]:
++    if x.shape[1]!=g.shape[1] or d.shape[1]!=g.shape[0] or not np.isfinite(ridge) or ridge<=0 or not x.shape[1]:
+         raise ValueError("Invalid BGCC operator dimensions")
+     n=x.shape[1]
+     def mv(v):
+@@ -80,7 +80,7 @@
+     """
+     x=as_finite(xq,2);g=as_finite(gates,2);d=as_finite(down,2);y=as_finite(target_output,2)
+     q=initial.weights.copy();anchor=q.copy();codes=initial.codes.copy();m,n=q.shape;N=x.shape[1]
+-    if x.shape[0]!=n or g.shape!=(m,N) or d.shape[1]!=m or y.shape!=(d.shape[0],N) or ridge<=0 or N==0:
++    if x.shape[0]!=n or g.shape!=(m,N) or d.shape[1]!=m or y.shape!=(d.shape[0],N) or not np.isfinite(ridge) or not np.isfinite(rate_lambda) or ridge<=0 or rate_lambda<0 or sweeps<1 or N==0:
+         raise ValueError("Invalid refinement shapes")
+     model=initial.model
+     def objective():
+@@ -119,7 +119,7 @@
+     Bound the G/H norm of the unconstrained displacement before quantization.
+     """
+     w=as_finite(w,2);b=as_finite(gradient,2);h=checked_spd(h);g=checked_spd(g)
+-    if b.shape!=w.shape or h.shape!=(w.shape[1],w.shape[1]) or g.shape!=(w.shape[0],w.shape[0]) or trust_radius<0:
++    if b.shape!=w.shape or h.shape!=(w.shape[1],w.shape[1]) or g.shape!=(w.shape[0],w.shape[0]) or not np.isfinite(trust_radius) or trust_radius<0:
+         raise ValueError("Invalid quadratic/trust region")
+     direction=-np.linalg.solve(h,np.linalg.solve(g,b).T).T
+     norm=float(np.sqrt(max(0,np.sum(direction*(g@direction@h)))))
+--- a/lumen_ref/e8.py
++++ b/lumen_ref/e8.py
+@@ -8,15 +8,23 @@
+ from __future__ import annotations
+ from functools import lru_cache
+ from itertools import combinations, product
+-import math
++import math, numbers
+ import numpy as np
+ 
+ 
+ def valid(u) -> bool:
+-    a=np.asarray(u)
+-    if a.shape!=(8,) or not np.all(np.isfinite(a)) or not np.all(a==np.rint(a)):
++    try:
++        seq=list(u)
++    except TypeError:
+         return False
+-    v=[int(c) for c in a]
++    if len(seq)!=8:
++        return False
++    v=[]
++    for x in seq:
++        if isinstance(x,(bool,np.bool_)): return False
++        if isinstance(x,numbers.Integral): v.append(int(x))
++        elif isinstance(x,(float,np.floating)) and math.isfinite(float(x)) and float(x).is_integer(): v.append(int(x))
++        else: return False
+     return all((c&1)==(v[0]&1) for c in v) and sum(v)%4==0
+ 
+ 
+@@ -32,8 +40,9 @@
+ 
+ 
+ def shell_size(m: int) -> int:
+-    if not isinstance(m,int) or m<0:
++    if isinstance(m,(bool,np.bool_)) or not isinstance(m,numbers.Integral) or int(m)<0:
+         raise ValueError("Shell index must be a nonnegative integer")
++    m=int(m)
+     return 1 if m==0 else 240*sum(d**3 for d in range(1,m+1) if m%d==0)
+ 
+ 
+@@ -51,7 +60,7 @@
+ 
+ def nearest_d8(v):
+     v=np.asarray(v,dtype=np.float64)
+-    if v.shape!=(8,) or not np.all(np.isfinite(v)) or np.max(np.abs(v))>1e8:
++    if v.shape!=(8,) or not np.all(np.isfinite(v)) or np.max(np.abs(v))>1e8+1.0:
+         raise ValueError("Invalid vector or outside reference integer range")
+     q=np.rint(v).astype(np.int64)
+     if int(q.sum())&1:
+@@ -63,6 +72,8 @@
+ def nearest(v):
+     """Nearest E8 point to v, returned in the doubled integer representation."""
+     v=np.asarray(v,dtype=np.float64)
++    if v.shape!=(8,) or not np.all(np.isfinite(v)) or np.max(np.abs(v))>1e8:
++        raise ValueError("Invalid vector or outside reference integer range")
+     a=2*nearest_d8(v); b=2*nearest_d8(v-.5)+1
+     return a if np.sum((v-a/2)**2)<=np.sum((v-b/2)**2) else b
+ 
+@@ -78,9 +89,9 @@
+ 
+ 
+ def coset_size(m:int, parity:int) -> int:
+-    if m<0 or m>255 or parity not in (0,1):
++    if isinstance(m,(bool,np.bool_)) or not isinstance(m,numbers.Integral) or int(m)<0 or int(m)>255 or parity not in (0,1):
+         raise ValueError("Enumeration reference supports shells 0..255")
+-    return _count(8,8*m,0,parity)
++    return _count(8,8*int(m),0,parity)
+ 
+ 
+ def rank(u, separate_coset:bool=False) -> tuple[int,int,int]:
+--- a/lumen_ref/entropy.py
++++ b/lumen_ref/entropy.py
+@@ -80,6 +80,12 @@
+     return bytes(data)
+ 
+ 
++def _unpack_group_tree(v:int,rr:Sequence[int])->list[int]:
++    if len(rr)==1: return [v]
++    mid=len(rr)//2; rp=math.prod(rr[mid:]); q,r=divmod(v,rp)
++    return _unpack_group_tree(q,rr[:mid])+_unpack_group_tree(r,rr[mid:])
++
++
+ def _unpack_ranks(data,radices,group_size):
+     out=[]; pos=0
+     for start in range(0,len(radices),group_size):
+@@ -88,10 +94,7 @@
+         if pos+nbytes>len(data): raise ValueError("Truncated rank stream")
+         v=int.from_bytes(data[pos:pos+nbytes],'big'); pos+=nbytes
+         if v>=p: raise ValueError("Invalid mixed-radix word")
+-        chunk=[]
+-        for m in reversed(rr):
+-            chunk.append(v%m); v//=m
+-        out.extend(reversed(chunk))
++        out.extend(_unpack_group_tree(v,rr) if rr else [])
+     if pos!=len(data): raise ValueError("Trailing rank data")
+     return out
+ 
+@@ -179,6 +182,7 @@
+         raise ValueError("Unsupported E8 header")
+     if not 1<=group<=4096 or n>max_vectors: raise ValueError("Decode resource limit")
+     nf=limit*(2 if mode else 1)+1; pos=HEADER.size; flen=4*nf
++    if nf>(1<<prec): raise ValueError("Precision too small for strictly positive frequency table")
+     if pos+flen+la+lb+le!=len(body) or le%32:
+         raise ValueError("Inconsistent section lengths")
+     freq=struct.unpack_from('<'+'I'*nf,body,pos); pos+=flen
+@@ -217,11 +221,12 @@
+     Input codes shape [m,n/8,8]. Additional transforms in a real engine MUST be
+     separately serialized and counted. This reference stores canonical bases.
+     """
+-    codes=np.asarray(codes)
+-    if codes.ndim!=3 or codes.shape[2]!=8: raise ValueError("Invalid code shape")
+-    m,b,_=codes.shape; st=np.asarray(steps,dtype='<f2')
+-    if st.shape!=(m,) or not np.all(np.isfinite(st)) or np.any(st<=0):
+-        raise ValueError("Scales cannot be represented as positive FP16")
++    codes=np.asarray(codes); sf=np.asarray(steps,dtype=np.float64)
++    if codes.ndim!=3 or codes.shape[2]!=8 or codes.shape[0]==0 or codes.shape[1]==0:
++        raise ValueError("Invalid code shape")
++    m,b,_=codes.shape; st=sf.astype('<f2'); st64=st.astype(np.float64)
++    if sf.shape!=(m,) or not np.all(np.isfinite(sf)) or np.any(sf<=0) or not np.all(np.isfinite(st64)) or np.any(st64<=0) or not np.array_equal(sf,st64):
++        raise ValueError("Scales must be exact positive finite FP16 values")
+     payload=encode_e8(codes.reshape(-1,8),model,group_size)
+     body=MATRIX_HEADER.pack(MATRIX_MAGIC,m,b*8,len(payload))+st.tobytes()+payload
+     return body+hashlib.sha256(body).digest()
+--- a/lumen_ref/quantization.py
++++ b/lumen_ref/quantization.py
+@@ -126,7 +126,7 @@
+     qr,_,_,_=decode_matrix(blob,max_weights=max(w.size,8))
+     if preserve_shell and len(blob)!=len(initial.artifact):
+         raise ArithmeticError("Shell-preserving export changed physical length")
+-    return Quantized(qr,c,initial.steps.copy(),fm,blob),{'objective_trace_fixed_table':trace,'accepted_moves':accepted,'table_refitted_after_sweep':True,'shell_preserved':preserve_shell}
++    return Quantized(qr,c,initial.steps.copy(),fm,blob),{'objective_trace_fixed_table':trace,'accepted_moves':accepted,'table_refitted_after_sweep':not preserve_shell,'shell_preserved':preserve_shell}
+ 
+ 
+ def quantize_scalar_ldlq(w,h,step_multiplier=.8,levels=31):
+--- a/lumen_ref/budget.py
++++ b/lumen_ref/budget.py
+@@ -8,7 +8,7 @@
+ from dataclasses import dataclass
+ from pathlib import Path
+ import hashlib
+-import math
++import math, numbers
+ import numpy as np
+ 
+ 
+@@ -33,11 +33,12 @@
+     n=np.asarray(counts,dtype=float);w=np.asarray(omega,dtype=float)
+     lo=np.broadcast_to(np.asarray(floors,dtype=float),n.shape)
+     hi=np.broadcast_to(np.asarray(ceilings,dtype=float),n.shape)
+-    if n.shape!=w.shape or not np.all(np.isfinite(n+w+lo+hi)) or np.any(n<=0) or np.any(w<=0) or np.any(lo<0) or np.any(hi<lo):
++    if n.shape!=w.shape or not (np.all(np.isfinite(n)) and np.all(np.isfinite(w)) and np.all(np.isfinite(lo)) and np.all(np.isfinite(hi))) or np.any(n<=0) or np.any(w<=0) or np.any(lo<0) or np.any(hi<lo):
+         raise ValueError("Invalid allocation inputs")
+-    if not math.isfinite(budget_bits):raise ValueError("Nonfinite budget")
+-    if budget_bits<float(n@lo)-1e-5:raise ValueError("Budget below mandatory floor")
+-    if budget_bits>=float(n@hi):return hi.copy()
++    min_b=float(n@lo); max_b=float(n@hi)
++    if not (math.isfinite(budget_bits) and math.isfinite(min_b) and math.isfinite(max_b)):raise ValueError("Nonfinite budget")
++    if budget_bits<min_b:raise ValueError("Budget below mandatory floor")
++    if budget_bits>=max_b:return hi.copy()
+     base_lo=float(np.min(lo-.5*np.log2(w)))-2
+     base_hi=float(np.max(hi-.5*np.log2(w)))+2
+     for _ in range(100):
+@@ -56,14 +57,18 @@
+ 
+ def allocate_options(groups:dict[str,list[Option]],ceiling_bytes:int,fixed_bytes=0,max_states=100000):
+     """Exact Pareto DP on ADDITIVE measured/proxy losses and integer byte costs."""
+-    if ceiling_bytes<fixed_bytes or fixed_bytes<0:raise ValueError("Infeasible fixed budget")
++    def _is_int(v): return isinstance(v,numbers.Integral) and not isinstance(v,(bool,np.bool_))
++    if not (_is_int(ceiling_bytes) and _is_int(fixed_bytes) and _is_int(max_states)) or int(ceiling_bytes)<int(fixed_bytes) or int(fixed_bytes)<0 or int(max_states)<1:
++        raise ValueError("Infeasible fixed budget")
++    ceiling_bytes=int(ceiling_bytes); fixed_bytes=int(fixed_bytes); max_states=int(max_states)
+     states={fixed_bytes:(0.,{})}
+     for gid,opts in groups.items():
+-        if not opts or any(not isinstance(o.bytes,int) or o.bytes<0 or not math.isfinite(o.loss) for o in opts):raise ValueError("Invalid choices")
++        if not opts or len({o.name for o in opts})!=len(opts) or any(not _is_int(o.bytes) or int(o.bytes)<0 or not math.isfinite(o.loss) for o in opts):
++            raise ValueError("Invalid choices")
+         nxt={}
+         for cost,(loss,chosen) in states.items():
+             for o in opts:
+-                c=cost+o.bytes;l=loss+o.loss
++                c=cost+int(o.bytes);l=loss+o.loss
+                 if c<=ceiling_bytes and (c not in nxt or l<nxt[c][0]):
+                     nxt[c]=(l,{**chosen,gid:o.name})
+         best=float('inf');states={}
+@@ -88,5 +93,5 @@
+             for block in iter(lambda:handle.read(1024*1024),b''):
+                 length+=len(block);digest.update(block)
+         total+=length
+-        records.append({'path':str(p.relative_to(root)),'bytes':length,'sha256':digest.hexdigest()})
++        records.append({'path':p.relative_to(root).as_posix(),'bytes':length,'sha256':digest.hexdigest()})
+     return {'files':records,'actual_bytes':total,'ceiling_bytes':ceiling_bytes,'feasible':total<=ceiling_bytes,'slack_bytes':ceiling_bytes-total}
+--- a/lumen_ref/metrics.py
++++ b/lumen_ref/metrics.py
+@@ -1,7 +1,7 @@
+ """Metrics, top-K cache contract and guarded artifact acceptance."""
+ from __future__ import annotations
+ from dataclasses import dataclass
+-import hashlib
++import hashlib, numbers
+ import numpy as np
+ from .linalg import as_finite
+ 
+@@ -31,13 +31,24 @@
+     tailmask=np.ones_like(lp,dtype=bool);np.put_along_axis(tailmask,ids,False,axis=1)
+     a=np.where(tailmask,lp,-np.inf)
+     mx=a.max(axis=1);tail=mx+np.log(np.exp(a-mx[:,None]).sum(axis=1))
+-    return {'ids':ids,'log_probs':vals.astype(np.float16),'log_tail_mass':tail.astype(np.float32)}
++    return {'ids':ids,'log_probs':np.clip(vals,-65504.0,0.0).astype(np.float16),'log_tail_mass':tail.astype(np.float32)}
++
++
++def _checked_topk_ids(ids,rows:int,vocab:int)->np.ndarray:
++    arr=np.asarray(ids)
++    if arr.dtype==np.bool_ or not np.issubdtype(arr.dtype,np.integer):
++        raise ValueError("Top-K ids must be integers")
++    if arr.ndim!=2 or arr.shape[0]!=rows or not 1<=arr.shape[1]<vocab or np.any(arr<0) or np.any(arr>=vocab):
++        raise ValueError("Invalid cache")
++    if arr.shape[1]>1 and np.any(np.diff(np.sort(arr,axis=1),axis=1)==0):
++        raise ValueError("Duplicate token ids in Top-K")
++    return arr
+ 
+ 
+ def grouped_kl_from_cache(cache,student):
+-    lp=log_softmax(student);ids=cache['ids'];t=np.asarray(cache['log_probs'],dtype=float)
+-    tail=np.asarray(cache['log_tail_mass'],dtype=float)
+-    if ids.shape!=t.shape or len(t)!=len(lp) or np.any(ids<0) or np.any(ids>=lp.shape[1]):
++    lp=log_softmax(student);ids=_checked_topk_ids(cache['ids'],len(lp),lp.shape[1])
++    t=as_finite(cache['log_probs'],2);tail=as_finite(cache['log_tail_mass'],1)
++    if ids.shape!=t.shape or len(tail)!=len(lp):
+         raise ValueError("Invalid cache")
+     # Tiny rounding error in teacher cache is normalized and MUST be measured.
+     raw=np.concatenate([t,tail[:,None]],axis=1)
+@@ -47,18 +58,22 @@
+     a=np.where(mask,lp,-np.inf);mx=a.max(axis=1)
+     stail=mx+np.log(np.exp(a-mx[:,None]).sum(axis=1))
+     slog=np.concatenate([slog,stail[:,None]],axis=1)
+-    return np.sum(np.exp(tlog)*(tlog-slog),axis=1)
++    return np.maximum(0.,np.sum(np.exp(tlog)*(tlog-slog),axis=1))
+ 
+ 
+ def exact_grouped_kl(teacher,student,ids):
+     a=log_softmax(teacher);b=log_softmax(student)
+-    def aggregate(lp):
+-        p=np.exp(lp);top=np.take_along_axis(p,ids,axis=1)
+-        mask=np.ones_like(p,dtype=bool);np.put_along_axis(mask,ids,False,axis=1)
+-        tail=np.where(mask,p,0).sum(axis=1)
++    if a.shape!=b.shape:raise ValueError("Different conditional distributions")
++    ids=_checked_topk_ids(ids,len(a),a.shape[1])
++    def aggregate_log(lp):
++        top=np.take_along_axis(lp,ids,axis=1)
++        mask=np.ones_like(lp,dtype=bool);np.put_along_axis(mask,ids,False,axis=1)
++        m_arr=np.where(mask,lp,-np.inf);mx=m_arr.max(axis=1)
++        tail=mx+np.log(np.exp(m_arr-mx[:,None]).sum(axis=1))
+         return np.concatenate([top,tail[:,None]],axis=1)
+-    p,q=aggregate(a),aggregate(b)
+-    return np.sum(np.where(p>0,p*(np.log(np.maximum(p,1e-300))-np.log(np.maximum(q,1e-300))),0),axis=1)
++    tlog,slog=aggregate_log(a),aggregate_log(b)
++    tp=np.exp(tlog)
++    return np.maximum(0.,np.sum(np.where(tp>0,tp*(tlog-slog),0.),axis=1))
+ 
+ 
+ def fisher_probe(p,zeta):
+@@ -91,13 +106,17 @@
+     Returns the accepted immutable complete artifact, never a partial tensor
+     snapshot. Applies to continuous and discrete steps alike.
+     """
+-    required=set(required_sentinels or previous.sentinels)
++    if not isinstance(ceiling_bytes,numbers.Integral) or isinstance(ceiling_bytes,(bool,np.bool_)) or int(ceiling_bytes)<=0:
++        raise ValueError("ceiling_bytes must be a positive integer")
++    ceiling_bytes=int(ceiling_bytes)
++    required=(set(previous.sentinels)|set(candidate.sentinels)) if required_sentinels is None else set(required_sentinels)
+     tol=tolerances or {}
+     if any(not np.isfinite(v) or v<0 for v in tol.values()):raise ValueError("Invalid sentinel tolerance")
+-    if len(previous.data)>ceiling_bytes:raise ValueError("Previous artifact is already infeasible")
++    if len(previous.data)==0 or len(previous.data)>ceiling_bytes:raise ValueError("Previous artifact is empty or already infeasible")
+     reason=[]
++    if len(candidate.data)==0:reason.append('empty_candidate')
+     if len(candidate.data)>ceiling_bytes:reason.append('size_exceeded')
+-    if not np.isfinite(candidate.primary) or not np.isfinite(previous.primary) or candidate.primary>=previous.primary:
++    if not np.isfinite(candidate.primary) or not np.isfinite(previous.primary) or candidate.primary>previous.primary or (candidate.primary==previous.primary and len(candidate.data)>=len(previous.data)):
+         reason.append('no_primary_improvement')
+     for key in required:
+         if key not in candidate.sentinels or key not in previous.sentinels:
+--- a/budget_lumen_max_v3.py
++++ b/budget_lumen_max_v3.py
+@@ -9,7 +9,18 @@
+ import argparse,json,sys,math
+ import numpy as np
+ ROOT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT))
+-from lumen_ref.budget import lowrank_cost,allocate_options,Option
++from lumen_ref.budget import align,lowrank_cost,allocate_options,Option
++
++def _module_v2_aux_bytes(q_groups,p_groups,mods):
++ act_q=[g for g in q_groups if g['module'] in mods];act_p=[p for p in p_groups if p['module'] in mods]
++ active_tensors=sum(g['count'] for g in act_q)+sum(p['count'] for p in act_p)
++ scales=sum(g['count']*align(g['rows']*2+g['rows']*math.ceil(g['cols']/512),128) for g in act_q)
++ framing=0
++ for g in act_q:
++  elems=g['rows']*g['cols'];tile_w=262_144 if elems>=50_000_000 else 131_072;nt=math.ceil(elems/tile_w)
++  framing+=g['count']*(nt*128+align(nt*4,128)+nt*32)
++ headers=128+active_tensors*128+align(14*256,128)
++ return scales+framing+headers
+ 
+ def facts():
+  inv=json.loads((ROOT/'sources'/'inventaire_rapporte.json').read_text())
+@@ -20,12 +31,13 @@
+   protected=sum(g['total_params'] for g in p if g['module'] in mods)
+   protected_raw=sum(g['total_params']*g['bytes_per_param'] for g in p if g['module'] in mods)
+   prot_count=sum(g['count'] for g in p if g['module'] in mods)
++  prot_align_ub=prot_count*127; base_aux=_module_v2_aux_bytes(q,p,mods)
+   scenarios=[]
+-  for aux,reserve,over in [(84_066_560,18_500_000,0.0025),(100_000_000,50_000_000,0.02),(150_000_000,100_000_000,0.05)]:
+-   capacity=ceiling-protected_raw-aux-reserve
++  for aux,reserve,over in [(base_aux,18_500_000,0.0025),(100_000_000,50_000_000,0.02),(150_000_000,100_000_000,0.05)]:
++   capacity=ceiling-protected_raw-prot_align_ub-aux-reserve
+    scenarios.append({'assumed_aux_bytes':aux,'assumed_guard_bytes':reserve,'assumed_coding_overhead_bpw_NOT_MEASURED':over,'available_symbol_model_bpw':capacity*8/quant-over,'status':'conditional_capacity_NOT_encoded_result_NOT_optimized_quality'})
+-  return {'ceiling_bytes':ceiling,'unique_params_reported':quant+protected,'quantizable_params_reported':quant,'protected_raw_bytes':protected_raw,'protected_alignment_128B_extra_upper_bound':prot_count*127,'full_budget_effective_bpw':8*ceiling/(quant+protected),'scenarios':scenarios}
+- out={'status':'arithmetic_from_reported_inventory; exact revision headers not re-fetched','Max':one(True,True,10_000_000_000),'Eco':one(True,True,9_000_000_000),'Mini_text':one(False,False,8_000_000_000),'lm_head_rank64_INT8':lowrank_cost(248320,5120,64),'teacher_top128_bytes_per_position':128*2+128*4+4,'teacher_top128_4194304_positions_bytes':(128*2+128*4+4)*4194304,'teacher_top128_plus_mtp_top32_bytes':((128+32)*6+8)*4194304,'bgcc_all_dense_grams_fp32_bytes':17408*5120*5120*4,'bgcc_one_8x8_float64_gram_bytes':8*8*8}
++  return {'ceiling_bytes':ceiling,'unique_params_reported':quant+protected,'quantizable_params_reported':quant,'protected_raw_bytes':protected_raw,'protected_alignment_128B_extra_upper_bound':prot_align_ub,'full_budget_effective_bpw':8*ceiling/(quant+protected),'scenarios':scenarios}
++ out={'status':'arithmetic_from_reported_inventory; exact revision headers not re-fetched','Max':one(True,True,10_000_000_000),'Eco':one(True,True,9_000_000_000),'Mini_text':one(False,False,8_000_000_000),'lm_head_rank64_INT8':lowrank_cost(248320,5120,64,bits=8,scale_bytes=(248320+64)*2,metadata_bytes=128),'teacher_top128_bytes_per_position':128*2+128*4+4,'teacher_top128_4194304_positions_bytes':(128*2+128*4+4)*4194304,'teacher_top128_plus_mtp_top32_bytes':((128+32)*6+8)*4194304,'bgcc_all_dense_grams_fp32_bytes':17408*5120*5120*4,'bgcc_one_8x8_float64_gram_bytes':8*8*8}
+  return out
+ 
+ def main():
+--- a/tools/validate_capture.py
++++ b/tools/validate_capture.py
+@@ -12,21 +12,32 @@
+ EXPECTED_REV='37561816e66b5b9153b1b64c10968c18c1e6f4a0'
+ 
+ def validate(npz_path:Path,manifest_path:Path):
+- meta=json.loads(manifest_path.read_text())
++ meta=json.loads(manifest_path.read_text(encoding='utf-8'))
++ if not isinstance(meta,dict):raise ValueError('Manifest root must be an object')
+  required=('checkpoint','revision','runtime_commit','activation_path','full_input_width','splits','array_sha256','source_kind','architecture_id','weight_status')
+  for key in required:
+   if key not in meta:raise ValueError('Missing manifest field '+key)
++ for key in ('checkpoint','revision','runtime_commit','activation_path','architecture_id','weight_status'):
++  if not isinstance(meta[key],str) or not meta[key].strip() or 'A_REMPLIR' in meta[key]:raise ValueError('Invalid or placeholder manifest field '+key)
+  if meta['source_kind']!='captured_from_model_forward':raise ValueError('Not a real-forward capture')
+  if meta['checkpoint']!='Qwen/Qwen3.8-27B' or meta['revision']!=EXPECTED_REV:raise ValueError('Unexpected checkpoint; no silent substitution')
+  if hashlib.sha256(npz_path.read_bytes()).hexdigest()!=meta['array_sha256']:raise ValueError('Capture checksum mismatch')
+- assert_disjoint_splits(meta['splits']['cal'],meta['splits']['select'],meta['splits']['confirm'])
+- n=int(meta['full_input_width'])
++ splits=meta['splits']
++ if not isinstance(splits,dict) or set(splits)!={'cal','select','confirm'}:raise ValueError('Invalid splits dictionary')
++ for sk,sv in splits.items():
++  if not isinstance(sv,list) or len(sv)==0 or len(set(sv))!=len(sv):raise ValueError('Non-empty unique list required for split '+sk)
++ assert_disjoint_splits(splits['cal'],splits['select'],splits['confirm'])
++ raw_n=meta['full_input_width']
++ if isinstance(raw_n,bool) or not isinstance(raw_n,int) or raw_n<=0:raise ValueError('full_input_width must be a positive int')
++ n=raw_n
+  if meta['architecture_id']=='A0' and n!=5120:raise ValueError('A0 MLP input must have full width 5120, not 128')
+  records={}
+  with np.load(npz_path,allow_pickle=False) as arrays:
+   for split in ('cal','select','confirm'):
++   if ('X_fp_'+split) not in arrays or ('X_q_'+split) not in arrays:raise ValueError('Missing arrays for '+split)
+    f=np.asarray(arrays['X_fp_'+split]);q=np.asarray(arrays['X_q_'+split])
+-   if f.shape!=q.shape or f.ndim!=2 or f.shape[0]!=n or not np.all(np.isfinite(f)) or not np.all(np.isfinite(q)):
++   if not (np.issubdtype(f.dtype,np.floating) and np.issubdtype(q.dtype,np.floating)):raise ValueError('Floating dtype required for '+split)
++   if f.shape!=q.shape or f.ndim!=2 or f.shape[0]!=n or f.shape[1]==0 or not np.all(np.isfinite(f)) or not np.all(np.isfinite(q)):
+     raise ValueError('Bad activation shape/content for '+split)
+    records[split]={'shape':list(f.shape),'dtype':str(f.dtype)}
+  return {'schema_valid':True,'provenance_verified':False,'note':'Metadata and shapes verified; actual provenance must be independently audited on the pod.','arrays':records}
+--- a/tools/run_experiments.py
++++ b/tools/run_experiments.py
+@@ -31,9 +31,9 @@
+   f,x=data[key];y=down@(silu(wg@f)*(wu@f));pred=down@(silu(qg.weights@x)*(q.weights@x))
+   return relative_error(y,pred)
+  base= {'name':'base_corrected','bytes':len(q0.artifact),'select_nmse':output(q0,'select'),'confirm_nmse':output(q0,'confirm'),'model_bpw':q0.model.total_model_bits(q0.codes.reshape(-1,8))/q0.weights.size,'encoded_bpw':q0.encoded_bpw}
+- target_a,_=asymmetric_target(wu,xf,xq,.01)
++ t_asym0=time.perf_counter();target_a,_=asymmetric_target(wu,xf,xq,.01);dt_asym=time.perf_counter()-t_asym0
+  gates=silu(qg.weights@xq);yc=down@(silu(wg@xf)*(wu@xf))
+- target_g,cg=bgcc_output_cg(wu,xq,gates,down,yc,ridge=.01,rtol=1e-8,maxiter=512)
++ t_cg0=time.perf_counter();target_g,cg=bgcc_output_cg(wu,xq,gates,down,yc,ridge=.01,rtol=1e-8,maxiter=512);dt_cg=time.perf_counter()-t_cg0
+  # Stronger control: same 12-candidate search budget, without changing target.
+  qplus=q0;plus_dev=base['select_nmse'];plus_trials=[]
+  for penalty in (0.,.0001,.001):
+@@ -45,6 +45,9 @@
+  plus={'bytes':len(qplus.artifact),'select_nmse':plus_dev,'confirm_nmse':output(qplus,'confirm'),'candidate_table':plus_trials}
+  families={}
+  for family,target in [('asymmetric',target_a),('bgcc_output_cg',target_g)]:
++  if family=='bgcc_output_cg' and not cg.converged:
++   families[family]={'selected':'rejected_unconverged_cg','bytes':len(qplus.artifact),'select_nmse':plus_dev,'confirm_nmse':plus['confirm_nmse'],'confirm_relative_improvement_pct_vs_Qplus':0.,'search_seconds_cpu':dt_cg,'candidate_table':[]}
++   continue
+   # Same predetermined grid and same encoded ceiling for the two families.
+   trials=[];best=qplus;name='Qplus_retained';best_dev=plus_dev;t_start=time.perf_counter()
+   for shrink in (.25,.5,1.):
+@@ -54,7 +57,7 @@
+     trials.append({'shrink':shrink,'step_multiplier':mult,'bytes':size,'select_nmse':value,'feasible':size<=len(q0.artifact)})
+     if size<=len(q0.artifact) and value<best_dev:
+      best=candidate;name=f'shrink={shrink},step={mult}';best_dev=value
+-  families[family]={'selected':name,'bytes':len(best.artifact),'select_nmse':best_dev,'confirm_nmse':output(best,'confirm'),'confirm_relative_improvement_pct_vs_Qplus':100*(1-output(best,'confirm')/plus['confirm_nmse']),'search_seconds_cpu':time.perf_counter()-t_start,'candidate_table':trials}
++  families[family]={'selected':name,'bytes':len(best.artifact),'select_nmse':best_dev,'confirm_nmse':output(best,'confirm'),'confirm_relative_improvement_pct_vs_Qplus':100*(1-output(best,'confirm')/plus['confirm_nmse']),'search_seconds_cpu':(time.perf_counter()-t_start)+(dt_asym if family=='asymmetric' else dt_cg),'candidate_table':trials}
+  # Direct E8 refinement is measured independently; do not hide a size increase.
+  refined,log=refine_swiglu_up(q0,xq,gates,down,yc,ridge=.01,rate_lambda=.0001,sweeps=2)
+  dev=output(refined,'select');feasible=len(refined.artifact)<=len(q0.artifact)
+@@ -79,7 +82,7 @@
+ def main():
+  t=time.perf_counter();trials=[synthetic_trial(s) for s in (211,307,401,503,601)]
+  result={'protocol_note':'Fixed seeds and search grid; CG cap increased from 160 to 512 solely to reach the declared 1e-8 residual tolerance. Prior numerical run retained in results/developpement. No search decision uses confirmation scores.', 'status':'CPU synthetic proof-of-mechanism, NOT Qwen experiments','python':platform.python_version(),'numpy':np.__version__,'trials':trials,'codec_experiments':codec_experiments(),'elapsed_seconds':time.perf_counter()-t}
+- result['code_sha256']={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'lumen_ref').glob('*.py'))}
++ result['code_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'lumen_ref').glob('*.py'))}
+  result['code_sha256']['tools/run_experiments.py']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+  out=ROOT/'results'/'experiences_synthetiques.json';out.write_text(json.dumps(result,indent=2,allow_nan=False))
+  for e in trials:
+--- a/tools/run_isoshell_experiment.py
++++ b/tools/run_isoshell_experiment.py
+@@ -46,7 +46,7 @@
+  d={'status':'Synthetic fresh-seed follow-up; not a Qwen gain or a global optimality claim',
+   'hypothesis':'Exact physical byte-neutrality for fixed scales, per-vector shells, and the delivered shell-uniform format; then evaluate true output improvement independently',
+   'seeds_fixed_before_run':[719,809,907,1009,1103],'numpy':np.__version__,'python':platform.python_version(),'trials':rows,'seconds_cpu':time.perf_counter()-t}
+- d['code_sha256']={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'lumen_ref').glob('*.py'))}
++ d['code_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'lumen_ref').glob('*.py'))}
+  d['code_sha256']['tools/run_isoshell_experiment.py']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+  (ROOT/'results'/'experience_isocoquille.json').write_text(json.dumps(d,indent=2,allow_nan=False))
+  for r in rows: print(r['seed'],'moves',r['accepted_code_moves'],'bytes delta',r['byte_difference'],'accepted',r['accepted_on_select'],'confirm',r['retained_confirm_gain_pct'])

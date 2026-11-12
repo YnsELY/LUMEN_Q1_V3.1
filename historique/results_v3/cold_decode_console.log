@@ -1,0 +1,50 @@
+{
+  "fresh_process_decode": true,
+  "no_encoder_called": true,
+  "source": "synthetic, regenerated with recorded seed; not Qwen",
+  "total_vector_reconstructions": 49152,
+  "files": [
+    {
+      "file": "codec_uniform_shell1_mode0.bin",
+      "vectors": 8192,
+      "bytes": 8489,
+      "sha256": "465d1a1d7b5c9182bd4270bc87725c7e25146cc157274dfc454b19cec3e81721",
+      "errors": 0
+    },
+    {
+      "file": "codec_uniform_shell1_mode1.bin",
+      "vectors": 8192,
+      "bytes": 8759,
+      "sha256": "eb2c7eee0cd773b7952555c3c3825ed604f4820ba3951045f3c9ffecce2fe1d6",
+      "errors": 0
+    },
+    {
+      "file": "codec_integer_coset_shell1_mode0.bin",
+      "vectors": 8192,
+      "bytes": 8489,
+      "sha256": "862bb518dfac9a2401291f731765bfbb0009e8351020447b9858ba0c86bad1a7",
+      "errors": 0
+    },
+    {
+      "file": "codec_integer_coset_shell1_mode1.bin",
+      "vectors": 8192,
+      "bytes": 7610,
+      "sha256": "8769b7d0519c84d2a9c88d26a8363a8d527eff18a83b029569dbe2586ee5850d",
+      "errors": 0
+    },
+    {
+      "file": "codec_gaussian_E8_mode0.bin",
+      "vectors": 8192,
+      "bytes": 17504,
+      "sha256": "df3ed3c35d999477ad23fae59f2505e5ca7c8e996fefa83b6458097e497f77f8",
+      "errors": 0
+    },
+    {
+      "file": "codec_gaussian_E8_mode1.bin",
+      "vectors": 8192,
+      "bytes": 17770,
+      "sha256": "886576e9f34335b56213c1d1f825504db55639bcf8d4a9d3baf46ffbc48dc928",
+      "errors": 0
+    }
+  ]
+}

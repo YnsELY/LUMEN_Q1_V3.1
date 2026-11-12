@@ -1,0 +1,26 @@
+{
+  "RAPPORT_RECHERCHE_RECETTE_MAX.md": {
+    "bytes": 39671,
+    "sha256": "3c9cf41188ba6dfb7d885594ccdbf4aac56529f0f96fd1dc58bb720ef6a2e3b0"
+  },
+  "RECETTE_MAX_PROPOSEE.md": {
+    "bytes": 16179,
+    "sha256": "328c7888c20922a661eaaf4f7c66790acc0bacc69abda06e0aead06a6c75388a"
+  },
+  "REGISTRE_PREUVES_ET_SOURCES.md": {
+    "bytes": 14959,
+    "sha256": "f9bd7e1f6abc96620e5afbe57714581972d378ed6d86638fbc43b51437660146"
+  },
+  "budget_lumen_max.py": {
+    "bytes": 63850,
+    "sha256": "f9b34a49fd5fc9fb93a9a72e87f80c6c9e866897a1bea0aea6372b4a16f83159"
+  },
+  "DEMANDES_MESURES_POD.md": {
+    "bytes": 8647,
+    "sha256": "a370793c94962b587eed3bb39f5eb343a4c738d6b43df24f0d34a261860bf1da"
+  },
+  "FORMIC_RECETTE_V2.md": {
+    "bytes": 20080,
+    "sha256": "d8f0a8be7cbec24291f349c5c45a00cd41b878f44d9d29703247b25a2c62a242"
+  }
+}

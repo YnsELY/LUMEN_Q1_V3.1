@@ -1,0 +1,40 @@
+{
+  "release": "LUMEN-Max-Q1-v3-ref",
+  "date": "2026-11-12",
+  "status": "CPU reference and research candidate; NOT full Qwen validation",
+  "checkpoint_requested": "Qwen/Qwen3.8-27B",
+  "revision_requested": "37561816e66b5b9153b1b64c10968c18c1e6f4a0",
+  "revision_headers_reverified_here": false,
+  "architecture": "A0 unchanged by recipe research",
+  "baseline_historical": "L0_historique / S0_historique, not reproduced here",
+  "new_cpu_reference": "Lref3",
+  "max_complete_bytes": 10000000000,
+  "data_status": {
+    "old_bf16_slices": "missing",
+    "true_hidden_activations": "missing",
+    "new_experiments": "synthetic independent generator seeds, all reported"
+  },
+  "codec": "LE8CPU3 / LMATv3 CPU single-lane correctness reference, NOT Slot-CP-rANS or GPU format",
+  "new_measurements_on_qwen": false,
+  "sources_revision_policy": "main consulted only as current documentation, never substituted for pinned checkpoint",
+  "pod_requests": [
+    {
+      "id": "REQ-A2B-V3-01",
+      "status": "proposed",
+      "cost": "timing_required"
+    },
+    {
+      "id": "REQ-A2B-V3-02",
+      "status": "proposed",
+      "cost": "timing_required"
+    },
+    {
+      "id": "REQ-A2B-V3-03",
+      "status": "proposed",
+      "cost": "timing_required"
+    }
+  ],
+  "transmission": "manual; no agent contacted",
+  "governance": "B owns pod budget; no implicit extension and no replacement of N3 mandate",
+  "promotion_gate": "independent re-audit then true-activation pilot, fixed exports, reserved data and domain tests"
+}

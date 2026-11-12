@@ -1,0 +1,31 @@
+{
+  "checkpoint": "Qwen/Qwen3.8-27B",
+  "revision": "37561816e66b5b9153b1b64c10968c18c1e6f4a0",
+  "runtime_commit": "A_REMPLIR_PAR_LE_COLLECTEUR",
+  "activation_path": "model.layers.<index>.post_attention_layernorm.output",
+  "full_input_width": 5120,
+  "source_kind": "EXEMPLE_NON_CAPTURE",
+  "architecture_id": "A0",
+  "weight_status": "teacher_BF16_and_explicit_quantized_prefix_recipe_id",
+  "array_sha256": "A_CALCULER_APRES_ECRITURE_DU_NPZ",
+  "splits": {
+    "cal": [
+      "ID_DOCUMENT_CAL_EXEMPLE"
+    ],
+    "select": [
+      "ID_DOCUMENT_SELECT_EXEMPLE"
+    ],
+    "confirm": [
+      "ID_DOCUMENT_CONFIRM_EXEMPLE"
+    ]
+  },
+  "required_arrays": [
+    "X_fp_cal",
+    "X_q_cal",
+    "X_fp_select",
+    "X_q_select",
+    "X_fp_confirm",
+    "X_q_confirm"
+  ],
+  "warning": "Example only; validator must reject this until replaced by truthful capture metadata."
+}

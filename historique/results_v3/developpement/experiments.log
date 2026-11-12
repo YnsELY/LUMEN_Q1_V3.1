@@ -1,0 +1,21 @@
+SEED 17 baseline 0.21658 CG True
+asymmetric {'confirm_relative_improvement_pct': 10.864974649981285}
+bgcc_output_cg {'confirm_relative_improvement_pct': 4.659658181758486}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 494}
+SEED 29 baseline 0.27267 CG True
+asymmetric {'confirm_relative_improvement_pct': 14.858546420126206}
+bgcc_output_cg {'confirm_relative_improvement_pct': 14.617672234166267}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 493}
+SEED 43 baseline 0.17185 CG True
+asymmetric {'confirm_relative_improvement_pct': 6.019450575141894}
+bgcc_output_cg {'confirm_relative_improvement_pct': 9.704334070122966}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 494}
+SEED 71 baseline 0.2101 CG True
+asymmetric {'confirm_relative_improvement_pct': 2.709219380359529}
+bgcc_output_cg {'confirm_relative_improvement_pct': 6.223503323552726}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 495}
+SEED 101 baseline 0.18927 CG True
+asymmetric {'confirm_relative_improvement_pct': 14.282278234668}
+bgcc_output_cg {'confirm_relative_improvement_pct': 8.245410401324538}
+bgcc_discrete_output {'accepted_on_selection': False, 'candidate_bytes': 497}
+saved /mnt/data/LUMEN_Q1_V3_CORRIGE/results/experiences_synthetiques.json seconds 7.318759986000032

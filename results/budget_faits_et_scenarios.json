@@ -1,0 +1,106 @@
+{
+  "status": "arithmetic_from_reported_inventory; exact revision headers not re-fetched",
+  "Max": {
+    "ceiling_bytes": 10000000000,
+    "unique_params_reported": 27781427952,
+    "quantizable_params_reported": 27750330368,
+    "protected_raw_bytes": 62195168,
+    "protected_alignment_128B_extra_upper_bound": 86233,
+    "full_budget_effective_bpw": 2.879621599660818,
+    "scenarios": [
+      {
+        "assumed_aux_bytes": 84066560,
+        "assumed_guard_bytes": 18500000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.0025,
+        "available_symbol_model_bpw": 2.832825391395355,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      },
+      {
+        "assumed_aux_bytes": 100000000,
+        "assumed_guard_bytes": 50000000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.02,
+        "available_symbol_model_bpw": 2.8016510489652706,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      },
+      {
+        "assumed_aux_bytes": 150000000,
+        "assumed_guard_bytes": 100000000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.05,
+        "available_symbol_model_bpw": 2.7428225633439784,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      }
+    ]
+  },
+  "Eco": {
+    "ceiling_bytes": 9000000000,
+    "unique_params_reported": 27781427952,
+    "quantizable_params_reported": 27750330368,
+    "protected_raw_bytes": 62195168,
+    "protected_alignment_128B_extra_upper_bound": 86233,
+    "full_budget_effective_bpw": 2.591659439694736,
+    "scenarios": [
+      {
+        "assumed_aux_bytes": 84066560,
+        "assumed_guard_bytes": 18500000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.0025,
+        "available_symbol_model_bpw": 2.5445405351824317,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      },
+      {
+        "assumed_aux_bytes": 100000000,
+        "assumed_guard_bytes": 50000000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.02,
+        "available_symbol_model_bpw": 2.513366192752347,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      },
+      {
+        "assumed_aux_bytes": 150000000,
+        "assumed_guard_bytes": 100000000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.05,
+        "available_symbol_model_bpw": 2.454537707131055,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      }
+    ]
+  },
+  "Mini_text": {
+    "ceiling_bytes": 8000000000,
+    "unique_params_reported": 26895998464,
+    "quantizable_params_reported": 26869760000,
+    "protected_raw_bytes": 52476928,
+    "protected_alignment_128B_extra_upper_bound": 57023,
+    "full_budget_effective_bpw": 2.3795361263744605,
+    "scenarios": [
+      {
+        "assumed_aux_bytes": 80529024,
+        "assumed_guard_bytes": 18500000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.0025,
+        "available_symbol_model_bpw": 2.3342345372641957,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      },
+      {
+        "assumed_aux_bytes": 100000000,
+        "assumed_guard_bytes": 50000000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.02,
+        "available_symbol_model_bpw": 2.301558822706269,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      },
+      {
+        "assumed_aux_bytes": 150000000,
+        "assumed_guard_bytes": 100000000,
+        "assumed_coding_overhead_bpw_NOT_MEASURED": 0.05,
+        "available_symbol_model_bpw": 2.2417855757550496,
+        "status": "conditional_capacity_NOT_encoded_result_NOT_optimized_quality"
+      }
+    ]
+  },
+  "lm_head_rank64_INT8": {
+    "raw_bytes": 16220160,
+    "total_bytes": 16717056,
+    "equivalent_added_bpw": 0.10518846649484537
+  },
+  "teacher_top128_bytes_per_position": 772,
+  "teacher_top128_4194304_positions_bytes": 3238002688,
+  "teacher_top128_plus_mtp_top32_bytes": 4060086272,
+  "bgcc_all_dense_grams_fp32_bytes": 1825361100800,
+  "bgcc_one_8x8_float64_gram_bytes": 512
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "W1",
+    "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.cholesky.html",
+    "observed": "Official documentation: Cholesky uses one triangle, symmetry is not checked.",
+    "status": "consulted"
+  },
+  {
+    "id": "W2",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.cg.html",
+    "observed": "Convergence criterion on norm(b-Ax); Jacobi division corresponds to applying an approximate inverse preconditioner.",
+    "status": "consulted"
+  },
+  {
+    "id": "W3",
+    "url": "https://arxiv.org/abs/2609.31009",
+    "title": "G^2PTQ: Improving LLM Post-Training Quantization with Generalized Gradient Compensation",
+    "observed": "Title and author abstract verified in indexed primary arXiv search result. Direct full-text fetch unavailable in this session. Code URL reported in the abstract.",
+    "code_url": "https://github.com/G2PTQ/G2PTQ",
+    "status": "metadata_verified_full_text_and_code_not_independently_read"
+  },
+  {
+    "id": "W4",
+    "url": "https://huggingface.co/api/models/Qwen/Qwen3.8-27B",
+    "observed_sha_returned": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "status": "official_API_response_via_web_cached_observation",
+    "warning": "Different from pinned project revision; not permission to substitute it. Timestamp/caching may differ from auditor observation."
+  },
+  {
+    "id": "W5",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-27B/raw/37561816e66b5b9153b1b64c10968c18c1e6f4a0/config.json",
+    "status": "fetch_unavailable_here",
+    "warning": "An access failure is not evidence of nonexistence; original historical limitation remains valid."
+  },
+  {
+    "id": "W6",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-27B/tree/main",
+    "observed_short_head_returned": "1d4bf0f",
+    "status": "official_public_tree_consulted"
+  }
+]

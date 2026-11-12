@@ -1,0 +1,100 @@
+test_discrete_allocation_vs_bruteforce (test_codec_budget.BudgetMetricsTests.test_discrete_allocation_vs_bruteforce) ... ok
+test_fisher_exact_enumeration (test_codec_budget.BudgetMetricsTests.test_fisher_exact_enumeration) ... ok
+test_guard_continuous_and_discrete_steps (test_codec_budget.BudgetMetricsTests.test_guard_continuous_and_discrete_steps) ... ok
+test_guard_missing_sentinel (test_codec_budget.BudgetMetricsTests.test_guard_missing_sentinel) ... ok
+test_kl_grouped_lower_bound (test_codec_budget.BudgetMetricsTests.test_kl_grouped_lower_bound) ... ok
+test_physical_files_count_and_duplicate (test_codec_budget.BudgetMetricsTests.test_physical_files_count_and_duplicate) ... ok
+test_qera_factor8 (test_codec_budget.BudgetMetricsTests.test_qera_factor8) ... ok
+test_split_overlap (test_codec_budget.BudgetMetricsTests.test_split_overlap) ... ok
+test_topk_cache_rounding_measured (test_codec_budget.BudgetMetricsTests.test_topk_cache_rounding_measured) ... ok
+test_waterfill_floor_infeasible (test_codec_budget.BudgetMetricsTests.test_waterfill_floor_infeasible) ... ok
+test_waterfill_kkt (test_codec_budget.BudgetMetricsTests.test_waterfill_kkt) ... ok
+test_codec_roundtrip_modes_and_escape (test_codec_budget.CodecTests.test_codec_roundtrip_modes_and_escape) ... ok
+test_corruption_rejected (test_codec_budget.CodecTests.test_corruption_rejected) ... ok
+test_coset_rank_random_shells (test_codec_budget.CodecTests.test_coset_rank_random_shells) ... ok
+test_decode_resource_limit (test_codec_budget.CodecTests.test_decode_resource_limit) ... ok
+test_empty_codec (test_codec_budget.CodecTests.test_empty_codec) ... ok
+test_matrix_scales_exact_after_fp16 (test_codec_budget.CodecTests.test_matrix_scales_exact_after_fp16) ... ok
+test_model_rate_not_physical_rate (test_codec_budget.CodecTests.test_model_rate_not_physical_rate) ... ok
+test_rans_roundtrip_many_alphabets (test_codec_budget.CodecTests.test_rans_roundtrip_many_alphabets) ... ok
+test_rans_truncated_rejected (test_codec_budget.CodecTests.test_rans_truncated_rejected) ... ok
+test_shell_rank_exhaustive_low (test_codec_budget.CodecTests.test_shell_rank_exhaustive_low) ... ok
+test_asym_identity_control (test_core.CalibrationTests.test_asym_identity_control) ... ok
+test_asym_normal_equations (test_core.CalibrationTests.test_asym_normal_equations) ... ok
+test_bgcc_cg_vs_dense_full_hessian (test_core.CalibrationTests.test_bgcc_cg_vs_dense_full_hessian) ... ok
+test_bgcc_gradient_finite_difference (test_core.CalibrationTests.test_bgcc_gradient_finite_difference) ... ok
+test_bgcc_operator_symmetry_and_spd (test_core.CalibrationTests.test_bgcc_operator_symmetry_and_spd) ... ok
+test_bgcc_row_equations (test_core.CalibrationTests.test_bgcc_row_equations) ... ok
+test_fresh_target_completion_square (test_core.CalibrationTests.test_fresh_target_completion_square) ... ok
+test_swiglu_discrete_monotonic (test_core.CalibrationTests.test_swiglu_discrete_monotonic) ... ERROR
+test_block_inverse_and_metric (test_core.LinearAlgebraTests.test_block_inverse_and_metric) ... ok
+test_change_of_basis_objective (test_core.LinearAlgebraTests.test_change_of_basis_objective) ... ok
+test_full_rms_then_slice (test_core.LinearAlgebraTests.test_full_rms_then_slice) ... ok
+test_fwht_dimensions_and_inverse (test_core.LinearAlgebraTests.test_fwht_dimensions_and_inverse) ... ok
+test_inverse_random (test_core.LinearAlgebraTests.test_inverse_random) ... ok
+test_inverse_regression_v2 (test_core.LinearAlgebraTests.test_inverse_regression_v2) ... ok
+test_ldl_reconstruction (test_core.LinearAlgebraTests.test_ldl_reconstruction) ... ok
+test_pcg_against_dense (test_core.LinearAlgebraTests.test_pcg_against_dense) ... ok
+test_pcg_reports_incomplete (test_core.LinearAlgebraTests.test_pcg_reports_incomplete) ... ok
+test_silu_no_input_clipping (test_core.LinearAlgebraTests.test_silu_no_input_clipping) ... ok
+test_spd_rejects_silent_clipping (test_core.LinearAlgebraTests.test_spd_rejects_silent_clipping) ... ok
+test_abcd_fixed_table_monotonic (test_core.QuantizerTests.test_abcd_fixed_table_monotonic) ... ERROR
+test_escape_no_clamp (test_core.QuantizerTests.test_escape_no_clamp) ... ok
+test_incumbent_in_candidates (test_core.QuantizerTests.test_incumbent_in_candidates) ... ERROR
+test_invalid_vector_rejected (test_core.QuantizerTests.test_invalid_vector_rejected) ... ok
+test_ldlq_matches_dense_flatten_reference (test_core.QuantizerTests.test_ldlq_matches_dense_flatten_reference) ... ok
+test_nearest_independent_small_ball (test_core.QuantizerTests.test_nearest_independent_small_ball) ... ok
+test_roots_and_cardinalities (test_core.QuantizerTests.test_roots_and_cardinalities) ... ok
+test_shell_symmetry_actual_codes (test_core.QuantizerTests.test_shell_symmetry_actual_codes) ... ok
+test_zero_rows_export (test_core.QuantizerTests.test_zero_rows_export) ... ok
+
+======================================================================
+ERROR: test_swiglu_discrete_monotonic (test_core.CalibrationTests.test_swiglu_discrete_monotonic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/tests/test_core.py", line 133, in test_swiglu_discrete_monotonic
+    out,log=refine_swiglu_up(q,x,g,d,y,ridge=.01,rate_lambda=.0001,sweeps=2)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/calibration.py", line 97, in refine_swiglu_up
+    new,_=select_code(center,initial.steps[i],a,rate_lambda,model,codes[i,b],neighbors)
+          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/quantization.py", line 43, in select_code
+    c=e8.candidates(center,step,incumbent,neighbors)
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/e8.py", line 139, in candidates
+    inc=np.asarray(checked(inc),dtype=np.int64); pool.append(inc)
+                           ^^^
+UnboundLocalError: cannot access local variable 'inc' where it is not associated with a value
+
+======================================================================
+ERROR: test_abcd_fixed_table_monotonic (test_core.QuantizerTests.test_abcd_fixed_table_monotonic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/tests/test_core.py", line 92, in test_abcd_fixed_table_monotonic
+    q=quantize_ldlq(w,h,.85,.02);out,log=refine_quadratic(w,q,h,rate_lambda=.02,sweeps=2)
+                                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/quantization.py", line 111, in refine_quadratic
+    new,_=select_code(center,initial.steps[i],a,rate_lambda,model,c[i,b],neighbors)
+          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/quantization.py", line 43, in select_code
+    c=e8.candidates(center,step,incumbent,neighbors)
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/e8.py", line 139, in candidates
+    inc=np.asarray(checked(inc),dtype=np.int64); pool.append(inc)
+                           ^^^
+UnboundLocalError: cannot access local variable 'inc' where it is not associated with a value
+
+======================================================================
+ERROR: test_incumbent_in_candidates (test_core.QuantizerTests.test_incumbent_in_candidates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/tests/test_core.py", line 78, in test_incumbent_in_candidates
+    inc=np.array([4,4,0,0,0,0,0,0]);c=e8.candidates(np.zeros(8),1,inc)
+                                      ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/LUMEN_Q1_V3_CORRIGE/lumen_ref/e8.py", line 139, in candidates
+    inc=np.asarray(checked(inc),dtype=np.int64); pool.append(inc)
+                           ^^^
+UnboundLocalError: cannot access local variable 'inc' where it is not associated with a value
+
+----------------------------------------------------------------------
+Ran 49 tests in 0.436s
+
+FAILED (errors=3)

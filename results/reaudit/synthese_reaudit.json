@@ -1,0 +1,28 @@
+{
+  "scope": "CPU execution and public source checks; no Qwen weights or activations",
+  "original_zip_sha256": "619ce07bd2055cec913d4f8116e4d0b31ca3ea05fb023b7b46b56611c7c27e73",
+  "original_zip_files": 65,
+  "original_manifest_entries": 64,
+  "original_manifest_verified": true,
+  "prompt_missing_claim_reproduced": false,
+  "prompt_bytes": 6983,
+  "prompt_sha256": "da659a4a2c0373a5441bf5c9cc21f339013d92987074a3e19f2e04a79ac3815a",
+  "auditor_suite_on_original": {
+    "groups": 12,
+    "passed": 11,
+    "failed": 1,
+    "failed_group": "test_01_manifest_missing_file_detected",
+    "meaning": "the eleven passes reproduce intended defects/confirmations; they do not mean the old code is fixed"
+  },
+  "extra_bug_in_proposed_patch": {
+    "case": "identity operator, rhs=[1e-200]",
+    "observed": "converged=True, solution=[0] because naive norm underflows",
+    "v3_1": "max-absolute RHS scaling; covered by positive tests"
+  },
+  "not_globally_claimed": [
+    "universal CG convergence",
+    "error-free production software",
+    "Qwen preservation",
+    "10GB complete encoded checkpoint"
+  ]
+}

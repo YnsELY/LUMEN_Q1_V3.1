@@ -1,0 +1,25 @@
+{
+  "scope": "code-only patch from pristine original ZIP; documentation/results delivered via full ZIP",
+  "git_apply_check_returncode": 0,
+  "git_apply_returncode": 0,
+  "code_files": 16,
+  "all_code_hashes_match_release": true,
+  "files": {
+    "budget_lumen_max_v3.py": true,
+    "lumen_ref/budget.py": true,
+    "lumen_ref/calibration.py": true,
+    "lumen_ref/e8.py": true,
+    "lumen_ref/entropy.py": true,
+    "lumen_ref/linalg.py": true,
+    "lumen_ref/metrics.py": true,
+    "lumen_ref/quantization.py": true,
+    "tests/independent_decoder.py": true,
+    "tests/test_counteraudit_regressions.py": true,
+    "tools/check_release.py": true,
+    "tools/demo_end_to_end.py": true,
+    "tools/run_experiments.py": true,
+    "tools/run_isoshell_experiment.py": true,
+    "tools/validate_capture.py": true,
+    "tools/verify_manifest.py": true
+  }
+}

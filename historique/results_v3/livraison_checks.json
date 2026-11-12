@@ -1,0 +1,10 @@
+{
+  "all_tests_pass": true,
+  "cg_all_converged": true,
+  "local_caps_respected": true,
+  "isoshell_bytes_identical": true,
+  "isoshell_negative_results_preserved": true,
+  "cold_decode_all_pass": true,
+  "source_hashes_match": true,
+  "no_unfilled_doc_placeholders": true
+}

@@ -1,0 +1,16 @@
+{
+  "status": "executed_synthetic_smoke_test_not_Qwen",
+  "decision": {
+    "accepted": true,
+    "reasons": [],
+    "decoder_checked": true,
+    "guarantee": "measured_scores_and_bytes_only_not_generalization",
+    "previous_primary": 1.2601660086092092,
+    "candidate_primary": 1.1997349759809195,
+    "selected_sha256": "d712a7be9580cc22cc5cfaf0dae5a47d41c0a043e398b4633430752202da2d22"
+  },
+  "ceiling_bytes": 456,
+  "candidate_bytes": 455,
+  "retained_bytes": 455,
+  "retained_sha256": "d712a7be9580cc22cc5cfaf0dae5a47d41c0a043e398b4633430752202da2d22"
+}

@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+"""Reproducible CPU experiments. All weights/activations here are SYNTHETIC.
+
+No checkpoint is downloaded. Report every fixed seed, including regressions.
+Run from any directory: python path/to/tools/run_experiments.py
+"""
+from pathlib import Path
+import sys,time,json,platform,hashlib
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+import numpy as np
+from lumen_ref import e8
+from lumen_ref.entropy import *
+from lumen_ref.quantization import *
+from lumen_ref.calibration import *
+from lumen_ref.linalg import silu
+
+def relative_error(y,q):return float(np.sum((y-q)**2)/np.sum(y*y))
+def norm(x):return x/np.sqrt(np.mean(x*x,axis=0,keepdims=True)+1e-6)
+
+def synthetic_trial(seed):
+ rng=np.random.default_rng(seed);n=128;m=32;out=48;calN=512;devN=384;testN=768
+ pre=rng.normal(scale=1/np.sqrt(n),size=(n,n))
+ qpre=quantize_ldlq(pre,np.eye(n),.9,0.0001)
+ wg=rng.normal(scale=1/np.sqrt(n),size=(m,n));wu=rng.normal(scale=1/np.sqrt(n),size=(m,n));down=rng.normal(scale=1/np.sqrt(m),size=(out,m))
+ data={}
+ for key,N in [('cal',calN),('select',devN),('confirm',testN)]:
+  x0=rng.normal(size=(n,N));xf=norm(silu(pre@x0));xq=norm(silu(qpre.weights@x0));data[key]=(xf,xq)
+ xf,xq=data['cal'];h=xq@xq.T/calN+.02*np.eye(n)
+ qg=quantize_ldlq(wg,h,.85,.0001);q0=quantize_ldlq(wu,h,.85,.0001)
+ def output(q,key):
+  f,x=data[key];y=down@(silu(wg@f)*(wu@f));pred=down@(silu(qg.weights@x)*(q.weights@x))
+  return relative_error(y,pred)
+ base= {'name':'base_corrected','bytes':len(q0.artifact),'select_nmse':output(q0,'select'),'confirm_nmse':output(q0,'confirm'),'model_bpw':q0.model.total_model_bits(q0.codes.reshape(-1,8))/q0.weights.size,'encoded_bpw':q0.encoded_bpw}
+ t_asym0=time.perf_counter();target_a,_=asymmetric_target(wu,xf,xq,.01);dt_asym=time.perf_counter()-t_asym0
+ gates=silu(qg.weights@xq);yc=down@(silu(wg@xf)*(wu@xf))
+ t_cg0=time.perf_counter();target_g,cg=bgcc_output_cg(wu,xq,gates,down,yc,ridge=.01,rtol=1e-8,maxiter=512);dt_cg=time.perf_counter()-t_cg0
+ # Stronger control: same 12-candidate search budget, without changing target.
+ qplus=q0;plus_dev=base['select_nmse'];plus_trials=[]
+ for penalty in (0.,.0001,.001):
+  for mult in (.8,.9,1.,1.15):
+   item=quantize_ldlq(wu,h,mult,penalty)
+   value=output(item,'select');feasible=len(item.artifact)<=len(q0.artifact)
+   plus_trials.append({'step_multiplier':mult,'rate_lambda':penalty,'bytes':len(item.artifact),'select_nmse':value,'feasible':feasible})
+   if feasible and value<plus_dev:qplus=item;plus_dev=value
+ plus={'bytes':len(qplus.artifact),'select_nmse':plus_dev,'confirm_nmse':output(qplus,'confirm'),'candidate_table':plus_trials}
+ families={}
+ for family,target in [('asymmetric',target_a),('bgcc_output_cg',target_g)]:
+  if family=='bgcc_output_cg' and not cg.converged:
+   families[family]={'selected':'rejected_unconverged_cg','bytes':len(qplus.artifact),'select_nmse':plus_dev,'confirm_nmse':plus['confirm_nmse'],'confirm_relative_improvement_pct_vs_Qplus':0.,'search_seconds_cpu':dt_cg,'candidate_table':[]}
+   continue
+  # Same predetermined grid and same encoded ceiling for the two families.
+  trials=[];best=qplus;name='Qplus_retained';best_dev=plus_dev;t_start=time.perf_counter()
+  for shrink in (.25,.5,1.):
+   for mult in (.8,.9,1.,1.15):
+    candidate=quantize_ldlq(wu+shrink*(target-wu),h,mult,.0001)
+    size=len(candidate.artifact);value=output(candidate,'select')
+    trials.append({'shrink':shrink,'step_multiplier':mult,'bytes':size,'select_nmse':value,'feasible':size<=len(q0.artifact)})
+    if size<=len(q0.artifact) and value<best_dev:
+     best=candidate;name=f'shrink={shrink},step={mult}';best_dev=value
+  families[family]={'selected':name,'bytes':len(best.artifact),'select_nmse':best_dev,'confirm_nmse':output(best,'confirm'),'confirm_relative_improvement_pct_vs_Qplus':100*(1-output(best,'confirm')/plus['confirm_nmse']),'search_seconds_cpu':(time.perf_counter()-t_start)+(dt_asym if family=='asymmetric' else dt_cg),'candidate_table':trials}
+ # Direct E8 refinement is measured independently; do not hide a size increase.
+ refined,log=refine_swiglu_up(q0,xq,gates,down,yc,ridge=.01,rate_lambda=.0001,sweeps=2)
+ dev=output(refined,'select');feasible=len(refined.artifact)<=len(q0.artifact)
+ accepted=feasible and dev<plus_dev;chosen=refined if accepted else qplus
+ families['bgcc_discrete_output']={'candidate_bytes':len(refined.artifact),'feasible':feasible,'accepted_on_selection':accepted,'candidate_select_nmse':dev,'retained_confirm_nmse':output(chosen,'confirm'),'candidate_confirm_nmse_for_diagnosis_only':output(refined,'confirm'),'fixed_table_cal_objective_before':log['fixed_table_objective_trace'][0],'fixed_table_cal_objective_after':log['fixed_table_objective_trace'][-1],'accepted_moves':log['accepted_moves']}
+ return {'seed':seed,'dimensions':{'input':n,'channels':m,'output':out,'cal':calN,'select':devN,'confirm':testN},'baseline':base,'Qplus_search_control':plus,'cg_converged':cg.converged,'cg_iterations':cg.iterations,'cg_relative_residual':cg.relative_residual,'families':families}
+
+def codec_experiments():
+ rng=np.random.default_rng(20261112);results={}
+ datasets={'uniform_shell1':e8.ROOTS[rng.integers(240,size=8192)],'integer_coset_shell1':e8.ROOTS[rng.integers(112,size=8192)],'gaussian_E8':np.array([e8.nearest(v) for v in rng.normal(size=(8192,8))])}
+ for label,codes in datasets.items():
+  rows={}
+  for mode in (0,1):
+   model=ShellModel.fit(codes,mode=mode);t=time.perf_counter();blob=encode_e8(codes,model);encode_s=time.perf_counter()-t
+   path=ROOT/'results'/f'codec_{label}_mode{mode}.bin';path.write_bytes(blob)
+   t=time.perf_counter();decoded,_=decode_e8(path.read_bytes());decode_s=time.perf_counter()-t
+   if not np.array_equal(codes,decoded):raise RuntimeError('Codec round-trip failure')
+   rows[str(mode)]={'vectors':len(codes),'encoded_bytes':len(blob),'actual_bpw':len(blob)*8/codes.size,'ideal_model_bpw':model.total_model_bits(codes)/codes.size,'roundtrip_errors':int(np.sum(codes!=decoded)),'encode_seconds_cpu':encode_s,'decode_seconds_cpu':decode_s,'sha256':hashlib.sha256(blob).hexdigest()}
+  results[label]=rows
+ return results
+
+def main():
+ t=time.perf_counter();trials=[synthetic_trial(s) for s in (211,307,401,503,601)]
+ result={'protocol_note':'Fixed seeds and search grid; CG cap increased from 160 to 512 solely to reach the declared 1e-8 residual tolerance. Prior numerical run retained in results/developpement. No search decision uses confirmation scores.', 'status':'CPU synthetic proof-of-mechanism, NOT Qwen experiments','python':platform.python_version(),'numpy':np.__version__,'trials':trials,'codec_experiments':codec_experiments(),'elapsed_seconds':time.perf_counter()-t}
+ result['code_sha256']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'lumen_ref').glob('*.py'))}
+ result['code_sha256']['tools/run_experiments.py']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+ out=ROOT/'results'/'experiences_synthetiques.json';out.write_text(json.dumps(result,indent=2,allow_nan=False))
+ for e in trials:
+  print('SEED',e['seed'],'baseline',round(e['baseline']['confirm_nmse'],5),'CG',e['cg_converged'])
+  for f,v in e['families'].items():print(f, {k:v[k] for k in ('confirm_relative_improvement_pct_vs_Qplus','accepted_on_selection','candidate_bytes') if k in v})
+ print('saved',out,'seconds',result['elapsed_seconds'])
+if __name__=='__main__':main()

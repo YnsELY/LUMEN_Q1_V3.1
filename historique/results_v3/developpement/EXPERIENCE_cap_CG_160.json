@@ -1,0 +1,1646 @@
+{
+  "status": "CPU synthetic proof-of-mechanism, NOT Qwen experiments",
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "trials": [
+    {
+      "seed": 211,
+      "dimensions": {
+        "input": 128,
+        "channels": 32,
+        "output": 48,
+        "cal": 512,
+        "select": 384,
+        "confirm": 768
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 1658,
+        "select_nmse": 0.19518376068614932,
+        "confirm_nmse": 0.20528038834680462,
+        "model_bpw": 2.3282121577942814,
+        "encoded_bpw": 3.23828125
+      },
+      "Qplus_search_control": {
+        "bytes": 1658,
+        "select_nmse": 0.19518376068614932,
+        "confirm_nmse": 0.20528038834680462,
+        "candidate_table": [
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0,
+            "bytes": 1702,
+            "select_nmse": 0.2004290784694875,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0,
+            "bytes": 1629,
+            "select_nmse": 0.20328384394460816,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0,
+            "bytes": 1553,
+            "select_nmse": 0.20989178221575985,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0,
+            "bytes": 1458,
+            "select_nmse": 0.2392272512349828,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0001,
+            "bytes": 1692,
+            "select_nmse": 0.19949243061886474,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0001,
+            "bytes": 1620,
+            "select_nmse": 0.1958326717698703,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0001,
+            "bytes": 1545,
+            "select_nmse": 0.20738466863333058,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0001,
+            "bytes": 1451,
+            "select_nmse": 0.23611906814331418,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.001,
+            "bytes": 1598,
+            "select_nmse": 0.196267006268285,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.001,
+            "bytes": 1523,
+            "select_nmse": 0.1999528784859431,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.001,
+            "bytes": 1456,
+            "select_nmse": 0.2105910187181339,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.001,
+            "bytes": 1376,
+            "select_nmse": 0.22693790043941767,
+            "feasible": true
+          }
+        ]
+      },
+      "cg_converged": false,
+      "cg_iterations": 160,
+      "cg_relative_residual": 6.938664677818675e-07,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=0.9",
+          "bytes": 1613,
+          "select_nmse": 0.190339413352134,
+          "confirm_nmse": 0.19405781627720034,
+          "confirm_relative_improvement_pct_vs_Qplus": 5.466947992442728,
+          "search_seconds_cpu": 1.6546626879999167,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1699,
+              "select_nmse": 0.1892992119750052,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1617,
+              "select_nmse": 0.1910199002542945,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1539,
+              "select_nmse": 0.20840262391321562,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1452,
+              "select_nmse": 0.2299308143075962,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1694,
+              "select_nmse": 0.17731097123872644,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1613,
+              "select_nmse": 0.190339413352134,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1543,
+              "select_nmse": 0.19761815320596451,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1455,
+              "select_nmse": 0.21336361089641517,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1698,
+              "select_nmse": 0.18488016052552758,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.19112939522260308,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1542,
+              "select_nmse": 0.2068575800628818,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1457,
+              "select_nmse": 0.21893542195145013,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 1610,
+          "select_nmse": 0.19292061743494823,
+          "confirm_nmse": 0.20068826617531452,
+          "confirm_relative_improvement_pct_vs_Qplus": 2.236999943575757,
+          "search_seconds_cpu": 1.7114710770000556,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1699,
+              "select_nmse": 0.19400416495665368,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1610,
+              "select_nmse": 0.19292061743494823,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1554,
+              "select_nmse": 0.2067397245258844,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1451,
+              "select_nmse": 0.21947418255256174,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1692,
+              "select_nmse": 0.20424649363351977,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1616,
+              "select_nmse": 0.20607208448138334,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1550,
+              "select_nmse": 0.22368918038401506,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1456,
+              "select_nmse": 0.23954444098666416,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1692,
+              "select_nmse": 0.2877021601052632,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1613,
+              "select_nmse": 0.2861972542850546,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1542,
+              "select_nmse": 0.2977333130172681,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1451,
+              "select_nmse": 0.3287604791147977,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 1665,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.24744055129797465,
+          "retained_confirm_nmse": 0.20528038834680462,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.26954418756039644,
+          "fixed_table_cal_objective_before": 4.371771351362323,
+          "fixed_table_cal_objective_after": 2.8863817101049443,
+          "accepted_moves": 606
+        }
+      }
+    },
+    {
+      "seed": 307,
+      "dimensions": {
+        "input": 128,
+        "channels": 32,
+        "output": 48,
+        "cal": 512,
+        "select": 384,
+        "confirm": 768
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 1656,
+        "select_nmse": 0.22712656771109035,
+        "confirm_nmse": 0.21813958751455642,
+        "model_bpw": 2.3249162870207996,
+        "encoded_bpw": 3.234375
+      },
+      "Qplus_search_control": {
+        "bytes": 1605,
+        "select_nmse": 0.2108528509704536,
+        "confirm_nmse": 0.20282480650761425,
+        "candidate_table": [
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0,
+            "bytes": 1705,
+            "select_nmse": 0.21816392804154383,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0,
+            "bytes": 1628,
+            "select_nmse": 0.22461430831931403,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0,
+            "bytes": 1561,
+            "select_nmse": 0.24216307496520714,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0,
+            "bytes": 1466,
+            "select_nmse": 0.26216703637793587,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0001,
+            "bytes": 1693,
+            "select_nmse": 0.21839987950755366,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0001,
+            "bytes": 1617,
+            "select_nmse": 0.22406228234665426,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0001,
+            "bytes": 1554,
+            "select_nmse": 0.23957170470874986,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0001,
+            "bytes": 1454,
+            "select_nmse": 0.2613041722313582,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.001,
+            "bytes": 1605,
+            "select_nmse": 0.2108528509704536,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.001,
+            "bytes": 1537,
+            "select_nmse": 0.2170202747019148,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.001,
+            "bytes": 1458,
+            "select_nmse": 0.23488748097279905,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.001,
+            "bytes": 1367,
+            "select_nmse": 0.25229467078566614,
+            "feasible": true
+          }
+        ]
+      },
+      "cg_converged": false,
+      "cg_iterations": 160,
+      "cg_relative_residual": 2.3992727732176513e-07,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=1.0,step=0.9",
+          "bytes": 1612,
+          "select_nmse": 0.20317580622004083,
+          "confirm_nmse": 0.203809159563749,
+          "confirm_relative_improvement_pct_vs_Qplus": -0.4853218267943049,
+          "search_seconds_cpu": 1.6422382050000124,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1693,
+              "select_nmse": 0.2015624333716563,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.21117553716617982,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1545,
+              "select_nmse": 0.2246016934519042,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1455,
+              "select_nmse": 0.24920602228735292,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.19994101390722613,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1613,
+              "select_nmse": 0.20682426387736924,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1553,
+              "select_nmse": 0.22437136656910614,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1457,
+              "select_nmse": 0.23599608524894639,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.19803511380817296,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1612,
+              "select_nmse": 0.20317580622004083,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1547,
+              "select_nmse": 0.21713151166354608,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1452,
+              "select_nmse": 0.22987163181778902,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 1619,
+          "select_nmse": 0.21027337418812597,
+          "confirm_nmse": 0.21213538557393105,
+          "confirm_relative_improvement_pct_vs_Qplus": -4.590453814123219,
+          "search_seconds_cpu": 1.6280521510000199,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1696,
+              "select_nmse": 0.20400822404414848,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1619,
+              "select_nmse": 0.21027337418812597,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1541,
+              "select_nmse": 0.22021809336746137,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1452,
+              "select_nmse": 0.2342413578583539,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1693,
+              "select_nmse": 0.20876227374831666,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.21472339775626897,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1546,
+              "select_nmse": 0.231791636937229,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1454,
+              "select_nmse": 0.26027433404389083,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1693,
+              "select_nmse": 0.28299050246116986,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1611,
+              "select_nmse": 0.2971724457653822,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1537,
+              "select_nmse": 0.2950653981384066,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1455,
+              "select_nmse": 0.32610308527776355,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 1659,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.2749023839502315,
+          "retained_confirm_nmse": 0.20282480650761425,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.27824353713299227,
+          "fixed_table_cal_objective_before": 3.5456694208551394,
+          "fixed_table_cal_objective_after": 2.44622602445844,
+          "accepted_moves": 602
+        }
+      }
+    },
+    {
+      "seed": 401,
+      "dimensions": {
+        "input": 128,
+        "channels": 32,
+        "output": 48,
+        "cal": 512,
+        "select": 384,
+        "confirm": 768
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 1656,
+        "select_nmse": 0.2057273506939892,
+        "confirm_nmse": 0.2046533596395799,
+        "model_bpw": 2.3253528650697457,
+        "encoded_bpw": 3.234375
+      },
+      "Qplus_search_control": {
+        "bytes": 1607,
+        "select_nmse": 0.2008147818216414,
+        "confirm_nmse": 0.2024760825946458,
+        "candidate_table": [
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0,
+            "bytes": 1703,
+            "select_nmse": 0.20170097156556957,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0,
+            "bytes": 1624,
+            "select_nmse": 0.2142935768814454,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0,
+            "bytes": 1555,
+            "select_nmse": 0.23173386664053802,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0,
+            "bytes": 1457,
+            "select_nmse": 0.23781765363221027,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0001,
+            "bytes": 1697,
+            "select_nmse": 0.20276443262145438,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0001,
+            "bytes": 1617,
+            "select_nmse": 0.21000503800228912,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0001,
+            "bytes": 1547,
+            "select_nmse": 0.23931819472232724,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0001,
+            "bytes": 1453,
+            "select_nmse": 0.23685721515289304,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.001,
+            "bytes": 1607,
+            "select_nmse": 0.2008147818216414,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.001,
+            "bytes": 1532,
+            "select_nmse": 0.21432038716237228,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.001,
+            "bytes": 1458,
+            "select_nmse": 0.22439687526259114,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.001,
+            "bytes": 1366,
+            "select_nmse": 0.2479709621902181,
+            "feasible": true
+          }
+        ]
+      },
+      "cg_converged": false,
+      "cg_iterations": 160,
+      "cg_relative_residual": 3.92852497846645e-07,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=0.9",
+          "bytes": 1614,
+          "select_nmse": 0.19198117337075005,
+          "confirm_nmse": 0.192390653756218,
+          "confirm_relative_improvement_pct_vs_Qplus": 4.98104700031099,
+          "search_seconds_cpu": 1.6005844160000606,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1701,
+              "select_nmse": 0.19191367185208252,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.19444581229138957,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1550,
+              "select_nmse": 0.22183990489018526,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1449,
+              "select_nmse": 0.2373873992677096,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1692,
+              "select_nmse": 0.19266675717323845,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1614,
+              "select_nmse": 0.19198117337075005,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1549,
+              "select_nmse": 0.21242526989600188,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1449,
+              "select_nmse": 0.2193077048619256,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1698,
+              "select_nmse": 0.19186978603049665,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1618,
+              "select_nmse": 0.20106563750473727,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1545,
+              "select_nmse": 0.20752093980939568,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1457,
+              "select_nmse": 0.23168508963028214,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "Qplus_retained",
+          "bytes": 1607,
+          "select_nmse": 0.2008147818216414,
+          "confirm_nmse": 0.2024760825946458,
+          "confirm_relative_improvement_pct_vs_Qplus": 0.0,
+          "search_seconds_cpu": 1.7295066660000202,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1696,
+              "select_nmse": 0.19971689161615455,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1612,
+              "select_nmse": 0.20185019134545557,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1548,
+              "select_nmse": 0.2229509439352136,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1459,
+              "select_nmse": 0.23118422254920057,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.20977164326584485,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.22232581544723032,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1549,
+              "select_nmse": 0.2308572212739538,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1456,
+              "select_nmse": 0.2426473347513963,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1697,
+              "select_nmse": 0.2780800553520327,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.29447329680558987,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1543,
+              "select_nmse": 0.30368425687078454,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1457,
+              "select_nmse": 0.320337101523923,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 1657,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.2626788797369272,
+          "retained_confirm_nmse": 0.2024760825946458,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.260822903336932,
+          "fixed_table_cal_objective_before": 3.8628270775704787,
+          "fixed_table_cal_objective_after": 2.618201523966606,
+          "accepted_moves": 622
+        }
+      }
+    },
+    {
+      "seed": 503,
+      "dimensions": {
+        "input": 128,
+        "channels": 32,
+        "output": 48,
+        "cal": 512,
+        "select": 384,
+        "confirm": 768
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 1656,
+        "select_nmse": 0.1824325865242783,
+        "confirm_nmse": 0.17757119543815747,
+        "model_bpw": 2.3241899274261804,
+        "encoded_bpw": 3.234375
+      },
+      "Qplus_search_control": {
+        "bytes": 1619,
+        "select_nmse": 0.17908361248257554,
+        "confirm_nmse": 0.17238816219984518,
+        "candidate_table": [
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0,
+            "bytes": 1707,
+            "select_nmse": 0.17788001273010792,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0,
+            "bytes": 1623,
+            "select_nmse": 0.18943979340027506,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0,
+            "bytes": 1556,
+            "select_nmse": 0.20514815541203565,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0,
+            "bytes": 1461,
+            "select_nmse": 0.20872953780726825,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0001,
+            "bytes": 1695,
+            "select_nmse": 0.17499236723479406,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0001,
+            "bytes": 1609,
+            "select_nmse": 0.19145671903285774,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0001,
+            "bytes": 1548,
+            "select_nmse": 0.20325292099582648,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0001,
+            "bytes": 1452,
+            "select_nmse": 0.20882082102468352,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.001,
+            "bytes": 1619,
+            "select_nmse": 0.17908361248257554,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.001,
+            "bytes": 1524,
+            "select_nmse": 0.18662411165820605,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.001,
+            "bytes": 1456,
+            "select_nmse": 0.1945389360030765,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.001,
+            "bytes": 1366,
+            "select_nmse": 0.21263312153937064,
+            "feasible": true
+          }
+        ]
+      },
+      "cg_converged": false,
+      "cg_iterations": 160,
+      "cg_relative_residual": 4.3978437751442247e-07,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=0.5,step=0.9",
+          "bytes": 1612,
+          "select_nmse": 0.16950131884765618,
+          "confirm_nmse": 0.16970410053571408,
+          "confirm_relative_improvement_pct_vs_Qplus": 1.556987225735107,
+          "search_seconds_cpu": 1.8268127900000763,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.16784857494914282,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1619,
+              "select_nmse": 0.1725928530814562,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1547,
+              "select_nmse": 0.18740300135521004,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1452,
+              "select_nmse": 0.19266060156215684,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.16685915935086124,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1612,
+              "select_nmse": 0.16950131884765618,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1546,
+              "select_nmse": 0.1812945443185673,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1456,
+              "select_nmse": 0.20073114822076824,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1698,
+              "select_nmse": 0.16387356498685576,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1614,
+              "select_nmse": 0.17197128061158523,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1542,
+              "select_nmse": 0.17696946257603735,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1453,
+              "select_nmse": 0.19054404935563113,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "shrink=0.25,step=0.9",
+          "bytes": 1617,
+          "select_nmse": 0.17599444458052305,
+          "confirm_nmse": 0.17095998451165292,
+          "confirm_relative_improvement_pct_vs_Qplus": 0.8284662183106306,
+          "search_seconds_cpu": 1.9162363789998835,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1693,
+              "select_nmse": 0.16717418646268603,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1617,
+              "select_nmse": 0.17599444458052305,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1544,
+              "select_nmse": 0.18717935774690594,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1452,
+              "select_nmse": 0.2090460458978633,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1692,
+              "select_nmse": 0.17486019465297561,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1620,
+              "select_nmse": 0.1889659312831137,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1542,
+              "select_nmse": 0.19608694762175485,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1449,
+              "select_nmse": 0.2086318225196592,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.24293750371880063,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1612,
+              "select_nmse": 0.25875612375366663,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1543,
+              "select_nmse": 0.27048407785244605,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1459,
+              "select_nmse": 0.2873165905163227,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 1653,
+          "feasible": true,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.22340678229841235,
+          "retained_confirm_nmse": 0.17238816219984518,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.2211882341429523,
+          "fixed_table_cal_objective_before": 4.421592407235902,
+          "fixed_table_cal_objective_after": 2.9769753929720895,
+          "accepted_moves": 639
+        }
+      }
+    },
+    {
+      "seed": 601,
+      "dimensions": {
+        "input": 128,
+        "channels": 32,
+        "output": 48,
+        "cal": 512,
+        "select": 384,
+        "confirm": 768
+      },
+      "baseline": {
+        "name": "base_corrected",
+        "bytes": 1650,
+        "select_nmse": 0.24451196480384008,
+        "confirm_nmse": 0.2225502231254423,
+        "model_bpw": 2.3141007770346773,
+        "encoded_bpw": 3.22265625
+      },
+      "Qplus_search_control": {
+        "bytes": 1532,
+        "select_nmse": 0.22251596185587444,
+        "confirm_nmse": 0.21884188626905215,
+        "candidate_table": [
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0,
+            "bytes": 1707,
+            "select_nmse": 0.22713687784299927,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0,
+            "bytes": 1622,
+            "select_nmse": 0.24279064708283193,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0,
+            "bytes": 1553,
+            "select_nmse": 0.24370595269162654,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0,
+            "bytes": 1464,
+            "select_nmse": 0.2623516995245888,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.0001,
+            "bytes": 1696,
+            "select_nmse": 0.22027238815119193,
+            "feasible": false
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.0001,
+            "bytes": 1614,
+            "select_nmse": 0.23451825748607444,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.0001,
+            "bytes": 1549,
+            "select_nmse": 0.23993999048183823,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.0001,
+            "bytes": 1448,
+            "select_nmse": 0.2603569886212843,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.8,
+            "rate_lambda": 0.001,
+            "bytes": 1614,
+            "select_nmse": 0.22491263699930752,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 0.9,
+            "rate_lambda": 0.001,
+            "bytes": 1532,
+            "select_nmse": 0.22251596185587444,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.0,
+            "rate_lambda": 0.001,
+            "bytes": 1469,
+            "select_nmse": 0.2448146738354783,
+            "feasible": true
+          },
+          {
+            "step_multiplier": 1.15,
+            "rate_lambda": 0.001,
+            "bytes": 1373,
+            "select_nmse": 0.26493905364355763,
+            "feasible": true
+          }
+        ]
+      },
+      "cg_converged": false,
+      "cg_iterations": 160,
+      "cg_relative_residual": 2.438866192110742e-07,
+      "families": {
+        "asymmetric": {
+          "selected": "shrink=1.0,step=0.9",
+          "bytes": 1611,
+          "select_nmse": 0.21095796756283655,
+          "confirm_nmse": 0.2052974939100461,
+          "confirm_relative_improvement_pct_vs_Qplus": 6.189122470985331,
+          "search_seconds_cpu": 1.7825515370000176,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.20919714763890718,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1613,
+              "select_nmse": 0.22724359356520768,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1545,
+              "select_nmse": 0.23725315955374807,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1458,
+              "select_nmse": 0.24271062226441592,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1703,
+              "select_nmse": 0.21612929476763312,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1614,
+              "select_nmse": 0.21525446222720135,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1543,
+              "select_nmse": 0.2264299769359116,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1447,
+              "select_nmse": 0.24731925067649144,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1695,
+              "select_nmse": 0.20843663220219694,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1611,
+              "select_nmse": 0.21095796756283655,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1545,
+              "select_nmse": 0.23723572145289265,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1456,
+              "select_nmse": 0.2446078987095936,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_output_cg": {
+          "selected": "Qplus_retained",
+          "bytes": 1532,
+          "select_nmse": 0.22251596185587444,
+          "confirm_nmse": 0.21884188626905215,
+          "confirm_relative_improvement_pct_vs_Qplus": 0.0,
+          "search_seconds_cpu": 1.7195277359999181,
+          "candidate_table": [
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.8,
+              "bytes": 1701,
+              "select_nmse": 0.21364676364237725,
+              "feasible": false
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 0.9,
+              "bytes": 1613,
+              "select_nmse": 0.22895937564681737,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.0,
+              "bytes": 1542,
+              "select_nmse": 0.23820565673524394,
+              "feasible": true
+            },
+            {
+              "shrink": 0.25,
+              "step_multiplier": 1.15,
+              "bytes": 1449,
+              "select_nmse": 0.25833412218015134,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.8,
+              "bytes": 1694,
+              "select_nmse": 0.22253887258475827,
+              "feasible": false
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 0.9,
+              "bytes": 1615,
+              "select_nmse": 0.23596719294466845,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.0,
+              "bytes": 1547,
+              "select_nmse": 0.24250559272993386,
+              "feasible": true
+            },
+            {
+              "shrink": 0.5,
+              "step_multiplier": 1.15,
+              "bytes": 1460,
+              "select_nmse": 0.2587952671300274,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.8,
+              "bytes": 1699,
+              "select_nmse": 0.28922160112847906,
+              "feasible": false
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 0.9,
+              "bytes": 1618,
+              "select_nmse": 0.3128251956255467,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.0,
+              "bytes": 1543,
+              "select_nmse": 0.32777173760535605,
+              "feasible": true
+            },
+            {
+              "shrink": 1.0,
+              "step_multiplier": 1.15,
+              "bytes": 1449,
+              "select_nmse": 0.3337681207360805,
+              "feasible": true
+            }
+          ]
+        },
+        "bgcc_discrete_output": {
+          "candidate_bytes": 1661,
+          "feasible": false,
+          "accepted_on_selection": false,
+          "candidate_select_nmse": 0.2845753433615488,
+          "retained_confirm_nmse": 0.21884188626905215,
+          "candidate_confirm_nmse_for_diagnosis_only": 0.27744843600663627,
+          "fixed_table_cal_objective_before": 3.734277688665582,
+          "fixed_table_cal_objective_after": 2.511699325563726,
+          "accepted_moves": 616
+        }
+      }
+    }
+  ],
+  "codec_experiments": {
+    "uniform_shell1": {
+      "0": {
+        "vectors": 8192,
+        "encoded_bytes": 8489,
+        "actual_bpw": 1.0362548828125,
+        "ideal_model_bpw": 0.9904759905520455,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.34679805600012514,
+        "decode_seconds_cpu": 0.1177020759998868,
+        "sha256": "465d1a1d7b5c9182bd4270bc87725c7e25146cc157274dfc454b19cec3e81721"
+      },
+      "1": {
+        "vectors": 8192,
+        "encoded_bytes": 8759,
+        "actual_bpw": 1.0692138671875,
+        "ideal_model_bpw": 0.9925480542917535,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.31131369000013365,
+        "decode_seconds_cpu": 0.11781986999994842,
+        "sha256": "eb2c7eee0cd773b7952555c3c3825ed604f4820ba3951045f3c9ffecce2fe1d6"
+      }
+    },
+    "integer_coset_shell1": {
+      "0": {
+        "vectors": 8192,
+        "encoded_bytes": 8489,
+        "actual_bpw": 1.0362548828125,
+        "ideal_model_bpw": 0.9904759905520455,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.31612575899998774,
+        "decode_seconds_cpu": 0.11134313100001236,
+        "sha256": "862bb518dfac9a2401291f731765bfbb0009e8351020447b9858ba0c86bad1a7"
+      },
+      "1": {
+        "vectors": 8192,
+        "encoded_bytes": 7610,
+        "actual_bpw": 0.928955078125,
+        "ideal_model_bpw": 0.8551399832030825,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.31023927100000037,
+        "decode_seconds_cpu": 0.11007154599997193,
+        "sha256": "8769b7d0519c84d2a9c88d26a8363a8d527eff18a83b029569dbe2586ee5850d"
+      }
+    },
+    "gaussian_E8": {
+      "0": {
+        "vectors": 8192,
+        "encoded_bytes": 17504,
+        "actual_bpw": 2.13671875,
+        "ideal_model_bpw": 2.0904399287531965,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.329886371999919,
+        "decode_seconds_cpu": 0.12479050100000677,
+        "sha256": "df3ed3c35d999477ad23fae59f2505e5ca7c8e996fefa83b6458097e497f77f8"
+      },
+      "1": {
+        "vectors": 8192,
+        "encoded_bytes": 17770,
+        "actual_bpw": 2.169189453125,
+        "ideal_model_bpw": 2.091936410934127,
+        "roundtrip_errors": 0,
+        "encode_seconds_cpu": 0.31422421499996744,
+        "decode_seconds_cpu": 0.12733756900001936,
+        "sha256": "886576e9f34335b56213c1d1f825504db55639bcf8d4a9d3baf46ffbc48dc928"
+      }
+    }
+  },
+  "elapsed_seconds": 80.77646820300004
+}

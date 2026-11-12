@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://huggingface.co/api/models/Qwen/Qwen3.8-27B",
+    "error": "HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /api/models/Qwen/Qwen3.8-27B (Caused by NameResolutionError(\"HTTPSConnection(host='huggingface.co', port=443): Failed to resolve 'huggingface.co' ([Errno -3] Temporary failure in name resolution)\"))"
+  },
+  {
+    "url": "https://huggingface.co/Qwen/Qwen3.8-27B/raw/37561816e66b5b9153b1b64c10968c18c1e6f4a0/config.json",
+    "error": "HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /Qwen/Qwen3.8-27B/raw/37561816e66b5b9153b1b64c10968c18c1e6f4a0/config.json (Caused by NameResolutionError(\"HTTPSConnection(host='huggingface.co', port=443): Failed to resolve 'huggingface.co' ([Errno -3] Temporary failure in name resolution)\"))"
+  },
+  {
+    "url": "https://arxiv.org/abs/2609.31009",
+    "error": "HTTPSConnectionPool(host='arxiv.org', port=443): Max retries exceeded with url: /abs/2609.31009 (Caused by NameResolutionError(\"HTTPSConnection(host='arxiv.org', port=443): Failed to resolve 'arxiv.org' ([Errno -3] Temporary failure in name resolution)\"))"
+  },
+  {
+    "url": "https://api.github.com/repos/G2PTQ/G2PTQ",
+    "error": "HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /repos/G2PTQ/G2PTQ (Caused by NameResolutionError(\"HTTPSConnection(host='api.github.com', port=443): Failed to resolve 'api.github.com' ([Errno -3] Temporary failure in name resolution)\"))"
+  }
+]

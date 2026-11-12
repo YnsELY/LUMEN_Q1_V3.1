@@ -1,0 +1,281 @@
+{
+  "status": "reported_inventory_reexpressed_from_user_script_not_reverified_binary_headers",
+  "checkpoint": "Qwen/Qwen3.8-27B",
+  "revision": "37561816e66b5b9153b1b64c10968c18c1e6f4a0",
+  "quantized_groups": [
+    {
+      "id": "mlp_gate_proj",
+      "count": 64,
+      "rows": 17408,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 0.92,
+      "historical_floor_NOT_VALIDATED": 1.95
+    },
+    {
+      "id": "mlp_up_proj",
+      "count": 64,
+      "rows": 17408,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 0.96,
+      "historical_floor_NOT_VALIDATED": 1.95
+    },
+    {
+      "id": "mlp_down_proj",
+      "count": 64,
+      "rows": 5120,
+      "cols": 17408,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.38,
+      "historical_floor_NOT_VALIDATED": 2.15
+    },
+    {
+      "id": "gdn_in_proj_qkv",
+      "count": 48,
+      "rows": 10240,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.32,
+      "historical_floor_NOT_VALIDATED": 2.15
+    },
+    {
+      "id": "gdn_in_proj_z",
+      "count": 48,
+      "rows": 6144,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.0,
+      "historical_floor_NOT_VALIDATED": 2.0
+    },
+    {
+      "id": "gdn_out_proj",
+      "count": 48,
+      "rows": 5120,
+      "cols": 6144,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.45,
+      "historical_floor_NOT_VALIDATED": 2.2
+    },
+    {
+      "id": "attn_q_gate_proj",
+      "count": 16,
+      "rows": 12288,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.55,
+      "historical_floor_NOT_VALIDATED": 2.35
+    },
+    {
+      "id": "attn_k_proj",
+      "count": 16,
+      "rows": 1024,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 2.4,
+      "historical_floor_NOT_VALIDATED": 2.75
+    },
+    {
+      "id": "attn_v_proj",
+      "count": 16,
+      "rows": 1024,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 2.15,
+      "historical_floor_NOT_VALIDATED": 2.65
+    },
+    {
+      "id": "attn_o_proj",
+      "count": 16,
+      "rows": 5120,
+      "cols": 6144,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.6,
+      "historical_floor_NOT_VALIDATED": 2.35
+    },
+    {
+      "id": "embed_tokens",
+      "count": 1,
+      "rows": 248320,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 1.65,
+      "historical_floor_NOT_VALIDATED": 2.45
+    },
+    {
+      "id": "lm_head",
+      "count": 1,
+      "rows": 248320,
+      "cols": 5120,
+      "module": "text",
+      "historical_prior_omega_NOT_MEASURED": 2.55,
+      "historical_floor_NOT_VALIDATED": 2.85
+    },
+    {
+      "id": "vis_attn_qkv",
+      "count": 27,
+      "rows": 3456,
+      "cols": 1152,
+      "module": "vision",
+      "historical_prior_omega_NOT_MEASURED": 2.6,
+      "historical_floor_NOT_VALIDATED": 3.0
+    },
+    {
+      "id": "vis_attn_proj",
+      "count": 27,
+      "rows": 1152,
+      "cols": 1152,
+      "module": "vision",
+      "historical_prior_omega_NOT_MEASURED": 2.6,
+      "historical_floor_NOT_VALIDATED": 3.0
+    },
+    {
+      "id": "vis_mlp_fc1",
+      "count": 27,
+      "rows": 4304,
+      "cols": 1152,
+      "module": "vision",
+      "historical_prior_omega_NOT_MEASURED": 2.25,
+      "historical_floor_NOT_VALIDATED": 2.85
+    },
+    {
+      "id": "vis_mlp_fc2",
+      "count": 27,
+      "rows": 1152,
+      "cols": 4304,
+      "module": "vision",
+      "historical_prior_omega_NOT_MEASURED": 2.35,
+      "historical_floor_NOT_VALIDATED": 2.9
+    },
+    {
+      "id": "vis_merger_fc1",
+      "count": 1,
+      "rows": 4608,
+      "cols": 4608,
+      "module": "vision",
+      "historical_prior_omega_NOT_MEASURED": 3.1,
+      "historical_floor_NOT_VALIDATED": 3.2
+    },
+    {
+      "id": "vis_merger_fc2",
+      "count": 1,
+      "rows": 5120,
+      "cols": 4608,
+      "module": "vision",
+      "historical_prior_omega_NOT_MEASURED": 3.3,
+      "historical_floor_NOT_VALIDATED": 3.3
+    },
+    {
+      "id": "mtp_fc",
+      "count": 1,
+      "rows": 5120,
+      "cols": 10240,
+      "module": "mtp",
+      "historical_prior_omega_NOT_MEASURED": 1.15,
+      "historical_floor_NOT_VALIDATED": 2.2
+    },
+    {
+      "id": "mtp_q_gate_proj",
+      "count": 1,
+      "rows": 12288,
+      "cols": 5120,
+      "module": "mtp",
+      "historical_prior_omega_NOT_MEASURED": 1.15,
+      "historical_floor_NOT_VALIDATED": 2.2
+    },
+    {
+      "id": "mtp_kv_proj",
+      "count": 2,
+      "rows": 1024,
+      "cols": 5120,
+      "module": "mtp",
+      "historical_prior_omega_NOT_MEASURED": 1.4,
+      "historical_floor_NOT_VALIDATED": 2.35
+    },
+    {
+      "id": "mtp_o_proj",
+      "count": 1,
+      "rows": 5120,
+      "cols": 6144,
+      "module": "mtp",
+      "historical_prior_omega_NOT_MEASURED": 1.2,
+      "historical_floor_NOT_VALIDATED": 2.2
+    },
+    {
+      "id": "mtp_mlp_gate_up",
+      "count": 2,
+      "rows": 17408,
+      "cols": 5120,
+      "module": "mtp",
+      "historical_prior_omega_NOT_MEASURED": 0.9,
+      "historical_floor_NOT_VALIDATED": 2.0
+    },
+    {
+      "id": "mtp_mlp_down",
+      "count": 1,
+      "rows": 5120,
+      "cols": 17408,
+      "module": "mtp",
+      "historical_prior_omega_NOT_MEASURED": 1.15,
+      "historical_floor_NOT_VALIDATED": 2.15
+    }
+  ],
+  "protected_groups": [
+    {
+      "id": "gdn_in_proj_a",
+      "count": 48,
+      "total_params": 11796480,
+      "bytes_per_param": 2,
+      "module": "text"
+    },
+    {
+      "id": "gdn_in_proj_b",
+      "count": 48,
+      "total_params": 11796480,
+      "bytes_per_param": 2,
+      "module": "text"
+    },
+    {
+      "id": "gdn_conv1d",
+      "count": 48,
+      "total_params": 1966080,
+      "bytes_per_param": 2,
+      "module": "text"
+    },
+    {
+      "id": "gdn_A_log_dt_norm",
+      "count": 144,
+      "total_params": 10752,
+      "bytes_per_param": 2,
+      "module": "text"
+    },
+    {
+      "id": "attn_qk_norms",
+      "count": 32,
+      "total_params": 8192,
+      "bytes_per_param": 2,
+      "module": "text"
+    },
+    {
+      "id": "text_rmsnorms",
+      "count": 129,
+      "total_params": 660480,
+      "bytes_per_param": 2,
+      "module": "text"
+    },
+    {
+      "id": "vis_patch_pos_biases_norms",
+      "count": 223,
+      "total_params": 4833008,
+      "bytes_per_param": 2,
+      "module": "vision"
+    },
+    {
+      "id": "mtp_norms",
+      "count": 7,
+      "total_params": 26112,
+      "bytes_per_param": 2,
+      "module": "mtp"
+    }
+  ]
+}

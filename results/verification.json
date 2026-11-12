@@ -1,0 +1,18 @@
+{
+  "status": "executed_CPU_reference_tests_not_Qwen_quality_validation",
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "tests_run": 107,
+  "tests_passed": 107,
+  "failures": 0,
+  "errors": 0,
+  "old_triangular_inverse_residual": 0.49999999999999983,
+  "corrected_inverse_residual": 0.0,
+  "qera_rank64_int8": {
+    "raw_bytes": 16220160,
+    "total_bytes": 16220160,
+    "equivalent_added_bpw": 0.10206185567010309
+  },
+  "source_sample_missing": true,
+  "elapsed_seconds_cpu": 2.80736904399987
+}

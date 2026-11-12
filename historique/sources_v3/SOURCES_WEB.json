@@ -1,0 +1,95 @@
+{
+  "consultation_date": "2026-11-12",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "GPTAQ — Efficient Finetuning-Free Quantization for Asymmetric Calibration",
+      "url": "https://proceedings.mlr.press/v267/li25dn.html",
+      "scope": "Article primaire, ICML 2025 ; cible asymétrique. Notre résolution ridge est une formulation de référence, pas la reproduction de tout GPTAQ."
+    },
+    {
+      "id": "S02",
+      "title": "YAQA — Model-Preserving Adaptive Rounding, v3",
+      "url": "https://arxiv.org/html/2505.22988v3",
+      "scope": "Article primaire, version 3 juin 2026 ; importance des sorties et approximations de courbure. Le Sketch A et les facteurs de Kronecker ne sont pas un Hessien complet sans biais."
+    },
+    {
+      "id": "S03",
+      "title": "KronQ — LLM Quantization via Kronecker-Factored Hessian",
+      "url": "https://arxiv.org/abs/2607.07964",
+      "scope": "Prépublication primaire du 8 juillet 2026 et dépôt des auteurs consultés ; utilise informations d’entrée et de gradient. Résultats d’autres modèles, non transférés à Lumen."
+    },
+    {
+      "id": "S04",
+      "title": "PV-Tuning",
+      "url": "https://arxiv.org/abs/2405.14852",
+      "scope": "Publication primaire ; optimisation discrète/continue. Les garanties de ses méthodes ne certifient pas notre heuristique de voisinage E8."
+    },
+    {
+      "id": "S05",
+      "title": "QERA",
+      "url": "https://arxiv.org/abs/2410.06040",
+      "scope": "Publication primaire ; reconstruction de l’erreur de quantification pondérée par les activations. Correcteurs non implémentés dans cette branche."
+    },
+    {
+      "id": "S06",
+      "title": "QuIP# — Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks",
+      "url": "https://proceedings.mlr.press/v235/tseng24a.html",
+      "scope": "Article primaire ICML 2024 ; Hadamard et codebooks E8. Son codebook et ses kernels ne sont pas notre flux de coquilles non tronqué."
+    },
+    {
+      "id": "S07",
+      "title": "RCO — Model Compression with Exact Budget Constraints via Riemannian Manifolds, v2",
+      "url": "https://arxiv.org/html/2605.00649v2",
+      "scope": "Article primaire accessible ; allocation jointe et contraintes. Notre programmation dynamique additive n’est PAS RCO ; aucune implémentation de sa relaxation n’est livrée."
+    },
+    {
+      "id": "S08",
+      "title": "Jarek Duda — Asymmetric numeral systems",
+      "url": "https://arxiv.org/abs/1311.2540",
+      "scope": "Publication primaire pour la famille ANS ; fondement général du codage, pas validation de la performance de ce codec CPU."
+    },
+    {
+      "id": "S09",
+      "title": "Fabian Giesen — ryg_rans",
+      "url": "https://github.com/rygorous/ryg_rans",
+      "scope": "Implémentations de référence par leur auteur ; distinction état, renormalisation et flux. Notre référence Python est indépendante, pas un kernel copié et validé sur GPU."
+    },
+    {
+      "id": "S10",
+      "title": "OEIS A004009 — coefficients du theta series E8",
+      "url": "https://oeis.org/A004009",
+      "scope": "Référence mathématique pour 1 puis 240 sigma_3(m). Le programme vérifie aussi les cardinalités par un comptage indépendant."
+    },
+    {
+      "id": "S11",
+      "title": "SciPy — conjugate gradient (cg)",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.cg.html",
+      "scope": "Documentation officielle : opérateur symétrique défini positif, préconditionnement et contrôle de convergence. Le solveur livré est NumPy, sans dépendance à SciPy."
+    },
+    {
+      "id": "S12",
+      "title": "BRECQ — Pushing the Limit of Post-Training Quantization by Block Reconstruction",
+      "url": "https://arxiv.org/abs/2102.05426",
+      "scope": "Article primaire ; motivation de reconstruction au niveau bloc. Ne démontre pas le résultat de notre correction conditionnelle SwiGLU sur Qwen."
+    },
+    {
+      "id": "S13",
+      "title": "Transformers — modèle Qwen3.5, code public courant",
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/main/src/transformers/models/qwen3_5/modeling_qwen3_5.py",
+      "scope": "Source primaire évolutive : normes, entrée MLP, Vision et clés MTP ignorées dans ce chemin. Ne certifie pas le runtime installé ni la révision des poids."
+    },
+    {
+      "id": "S14",
+      "title": "Qwen — configuration publique courante Qwen3.8-27B",
+      "url": "https://huggingface.co/Qwen/Qwen3.8-27B/raw/main/config.json",
+      "scope": "Source primaire courante. Le commit demandé 37561816… n’a pas pu être relu depuis cet environnement ; le modèle exact reste une identité fournie par le projet."
+    },
+    {
+      "id": "S15",
+      "title": "G2PTQ — Gradient-Guided Post-Training Quantization, résumé auteur",
+      "url": "https://huggingface.co/papers/2609.31009",
+      "scope": "Résumé soumis par un auteur, consulté ; signale une piste gradient/courbure rafraîchis. Texte complet et code non vérifiés : aucune reproduction ni comparaison chiffrée revendiquée."
+    }
+  ]
+}

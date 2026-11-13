@@ -46,6 +46,7 @@ class Seq:
             x = inp[0].reshape(-1, inp[0].shape[-1]).float()
             g = x.T @ x
             acc["g"] = g if "g" not in acc else acc["g"].add_(g)
+            acc["m"] = acc.get("m", 0) + x.sum(0).double()
             raise _Stop()
         hk = module.register_forward_pre_hook(hook)
         try:
@@ -56,6 +57,7 @@ class Seq:
                     pass
         finally:
             hk.remove()
+        self.last_mu = (acc["m"] / self.ntok).float()
         return (acc["g"].double() / self.ntok)
 
     @torch.no_grad()
@@ -66,11 +68,13 @@ class Seq:
 
     @torch.no_grad()
     def final_gram(self):
-        acc = None
+        acc = None; msum = 0
         for b in range(0, self.n, self.bs):
             x = self.lm.norm(self.h[b:b + self.bs]).reshape(-1, self.h.shape[-1]).float()
             g = x.T @ x
             acc = g if acc is None else acc.add_(g)
+            msum = msum + x.sum(0).double()
+        self.last_mu = (msum / self.ntok).float()
         return acc.double() / self.ntok
 
 
@@ -82,7 +86,7 @@ def prune_width(frac, st, score="taylor", ridge=1e-4, compensate=True, layers=No
     columns of down_proj by ridge least squares on the layer's real inputs (sequential, pruned prefix):
         min_B || B a_K - W a ||^2  ->  B = W A[:,K] (A[K,K] + ridge*mean(diag) I)^-1
     Modifies the model in place (zeros = removed structure). Returns dict(keep={layer: idx}, rel_err=...)."""
-    lm = H.S["lm"]; seq = Seq(); keep = {}; rel = {}
+    lm = H.S["lm"]; seq = Seq(); keep = {}; rel = {}; down = {}
     nI = lm.layers[0].mlp.down_proj.weight.shape[1]
     nk = int(round(nI * (1 - frac) / 8)) * 8
     for i, L in enumerate(lm.layers):
@@ -109,12 +113,23 @@ def prune_width(frac, st, score="taylor", ridge=1e-4, compensate=True, layers=No
             W[:, mask] = 0
             L.mlp.gate_proj.weight[mask] = 0
             L.mlp.up_proj.weight[mask] = 0
-            keep[i] = K.cpu()
+            keep[i] = K.cpu(); down[i] = W[:, K].clone().cpu()
             if log and (i % 8 == 0 or i == 63):
                 print("prune L%d keep %d/%d rel_err zero=%.4f fit=%.4f (%.1fs)" % (i, nk, nI, *rel.get(i, (float('nan'),) * 2), time.time() - t), flush=True)
         seq.advance(i)
     del seq
-    return dict(keep=keep, rel_err=rel, frac=frac, nk=nk)
+    return dict(keep=keep, rel_err=rel, frac=frac, nk=nk, down=down)
+
+
+@torch.no_grad()
+def apply_prune(pr):
+    """Re-apply a stored width-pruned structure (after H.restore()) without redoing the pass."""
+    lm = H.S["lm"]
+    for i, K in pr["keep"].items():
+        L = lm.layers[i]; K = K.cuda(); W = L.mlp.down_proj.weight
+        mask = torch.ones(W.shape[1], dtype=torch.bool, device=W.device); mask[K] = False
+        W[:, K] = pr["down"][i].cuda(); W[:, mask] = 0
+        L.mlp.gate_proj.weight[mask] = 0; L.mlp.up_proj.weight[mask] = 0
 
 
 def plan_mats(keep=None, drop=()):
@@ -142,7 +157,7 @@ def drop_layers(drop):
 
 # ----------------------------------------------------------------------------- sequential LDLQ pass
 @torch.no_grad()
-def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8):
+def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None):
     """Sequential E8-LDLQ over the whole text model. `mats` from plan_mats (may carry rows/cols subsets).
     Embedding: no-feedback E8 rounding (lookup table, no input Gram). lm_head: LDLQ on final hidden Gram."""
     lm = H.S["lm"]; t0 = time.time()
@@ -153,29 +168,37 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8):
         nonlocal tot, npar
         b, n = res; tot += b; npar += n
         k = bykind.setdefault(m["kind"], [0.0, 0]); k[0] += b; k[1] += n
-    if -1 in by:
+    if -1 in by and only is None:
         acc(by[-1]["embed"], H.quantize_matrix(by[-1]["embed"], spec, mult, st))
     seq = Seq()
     for i, L in enumerate(lm.layers):
-        if i in drop or i not in by:
+        if only is not None and i > max(only): break
+        if i in drop or i not in by or (only is not None and i not in only):
             seq.advance(i); continue
         d = by[i]
         if hasattr(L, "linear_attn"):
             first, ins, outk = L.linear_attn.in_proj_qkv, ("in_proj_qkv", "in_proj_z", "in_proj_a", "in_proj_b"), "out_proj"
         else:
             first, ins, outk = L.self_attn.q_proj, ("q_proj", "k_proj", "v_proj"), "o_proj"
-        Hm = seq.gram(i, first)
-        for k in ins: acc(d[k], H.quantize_matrix(d[k], spec, mult, st, H=Hm))
+        bc = spec.get("bias_corr", False)
+        def G(mod):
+            Hm = seq.gram(i, mod); mu = seq.last_mu
+            if bc: Hm = Hm - torch.outer(mu.double(), mu.double())     # the mean direction is carried by the bias
+            return Hm, (mu if bc else None)
+        Hm, mu = G(first)
+        for k, res in zip(ins, H.quantize_group([d[k] for k in ins], spec, mult, st, Hm, mu_override=mu)): acc(d[k], res)
         del Hm
-        Hm = seq.gram(i, d[outk]["mod"]); acc(d[outk], H.quantize_matrix(d[outk], spec, mult, st, H=Hm)); del Hm
-        Hm = seq.gram(i, L.mlp.gate_proj)
-        for k in ("gate_proj", "up_proj"): acc(d[k], H.quantize_matrix(d[k], spec, mult, st, H=Hm))
+        Hm, mu = G(d[outk]["mod"]); acc(d[outk], H.quantize_matrix(d[outk], spec, mult, st, H=Hm, mu_override=mu)); del Hm
+        Hm, mu = G(L.mlp.gate_proj)
+        for k, res in zip(("gate_proj", "up_proj"), H.quantize_group([d["gate_proj"], d["up_proj"]], spec, mult, st, Hm, mu_override=mu)): acc(d[k], res)
         del Hm
-        Hm = seq.gram(i, L.mlp.down_proj); acc(d["down_proj"], H.quantize_matrix(d["down_proj"], spec, mult, st, H=Hm)); del Hm
+        Hm, mu = G(L.mlp.down_proj); acc(d["down_proj"], H.quantize_matrix(d["down_proj"], spec, mult, st, H=Hm, mu_override=mu)); del Hm
         seq.advance(i)
         if i % log_every == 0 or i == 63:
             print("  ldlq layer %d done, %.0fs elapsed, bpw so far %.4f" % (i, time.time() - t0, tot / npar), flush=True)
-    if 64 in by:
-        Hm = seq.final_gram(); acc(by[64]["lm_head"], H.quantize_matrix(by[64]["lm_head"], spec, mult, st, H=Hm)); del Hm
+    if 64 in by and only is None:
+        Hm = seq.final_gram(); mu = seq.last_mu if spec.get("bias_corr", False) else None
+        if mu is not None: Hm = Hm - torch.outer(mu.double(), mu.double())
+        acc(by[64]["lm_head"], H.quantize_matrix(by[64]["lm_head"], spec, mult, st, H=Hm, mu_override=mu)); del Hm
     del seq
     return dict(bits=tot, params=npar, bpw=tot / npar, bykind={k: v[0] / v[1] for k, v in bykind.items()}, seconds=time.time() - t0)

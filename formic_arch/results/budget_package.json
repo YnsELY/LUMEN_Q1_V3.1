@@ -1,0 +1,21 @@
+{
+ "ceiling_bytes": 10000000000,
+ "protected_params": 3080944,
+ "protected_bytes_fp16": 6161888,
+ "quantizable_params": 27778347008,
+ "groups": {
+  "text_body": 24350556160,
+  "embed": 1271398400,
+  "lm_head": 1271398400,
+  "vision": 460320768,
+  "mtp": 424673280
+ },
+ "aux_bytes_assumed": 84066560,
+ "guard_bytes": 18500000,
+ "physical_bpw_capacity": 2.8486278320740603,
+ "ideal_symbol_bpw_capacity": 2.8396278320740604,
+ "lumen_v31_declared_capacity": 2.832825,
+ "target_used_in_experiments_ideal_bpw": 2.824,
+ "text_params_evaluated": 26893352960,
+ "not_evaluated_params": 884994048
+}

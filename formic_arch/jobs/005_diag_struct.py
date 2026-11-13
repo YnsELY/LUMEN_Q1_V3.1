@@ -2,19 +2,34 @@
 import json, math, time
 H.restore()
 lm = H.S["lm"]; out = {}
-E = lm.embed_tokens.weight.double(); Wh = model.lm_head.weight.double()
+E = lm.embed_tokens.weight; Wh = model.lm_head.weight
+def cgram(A, B=None, scale=None, chunk=16384):
+    """sum over row chunks of A_c^T B_c in float64 (A, B [V, n])."""
+    out = 0
+    for i in range(0, A.shape[0], chunk):
+        a = A[i:i+chunk].double(); b = a if B is None else B[i:i+chunk].double()
+        if scale is not None: a = a * scale; b = a
+        out = out + a.T @ b
+    return out
 # (1) is lm_head a linear function of embed_tokens?  min_M ||Wh - E M||
-EtE = E.T @ E; M = torch.linalg.solve(EtE + 1e-8*EtE.diagonal().mean()*torch.eye(5120, device=E.device, dtype=E.dtype), E.T @ Wh)
-res = Wh - E @ M
-out["head_from_embed_R2"] = float(1 - res.pow(2).sum()/Wh.pow(2).sum())
-out["cos_rowwise_mean"] = float(torch.nn.functional.cosine_similarity(E, Wh, dim=1).mean())
+EtE = cgram(E); EtW = cgram(E, Wh)
+M = torch.linalg.solve(EtE + 1e-8*EtE.diagonal().mean()*torch.eye(5120, device=E.device, dtype=torch.float64), EtW)
+ss_res = 0.0; ss_tot = 0.0; cs = 0.0
+for i in range(0, E.shape[0], 16384):
+    e = E[i:i+16384].double(); w = Wh[i:i+16384].double()
+    ss_res += float((w - e @ M).pow(2).sum()); ss_tot += float(w.pow(2).sum())
+    cs += float(torch.nn.functional.cosine_similarity(e, w, dim=1).sum())
+out["head_from_embed_R2"] = 1 - ss_res/ss_tot; out["cos_rowwise_mean"] = cs/E.shape[0]
 print("lm_head ~ embed*M  R2=%.4f ; mean row cosine(embed, head)=%.4f" % (out["head_from_embed_R2"], out["cos_rowwise_mean"]))
-del res, M, EtE
+del M, EtE, EtW, e, w
 # (2) spectra: energy captured by top-r singular directions (plain and activation-weighted)
 def spec_energy(W, X=None):
-    W = W.double()
-    if X is not None: W = W * X.double().sqrt().cuda()[None, :]
-    G = W.T @ W if W.shape[0] >= W.shape[1] else W @ W.T
+    if W.shape[0] > 100000:
+        G = cgram(W, scale=None if X is None else X.double().sqrt().cuda()[None, :])
+    else:
+        W = W.double()
+        if X is not None: W = W * X.double().sqrt().cuda()[None, :]
+        G = W.T @ W if W.shape[0] >= W.shape[1] else W @ W.T
     ev = torch.linalg.eigvalsh(G).flip(0).clamp_min(0)
     cs = ev.cumsum(0)/ev.sum(); n = len(ev)
     p = ev/ev.sum(); erank = float(torch.exp(-(p[p>0]*p[p>0].log()).sum()))
@@ -55,3 +70,7 @@ for i in range(64):
 print("Taylor saliency share of weakest 12.5/25/50% channels, layers 0,8,..:", {i: [round(a, 4) for a in ts[i]] for i in range(0, 64, 8)})
 out["taylor_share_weakest"] = ts
 json.dump(out, open(H.OUT+"/diag_structure.json", "w"))
+
+for k in ("E", "Wh", "W", "z", "rms", "sp", "ws"):
+    if k in globals(): del globals()[k]
+import gc; gc.collect(); torch.cuda.empty_cache(); print("alloc GiB", torch.cuda.memory_allocated()/2**30)

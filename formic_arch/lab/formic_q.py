@@ -121,11 +121,16 @@ def ldl_prepare(H, c=None, damp=0.01):
     """Factor the (column-rescaled, damped) Gram once. Returns dict(U fp32, inv [n/8,8,8], metric [n/8,8,8])."""
     H = H.double()
     if c is not None:
-        H = H / c.double()[:, None] / c.double()[None, :]
-    H = 0.5 * (H + H.T)
+        cd = c.double()
+        H = H / cd[:, None]; H.div_(cd[None, :])
+    H = (H + H.T).mul_(0.5)
     H.diagonal().add_(damp * H.diagonal().mean())
-    U64, d64 = upper_ldl(H)
-    del H
+    Hf = H.flip(0, 1); del H
+    C = torch.linalg.cholesky(Hf); del Hf            # memory-lean version of upper_ldl
+    sdiag = torch.diagonal(C).clone()
+    C.div_(sdiag[None, :])
+    U64 = C.flip(0, 1); del C
+    d64 = (sdiag * sdiag).flip(0)
     n = U64.shape[0]
     idx = torch.arange(0, n, 8, device=U64.device)
     blocks = torch.stack([U64[j:j + 8, j:j + 8] for j in range(0, n, 8)])      # [n/8,8,8]

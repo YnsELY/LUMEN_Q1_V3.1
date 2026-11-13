@@ -140,6 +140,10 @@ def run_variant(vid, info=None, select_docs=None):
     rc = evaluate("confirm")
     json.dump(dict(id=vid, info=info or {}, confirm=rc), open(os.path.join(SEALED, f"{vid}.json"), "w"))
     print("[%s] SELECT %s  (confirm sealed; %.0fs)" % (vid, short(rs), time.time() - t), flush=True)
+    if "big" in S.get("teach", {}):                 # pre-registered large comparison (results/big_comparison.lock.json)
+        tb = time.time(); rb = evaluate("big")
+        json.dump(dict(id=vid, info=info or {}, big=rb), open(os.path.join(OUT, f"big_{vid}.json"), "w"))
+        print("[%s] BIG(600) %s  (%.0fs)" % (vid, short(rb), time.time() - tb), flush=True)
     return rs
 
 
@@ -477,3 +481,14 @@ def evaluate_long(chunk=1024):
     return dict(n_docs=len(per), tokens=int(ids.shape[1]), kl_by_bucket=[sum(p[b] for p in per) / len(per) for b in range(nb)],
                 agree_by_bucket=[sum(p[b] for p in agree) / len(agree) for b in range(nb)],
                 kl=sum(sum(p) for p in per) / (nb * len(per)), per_doc=per, domains=[m["domain"] for m in S["long_meta"]])
+
+
+@torch.no_grad()
+def build_teacher_big(path="/workspace/work/data/big_tokens.pt"):
+    """600-document evaluation split + teacher cache on CPU (call with BF16 weights loaded)."""
+    d = torch.load(path); S["data"]["big"] = d["big"]; S["meta"]["big"] = d["meta"]
+    lm = S["lm"]; hs = []
+    for i in range(0, d["big"].shape[0], 8):
+        hs.append(lm(input_ids=d["big"][i:i + 8].cuda()).last_hidden_state.cpu())
+    S["teach"]["big"] = torch.cat(hs)
+    return tuple(S["teach"]["big"].shape)

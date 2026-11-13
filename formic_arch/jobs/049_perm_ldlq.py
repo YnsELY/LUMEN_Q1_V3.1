@@ -1,8 +1,6 @@
 # A0 x Q_perm: same E8-LDLQ, but the columns of every matrix are processed in decreasing order of input second
 # moment (exact permutation of the input basis of each linear, stored: 16 bits per column, counted).
-import importlib, harness, seq, json, formic_q
-importlib.reload(formic_q); _S = dict(harness.S); importlib.reload(harness); harness.S.update(_S); H = harness
-importlib.reload(seq); SQ = seq
+import json
 st = H.S["st"]; CTRL_BPW = json.load(open(H.OUT + "/variant_A0_Q0ldlq.json"))["info"]["bpw"]
 docs3 = list(range(0, 72, 3))
 H.restore(); mats = SQ.plan_mats()

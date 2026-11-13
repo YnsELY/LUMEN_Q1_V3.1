@@ -13,8 +13,13 @@ class _Stop(Exception):
 
 class Seq:
     def __init__(self, n_docs=144, T=1024, bs=8):
-        S = H.S; lm = S["lm"]; self.lm = lm; self.bs = bs
-        ids = S["data"]["cal"][:n_docs, :T]
+        S = H.S; lm = S["lm"]; self.lm = lm
+        cfg = S.get("cal_cfg")                    # V7: alternative calibration set (split name, docs, length, batch)
+        if cfg and n_docs == 144:
+            ids = S["data"][cfg["split"]][:cfg["n_docs"], :cfg["T"]]; bs = cfg["bs"]
+        else:
+            ids = S["data"]["cal"][:n_docs, :T]
+        self.bs = bs
         self.n = ids.shape[0]
         assert self.n % bs == 0
         # capture the exact kwargs the text model passes to each layer type

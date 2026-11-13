@@ -228,6 +228,7 @@ def _match_mult(m, Wsub, c, spec, lo=0.004, hi=2.5, iters=18):
     Ws = Wsub[sel].float()
     if c is not None: Ws = Ws * c
     rms = Ws.pow(2).mean(1).sqrt().clamp_min(1e-12)
+    if "_rf" in spec and spec["_rf"] is not None: rms = rms * spec["_rf"][sel]
     extra = 16 * mr + (16 * n if c is not None else 0) + (16 * n if spec.get("perm") else 0) + 8 * 656
     if spec.get("bias_corr", False) and m["kind"] != "embed": extra += 16 * mr
     mb = spec["match_bpw"]
@@ -240,6 +241,24 @@ def _match_mult(m, Wsub, c, spec, lo=0.004, hi=2.5, iters=18):
         if bits > target: lo = mid
         else: hi = mid
     return math.sqrt(lo * hi)
+
+
+def _rowfactor(m, W, spec, st):
+    """V7 (recipe change): clipped Fisher re-weighting of the per-row steps.  The Lumen rule r_i = mult*RMS_i gives every
+    output row the same RELATIVE precision; minimising sum_i G_i * r_i^2 at fixed rate gives r_i ~ G_i^-1/2
+    (G_i = E[(dL/dy_i)^2], diagonal Fisher of the row's output).  Factor = 2^delta_i with
+    delta_i = clip(strength * (-1/2 log2(G_i RMS_i^2) + mean), +-row_clip bits), re-centred.  None when not applicable."""
+    c = spec.get("row_clip")
+    if not c or m["kind"] == "embed" or m["name"] not in st["G"]: return None
+    kinds = spec.get("row_kinds")
+    if kinds is not None and m["kind"] not in kinds: return None
+    G = st["G"][m["name"]].cuda().float()
+    if "rows" in m: G = G[m["rows"]]
+    rms2 = W.float().pow(2).mean(1).clamp_min(1e-30)
+    s = (G * rms2).clamp_min(1e-38).log2()
+    d = -0.5 * spec.get("row_strength", 1.0) * (s - s.median())
+    d = d.clamp(-c, c); d = d - d.mean()
+    return torch.pow(2.0, d)
 
 
 def _scales(m, W, spec, mult, st, c_ext=None):
@@ -259,7 +278,9 @@ def _scales(m, W, spec, mult, st, c_ext=None):
             rule = "col"
         else:
             mm = spec.get("io_mult", mult) if kind in ("embed", "lm_head") else mult
-            return fq.row_steps(W, mm), None
+            r = fq.row_steps(W, mm); rf = _rowfactor(m, W, spec, st)
+            if rf is not None: r = fq.fp16(r * rf).clamp_min(6e-8)
+            return r, None
     name = m["name"]
     X = st["X"][name].cuda().float()
     if "cols" in m: X = X[m["cols"]]
@@ -367,9 +388,9 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
             perm = torch.argsort(torch.diagonal(Hm), descending=True)
             Hm = Hm[perm][:, perm]; Wsub = Wsub.float()[:, perm]
         if spec.get("rule") == "ldlcol" and m["kind"] != "embed": c_ext = _ldlcol(Hm, spec)
-        if spec.get("match_bpw"): mult = _match_mult(m, Wsub, c_ext, spec)
+        if spec.get("match_bpw"): mult = _match_mult(m, Wsub, c_ext, dict(spec, _rf=_rowfactor(m, Wsub, spec, st)))
     elif spec.get("match_bpw") and not sample:
-        mult = _match_mult(m, Wsub, None, dict(spec, match_offset=0.0))    # no-feedback path (embedding table)
+        mult = _match_mult(m, Wsub, None, dict(spec, match_offset=0.0, _rf=_rowfactor(m, Wsub, spec, st)))    # no-feedback path
     r, c = _scales(m, Wsub, spec, mult, st, c_ext)
     if sample:
         sel = torch.arange(0, Wsub.shape[0], sample, device=W.device)
@@ -411,7 +432,7 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
     if spec.get("rule") == "ldlcol" and not any(sb[3] is not None for sb in subs):
         Hm0 = H[0] if isinstance(H, list) else H
         c_ext = _ldlcol(Hm0, spec); del Hm0
-    mults = [(_match_mult(m, sb[1], c_ext, spec) if spec.get("match_bpw") else mult) for m, sb in zip(ms, subs)]
+    mults = [(_match_mult(m, sb[1], c_ext, dict(spec, _rf=_rowfactor(m, sb[1], spec, st))) if spec.get("match_bpw") else mult) for m, sb in zip(ms, subs)]
     rc = [_scales(m, sb[1], spec, mu_, st, c_ext) for m, sb, mu_ in zip(ms, subs, mults)]
     c = rc[0][1]
     same = all((x[1] is None) == (c is None) and (c is None or torch.equal(x[1], c)) for x in rc)

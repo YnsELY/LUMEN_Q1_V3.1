@@ -23,7 +23,12 @@ def arki_teacher():
     for i in range(tok.shape[0]):
         h = lm(input_ids=tok[i:i + 1].cuda()).last_hidden_state[0]
         hs.append(h[sc[i].cuda()].cpu())
-    S["arki"] = dict(tok=tok, sc=sc, teach=hs, dom=[dom[i] for i in range(tok.shape[0])])
+    doms = [dom[i] for i in range(tok.shape[0])]
+    # development / confirmation halves, stratified by domain (alternating rows inside each domain)
+    seen = {}; part = []
+    for d in doms:
+        part.append("dev" if seen.get(d, 0) % 2 == 0 else "conf"); seen[d] = seen.get(d, 0) + 1
+    S["arki"] = dict(tok=tok, sc=sc, teach=hs, dom=doms, part=part)
     return tok.shape, int(sc.sum())
 
 
@@ -41,17 +46,30 @@ def arki_eval(chunk=1024):
             del lps, lpt
         kw = torch.cat(kw); aw = torch.cat(aw); kls.append(kw); agree.append(aw)
         perw.append(dict(row=i, domain=A["dom"][i], n=int(kw.numel()), kl=float(kw.mean()) if kw.numel() else 0.0, agree=float(aw.float().mean()) if aw.numel() else 0.0))
-    allk = torch.cat(kls); alla = torch.cat(agree)
-    bydom = {}
-    for d in sorted(set(A["dom"])):
-        k = torch.cat([kls[i] for i in range(len(kls)) if A["dom"][i] == d]); a = torch.cat([agree[i] for i in range(len(kls)) if A["dom"][i] == d])
-        bydom[d] = dict(kl=float(k.mean()), agree=float(a.float().mean()), n=int(k.numel()))
-    return dict(protocol="P-A108", positions=int(allk.numel()), kl=float(allk.mean()), kl_p99=float(torch.quantile(allk[torch.randperm(allk.numel())[:150000]].double(), 0.99)) if allk.numel() > 150000 else float(torch.quantile(allk.double(), 0.99)),
-                agree=float(alla.float().mean()), by_domain=bydom, per_window=perw)
+    if "part" not in A:
+        seen = {}; A["part"] = []
+        for d in A["dom"]:
+            A["part"].append("dev" if seen.get(d, 0) % 2 == 0 else "conf"); seen[d] = seen.get(d, 0) + 1
+    for w in perw: w["part"] = A["part"][w["row"]]
+    def summ(rows, name):
+        allk = torch.cat([kls[i] for i in rows]); alla = torch.cat([agree[i] for i in rows]); bydom = {}
+        for d in sorted(set(A["dom"])):
+            rr = [i for i in rows if A["dom"][i] == d]
+            if not rr: continue
+            k = torch.cat([kls[i] for i in rr]); a = torch.cat([agree[i] for i in rr])
+            bydom[d] = dict(kl=float(k.mean()), agree=float(a.float().mean()), n=int(k.numel()))
+        g = torch.Generator().manual_seed(0); sub = allk[torch.randperm(allk.numel(), generator=g)[:150000]]
+        return dict(protocol=name, positions=int(allk.numel()), kl=float(allk.mean()), kl_p99=float(torch.quantile(sub.double(), 0.99)),
+                    agree=float(alla.float().mean()), by_domain=bydom, per_window=[perw[i] for i in rows])
+    n = len(kls)
+    full = summ(list(range(n)), "P-A108")
+    full["dev"] = summ([i for i in range(n) if A["part"][i] == "dev"], "P-A108-dev")
+    full["conf"] = summ([i for i in range(n) if A["part"][i] == "conf"], "P-A108-conf")
+    return full
 
 
 def arki_short(r):
-    return "P-A108 KL=%.4f p99=%.3f top1=%.2f%% | " % (r["kl"], r["kl_p99"], 100 * r["agree"]) + " ".join("%s:%.3f" % (k[:6], v["kl"]) for k, v in r["by_domain"].items())
+    return "%s KL=%.4f p99=%.3f top1=%.2f%% | " % (r["protocol"], r["kl"], r["kl_p99"], 100 * r["agree"]) + " ".join("%s:%.3f" % (k[:6], v["kl"]) for k, v in r["by_domain"].items())
 
 
 # ----------------------------------------------------------------------------- competitor weights
@@ -138,10 +156,13 @@ def run(vid, spec, mult, method="", prepare=None):
     import seq as SQ
     H.OUT = OUT7
     info = SQ.run_ldlq_variant(vid, spec, mult, method=method, prepare=prepare)
-    ra = arki_eval(); ra["info"] = dict(bpw=info["bpw"], bits=info["bits"], bytes=info["bits"] / 8)
-    json.dump(ra, open(OUT7 + f"/arki_{vid}.json", "w"))
-    print("[%s] %s" % (vid, arki_short(ra)), flush=True)
-    return info, ra
+    ra = arki_eval(); meta = dict(bpw=info["bpw"], bits=info["bits"], bytes=info["bits"] / 8)
+    # development half is printed and saved in the repo; the confirmation half (and the full set) go to the sealed
+    # directory and are only read after the finalists are frozen
+    dev = dict(ra["dev"], info=meta); json.dump(dev, open(OUT7 + f"/arkidev_{vid}.json", "w"))
+    json.dump(dict(conf=ra["conf"], full={k: v for k, v in ra.items() if k not in ("dev", "conf")}, info=meta), open(H.SEALED + f"/arki_{vid}.json", "w"))
+    print("[%s] %s  (confirmation half sealed)" % (vid, arki_short(dev)), flush=True)
+    return info, dev
 
 
 def arki_alloc(path="/workspace/work/competitors/arki05/Qwen3.8-27B-2.82bpw.gguf"):

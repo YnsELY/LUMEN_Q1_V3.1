@@ -1,0 +1,97 @@
+{
+ "sources": [
+  {
+   "id": "long_code_00",
+   "source_id": "/usr/lib/python3.12/test/support/__init__.py",
+   "domain": "code",
+   "dataset": "local:python3.12-stdlib",
+   "license": "PSF License (CPython stdlib)"
+  },
+  {
+   "id": "long_en_prose_00",
+   "source_id": "wikipedia_en/4047853",
+   "domain": "en_prose",
+   "dataset": "wikimedia/wikipedia:20231101.en",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  {
+   "id": "long_science_tech_00",
+   "source_id": "ccdv/arxiv-summarization/unshuffled/3000",
+   "domain": "science_tech",
+   "dataset": "ccdv/arxiv-summarization",
+   "license": "unknown/arXiv (dataset card apache-2.0; papers retain author licenses)"
+  },
+  {
+   "id": "long_code_01",
+   "source_id": "/usr/lib/python3.12/_pyio.py",
+   "domain": "code",
+   "dataset": "local:python3.12-stdlib",
+   "license": "PSF License (CPython stdlib)"
+  },
+  {
+   "id": "long_en_prose_01",
+   "source_id": "wikipedia_en/4050068",
+   "domain": "en_prose",
+   "dataset": "wikimedia/wikipedia:20231101.en",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  {
+   "id": "long_science_tech_01",
+   "source_id": "ccdv/arxiv-summarization/unshuffled/3002",
+   "domain": "science_tech",
+   "dataset": "ccdv/arxiv-summarization",
+   "license": "unknown/arXiv (dataset card apache-2.0; papers retain author licenses)"
+  },
+  {
+   "id": "long_code_02",
+   "source_id": "/usr/lib/python3.12/encodings/cp866.py",
+   "domain": "code",
+   "dataset": "local:python3.12-stdlib",
+   "license": "PSF License (CPython stdlib)"
+  },
+  {
+   "id": "long_en_prose_02",
+   "source_id": "wikipedia_en/4051607",
+   "domain": "en_prose",
+   "dataset": "wikimedia/wikipedia:20231101.en",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  {
+   "id": "long_science_tech_02",
+   "source_id": "ccdv/arxiv-summarization/unshuffled/3003",
+   "domain": "science_tech",
+   "dataset": "ccdv/arxiv-summarization",
+   "license": "unknown/arXiv (dataset card apache-2.0; papers retain author licenses)"
+  },
+  {
+   "id": "long_code_03",
+   "source_id": "/usr/lib/python3.12/ipaddress.py",
+   "domain": "code",
+   "dataset": "local:python3.12-stdlib",
+   "license": "PSF License (CPython stdlib)"
+  },
+  {
+   "id": "long_en_prose_03",
+   "source_id": "wikipedia_en/4052227",
+   "domain": "en_prose",
+   "dataset": "wikimedia/wikipedia:20231101.en",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  {
+   "id": "long_science_tech_03",
+   "source_id": "ccdv/arxiv-summarization/unshuffled/3004",
+   "domain": "science_tech",
+   "dataset": "ccdv/arxiv-summarization",
+   "license": "unknown/arXiv (dataset card apache-2.0; papers retain author licenses)"
+  }
+ ],
+ "tokenizer": "/root/models/qwen3.8-27b",
+ "seed": 4321,
+ "tokens_per_doc": 8192,
+ "skip": 3000,
+ "sha256_long_tokens_pt": "226dd10d25762f34417ab9cb595c1c3b36d2d46d65f0dc291a640f7b3a9df8da",
+ "overlap_check": {
+  "passed": true,
+  "checked_against": "corpus.jsonl all splits: source_id + first 300 chars"
+ }
+}

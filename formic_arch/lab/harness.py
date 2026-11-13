@@ -205,7 +205,38 @@ def collect_stats(n_docs=144, T=512, seed=0):
 
 
 # ----------------------------------------------------------------------------- quantization of the model
-def _scales(m, W, spec, mult, st):
+def _ldlcol(Hm, spec):
+    """Column scales c_j = sqrt(LDL pivot_j): flattens the pivots seen by LDLQ (transform-coding optimum for a
+    diagonal change of input basis). Geometric mean 1, clipped to +-log2(clip) bits, FP16."""
+    d = fq.ldl_pivots(Hm, spec.get("damp", 0.01))
+    c = d.sqrt(); c = c / c.log().mean().exp()
+    clip = spec.get("col_clip", 4.0)
+    c = c.clamp(1.0 / clip, clip); c = c / c.log().mean().exp()
+    return fq.fp16(c.float())
+
+
+@torch.no_grad()
+def _match_mult(m, Wsub, c, spec, lo=0.2, hi=2.5, iters=12):
+    """Per-matrix rate matching: multiplier such that the no-feedback bit estimate (row sample) of THIS matrix
+    equals spec['match_bpw'] * numel, scale vectors / bias / header included."""
+    mr, n = Wsub.shape
+    sel = torch.arange(0, mr, max(1, mr // 1024), device=Wsub.device)
+    Ws = Wsub[sel].float()
+    if c is not None: Ws = Ws * c
+    rms = Ws.pow(2).mean(1).sqrt().clamp_min(1e-12)
+    extra = 16 * mr + (16 * n if c is not None else 0) + 8 * 656
+    if spec.get("bias_corr", False) and m["kind"] != "embed": extra += 16 * mr
+    target = spec["match_bpw"] * Wsub.numel()
+    for _ in range(iters):
+        mid = math.sqrt(lo * hi); r = fq.fp16(mid * rms).clamp_min(6e-8)
+        u = fq.e8_nearest((Ws / r[:, None]).view(len(sel), n // 8, 8))
+        bits = fq.bits_from_hist(fq.shell_hist(u)) * (mr / len(sel)) + extra
+        if bits > target: lo = mid
+        else: hi = mid
+    return math.sqrt(lo * hi)
+
+
+def _scales(m, W, spec, mult, st, c_ext=None):
     """Return (r [rows], c [cols] or None) for matrix dict m, weight W (possibly row/col subset)."""
     rule = spec.get("rule", "lumen")
     kind = m["kind"]
@@ -214,6 +245,9 @@ def _scales(m, W, spec, mult, st):
     if "io_mult" in spec: spec = dict(spec, io_mult=spec["io_mult"] * f)
     if rule == "mix":                                           # column scaling only where it measured useful
         rule = "col" if kind in spec.get("col_kinds", ()) else "lumen"
+    if rule == "ldlcol":
+        if c_ext is None or kind == "embed": rule = "lumen"
+        else: return fq.row_steps(W.float() * c_ext, mult), c_ext
     if kind == "embed" or rule == "lumen" or (kind == "lm_head" and rule in ("fisher_global",)):
         if kind == "lm_head" and rule == "fisher_global" and spec.get("head_col", True):
             rule = "col"
@@ -247,6 +281,8 @@ def _scales(m, W, spec, mult, st):
 
 def _sub(m):
     W = m["mod"].weight; rows = m.get("rows"); cols = m.get("cols"); Wsub = W
+    if "W_override" in m:                       # weight expressed in another (exactly equivalent) basis
+        return W, m["W_override"], None, None
     if rows is not None: Wsub = Wsub[rows]
     if cols is not None: Wsub = Wsub[:, cols]
     return W, Wsub, rows, cols
@@ -275,7 +311,7 @@ def _finish(m, Q, hist, c, spec, st, write=True, mu_override=None):
             m["mod"].bias = torch.nn.Parameter(full, requires_grad=False)
         bits += 16 * Wsub.shape[0]
     if write:
-        Qb = Q.to(W.dtype)
+        Qb = (m["post"](Q) if "post" in m else Q).to(W.dtype)   # map decoded weights back to the original basis
         if rows is None and cols is None: W.copy_(Qb)
         elif cols is None: W[rows] = Qb
         elif rows is None: W[:, cols] = Qb
@@ -287,7 +323,13 @@ def _finish(m, Q, hist, c, spec, st, write=True, mu_override=None):
 def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_override=None):
     """Quantize one matrix in place (or just measure bits on a row sample). Returns (bits, n_params)."""
     W, Wsub, rows, cols = _sub(m)
-    r, c = _scales(m, Wsub, spec, mult, st)
+    Hm = None; c_ext = None
+    if H is not None and not sample:
+        Hm = H.pop() if isinstance(H, list) else H
+        if cols is not None: Hm = Hm[cols][:, cols]
+        if spec.get("rule") == "ldlcol" and m["kind"] != "embed": c_ext = _ldlcol(Hm, spec)
+        if spec.get("match_bpw"): mult = _match_mult(m, Wsub, c_ext, spec)
+    r, c = _scales(m, Wsub, spec, mult, st, c_ext)
     if sample:
         sel = torch.arange(0, Wsub.shape[0], sample, device=W.device)
         _, hist = fq.quantize_rtn(Wsub[sel], r[sel], c)
@@ -296,8 +338,6 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
         if spec.get("bias_corr", False) and m["kind"] != "embed": bits += 16 * Wsub.shape[0]
         return bits, Wsub.numel()
     if H is not None:
-        Hm = H.pop() if isinstance(H, list) else H
-        if cols is not None: Hm = Hm[cols][:, cols]
         prep = fq.ldl_prepare(Hm, c, spec.get("damp", 0.01)); del Hm
         Q, hist, _ = fq.quantize_ldlq(Wsub, None, r, c, prep=prep); del prep
         torch.cuda.empty_cache()
@@ -311,7 +351,12 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
     """LDLQ for several matrices that read the SAME input (same Gram): one factorisation, rows stacked
     (rows are independent in the reference algebra, so this is identical to separate calls)."""
     subs = [_sub(m) for m in ms]
-    rc = [_scales(m, sb[1], spec, mult, st) for m, sb in zip(ms, subs)]
+    c_ext = None
+    if spec.get("rule") == "ldlcol" and not any(sb[3] is not None for sb in subs):
+        Hm0 = H[0] if isinstance(H, list) else H
+        c_ext = _ldlcol(Hm0, spec); del Hm0
+    mults = [(_match_mult(m, sb[1], c_ext, spec) if spec.get("match_bpw") else mult) for m, sb in zip(ms, subs)]
+    rc = [_scales(m, sb[1], spec, mu_, st, c_ext) for m, sb, mu_ in zip(ms, subs, mults)]
     c = rc[0][1]
     same = all((x[1] is None) == (c is None) and (c is None or torch.equal(x[1], c)) for x in rc)
     if not same or any(sb[3] is not None for sb in subs):

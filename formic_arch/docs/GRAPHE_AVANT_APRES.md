@@ -36,7 +36,7 @@ SwiGLU         : down_proj( SiLU(gate_proj x) * up_proj x )
 
 Aucun `nn.Linear` du chemin texte n'a de biais (497 linéaires sans biais).
 
-## Fait mesuré déterminant : composante constante « massive » des activations
+## Fait mesuré : composante constante « massive » des activations
 
 Sur le split de calibration (144 documents × 1024 tokens, poids BF16) :
 
@@ -51,19 +51,29 @@ Conséquence pour Lumen : un codec E8 à pas par ligne donne la même précision
 alors que l'erreur de cette colonne est multipliée par une entrée ~100× plus grande et **toujours de même signe** :
 l'erreur de sortie correspondante est un décalage constant, donc exactement représentable par un biais.
 
-## Architecture candidate A_b (seule modification retenue)
+## Architecture candidate A_b (pilote exécuté de bout en bout ; non retenue avec LDLQ)
 
 ```
 avant :  y = W x                      (497 linéaires sans biais)
 après :  y = Q x + b ,  b = (W − Q) µ   (b : un vecteur FP16 par linéaire, 16 bits par ligne de sortie)
+variante A_b2 :          b = W µ_professeur − Q µ_élève   (ancre la sortie moyenne sur celle du BF16)
 ```
 
 * `µ` = moyenne de l'entrée réelle du linéaire sur la calibration (entrées de l'élève dans la passe séquentielle).
 * En BF16 (`Q = W`) le biais est nul : la modification est **exacte** tant que rien n'est quantifié ; après quantification,
-  la sortie du linéaire est exacte sur la direction moyenne, et LDLQ ne travaille plus que sur la covariance centrée `H − µµᵀ`.
+  la sortie du linéaire est exacte sur la direction moyenne, et LDLQ travaille sur la covariance centrée (centrage des activations
+  avant accumulation du Gram, pour éviter l'annulation numérique de `E[xxᵀ] − µµᵀ`).
 * Coût : 4,43 M valeurs FP16 ≈ 8,9 Mo (0,0026 bpw), **compté dans le budget** des variantes A_b (multiplicateur de pas relevé d'autant).
 * Coût d'exécution : une addition de vecteur par linéaire ; mémoire +8,9 Mo.
 * L'embedding (table de consultation) n'a pas de biais.
 
-Les autres structures essayées (suppression de couches, réduction de largeur du SwiGLU, tête dérivée de l'embedding) sont décrites
-dans le rapport ; aucune n'est retenue.
+Résultat (voir le rapport) : gain net sans rétroaction (KL −15 % à octets égaux), **aucun gain une fois la passe E8-LDLQ appliquée** :
+la rétroaction de LDLQ, pilotée par un Gram dont la composante dominante est précisément cette direction moyenne, annule déjà cette erreur.
+
+## Structures de reconstruction essayées et rejetées
+
+| Structure | Graphe après | Dommage BF16 seul (KL) | À octets égaux, quantifié sans rétroaction |
+|---|---|---:|---|
+| A2 : profondeur | 62, 60 ou 56 couches (couches à plus faible effet individuel retirées) | 0,108 / 0,238 / 0,366 | 62 couches à 2,907 bpw : KL 0,253 contre 0,190 |
+| A1 : largeur SwiGLU | 17408 → 15232 ou 13056 canaux dans les 64 MLP, `down_proj` réajusté par moindres carrés | 0,136 / 0,278 | 15232 canaux à 3,068 bpw : 0,252 ; 13056 à 3,358 bpw : 0,355 ; contre 0,190 |
+| A3 : tête dérivée de l'embedding | `lm_head = embed · M` | non construit | R² = 0,17 : écarté sur diagnostic |

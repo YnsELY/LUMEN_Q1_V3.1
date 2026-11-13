@@ -144,6 +144,16 @@ def ldl_prepare(H, c=None, damp=0.01):
 
 
 @torch.no_grad()
+def ldl_pivots(H, damp=0.01):
+    """LDL pivots d (float64) of the damped Gram, same ordering/convention as ldl_prepare; H is not modified."""
+    Hf = H.double().flip(0, 1).clone()
+    Hf.diagonal().add_(damp * Hf.diagonal().mean())
+    C = torch.linalg.cholesky(Hf); del Hf
+    d = (torch.diagonal(C) ** 2).flip(0).clone(); del C
+    return d
+
+
+@torch.no_grad()
 def ldlq_rows(Wp, prep, superblock=256, use_candidates=True):
     """Wp [m,n] fp32 already in normalised coordinates (W*c/r). Returns (codes/2 [m,n], hist)."""
     m, n = Wp.shape; dev = Wp.device

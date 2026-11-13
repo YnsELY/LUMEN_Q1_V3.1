@@ -44,11 +44,16 @@ class Seq:
         return self.kw["gdn" if hasattr(self.lm.layers[i], "linear_attn") else "attn"]
 
     @torch.no_grad()
-    def gram(self, i, module, tf32=True):
+    def gram(self, i, module, tf32=True, center=False):
         """Gram (sum x x^T / ntok, fp64) of the input of `module` when layer i runs on current hidden."""
         L = self.lm.layers[i]; acc = {}
         def hook(mod, inp):
             x = inp[0].reshape(-1, inp[0].shape[-1]).float()
+            if center:
+                # centre on a provisional mean BEFORE accumulating: the covariance is then obtained without the
+                # catastrophic cancellation of  E[xx^T] - mu mu^T  on the massive (near-constant) dimensions
+                if "mu0" not in acc: acc["mu0"] = x.mean(0)
+                x = x - acc["mu0"]
             g = x.T @ x
             acc["g"] = g if "g" not in acc else acc["g"].add_(g)
             acc["m"] = acc.get("m", 0) + x.sum(0).double()
@@ -64,8 +69,13 @@ class Seq:
                     pass
         finally:
             hk.remove(); torch.backends.cuda.matmul.allow_tf32 = old_tf32
-        self.last_mu = (acc["m"] / self.ntok).float()
-        return (acc["g"].double() / self.ntok)
+        m = acc["m"] / self.ntok
+        Hd = acc["g"].double() / self.ntok
+        if center:
+            Hd.sub_(torch.outer(m, m)); self.last_mu = (acc["mu0"].double() + m).float()
+        else:
+            self.last_mu = m.float()
+        return Hd
 
     @torch.no_grad()
     def advance(self, i):
@@ -80,15 +90,22 @@ class Seq:
             self.h[b:b + self.bs] = out; del out
 
     @torch.no_grad()
-    def final_gram(self):
-        acc = None; msum = 0
+    def final_gram(self, center=False):
+        acc = None; msum = 0; mu0 = None
         for b in range(0, self.n, self.bs):
             x = self.lm.norm(self.h[b:b + self.bs]).reshape(-1, self.h.shape[-1]).float()
+            if center:
+                if mu0 is None: mu0 = x.mean(0)
+                x = x - mu0
             g = x.T @ x
             acc = g if acc is None else acc.add_(g)
             msum = msum + x.sum(0).double()
-        self.last_mu = (msum / self.ntok).float()
-        return acc.double() / self.ntok
+        m = msum / self.ntok; Hd = acc.double() / self.ntok
+        if center:
+            Hd.sub_(torch.outer(m, m)); self.last_mu = (mu0.double() + m).float()
+        else:
+            self.last_mu = m.float()
+        return Hd
 
 
 # ----------------------------------------------------------------------------- structural width pruning
@@ -211,6 +228,17 @@ def _ckpt_load(ckpt, by, seq):
     return stt
 
 
+def _rot_matrix(n, seed=0):
+    """Fixed Haar-random orthogonal matrix (float64) for the residual-stream basis change A_rot."""
+    key = f"rotR_{n}_{seed}"
+    if key not in H.S:
+        g = torch.Generator(device="cuda"); g.manual_seed(seed)
+        A = torch.randn(n, n, dtype=torch.float64, device="cuda", generator=g)
+        Q, Rr = torch.linalg.qr(A)
+        H.S[key] = Q * torch.sign(torch.diagonal(Rr))[None, :]
+    return H.S[key]
+
+
 @torch.no_grad()
 def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, ckpt_every=4):
     """Sequential E8-LDLQ over the whole text model. `mats` from plan_mats (may carry rows/cols subsets).
@@ -224,12 +252,55 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
         b, n = res; A["tot"] += b; A["npar"] += n
         k = A["bykind"].setdefault(m["kind"], [0.0, 0]); k[0] += b; k[1] += n
     resume = ckpt is not None and os.path.exists(f"{ckpt}/state.pt")
+    # A_rot: exact change of basis of the residual stream h' = R h (RMSNorm gains folded into the readers).
+    # Emulated in the ORIGINAL graph: each matrix is quantized in the rotated coordinates
+    #   reader  W' = W diag(g) R^T  (inputs R N(h), Gram R diag(1/g) H diag(1/g) R^T)  -> decoded  Q' R diag(1/g)
+    #   writer  W' = R W                                                             -> decoded  R^T Q'
+    #   embed   E' = E R^T                                                           -> decoded  Q' R
+    # which is function-identical to running the rotated graph with the quantized rotated weights.
+    rot = bool(spec.get("rot", False))
+    if rot:
+        R64 = _rot_matrix(lm.embed_tokens.weight.shape[1], spec.get("rot_seed", 0)); R32 = R64.float()
+        assert not spec.get("bias_corr", False)
+    def rows_mm(A, B, pre=None, chunk=32768):          # (A * pre) @ B by row chunks (the 248320-row tables stay lean)
+        out = torch.empty(A.shape[0], B.shape[1], dtype=torch.float32, device=A.device)
+        for j in range(0, A.shape[0], chunk):
+            a = A[j:j + chunk].float()
+            if pre is not None: a = a * pre
+            out[j:j + chunk] = a @ B
+        return out
+    def back_inplace(Q, g=None, chunk=32768):          # Q <- (Q @ R) / g , in place by row chunks
+        for j in range(0, Q.shape[0], chunk):
+            q = Q[j:j + chunk] @ R32
+            Q[j:j + chunk] = q if g is None else q / g
+        return Q
+    def as_reader(m, gam):
+        # decoded weight = Q' R acting on the gain-less normalised input: the RMSNorm gain of this reader group is
+        # set to 1 (weight 0) once the group is quantized (see unit_gain) -- no division by gains (some are 0).
+        m["W_override"] = rows_mm(m["mod"].weight, R32.T, pre=gam)
+        m["post"] = lambda Q: back_inplace(Q)
+    def unit_gain(norm):
+        norm.weight.zero_()
+    def as_writer(m):
+        m["W_override"] = R32 @ m["mod"].weight.float()
+        m["post"] = lambda Q: R32.T @ Q
+    def clean(ms):
+        for m in ms: m.pop("W_override", None); m.pop("post", None)
+    def reader_H(Hm):
+        return R64 @ Hm @ R64.T
     if -1 in by and only is None and not resume:
-        acc(by[-1]["embed"], H.quantize_matrix(by[-1]["embed"], spec, mult, st))
+        me = by[-1]["embed"]
+        if rot:
+            me["W_override"] = rows_mm(me["mod"].weight, R32.T); me["post"] = lambda Q: back_inplace(Q)
+        acc(me, H.quantize_matrix(me, spec, mult, st)); clean([me]); torch.cuda.empty_cache()
     seq = Seq(); start = 0; pending = [-1]
     if resume:
         stt = _ckpt_load(ckpt, by, seq)
         A.update(tot=stt["tot"], npar=stt["npar"], bykind=stt["bykind"]); start = stt["i"] + 1; pending = []
+        if rot:
+            for j in range(start):
+                if j in by and j not in drop: lm.layers[j].input_layernorm.weight.zero_(); lm.layers[j].post_attention_layernorm.weight.zero_()
+            if os.path.exists(f"{ckpt}/layer_64.pt"): lm.norm.weight.zero_()
         print("  resumed from checkpoint: next layer %d, bpw so far %.4f" % (start, A["tot"] / max(1, A["npar"])), flush=True)
     bc = spec.get("bias_corr", False)
     for i, L in enumerate(lm.layers):
@@ -244,20 +315,39 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
             else:
                 first, ins, outk = L.self_attn.q_proj, ("q_proj", "k_proj", "v_proj"), "o_proj"
             def G(mod):
-                Hm = seq.gram(i, mod); mu = seq.last_mu
-                if bc: Hm.sub_(torch.outer(mu.double(), mu.double()))      # the mean direction is carried by the bias
+                Hm = seq.gram(i, mod, center=bool(bc)); mu = seq.last_mu   # centred covariance when the bias carries the mean
                 return [Hm], (mu if bc else None)
-            def group(mod, kinds):
+            def group(mod, kinds, gam, norm=None):
                 def run():
-                    hh, mu = G(mod)
-                    return H.quantize_group([d[k] for k in kinds], spec, mult, st, hh, mu_override=mu)
+                    if rot:
+                        # Gram of the gain-less normalised input N(h): measured with the gain temporarily set to 1
+                        saved = norm.weight.clone(); norm.weight.zero_()
+                        try: hh, mu = G(mod)
+                        finally: norm.weight.copy_(saved)
+                        hh[0] = reader_H(hh[0])
+                        for k in kinds: as_reader(d[k], gam)
+                    else:
+                        hh, mu = G(mod)
+                    try:
+                        out_ = H.quantize_group([d[k] for k in kinds], spec, mult, st, hh, mu_override=mu)
+                    finally:
+                        clean([d[k] for k in kinds])
+                    if rot: unit_gain(norm)                       # readers now hold Q' R ; gain folded
+                    return out_
                 for k, res in zip(kinds, _retry(run, f"L{i} {kinds[0]}")): acc(d[k], res)
             def single(k):
                 def run():
                     hh, mu = G(d[k]["mod"])
-                    return H.quantize_matrix(d[k], spec, mult, st, H=hh, mu_override=mu)
+                    if rot: as_writer(d[k])
+                    try:
+                        return H.quantize_matrix(d[k], spec, mult, st, H=hh, mu_override=mu)
+                    finally:
+                        clean([d[k]])
                 acc(d[k], _retry(run, f"L{i} {k}"))
-            group(first, ins); single(outk); group(L.mlp.gate_proj, ("gate_proj", "up_proj")); single("down_proj")
+            g_in = (1.0 + L.input_layernorm.weight.float()) if rot else None
+            g_mlp = (1.0 + L.post_attention_layernorm.weight.float()) if rot else None
+            group(first, ins, g_in, L.input_layernorm); single(outk)
+            group(L.mlp.gate_proj, ("gate_proj", "up_proj"), g_mlp, L.post_attention_layernorm); single("down_proj")
             torch.cuda.empty_cache()
             seq.advance(i); pending.append(i)
         if ckpt is not None and only is None and (i % ckpt_every == ckpt_every - 1 or i == 63):
@@ -266,9 +356,19 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
             print("  ldlq layer %d done, %.0fs elapsed, bpw so far %.4f, peak %.1f GiB" % (i, time.time() - t0, A["tot"] / max(1, A["npar"]), torch.cuda.max_memory_allocated() / 2**30), flush=True)
     if 64 in by and only is None and not (resume and os.path.exists(f"{ckpt}/layer_64.pt")):
         def run():
-            Hm = seq.final_gram(); mu = seq.last_mu if bc else None
-            if mu is not None: Hm.sub_(torch.outer(mu.double(), mu.double()))
-            return H.quantize_matrix(by[64]["lm_head"], spec, mult, st, H=[Hm], mu_override=mu)
+            Hm = seq.final_gram(center=bool(bc)); mu = seq.last_mu if bc else None
+            if rot:
+                gf = 1.0 + lm.norm.weight.float()
+                saved = lm.norm.weight.clone(); lm.norm.weight.zero_()
+                try: Hm = seq.final_gram()
+                finally: lm.norm.weight.copy_(saved)
+                Hm = reader_H(Hm); as_reader(by[64]["lm_head"], gf)
+            try:
+                out_ = H.quantize_matrix(by[64]["lm_head"], spec, mult, st, H=[Hm], mu_override=mu)
+            finally:
+                clean([by[64]["lm_head"]])
+            if rot: unit_gain(lm.norm)
+            return out_
         acc(by[64]["lm_head"], _retry(run, "lm_head"))
         if ckpt is not None:
             _ckpt_save(ckpt, 63, [64], by, seq, A)
@@ -276,7 +376,33 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
     return dict(bits=A["tot"], params=A["npar"], bpw=A["tot"] / A["npar"], bykind={k: v[0] / v[1] for k, v in A["bykind"].items()}, seconds=time.time() - t0)
 
 
-def run_ldlq_variant(vid, spec, mult, drop=(), keep=None, method=""):
+@torch.no_grad()
+def rotate_model(seed=0, chunk=32768):
+    """A_rot, native form: rewrite the whole text path in a rotated residual basis h' = R h (R Haar orthogonal).
+    embed <- E R^T ; readers <- W diag(1+w) R^T and their RMSNorm gain <- 1 ; writers <- R W ;
+    lm_head <- W diag(1+w_final) R^T and final norm gain <- 1.  Exact in real arithmetic (N(Rh) = R N(h));
+    stored back in the model dtype (BF16), so the equivalence residual must be measured."""
+    lm = H.S["lm"]; R = _rot_matrix(lm.embed_tokens.weight.shape[1], seed).float(); Rt = R.T.contiguous()
+    def big(W, g=None):
+        for j in range(0, W.shape[0], chunk):
+            a = W[j:j + chunk].float()
+            if g is not None: a = a * g
+            W[j:j + chunk] = (a @ Rt).to(W.dtype)
+    big(lm.embed_tokens.weight)
+    for L in lm.layers:
+        gd = hasattr(L, "linear_attn")
+        ins = ([L.linear_attn.in_proj_qkv, L.linear_attn.in_proj_z, L.linear_attn.in_proj_a, L.linear_attn.in_proj_b] if gd
+               else [L.self_attn.q_proj, L.self_attn.k_proj, L.self_attn.v_proj])
+        for norm, mods in ((L.input_layernorm, ins), (L.post_attention_layernorm, [L.mlp.gate_proj, L.mlp.up_proj])):
+            g = 1.0 + norm.weight.float()
+            for mod in mods: mod.weight.copy_(((mod.weight.float() * g) @ Rt).to(mod.weight.dtype))
+            norm.weight.zero_()
+        for mod in ((L.linear_attn.out_proj if gd else L.self_attn.o_proj), L.mlp.down_proj):
+            mod.weight.copy_((R @ mod.weight.float()).to(mod.weight.dtype))
+    big(H.S["model"].lm_head.weight, 1.0 + lm.norm.weight.float()); lm.norm.weight.zero_()
+
+
+def run_ldlq_variant(vid, spec, mult, drop=(), keep=None, method="", prepare=None):
     """Crash-safe full variant: (resumable) LDLQ pass -> selection + sealed confirmation -> long-context check.
     The checkpoint directory is removed only after every result file has been written."""
     import json
@@ -287,7 +413,9 @@ def run_ldlq_variant(vid, spec, mult, drop=(), keep=None, method=""):
             shutil.rmtree(f"/workspace/work/ckpt/{other}", ignore_errors=True)
     free = shutil.disk_usage("/workspace/work").free / 2**30
     if free < 62 and not os.path.exists(ckpt): raise RuntimeError("not enough disk for a checkpointed pass: %.0f GiB free" % free)
-    H.restore(); mats = plan_mats(keep=keep, drop=drop)
+    H.restore()
+    if prepare is not None: prepare()           # exact re-parametrisation applied to the BF16 model before the pass
+    mats = plan_mats(keep=keep, drop=drop)
     torch.cuda.reset_peak_memory_stats()
     info = ldlq_pass(mats, spec, mult, st, drop=drop, ckpt=ckpt)
     info.update(spec=dict(spec, method=method), mult=mult, target_bits=target, bits_over_target=info["bits"] / target - 1, bytes=info["bits"] / 8)

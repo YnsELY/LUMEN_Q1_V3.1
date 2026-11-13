@@ -317,24 +317,30 @@ def _sub(m):
 
 def _export(m, Q, r, c):
     """V7: hand the exact integer codes of this matrix to the real codec (formic_v7/codec): U = round(2 Q c / r),
-    saved as <in_dir>/<name>.npz and encoded to the package by CPU worker processes."""
+    saved as <in_dir>/<name>.npz and encoded to the package by CPU worker processes.  Row chunks keep the GPU
+    footprint small (the 248320-row tables would otherwise need three extra full-size float32 copies)."""
     ex = S.get("export")
     if not ex or "rows" in m or "cols" in m: return
     import numpy as np
-    q = Q.float()
-    if c is not None: q = q * c
-    U = torch.round(2.0 * q / r[:, None])
-    back = U * (r[:, None] / 2.0)
-    if c is not None: back = back / c
-    if not torch.equal(back, Q.float()): raise ArithmeticError("codes do not reproduce the decoded weights: " + m["name"])
-    amax = float(U.abs().max()); dt = np.int8 if amax <= 127 else (np.int16 if amax <= 32767 else np.int32)
-    arrs = dict(U=U.cpu().numpy().astype(dt), steps=r.cpu().numpy().astype(np.float16))
+    mrows = Q.shape[0]; U = np.empty(tuple(Q.shape), dtype=np.int16); amax = 0.0; wide = False
+    for j in range(0, mrows, 16384):
+        q = Q[j:j + 16384].float(); rr = r[j:j + 16384, None]
+        u = torch.round(2.0 * (q * c if c is not None else q) / rr)
+        back = u * (rr / 2.0)
+        if c is not None: back = back / c
+        if not torch.equal(back, q): raise ArithmeticError("codes do not reproduce the decoded weights: " + m["name"])
+        a = float(u.abs().max()); amax = max(amax, a)
+        if a > 32767 and not wide:
+            U = U.astype(np.int32); wide = True
+        U[j:j + 16384] = u.to(torch.int32 if wide else torch.int16).cpu().numpy(); del q, u, back
+    if amax <= 127: U = U.astype(np.int8)
+    arrs = dict(U=U, steps=r.cpu().numpy().astype(np.float16))
     if not np.array_equal(arrs["steps"].astype(np.float32), r.cpu().numpy()): raise ArithmeticError("row steps are not FP16-exact: " + m["name"])
     if c is not None: arrs["col_scale"] = c.cpu().numpy().astype(np.float16)
     tmp = os.path.join(ex["in"], m["name"] + ".part")
     with open(tmp, "wb") as f: np.savez(f, **arrs)
     os.rename(tmp, os.path.join(ex["in"], m["name"] + ".npz"))
-    del U, back
+    del U, arrs
 
 
 def _finish(m, Q, hist, c, spec, st, write=True, mu_override=None):

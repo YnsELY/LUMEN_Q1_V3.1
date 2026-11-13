@@ -12,8 +12,8 @@ def split_part(perw):
 
 def arki(vid, part="dev"):
     """per-window list for a variant on the requested half; None if not available."""
-    if vid == "Arki05_2.82bpw":
-        pw = json.load(open(R + "/competitor_Arki05_2.82bpw.json"))["arki108"]["per_window"]
+    if os.path.exists(R + f"/competitor_{vid}.json"):
+        pw = json.load(open(R + f"/competitor_{vid}.json"))["arki108"]["per_window"]
     elif os.path.exists(R + f"/arki_{vid}.json"):            # early variants: full 108 windows were stored in the repo
         pw = json.load(open(R + f"/arki_{vid}.json"))["per_window"]
     elif part == "dev" and os.path.exists(R + f"/arkidev_{vid}.json"):
@@ -37,7 +37,7 @@ def ratio_ci(a, b, n=4000, seed=0):
     return tokmean(pa) / tokmean(pb) - 1, bs[int(.025 * n)], bs[int(.975 * n)], sum(A[r]["kl"] < B[r]["kl"] for r in rows), len(rows)
 
 def big(vid):
-    if vid == "Arki05_2.82bpw": return json.load(open(R + "/competitor_Arki05_2.82bpw.json"))["big"]
+    if os.path.exists(R + f"/competitor_{vid}.json"): return json.load(open(R + f"/competitor_{vid}.json"))["big"]
     p = R + f"/big_{vid}.json"; return json.load(open(p))["big"] if os.path.exists(p) else None
 
 def doc_ci(a, b, n=4000, seed=0):
@@ -47,7 +47,7 @@ def doc_ci(a, b, n=4000, seed=0):
     bs.sort(); return sum(a) / sum(b) - 1, bs[int(.025 * n)], bs[int(.975 * n)]
 
 def variants():
-    v = ["Arki05_2.82bpw"]
+    v = ["Arki05_2.82bpw", "XQD_Q2_nomtp"]
     for f in sorted(glob.glob(R + "/variant_*.json"), key=os.path.getmtime): v.append(os.path.basename(f)[8:-5])
     return v
 
@@ -59,10 +59,11 @@ if __name__ == "__main__":
     for vid in variants():
         pw = arki(vid, part); bg = big(vid)
         if pw is None: continue
-        info = json.load(open(R + f"/variant_{vid}.json"))["info"] if vid != ref else dict(bpw=2.813)
-        c1 = ratio_ci(pw, arki(ref, part)) if vid != ref else None; c2 = ratio_ci(pw, arki(base, part)) if vid not in (ref, base) and arki(base, part) else None
+        comp = os.path.exists(R + f"/competitor_{vid}.json")
+        info = dict(bpw=json.load(open(R + f"/competitor_{vid}.json"))["load"]["bpw_loaded"]) if comp else json.load(open(R + f"/variant_{vid}.json"))["info"]
+        c1 = ratio_ci(pw, arki(ref, part)) if vid != ref else None; c2 = ratio_ci(pw, arki(base, part)) if vid != base and not comp and arki(base, part) else None
         cb = doc_ci(bg["per_doc"]["kl"], big(base)["per_doc"]["kl"]) if bg and vid != base and big(base) else None
-        lp = R + f"/long_{vid}.json"; lg = json.load(open(lp))["kl"] if os.path.exists(lp) else (json.load(open(R + "/competitor_Arki05_2.82bpw.json"))["long"]["kl"] if vid == ref else float("nan"))
+        lp = R + f"/long_{vid}.json"; lg = json.load(open(lp))["kl"] if os.path.exists(lp) else (json.load(open(R + f"/competitor_{vid}.json"))["long"]["kl"] if comp else float("nan"))
         bd = {}
         for d in doms:
             ws = [w for w in pw if w["domain"] == d]; bd[d] = tokmean(ws) if ws else float("nan")

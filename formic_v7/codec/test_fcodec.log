@@ -1,0 +1,55 @@
+== 1. synthetic ==   (ideal = bits_from_hist with set_limit(16384) + 16 bits/row; real = blob bytes*8)
+gauss ~2.0 bpw (mult 1.0757)        2048x4096  ideal 2.0036 real 2.0037 bpw ratio 1.00005 [shell 2.0037 prod 2.0038 -> shell] enc   51.9 dec   42.6 Mw/s
+gauss ~2.8 bpw (mult 0.6010)        2048x4096  ideal 2.8040 real 2.8042 bpw ratio 1.00005 [shell 2.8042 prod 2.8042 -> shell] enc   48.2 dec   37.4 Mw/s
+gauss ~3.5 bpw (mult 0.3670)        2048x4096  ideal 3.5042 real 3.5045 bpw ratio 1.00008 [shell 3.5045 prod 3.5045 -> shell] enc   44.6 dec   35.3 Mw/s
+gauss ~4.5 bpw (mult 0.1828)        2048x4096  ideal 4.5042 real 4.5047 bpw ratio 1.00012 [shell 5.3836 prod 4.5047 -> prod] enc   98.0 dec   73.4 Mw/s
+gauss ~6.5 bpw (mult 0.0455)        2048x4096  ideal 6.5079 real 6.5100 bpw ratio 1.00032 [shell 31.9493 prod 6.5100 -> prod] enc   86.7 dec   69.6 Mw/s
+student-t3 mult 0.5917              2048x4096  ideal 2.6648 real 2.5821 bpw ratio 0.96899 [shell 2.7050 prod 2.5821 -> prod] enc  104.4 dec   64.7 Mw/s
+student-t3 mult 0.1616              2048x4096  ideal 4.5139 real 4.4242 bpw ratio 0.98012 [shell 7.6895 prod 4.4242 -> prod] enc   91.5 dec   66.1 Mw/s
+zero rows                            512x4096  ideal 2.8121 real 2.8127 bpw ratio 1.00021 [shell 2.8127 prod 2.8208 -> shell] enc   46.8 dec   30.7 Mw/s
+huge outliers (|u|~1e5..2^31)        512x4096  ideal    -   real 2.8312 bpw ratio    -    [shell 2.8312 prod 2.8333 -> shell] enc   45.0 dec   37.6 Mw/s
+tiny 1x8                               1x8     ideal 4.3630 real 64.0000 bpw ratio 14.66878 [shell 64.0000 prod 117.0000 -> shell] enc    0.0 dec    0.1 Mw/s
+tiny 2x16                              2x16    ideal 3.4512 real 20.2500 bpw ratio 5.86752 [shell 20.2500 prod 37.0000 -> shell] enc    0.1 dec    0.5 Mw/s
+wide 16x17408                         16x17408 ideal 2.8231 real 2.8275 bpw ratio 1.00157 [shell 2.8275 prod 2.8294 -> shell] enc   41.8 dec   33.4 Mw/s
+all-zero 4x64                          4x64    ideal    -   real 2.0625 bpw ratio    -    [shell 2.0625 prod 3.3750 -> shell] enc    0.7 dec    4.8 Mw/s
+extras (bias,col_scale,perm,json)     64x512   ideal 3.3826 real 3.4495 bpw ratio 1.01976 [shell 3.4495 prod 3.4646 -> shell] enc   23.5 dec   32.4 Mw/s
+corruption detected, invalid E8 input rejected: OK
+== 2. real weights (qwen3.8-27b, lazily sliced) ==
+layers.30.mlp.gate_proj m0.5917     2048x5120  ideal 2.8249 real 2.8248 bpw ratio 0.99997 [shell 2.8251 prod 2.8248 -> prod] enc  114.8 dec   64.5 Mw/s
+layers.30.mlp.down_proj m0.5917     1024x17408 ideal 2.8228 real 2.8226 bpw ratio 0.99995 [shell 2.8229 prod 2.8226 -> prod] enc  101.6 dec   72.1 Mw/s
+layers.30.linear_attn.in_proj_qkv m0.5917  2048x5120  ideal 2.8245 real 2.8239 bpw ratio 0.99981 [shell 2.8248 prod 2.8239 -> prod] enc  111.9 dec   56.2 Mw/s
+layers.31.self_attn.q_proj m0.5917  2048x5120  ideal 2.8247 real 2.8243 bpw ratio 0.99988 [shell 2.8249 prod 2.8243 -> prod] enc  115.9 dec   72.1 Mw/s
+layers.31.self_attn.o_proj m0.5917  2048x6144  ideal 2.8224 real 2.8225 bpw ratio 1.00002 [shell 2.8227 prod 2.8225 -> prod] enc  114.1 dec   74.0 Mw/s
+layers.31.self_attn.o_proj m0.1825  2048x6144  ideal 4.5028 real 4.5033 bpw ratio 1.00011 [shell 5.6933 prod 4.5033 -> prod] enc  105.4 dec   67.6 Mw/s
+embed_tokens m0.5917                2048x5120  ideal 2.8231 real 2.8218 bpw ratio 0.99953 [shell 2.8238 prod 2.8218 -> prod] enc  112.3 dec   74.5 Mw/s
+lm_head m0.5917                     2048x5120  ideal 2.8253 real 2.8254 bpw ratio 1.00003 [shell 2.8255 prod 2.8254 -> prod] enc  115.8 dec   74.3 Mw/s
+lm_head m0.1828                     2048x5120  ideal 4.5034 real 4.5038 bpw ratio 1.00008 [shell 5.3506 prod 4.5038 -> prod] enc  108.7 dec   73.4 Mw/s
+== 3. package + parallel workers ==
+package/workers OK: verified 7 entries, 1572864 coded weights, package_bytes=573963 (2.9193 bits/coded weight incl. everything) | manifest entries: 7
+== summary ==
+case                                 weights ideal_bpw  real_bpw    ratio  mode    enc    dec
+gauss ~2.0 bpw (mult 1.0757)         8388608    2.0036    2.0037  1.00005 shell   51.9   42.6
+gauss ~2.8 bpw (mult 0.6010)         8388608    2.8040    2.8042  1.00005 shell   48.2   37.4
+gauss ~3.5 bpw (mult 0.3670)         8388608    3.5042    3.5045  1.00008 shell   44.6   35.3
+gauss ~4.5 bpw (mult 0.1828)         8388608    4.5042    4.5047  1.00012  prod   98.0   73.4
+gauss ~6.5 bpw (mult 0.0455)         8388608    6.5079    6.5100  1.00032  prod   86.7   69.6
+student-t3 mult 0.5917               8388608    2.6648    2.5821  0.96899  prod  104.4   64.7
+student-t3 mult 0.1616               8388608    4.5139    4.4242  0.98012  prod   91.5   66.1
+zero rows                            2097152    2.8121    2.8127  1.00021 shell   46.8   30.7
+tiny 1x8                                   8    4.3630   64.0000 14.66878 shell    0.0    0.1
+tiny 2x16                                 32    3.4512   20.2500  5.86752 shell    0.1    0.5
+wide 16x17408                         278528    2.8231    2.8275  1.00157 shell   41.8   33.4
+extras (bias,col_scale,perm,json)      32768    3.3826    3.4495  1.01976 shell   23.5   32.4
+layers.30.mlp.gate_proj m0.5917     10485760    2.8249    2.8248  0.99997  prod  114.8   64.5
+layers.30.mlp.down_proj m0.5917     17825792    2.8228    2.8226  0.99995  prod  101.6   72.1
+layers.30.linear_attn.in_proj_qkv m0.5917  10485760    2.8245    2.8239  0.99981  prod  111.9   56.2
+layers.31.self_attn.q_proj m0.5917  10485760    2.8247    2.8243  0.99988  prod  115.9   72.1
+layers.31.self_attn.o_proj m0.5917  12582912    2.8224    2.8225  1.00002  prod  114.1   74.0
+layers.31.self_attn.o_proj m0.1825  12582912    4.5028    4.5033  1.00011  prod  105.4   67.6
+embed_tokens m0.5917                10485760    2.8231    2.8218  0.99953  prod  112.3   74.5
+lm_head m0.5917                     10485760    2.8253    2.8254  1.00003  prod  115.8   74.3
+lm_head m0.1828                     10485760    4.5034    4.5038  1.00008  prod  108.7   73.4
+overall synthetic+real (>=1M weights): real/ideal = 0.997466 (overhead -0.2534 %), enc 88.5 Mw/s, dec 60.8 Mw/s (1 core)
+overall real weights: real/ideal = 0.999955 (overhead -0.0045 %), enc 110.2 Mw/s, dec 69.5 Mw/s (1 core)
+extrapolated: 26.893e9 weights @ 2.808 ideal bpw -> 9.4394 GB ideal, 9.4390 GB real (x0.99996); encode time on 30 cores at measured speed ≈ 0.1 min (worst case)
+ALL TESTS PASSED

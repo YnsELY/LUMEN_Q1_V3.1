@@ -315,6 +315,28 @@ def _sub(m):
     return W, Wsub, rows, cols
 
 
+def _export(m, Q, r, c):
+    """V7: hand the exact integer codes of this matrix to the real codec (formic_v7/codec): U = round(2 Q c / r),
+    saved as <in_dir>/<name>.npz and encoded to the package by CPU worker processes."""
+    ex = S.get("export")
+    if not ex or "rows" in m or "cols" in m: return
+    import numpy as np
+    q = Q.float()
+    if c is not None: q = q * c
+    U = torch.round(2.0 * q / r[:, None])
+    back = U * (r[:, None] / 2.0)
+    if c is not None: back = back / c
+    if not torch.equal(back, Q.float()): raise ArithmeticError("codes do not reproduce the decoded weights: " + m["name"])
+    amax = float(U.abs().max()); dt = np.int8 if amax <= 127 else (np.int16 if amax <= 32767 else np.int32)
+    arrs = dict(U=U.cpu().numpy().astype(dt), steps=r.cpu().numpy().astype(np.float16))
+    if not np.array_equal(arrs["steps"].astype(np.float32), r.cpu().numpy()): raise ArithmeticError("row steps are not FP16-exact: " + m["name"])
+    if c is not None: arrs["col_scale"] = c.cpu().numpy().astype(np.float16)
+    tmp = os.path.join(ex["in"], m["name"] + ".part")
+    with open(tmp, "wb") as f: np.savez(f, **arrs)
+    os.rename(tmp, os.path.join(ex["in"], m["name"] + ".npz"))
+    del U, back
+
+
 def _finish(m, Q, hist, c, spec, st, write=True, mu_override=None):
     """Write decoded weights (cast to the model dtype) + optional bias correction; return (bits, n)."""
     W, Wsub, rows, cols = _sub(m)
@@ -408,6 +430,7 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
         torch.cuda.empty_cache()
     else:
         Q, hist = fq.quantize_rtn(Wsub, r, c)
+    if write: _export(m, Q, r, c)
     res = _finish(m, Q, hist, c, spec, st, write, mu_override)
     return (res[0] + (16 * Q.shape[1] if perm is not None else 0), res[1])
 
@@ -453,6 +476,7 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
         if c is not None: Q = Q / c
         if perm is not None:
             Qo = torch.empty_like(Q); Qo[:, perm] = Q; Q = Qo; del Qo
+        _export(m, Q, x[0], c)
         res = _finish(m, Q, hist, c, spec, st, True, mu_override)
         out.append((res[0] + (16 * n if perm is not None else 0), res[1]))
     del Qp; torch.cuda.empty_cache()

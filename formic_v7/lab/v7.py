@@ -181,3 +181,89 @@ def arki_alloc(path="/workspace/work/competitors/arki05/Qwen3.8-27B-2.82bpw.gguf
             p = t.name.split(".")
             if p[2] in hf: out[f"layers.{p[1]}.{hf[p[2]]}"] = b
     return out
+
+
+# ----------------------------------------------------------------------------- real package (formic_v7/codec)
+CODEC = "/workspace/LUMEN_Q1_V3.1/formic_v7/codec"
+PKG_ROOT = "/workspace/work/packages"
+
+
+def export_begin(vid, workers=6):
+    """Start CPU encoder workers; from now on every quantized matrix is also written to the package <vid>."""
+    import subprocess, shutil
+    ind = f"/workspace/work/export_in/{vid}"; pkg = f"{PKG_ROOT}/{vid}"
+    os.makedirs(ind, exist_ok=True); os.makedirs(pkg, exist_ok=True)
+    if os.path.exists(ind + "/_END"): os.remove(ind + "/_END")
+    for f in os.listdir(ind):                               # files claimed by workers of a crashed run
+        if ".claimed." in f: os.rename(os.path.join(ind, f), os.path.join(ind, f.split(".claimed.")[0]))
+    env = dict(os.environ, CUDA_VISIBLE_DEVICES="")
+    procs = [subprocess.Popen(["python3", "-I", CODEC + "/package.py", "worker", ind, pkg], env=env,
+                              stdout=open(f"{ind}/_worker{i}.log", "a"), stderr=subprocess.STDOUT) for i in range(workers)]
+    H.S["export"] = {"in": ind, "pkg": pkg, "procs": procs}
+    return pkg
+
+
+def export_end():
+    """Stop the workers after they have encoded everything; add the small unquantized text-path tensors (FP16)."""
+    import sys
+    ex = H.S.pop("export"); open(ex["in"] + "/_END", "w").write("end")
+    for p in ex["procs"]: p.wait()
+    left = [f for f in os.listdir(ex["in"]) if f.endswith(".npz") or ".claimed." in f]
+    if left: raise RuntimeError("export incomplete: %s" % left[:5])
+    if CODEC not in sys.path: sys.path.insert(0, CODEC)
+    import package
+    qnames = set(id(m["mod"].weight) for m in H.qmats()); nraw = 0
+    for name, p in H.S["lm"].named_parameters():
+        if id(p) in qnames: continue
+        package.write_raw(ex["pkg"], "raw." + name, p.detach().float().cpu().numpy().astype("float16")); nraw += p.numel()
+    man = package.load_manifest(ex["pkg"])
+    e8 = {k: v for k, v in man.items() if v.get("kind") == "e8"}
+    return dict(pkg=ex["pkg"], package_bytes=package.package_bytes(ex["pkg"]), e8_files=len(e8), e8_bytes=sum(v["bytes"] for v in e8.values()),
+                e8_params=sum(v["shape"][0] * v["shape"][1] for v in e8.values()), raw_params_fp16=nraw)
+
+
+@torch.no_grad()
+def load_package(pkg, tmp="/workspace/work/_pkgdec"):
+    """Rebuild the text path FROM THE FILES of a package (independent CPU decoder process), on top of BF16 weights
+    for everything that is not in the package.  Returns the number of matrices loaded."""
+    import subprocess, glob, shutil
+    H.restore(); shutil.rmtree(tmp, ignore_errors=True); os.makedirs(tmp)
+    proc = subprocess.Popen(["python3", "-I", CODEC + "/decode_stream.py", pkg, tmp, "12", "10"], env=dict(os.environ, CUDA_VISIBLE_DEVICES=""),
+                            stdout=open(tmp + "/_stdout.log", "w"), stderr=subprocess.STDOUT)
+    by = {m["name"]: m for m in H.qmats()}; n = 0
+    while True:
+        files = sorted(glob.glob(tmp + "/*.npy")); done = os.path.exists(tmp + "/_DONE")
+        if not files:
+            if done: break
+            if proc.poll() is not None and not os.path.exists(tmp + "/_DONE"): raise RuntimeError("decoder failed: " + open(tmp + "/_stdout.log").read()[-800:])
+            time.sleep(0.3); continue
+        for f in files:
+            name = os.path.basename(f)[:-4]; a = np.load(f); os.remove(f)
+            W = by[name]["mod"].weight
+            for j in range(0, a.shape[0], 65536): W[j:j + 65536] = torch.from_numpy(a[j:j + 65536]).cuda().to(W.dtype)
+            n += 1
+    shutil.rmtree(tmp, ignore_errors=True)
+    return n
+
+
+def run_exported(vid, spec, mult, method="", prepare=None, workers=6):
+    """run() + real package: codes are encoded to files during the pass; the files are then decoded by a separate
+    process and the model REBUILT FROM THEM is evaluated again (must reproduce the in-memory numbers)."""
+    pkg = export_begin(vid, workers)
+    try:
+        info, dev = run(vid, spec, mult, method=method, prepare=prepare)
+    except BaseException:
+        ex = H.S.pop("export", None)
+        if ex:
+            for p in ex["procs"]: p.terminate()
+        raise
+    rep = export_end()
+    print("[%s] package: %d E8 files, %.6f GB for %.3f G weights = %.4f bpw REAL (ideal accounting said %.4f); whole text package %.6f GB" % (
+        vid, rep["e8_files"], rep["e8_bytes"] / 1e9, rep["e8_params"] / 1e9, 8 * rep["e8_bytes"] / rep["e8_params"], info["bpw"], rep["package_bytes"] / 1e9), flush=True)
+    t = time.time(); n = load_package(pkg)
+    rb = H.evaluate("big"); ra = arki_eval()
+    mem = json.load(open(OUT7 + f"/big_{vid}.json"))["big"]["kl"]; memd = json.load(open(OUT7 + f"/arkidev_{vid}.json"))["kl"]
+    rep.update(decoded_matrices=n, decode_eval_seconds=time.time() - t, big_kl_from_files=rb["kl"], big_kl_in_memory=mem, arkidev_kl_from_files=ra["dev"]["kl"], arkidev_kl_in_memory=memd)
+    json.dump(rep, open(OUT7 + f"/package_{vid}.json", "w"), indent=1)
+    print("[%s] REBUILT FROM FILES (%d matrices): big-600 KL %.6f (in memory %.6f) ; P-A108-dev KL %.6f (in memory %.6f)" % (vid, n, rb["kl"], mem, ra["dev"]["kl"], memd), flush=True)
+    return info, dev, rep

@@ -1,0 +1,105 @@
+{
+ "datasets": {
+  "en_prose": {
+   "dataset": "wikimedia/wikipedia",
+   "config": "20231101.en",
+   "split": "train",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  "multiling": {
+   "dataset": "wikimedia/wikipedia",
+   "config": "20231101.{fr,zh,de,es,ja,ar,ru}",
+   "split": "train",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  "code": {
+   "dataset": "local:/usr/lib/python3.12 + /usr/include",
+   "config": "files>=6000 chars",
+   "split": "n/a",
+   "license": "PSF License (CPython stdlib); system headers (various, e.g. GPL/LGPL/BSD) - research use"
+  },
+  "math_reasoning": {
+   "dataset": "meta-math/MetaMathQA",
+   "config": "default",
+   "split": "train",
+   "license": "MIT"
+  },
+  "chat": {
+   "dataset": "HuggingFaceH4/ultrachat_200k",
+   "config": "default",
+   "split": "train_sft",
+   "license": "MIT"
+  },
+  "science_tech": {
+   "dataset": "ccdv/arxiv-summarization",
+   "config": null,
+   "split": "train",
+   "license": "unknown/arXiv (declared: apache-2.0 on dataset card; underlying papers retain author licenses)"
+  }
+ },
+ "counts": {
+  "cal": {
+   "en_prose": 24,
+   "multiling": 24,
+   "code": 24,
+   "math_reasoning": 24,
+   "chat": 24,
+   "science_tech": 24
+  },
+  "select": {
+   "en_prose": 12,
+   "multiling": 12,
+   "code": 12,
+   "math_reasoning": 12,
+   "chat": 12,
+   "science_tech": 12
+  },
+  "confirm": {
+   "en_prose": 12,
+   "multiling": 12,
+   "code": 12,
+   "math_reasoning": 12,
+   "chat": 12,
+   "science_tech": 12
+  }
+ },
+ "multiling_langs_per_split": {
+  "cal": [
+   "ar",
+   "de",
+   "es",
+   "fr",
+   "ja",
+   "ru",
+   "zh"
+  ],
+  "select": [
+   "ar",
+   "de",
+   "es",
+   "fr",
+   "ja",
+   "ru",
+   "zh"
+  ],
+  "confirm": [
+   "ar",
+   "de",
+   "es",
+   "fr",
+   "ja",
+   "ru",
+   "zh"
+  ]
+ },
+ "sha256": {
+  "corpus.jsonl": "45626f9b8e1abbf63e96d6e04e6f666bf092ed7bfa488bf9bcf1dbe2ad35f746",
+  "corpus_tokens.pt": "bda66685d52c95e15a7f0a85b2cd8bec57ab0acc93c0f10adbd8f4ff977ba0c3"
+ },
+ "tokenizer": "/root/models/qwen3.8-27b",
+ "seed": 1234,
+ "tokens_per_doc": 1024,
+ "checks": {
+  "no_source_id_or_text_overlap_between_splits": true
+ }
+}

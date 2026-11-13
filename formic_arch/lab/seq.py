@@ -44,10 +44,59 @@ class Seq:
                 kw[k]["past_key_values"] = None; kw[k]["use_cache"] = False
             with torch.no_grad():
                 h = torch.cat([lm.embed_tokens(ids[i:i + gbs].cuda()) for i in range(0, ids.shape[0], gbs)])
-            self.groups.append(dict(h=h, bs=gbs, kw=kw, n=ids.shape[0]))
+            self.groups.append(dict(h=h, bs=gbs, kw=kw, n=ids.shape[0], ids=ids))
         self.h = self.groups[0]["h"]; self.bs = self.groups[0]["bs"]; self.kw = self.groups[0]["kw"]
         self.n = sum(g["n"] for g in self.groups)
         self.ntok = sum(g["h"].shape[0] * g["h"].shape[1] for g in self.groups)
+
+    def enable_teacher(self, emb_weight):
+        """V7 asymmetric target: keep a second hidden stream propagated with the ORIGINAL (BF16) layers, starting
+        from the ORIGINAL embedding table `emb_weight` (the model's table is already quantized at this point)."""
+        for g in self.groups:
+            g["hT"] = torch.cat([torch.nn.functional.embedding(g["ids"][b:b + g["bs"]].cuda(), emb_weight) for b in range(0, g["n"], g["bs"])])
+
+    def drift(self):
+        num = 0.0; den = 0.0
+        for g in self.groups:
+            for b in range(0, g["n"], g["bs"]):
+                t = g["hT"][b:b + g["bs"]].float(); num += float((g["h"][b:b + g["bs"]].float() - t).pow(2).sum()); den += float(t.pow(2).sum())
+        return (num / den) ** 0.5
+
+    @torch.no_grad()
+    def gram2(self, i, LT, path, tf32=True):
+        """Student Gram  H_SS = E[x_S x_S^T]  and cross Gram  C_TS = E[x_T x_S^T]  of the input of the sub-module
+        `path` of layer i: x_S from the current (partly quantized) layer on the student stream, x_T from the BF16
+        copy LT of the layer on the teacher stream, at the same positions."""
+        L = self.lm.layers[i]; kind = "gdn" if hasattr(L, "linear_attn") else "attn"; cap = {}
+        def mk(key):
+            def hook(mod, inp):
+                cap[key] = inp[0].reshape(-1, inp[0].shape[-1]).float(); raise _Stop()
+            return hook
+        hS = L.get_submodule(path).register_forward_pre_hook(mk("s")); hT = LT.get_submodule(path).register_forward_pre_hook(mk("t"))
+        old = torch.backends.cuda.matmul.allow_tf32; torch.backends.cuda.matmul.allow_tf32 = bool(tf32)
+        Hss = None; C = None
+        try:
+            for g in self.groups:
+                for b in range(0, g["n"], g["bs"]):
+                    sl = slice(b, b + g["bs"])
+                    try: LT(g["hT"][sl], **g["kw"][kind])
+                    except _Stop: pass
+                    try: L(g["h"][sl], **g["kw"][kind])
+                    except _Stop: pass
+                    xs = cap.pop("s"); xt = cap.pop("t")
+                    a = xs.T @ xs; c = xt.T @ xs
+                    Hss = a if Hss is None else Hss.add_(a); C = c if C is None else C.add_(c)
+                    del xs, xt, a, c
+        finally:
+            hS.remove(); hT.remove(); torch.backends.cuda.matmul.allow_tf32 = old
+        return Hss.double().div_(self.ntok), C.double().div_(self.ntok)
+
+    @torch.no_grad()
+    def advance_teacher(self, i, LT):
+        kind = "gdn" if hasattr(LT, "linear_attn") else "attn"
+        for g in self.groups:
+            for b in range(0, g["n"], g["bs"]):
+                sl = slice(b, b + g["bs"]); g["hT"][sl] = LT(g["hT"][sl], **g["kw"][kind])
 
     def _batches(self, i):
         kind = "gdn" if hasattr(self.lm.layers[i], "linear_attn") else "attn"
@@ -304,6 +353,7 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
         for m in ms: m.pop("W_override", None); m.pop("post", None)
     def reader_H(Hm):
         return R64 @ Hm @ R64.T
+    E_T = lm.embed_tokens.weight.detach().clone() if spec.get("asym") else None     # original table for the teacher stream
     if -1 in by and only is None and not resume:
         me = by[-1]["embed"]
         if rot:
@@ -319,11 +369,53 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
             if os.path.exists(f"{ckpt}/layer_64.pt"): lm.norm.weight.zero_()
         print("  resumed from checkpoint: next layer %d, bpw so far %.4f" % (start, A["tot"] / max(1, A["npar"])), flush=True)
     bc = spec.get("bias_corr", False)
+    asym = spec.get("asym")                     # V7: ridge of the asymmetric target (None = symmetric reference recipe)
+    if asym:
+        import copy
+        assert not rot and not bc and not resume, "asymmetric target: no rotation / bias / resume in this version"
+        seq.enable_teacher(E_T); del E_T
+    def asym_targets(i, L, LT, mod, kinds, d):
+        """Lumen v3.1 par.4 'cible asymetrique' : B (H_SS + rho I) = W C_TS + rho W  with student inputs x_S and
+        teacher inputs x_T; the continuous target B replaces W before the usual E8-LDLQ on H_SS."""
+        path = next(n for n, mm in L.named_modules() if mm is mod)
+        Hss, C = seq.gram2(i, LT, path)
+        rho = float(asym) * float(Hss.diagonal().mean())
+        Hr = Hss.clone(); Hr.diagonal().add_(rho); C.diagonal().add_(rho)
+        Lc = torch.linalg.cholesky(Hr); del Hr
+        for k in kinds:
+            W = d[k]["mod"].weight.double()
+            B = torch.cholesky_solve((W @ C).T.contiguous(), Lc).T                 # B = W C (H+rho I)^-1  (H symmetric)
+            d[k]["W_override"] = B.float(); d[k]["_asym_rel"] = float((B - W).norm() / W.norm()); del W, B
+        del Lc, C
+        return Hss
     for i, L in enumerate(lm.layers):
         if i < start: continue
         if only is not None and i > max(only): break
+        if asym: LT = copy.deepcopy(L)          # BF16 copy of this layer (it is quantized in place below)
         if i in drop or i not in by or (only is not None and i not in only):
             seq.advance(i); pending.append(i)
+            if asym: seq.advance_teacher(i, LT); del LT
+        elif asym:
+            d = by[i]
+            if hasattr(L, "linear_attn"):
+                first, ins, outk = L.linear_attn.in_proj_qkv, ("in_proj_qkv", "in_proj_z", "in_proj_a", "in_proj_b"), "out_proj"
+            else:
+                first, ins, outk = L.self_attn.q_proj, ("q_proj", "k_proj", "v_proj"), "o_proj"
+            rel = {}
+            for mod, kinds in ((first, ins), (d[outk]["mod"], (outk,)), (L.mlp.gate_proj, ("gate_proj", "up_proj")), (L.mlp.down_proj, ("down_proj",))):
+                Hss = asym_targets(i, L, LT, mod, kinds, d)
+                try:
+                    if len(kinds) > 1:
+                        for k, res in zip(kinds, H.quantize_group([d[k] for k in kinds], spec, mult, st, [Hss])): acc(d[k], res)
+                    else:
+                        acc(d[kinds[0]], H.quantize_matrix(d[kinds[0]], spec, mult, st, H=[Hss]))
+                finally:
+                    for k in kinds: rel[k] = d[k].pop("_asym_rel", None)
+                    clean([d[k] for k in kinds])
+                del Hss; torch.cuda.empty_cache()
+            seq.advance(i); seq.advance_teacher(i, LT); del LT; pending.append(i)
+            if i % log_every == 0 or i == 63:
+                print("  asym L%d: |B-W|/|W| %s ; hidden drift |h_S-h_T|/|h_T| = %.4f" % (i, {k: round(v, 4) for k, v in rel.items()}, seq.drift()), flush=True)
         else:
             d = by[i]
             if hasattr(L, "linear_attn"):
@@ -372,6 +464,22 @@ def ldlq_pass(mats, spec, mult, st, drop=(), log_every=8, only=None, ckpt=None, 
             print("  ldlq layer %d done, %.0fs elapsed, bpw so far %.4f, peak %.1f GiB" % (i, time.time() - t0, A["tot"] / max(1, A["npar"]), torch.cuda.max_memory_allocated() / 2**30), flush=True)
     if 64 in by and only is None and not (resume and os.path.exists(f"{ckpt}/layer_64.pt")):
         def run():
+            if asym:
+                Hss = None; C = None
+                for g in seq.groups:
+                    for b in range(0, g["n"], g["bs"]):
+                        xs = lm.norm(g["h"][b:b + g["bs"]]).reshape(-1, g["h"].shape[-1]).float(); xt = lm.norm(g["hT"][b:b + g["bs"]]).reshape(-1, g["h"].shape[-1]).float()
+                        a = xs.T @ xs; c = xt.T @ xs
+                        Hss = a if Hss is None else Hss.add_(a); C = c if C is None else C.add_(c)
+                Hss = Hss.double().div_(seq.ntok); C = C.double().div_(seq.ntok)
+                rho = float(asym) * float(Hss.diagonal().mean()); Hr = Hss.clone(); Hr.diagonal().add_(rho); C.diagonal().add_(rho)
+                Minv = torch.cholesky_solve(C.T.contiguous(), torch.linalg.cholesky(Hr)).T.float(); del Hr, C     # C (H+rho I)^-1
+                mh = by[64]["lm_head"]; W = mh["mod"].weight
+                mh["W_override"] = torch.cat([W[j:j + 32768].float() @ Minv for j in range(0, W.shape[0], 32768)]); del Minv
+                try:
+                    return H.quantize_matrix(mh, spec, mult, st, H=[Hss])
+                finally:
+                    clean([mh])
             Hm = seq.final_gram(center=bool(bc)); mu = seq.last_mu if bc else None
             if rot:
                 gf = 1.0 + lm.norm.weight.float()

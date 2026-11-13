@@ -118,15 +118,16 @@ def upper_ldl(A):
 
 
 def ldl_prepare(H, c=None, damp=0.01):
-    """Factor the (column-rescaled, damped) Gram once. Returns dict(U fp32, inv [n/8,8,8], metric [n/8,8,8])."""
+    """Factor the (column-rescaled, damped) Gram once. Returns dict(U fp32, inv [n/8,8,8], metric [n/8,8,8]).
+    Memory-lean: works IN PLACE on H when it is already float64 (the caller must not reuse H); only the
+    lower triangle is read (the Gram is symmetric up to rounding)."""
     H = H.double()
     if c is not None:
         cd = c.double()
-        H = H / cd[:, None]; H.div_(cd[None, :])
-    H = (H + H.T).mul_(0.5)
+        H.div_(cd[:, None]); H.div_(cd[None, :])
     H.diagonal().add_(damp * H.diagonal().mean())
     Hf = H.flip(0, 1); del H
-    C = torch.linalg.cholesky(Hf); del Hf            # memory-lean version of upper_ldl
+    C = torch.linalg.cholesky(Hf); del Hf            # = upper_ldl of the reference, on the flipped matrix
     sdiag = torch.diagonal(C).clone()
     C.div_(sdiag[None, :])
     U64 = C.flip(0, 1); del C

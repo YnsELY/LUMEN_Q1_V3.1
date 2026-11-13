@@ -82,7 +82,7 @@ def build_teacher():
         ids = S["data"][split]; hs = []
         for i in range(0, ids.shape[0], 8):
             hs.append(lm(input_ids=ids[i:i + 8].cuda()).last_hidden_state)
-        S["teach"][split] = torch.cat(hs)
+        S["teach"][split] = torch.cat([h.cpu() for h in hs])
     return {k: tuple(v.shape) for k, v in S["teach"].items()}
 
 
@@ -99,7 +99,7 @@ def evaluate(split="select", docs=None, bs=8):
         hs = lm(input_ids=x).last_hidden_state
         for k in range(len(b)):
             ls = model.lm_head(hs[k:k + 1]).float()[0]
-            lt = F.linear(Ht[b[k]:b[k] + 1], S["T_head"]).float()[0]
+            lt = F.linear(Ht[b[k]:b[k] + 1].cuda(), S["T_head"]).float()[0]
             lps = F.log_softmax(ls, -1); del ls
             lpt = F.log_softmax(lt, -1); del lt
             kl = (lpt.exp() * (lpt - lps)).sum(-1)
@@ -296,8 +296,11 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
         if spec.get("bias_corr", False) and m["kind"] != "embed": bits += 16 * Wsub.shape[0]
         return bits, Wsub.numel()
     if H is not None:
-        if cols is not None: H = H[cols][:, cols]
-        Q, hist, _ = fq.quantize_ldlq(Wsub, H, r, c, damp=spec.get("damp", 0.01))
+        Hm = H.pop() if isinstance(H, list) else H
+        if cols is not None: Hm = Hm[cols][:, cols]
+        prep = fq.ldl_prepare(Hm, c, spec.get("damp", 0.01)); del Hm
+        Q, hist, _ = fq.quantize_ldlq(Wsub, None, r, c, prep=prep); del prep
+        torch.cuda.empty_cache()
     else:
         Q, hist = fq.quantize_rtn(Wsub, r, c)
     return _finish(m, Q, hist, c, spec, st, write, mu_override)
@@ -312,8 +315,9 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
     c = rc[0][1]
     same = all((x[1] is None) == (c is None) and (c is None or torch.equal(x[1], c)) for x in rc)
     if not same or any(sb[3] is not None for sb in subs):
-        return [quantize_matrix(m, spec, mult, st, H=H, mu_override=mu_override) for m in ms]
-    prep = fq.ldl_prepare(H, c, spec.get("damp", 0.01))
+        Hm = H.pop() if isinstance(H, list) else H
+        return [quantize_matrix(m, spec, mult, st, H=Hm.clone(), mu_override=mu_override) for m in ms]
+    prep = fq.ldl_prepare(H.pop() if isinstance(H, list) else H, c, spec.get("damp", 0.01))
     n = subs[0][1].shape[1]
     Wp = torch.cat([(sb[1].float() * c if c is not None else sb[1].float()) / x[0][:, None] for sb, x in zip(subs, rc)])
     Qp, _ = fq.ldlq_rows(Wp, prep)
@@ -325,6 +329,7 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
         Q = q * x[0][:, None]
         if c is not None: Q = Q / c
         out.append(_finish(m, Q, hist, c, spec, st, True, mu_override))
+    del Qp; torch.cuda.empty_cache()
     return out
 
 
@@ -359,7 +364,7 @@ def quantize_all(mats, spec, mult, st, verbose=False):
 
 
 @torch.no_grad()
-def collect_means(n_docs=144, T=1024, bs=8):
+def collect_means(n_docs=144, T=1024, bs=8, docs=None):
     """Mean input vector mu of every quantizable linear (BF16 teacher weights, calibration split)."""
     lm = S["lm"]; MU = {}; hooks = []
     def fpre(name):
@@ -369,7 +374,7 @@ def collect_means(n_docs=144, T=1024, bs=8):
         return h
     for m in qmats(include_embed=False):
         hooks.append(m["mod"].register_forward_pre_hook(fpre(m["name"])))
-    ids = S["data"]["cal"][:n_docs, :T]
+    ids = S["data"]["cal"][:n_docs, :T] if docs is None else S["data"]["cal"][docs, :T]
     try:
         for i in range(0, ids.shape[0], bs):
             h = lm(input_ids=ids[i:i + bs].cuda()).last_hidden_state
@@ -388,7 +393,7 @@ def build_teacher_long(path="/workspace/work/data/long_tokens.pt"):
     """Teacher cache for the 8192-token documents (must be called with BF16 weights loaded)."""
     d = torch.load(path); S["long_ids"] = d["long"]; S["long_meta"] = d["meta"]
     lm = S["lm"]
-    S["long_teach"] = torch.cat([lm(input_ids=d["long"][i:i + 1].cuda()).last_hidden_state for i in range(d["long"].shape[0])])
+    S["long_teach"] = torch.cat([lm(input_ids=d["long"][i:i + 1].cuda()).last_hidden_state.cpu() for i in range(d["long"].shape[0])])
     return tuple(S["long_teach"].shape)
 
 
@@ -402,7 +407,7 @@ def evaluate_long(chunk=1024):
         kls = []; ag = []
         for j in range(0, hs.shape[0], chunk):
             lps = F.log_softmax(model.lm_head(hs[j:j + chunk]).float(), -1)
-            lpt = F.log_softmax(F.linear(Ht[i, j:j + chunk], S["T_head"]).float(), -1)
+            lpt = F.log_softmax(F.linear(Ht[i, j:j + chunk].cuda(), S["T_head"]).float(), -1)
             kls.append((lpt.exp() * (lpt - lps)).sum(-1).mean().item())
             ag.append((lps.argmax(-1) == lpt.argmax(-1)).float().mean().item())
             del lps, lpt

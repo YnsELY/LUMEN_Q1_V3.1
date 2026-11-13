@@ -70,6 +70,28 @@ def _target(name):
     return getattr(L.self_attn, m[k]).weight if k in m else None
 
 
+# llama.cpp stores the 48 value heads of a Gated DeltaNet layer in "tiled" order (q/k heads are tiled, where HF uses
+# repeat_interleave): GGUF head i = HF head PERM[i], PERM = [0,3,...,45, 1,4,...,46, 2,5,...,47]. Measured on the real
+# file: cosine 0.94-1.00 after matching, 0.04 before. This affects the v rows of attn_qkv, the rows of attn_gate,
+# ssm_alpha, ssm_beta, and the columns of ssm_out.
+_PERM = [3 * j + r for r in range(3) for j in range(16)]
+_INV = [0] * 48
+for _i, _h in enumerate(_PERM): _INV[_h] = _i
+
+
+def _to_hf_order(name, q):
+    """q: dequantized GGUF tensor (torch, on GPU) -> same tensor in HF head order."""
+    k = name.split(".")[2] if name.startswith("blk.") else ""
+    if k not in ("attn_qkv", "attn_gate", "ssm_out", "ssm_alpha", "ssm_beta"): return q
+    inv = torch.tensor(_INV, device=q.device)
+    rows128 = (inv[:, None] * 128 + torch.arange(128, device=q.device)[None, :]).reshape(-1)     # HF row -> GGUF row
+    if k == "attn_qkv":
+        v = q[4096:]; return torch.cat([q[:4096], v[rows128]])
+    if k == "attn_gate": return q[rows128]
+    if k == "ssm_out": return q[:, rows128]
+    return q[inv]
+
+
 @torch.no_grad()
 def load_gguf(path, workers=16, tmp="/workspace/work/competitors/_deq"):
     """Replace every quantized weight matrix of the text path by the competitor's dequantized values.
@@ -92,7 +114,7 @@ def load_gguf(path, workers=16, tmp="/workspace/work/competitors/_deq"):
             name = os.path.basename(f)[:-4]; a = np.load(f); os.remove(f)
             W = _target(name)
             if W is None: skipped[name] = "no target"; continue
-            q = torch.from_numpy(a).cuda().float(); w = W.float()
+            q = _to_hf_order(name, torch.from_numpy(a).cuda().float()); w = W.float()
             if q.shape != w.shape: raise RuntimeError(f"shape mismatch {name} {tuple(q.shape)} vs {tuple(w.shape)}")
             rep[name] = dict(params=int(w.numel()), cos=float((q * w).sum() / (q.norm() * w.norm())), rel_err=float((q - w).norm() / w.norm()))
             W.copy_(q.to(W.dtype)); del q, w
@@ -100,6 +122,41 @@ def load_gguf(path, workers=16, tmp="/workspace/work/competitors/_deq"):
     for k, v in rep.items(): v.update(type=man["tensors"][k]["type"], bytes=man["tensors"][k]["bytes"])
     shutil.rmtree(tmp, ignore_errors=True)
     bad = {k: v["cos"] for k, v in rep.items() if v["cos"] < 0.80}
+    if bad: raise RuntimeError("tensor correspondence not validated (cosine < 0.80): %s" % dict(list(bad.items())[:6]))
     tot_b = sum(v["bytes"] for v in rep.values()); tot_p = sum(v["params"] for v in rep.values())
     return dict(file=os.path.basename(path), file_bytes=os.path.getsize(path), loaded=len(rep), loaded_bytes=tot_b, loaded_params=tot_p, bpw_loaded=8 * tot_b / tot_p,
                 kept_bf16=man["kept_unquantized"], skipped=skipped, low_cosine=bad, tensors=rep, seconds=time.time() - t0)
+
+
+# ----------------------------------------------------------------------------- V7 variant runner
+OUT7 = "/workspace/LUMEN_Q1_V3.1/formic_v7/results"
+
+
+def run(vid, spec, mult, method="", prepare=None):
+    """Full crash-safe variant: resumable E8-LDLQ pass, then every development protocol:
+    select / confirm (both DEVELOPMENT data in V7), big-600, long-8192 and the public P-A108 windows."""
+    import seq as SQ
+    H.OUT = OUT7
+    info = SQ.run_ldlq_variant(vid, spec, mult, method=method, prepare=prepare)
+    ra = arki_eval(); ra["info"] = dict(bpw=info["bpw"], bits=info["bits"], bytes=info["bits"] / 8)
+    json.dump(ra, open(OUT7 + f"/arki_{vid}.json", "w"))
+    print("[%s] %s" % (vid, arki_short(ra)), flush=True)
+    return info, ra
+
+
+def arki_alloc(path="/workspace/work/competitors/arki05/Qwen3.8-27B-2.82bpw.gguf"):
+    """Per-matrix bits/weight actually spent by a GGUF file (bytes*8/params from its header), keyed by OUR names."""
+    import gguf
+    r = gguf.GGUFReader(path); out = {}
+    hf = {"ffn_gate": "mlp.gate_proj", "ffn_up": "mlp.up_proj", "ffn_down": "mlp.down_proj", "attn_qkv": "linear_attn.in_proj_qkv",
+          "attn_gate": "linear_attn.in_proj_z", "ssm_out": "linear_attn.out_proj", "ssm_alpha": "linear_attn.in_proj_a", "ssm_beta": "linear_attn.in_proj_b",
+          "attn_q": "self_attn.q_proj", "attn_k": "self_attn.k_proj", "attn_v": "self_attn.v_proj", "attn_output": "self_attn.o_proj"}
+    for t in r.tensors:
+        if t.tensor_type.name in ("F32", "F16", "BF16"): continue
+        b = 8.0 * int(t.n_bytes) / int(t.n_elements)
+        if t.name == "token_embd.weight": out["embed_tokens"] = b
+        elif t.name == "output.weight": out["lm_head"] = b
+        else:
+            p = t.name.split(".")
+            if p[2] in hf: out[f"layers.{p[1]}.{hf[p[2]]}"] = b
+    return out

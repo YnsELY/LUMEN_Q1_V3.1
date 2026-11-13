@@ -32,6 +32,14 @@ def _shell_sizes(limit=LIMIT):
 _LOG2_SHELL = torch.tensor([math.log2(s) for s in _shell_sizes()], dtype=torch.float64)
 
 
+def set_limit(limit):
+    """V7 codec extension: shell table limit above the v3.1 reference's 128 (needed above ~3.6 bits/weight, where
+    shells > 127 would otherwise all be 256-bit escapes). Ideal cost only: the CPU reference codec stops at 128."""
+    global LIMIT, _LOG2_SHELL
+    LIMIT = int(limit)
+    _LOG2_SHELL = torch.tensor([math.log2(s) for s in _shell_sizes(LIMIT)], dtype=torch.float64)
+
+
 def nearest_d8(v):
     q = torch.round(v)
     odd = (q.sum(-1).to(torch.int64) & 1).bool()
@@ -60,20 +68,22 @@ def e8_candidates(v):
     return torch.stack(pool, 1)
 
 
-def shell_hist(U, limit=LIMIT):
+def shell_hist(U, limit=None):
     """U [..., 8] doubled codes -> histogram over shells (index `limit` = escapes)."""
+    limit = LIMIT if limit is None else limit
     m = (U.double() ** 2).sum(-1) / 8
     m = m.round().to(torch.int64).clamp_(max=limit).flatten()
     return torch.bincount(m, minlength=limit + 1).double()
 
 
-def bits_from_hist(h, limit=LIMIT):
+def bits_from_hist(h, limit=None):
     """Ideal mode-0 bits for a histogram of shells (own fitted table)."""
+    limit = len(h) - 1 if limit is None else limit
     tot = h.sum()
     p = h / tot
     nz = h > 0
     ent = -(h[nz] * torch.log2(p[nz])).sum()
-    rank = (h[:limit] * _LOG2_SHELL.to(h.device)).sum()
+    rank = (h[:limit] * _LOG2_SHELL.to(h.device)[:limit]).sum()
     esc = h[limit] * 256.0
     return float(ent + rank + esc)
 
@@ -139,8 +149,9 @@ def ldl_prepare(H, c=None, damp=0.01):
     dd = d64.view(n // 8, 8)
     metric = ((blocks * dd[:, None, :]) @ blocks.transpose(1, 2)).float()
     U = U64.float()
+    dsum = float(d64.sum()); dlog = float(d64.log().mean())
     del U64, d64, blocks
-    return dict(U=U, inv=inv, metric=metric)
+    return dict(U=U, inv=inv, metric=metric, dsum=dsum, dlogmean=dlog)
 
 
 @torch.no_grad()
@@ -211,6 +222,10 @@ def quantize_ldlq(W, H, r, c=None, damp=0.01, superblock=256, use_candidates=Tru
     return Q, hist, {}
 
 
-def matrix_bits(hist, m, n, has_col_scale=False, header_bits=8 * 656):
-    """Total ideal bits for one matrix: symbols + FP16 row steps (+ FP16 column scales) + header/table."""
+def matrix_bits(hist, m, n, has_col_scale=False, header_bits=None):
+    """Total ideal bits for one matrix: symbols + FP16 row steps (+ FP16 column scales) + header/table.
+    Header = 656 bytes with the reference 129-entry table; the table grows by 4 bytes per shell used beyond 128."""
+    if header_bits is None:
+        used = int(torch.nonzero(hist[:-1]).max()) + 1 if hist[:-1].any() else 1
+        header_bits = 8 * (656 + 4 * max(0, used - 128))
     return bits_from_hist(hist) + 16 * m + (16 * n if has_col_scale else 0) + header_bits

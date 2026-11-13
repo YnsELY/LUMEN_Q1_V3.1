@@ -220,7 +220,7 @@ def _ldlcol(Hm, spec):
 
 
 @torch.no_grad()
-def _match_mult(m, Wsub, c, spec, lo=0.2, hi=2.5, iters=12):
+def _match_mult(m, Wsub, c, spec, lo=0.004, hi=2.5, iters=18):
     """Per-matrix rate matching: multiplier such that the no-feedback bit estimate (row sample) of THIS matrix
     equals spec['match_bpw'] * numel, scale vectors / bias / header included."""
     mr, n = Wsub.shape
@@ -230,7 +230,9 @@ def _match_mult(m, Wsub, c, spec, lo=0.2, hi=2.5, iters=12):
     rms = Ws.pow(2).mean(1).sqrt().clamp_min(1e-12)
     extra = 16 * mr + (16 * n if c is not None else 0) + (16 * n if spec.get("perm") else 0) + 8 * 656
     if spec.get("bias_corr", False) and m["kind"] != "embed": extra += 16 * mr
-    target = spec["match_bpw"] * Wsub.numel()
+    mb = spec["match_bpw"]
+    if isinstance(mb, dict): mb = mb.get(m["name"], mb["default"])       # per-matrix allocation (V7)
+    target = (mb + spec.get("match_offset", 0.0)) * Wsub.numel()
     for _ in range(iters):
         mid = math.sqrt(lo * hi); r = fq.fp16(mid * rms).clamp_min(6e-8)
         u = fq.e8_nearest((Ws / r[:, None]).view(len(sel), n // 8, 8))
@@ -323,9 +325,37 @@ def _finish(m, Q, hist, c, spec, st, write=True, mu_override=None):
     return bits, Wsub.numel()
 
 
+def _target_bpw(m, spec):
+    mb = spec.get("match_bpw")
+    if isinstance(mb, dict): mb = mb.get(m["name"], mb["default"])
+    return mb
+
+
+def _scalar8(m, spec, st, write=True):
+    """V7: 8-bit symmetric scalar rounding with one FP16 step per row (for tiny, highly protected matrices such as
+    in_proj_a / in_proj_b). Cost: 8 bits/weight + 16 bits/row + 64-byte header. No feedback (near-lossless)."""
+    W, Wsub, rows, cols = _sub(m)
+    w = Wsub.float(); step = fp16(w.abs().amax(1) / 127.0).clamp_min(1e-12)
+    Q = (w / step[:, None]).round().clamp_(-127, 127) * step[:, None]
+    if write: W.copy_(Q.to(W.dtype))
+    return 8.0 * w.numel() + 16 * w.shape[0] + 8 * 64, w.numel()
+
+
+from formic_q import fp16
+
+
+def _record(m, prep, r):
+    """Keep what a per-matrix sensitivity model needs: LDL pivot sum (proxy error per unit step^2) and row steps."""
+    S.setdefault("dstat", {})[m["name"]] = dict(dsum=prep["dsum"], dlogmean=prep["dlogmean"], r=r.detach().float().cpu())
+
+
 @torch.no_grad()
 def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_override=None):
     """Quantize one matrix in place (or just measure bits on a row sample). Returns (bits, n_params)."""
+    tb = _target_bpw(m, spec)
+    if tb is not None and tb >= 6.0 and not sample and m["mod"].weight.numel() < 2_000_000:
+        if isinstance(H, list) and H: H.pop()
+        return _scalar8(m, spec, st, write)
     W, Wsub, rows, cols = _sub(m)
     Hm = None; c_ext = None; perm = None
     if H is not None and not sample:
@@ -338,6 +368,8 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
             Hm = Hm[perm][:, perm]; Wsub = Wsub.float()[:, perm]
         if spec.get("rule") == "ldlcol" and m["kind"] != "embed": c_ext = _ldlcol(Hm, spec)
         if spec.get("match_bpw"): mult = _match_mult(m, Wsub, c_ext, spec)
+    elif spec.get("match_bpw") and not sample:
+        mult = _match_mult(m, Wsub, None, dict(spec, match_offset=0.0))    # no-feedback path (embedding table)
     r, c = _scales(m, Wsub, spec, mult, st, c_ext)
     if sample:
         sel = torch.arange(0, Wsub.shape[0], sample, device=W.device)
@@ -348,6 +380,7 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
         return bits, Wsub.numel()
     if H is not None:
         prep = fq.ldl_prepare(Hm, c, spec.get("damp", 0.01)); del Hm
+        _record(m, prep, r)
         Q, hist, _ = fq.quantize_ldlq(Wsub, None, r, c, prep=prep); del prep
         if perm is not None:
             Qo = torch.empty_like(Q); Qo[:, perm] = Q; Q = Qo; del Qo
@@ -362,6 +395,12 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
 def quantize_group(ms, spec, mult, st, H, mu_override=None):
     """LDLQ for several matrices that read the SAME input (same Gram): one factorisation, rows stacked
     (rows are independent in the reference algebra, so this is identical to separate calls)."""
+    small = [m for m in ms if (_target_bpw(m, spec) or 0) >= 6.0 and m["mod"].weight.numel() < 2_000_000]
+    if small:                                               # tiny protected matrices: scalar 8-bit, the rest as a group
+        rest = [m for m in ms if m not in small]
+        res = dict((id(m), _scalar8(m, spec, st)) for m in small)
+        for m, r_ in zip(rest, quantize_group(rest, spec, mult, st, H, mu_override)): res[id(m)] = r_
+        return [res[id(m)] for m in ms]
     subs = [_sub(m) for m in ms]
     c_ext = None; perm = None
     if spec.get("perm") and not any(sb[3] is not None for sb in subs):
@@ -381,6 +420,7 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
         return [quantize_matrix(m, spec, mult, st, H=Hm.clone(), mu_override=mu_override) for m in ms]
     prep = fq.ldl_prepare(H.pop() if isinstance(H, list) else H, c, spec.get("damp", 0.01))
     n = subs[0][1].shape[1]
+    for m, x in zip(ms, rc): _record(m, prep, x[0])
     Wp = torch.cat([(sb[1].float() * c if c is not None else sb[1].float()) / x[0][:, None] for sb, x in zip(subs, rc)])
     Qp, _ = fq.ldlq_rows(Wp, prep)
     del Wp, prep

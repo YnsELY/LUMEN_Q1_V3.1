@@ -12,38 +12,48 @@ class _Stop(Exception):
 
 
 class Seq:
+    """Hidden states of the calibration documents, propagated layer by layer.  Several groups of documents with
+    different lengths are supported (V7): each keeps its own batch size and layer kwargs (masks, positions)."""
     def __init__(self, n_docs=144, T=1024, bs=8):
         S = H.S; lm = S["lm"]; self.lm = lm
-        cfg = S.get("cal_cfg")                    # V7: alternative calibration set (split name, docs, length, batch)
+        cfg = S.get("cal_cfg")                    # V7: alternative calibration set(s)
         if cfg and n_docs == 144:
-            ids = S["data"][cfg["split"]][:cfg["n_docs"], :cfg["T"]]; bs = cfg["bs"]
+            gl = cfg["groups"] if "groups" in cfg else [cfg]
+            specs = [(S["data"][g["split"]][:g["n_docs"], :g["T"]], g["bs"]) for g in gl]
         else:
-            ids = S["data"]["cal"][:n_docs, :T]
-        self.bs = bs
-        self.n = ids.shape[0]
-        assert self.n % bs == 0
-        # capture the exact kwargs the text model passes to each layer type
-        kw = {}
-        def grab(kind):
-            def h(mod, args, kwargs):
-                kw[kind] = dict(kwargs); return None
-            return h
+            specs = [(S["data"]["cal"][:n_docs, :T], bs)]
         i_gdn = next(i for i, L in enumerate(lm.layers) if hasattr(L, "linear_attn"))
         i_att = next(i for i, L in enumerate(lm.layers) if hasattr(L, "self_attn"))
-        h1 = lm.layers[i_gdn].register_forward_pre_hook(grab("gdn"), with_kwargs=True)
-        h2 = lm.layers[i_att].register_forward_pre_hook(grab("attn"), with_kwargs=True)
-        with torch.no_grad():
-            lm(input_ids=ids[:bs].cuda(), use_cache=False)
-        h1.remove(); h2.remove()
-        # No cache object may be shared between calls: a DynamicCache captured here would carry attention
-        # keys/values and GDN recurrent/conv states from one batch (and layer call) to the next.
-        for k in kw:
-            assert kw[k].get("past_key_values") is None, "cache leaked into captured layer kwargs"
-            kw[k]["past_key_values"] = None; kw[k]["use_cache"] = False
-        self.kw = kw
-        with torch.no_grad():
-            self.h = torch.cat([lm.embed_tokens(ids[i:i + bs].cuda()) for i in range(0, self.n, bs)])
-        self.ntok = self.n * ids.shape[1]
+        self.groups = []
+        for ids, gbs in specs:
+            assert ids.shape[0] % gbs == 0
+            kw = {}                               # the exact kwargs the text model passes to each layer type
+            def grab(kind, kw=kw):
+                def h(mod, args, kwargs):
+                    kw[kind] = dict(kwargs); return None
+                return h
+            h1 = lm.layers[i_gdn].register_forward_pre_hook(grab("gdn"), with_kwargs=True)
+            h2 = lm.layers[i_att].register_forward_pre_hook(grab("attn"), with_kwargs=True)
+            with torch.no_grad():
+                lm(input_ids=ids[:gbs].cuda(), use_cache=False)
+            h1.remove(); h2.remove()
+            # No cache object may be shared between calls: a DynamicCache captured here would carry attention
+            # keys/values and GDN recurrent/conv states from one batch (and layer call) to the next.
+            for k in kw:
+                assert kw[k].get("past_key_values") is None, "cache leaked into captured layer kwargs"
+                kw[k]["past_key_values"] = None; kw[k]["use_cache"] = False
+            with torch.no_grad():
+                h = torch.cat([lm.embed_tokens(ids[i:i + gbs].cuda()) for i in range(0, ids.shape[0], gbs)])
+            self.groups.append(dict(h=h, bs=gbs, kw=kw, n=ids.shape[0]))
+        self.h = self.groups[0]["h"]; self.bs = self.groups[0]["bs"]; self.kw = self.groups[0]["kw"]
+        self.n = sum(g["n"] for g in self.groups)
+        self.ntok = sum(g["h"].shape[0] * g["h"].shape[1] for g in self.groups)
+
+    def _batches(self, i):
+        kind = "gdn" if hasattr(self.lm.layers[i], "linear_attn") else "attn"
+        for g in self.groups:
+            for b in range(0, g["n"], g["bs"]):
+                yield g["h"], slice(b, b + g["bs"]), g["kw"][kind]
 
     def _kw(self, i):
         return self.kw["gdn" if hasattr(self.lm.layers[i], "linear_attn") else "attn"]
@@ -67,9 +77,9 @@ class Seq:
         old_tf32 = torch.backends.cuda.matmul.allow_tf32
         torch.backends.cuda.matmul.allow_tf32 = bool(tf32)     # TF32 only where flagged (inputs are BF16 anyway)
         try:
-            for b in range(0, self.n, self.bs):
+            for h, sl, kw in self._batches(i):
                 try:
-                    L(self.h[b:b + self.bs], **self._kw(i))
+                    L(h[sl], **kw)
                 except _Stop:
                     pass
         finally:
@@ -85,20 +95,20 @@ class Seq:
     @torch.no_grad()
     def advance(self, i):
         L = self.lm.layers[i]
-        for b in range(0, self.n, self.bs):
+        for h, sl, kw in self._batches(i):
             for attempt in range(4):              # per-batch OOM retry: a batch is only written once computed
                 try:
-                    out = L(self.h[b:b + self.bs], **self._kw(i)); break
+                    out = L(h[sl], **kw); break
                 except torch.OutOfMemoryError:
                     if attempt == 3: raise
                     import gc; gc.collect(); torch.cuda.empty_cache(); time.sleep(3)
-            self.h[b:b + self.bs] = out; del out
+            h[sl] = out; del out
 
     @torch.no_grad()
     def final_gram(self, center=False):
         acc = None; msum = 0; mu0 = None
-        for b in range(0, self.n, self.bs):
-            x = self.lm.norm(self.h[b:b + self.bs]).reshape(-1, self.h.shape[-1]).float()
+        for h, sl, _ in self._batches(0):
+            x = self.lm.norm(h[sl]).reshape(-1, h.shape[-1]).float()
             if center:
                 if mu0 is None: mu0 = x.mean(0)
                 x = x - mu0
@@ -215,7 +225,7 @@ def _ckpt_save(ckpt, i, layers, by, seq, state):
                                 b=None if getattr(m["mod"], "bias", None) is None else m["mod"].bias.detach().cpu())
                 for m in by[j].values()}
         torch.save(blob, f"{ckpt}/layer_{j}.pt")
-    torch.save(dict(i=i, h=seq.h.cpu(), **state), f"{ckpt}/state.tmp")
+    torch.save(dict(i=i, h=[g["h"].cpu() for g in seq.groups], **state), f"{ckpt}/state.tmp")
     os.replace(f"{ckpt}/state.tmp", f"{ckpt}/state.pt")
 
 
@@ -229,7 +239,8 @@ def _ckpt_load(ckpt, by, seq):
             e = blob[m["name"]]
             m["mod"].weight.copy_(e["w"].cuda())
             if e["b"] is not None: m["mod"].bias = torch.nn.Parameter(e["b"].cuda(), requires_grad=False)
-    seq.h.copy_(stt["h"].cuda())
+    hs = stt["h"] if isinstance(stt["h"], list) else [stt["h"]]
+    for g, hh in zip(seq.groups, hs): g["h"].copy_(hh.cuda())
     return stt
 
 
@@ -443,3 +454,19 @@ def seq_parity(n_docs=16):
     got = torch.cat([lm.norm(seq.h[b:b + seq.bs]) for b in range(0, n_docs, seq.bs)])
     rel = float((got.float() - ref.float()).norm() / ref.float().norm())
     return dict(rel_err=rel, max_abs=float((got.float() - ref.float()).abs().max()), identical=bool(torch.equal(got, ref)))
+
+
+@torch.no_grad()
+def seq_parity_groups(max_docs=8):
+    """Sanity for multi-group calibration: layer-by-layer propagation of every group (BF16 weights) must reproduce
+    the model's own forward on the same documents (first `max_docs` documents of each group are compared)."""
+    lm = H.S["lm"]; seq = Seq()
+    for i in range(len(lm.layers)): seq.advance(i)
+    cfg = H.S["cal_cfg"]; gl = cfg["groups"] if "groups" in cfg else [cfg]; out = []
+    for g, spec in zip(seq.groups, gl):
+        ids = H.S["data"][spec["split"]][:spec["n_docs"], :spec["T"]][:max_docs]
+        ref = torch.cat([lm(input_ids=ids[b:b + g["bs"]].cuda()).last_hidden_state for b in range(0, ids.shape[0], g["bs"])])
+        got = torch.cat([lm.norm(g["h"][b:b + g["bs"]]) for b in range(0, ids.shape[0], g["bs"])])
+        out.append(dict(split=spec["split"], T=spec["T"], identical=bool(torch.equal(got, ref)), max_abs=float((got.float() - ref.float()).abs().max())))
+    del seq
+    return out

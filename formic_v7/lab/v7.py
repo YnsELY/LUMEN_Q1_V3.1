@@ -228,7 +228,7 @@ def load_package(pkg, tmp="/workspace/work/_pkgdec"):
     for everything that is not in the package.  Returns the number of matrices loaded."""
     import subprocess, glob, shutil
     H.restore(); shutil.rmtree(tmp, ignore_errors=True); os.makedirs(tmp)
-    proc = subprocess.Popen(["python3", "-I", CODEC + "/decode_stream.py", pkg, tmp, "12", "10"], env=dict(os.environ, CUDA_VISIBLE_DEVICES=""),
+    proc = subprocess.Popen(["python3", "-I", CODEC + "/decode_stream.py", pkg, tmp, "12", "5"], env=dict(os.environ, CUDA_VISIBLE_DEVICES=""),
                             stdout=open(tmp + "/_stdout.log", "w"), stderr=subprocess.STDOUT)
     by = {m["name"]: m for m in H.qmats()}; n = 0
     while True:
@@ -239,6 +239,10 @@ def load_package(pkg, tmp="/workspace/work/_pkgdec"):
             time.sleep(0.3); continue
         for f in files:
             name = os.path.basename(f)[:-4]; a = np.load(f); os.remove(f)
+            if name.startswith("mtp."): continue                       # not loadable in this runtime (not evaluated)
+            if name.startswith("visual."):
+                P = dict(H.S["model"].model.visual.named_parameters())[name[7:]]
+                P.copy_(torch.from_numpy(a).cuda().reshape(P.shape).to(P.dtype)); n += 1; continue
             W = by[name]["mod"].weight
             for j in range(0, a.shape[0], 65536): W[j:j + 65536] = torch.from_numpy(a[j:j + 65536]).cuda().to(W.dtype)
             n += 1
@@ -257,6 +261,8 @@ def run_exported(vid, spec, mult, method="", prepare=None, workers=6):
         if ex:
             for p in ex["procs"]: p.terminate()
         raise
+    import shutil
+    shutil.rmtree(f"/workspace/work/ckpt/{vid}", ignore_errors=True)       # results are written; free 52 GB before decoding
     rep = export_end()
     print("[%s] package: %d E8 files, %.6f GB for %.3f G weights = %.4f bpw REAL (ideal accounting said %.4f); whole text package %.6f GB" % (
         vid, rep["e8_files"], rep["e8_bytes"] / 1e9, rep["e8_params"] / 1e9, 8 * rep["e8_bytes"] / rep["e8_params"], info["bpw"], rep["package_bytes"] / 1e9), flush=True)
@@ -267,3 +273,104 @@ def run_exported(vid, spec, mult, method="", prepare=None, workers=6):
     json.dump(rep, open(OUT7 + f"/package_{vid}.json", "w"), indent=1)
     print("[%s] REBUILT FROM FILES (%d matrices): big-600 KL %.6f (in memory %.6f) ; P-A108-dev KL %.6f (in memory %.6f)" % (vid, n, rb["kl"], mem, ra["dev"]["kl"], memd), flush=True)
     return info, dev, rep
+
+
+# ----------------------------------------------------------------------------- Vision tower and MTP block in the package
+@torch.no_grad()
+def _e8_rtn_to_pkg(W2, bpw, pkg, name):
+    """No-feedback E8 at a requested ideal rate, written to the package with the real codec. Returns (Q, bytes)."""
+    import sys, formic_q as fq
+    if CODEC not in sys.path: sys.path.insert(0, CODEC)
+    import package
+    W2 = W2.float(); m, n = W2.shape; lo, hi = 0.002, 3.0
+    for _ in range(20):
+        mid = math.sqrt(lo * hi); r = fq.row_steps(W2, mid); Q, hist = fq.quantize_rtn(W2, r)
+        if fq.matrix_bits(hist, m, n) > bpw * m * n: lo = mid
+        else: hi = mid
+    r = fq.row_steps(W2, math.sqrt(lo * hi)); Q, hist = fq.quantize_rtn(W2, r)
+    U = torch.round(2.0 * Q / r[:, None])
+    assert torch.equal(U * (r[:, None] / 2.0), Q)
+    amax = float(U.abs().max()); dt = np.int8 if amax <= 127 else (np.int16 if amax <= 32767 else np.int32)
+    nb = package.write_tensor(pkg, name, U.cpu().numpy().astype(dt), r.cpu().numpy().astype(np.float16), None)
+    return Q, nb
+
+
+@torch.no_grad()
+def package_vision(pkg, bpw):
+    """Quantize the vision tower (all weight tensors with >= 65536 elements and a multiple of 8 columns) into the
+    package and write the decoded values into the model; small tensors are stored FP16."""
+    import sys
+    if CODEC not in sys.path: sys.path.insert(0, CODEC)
+    import package
+    vis = H.S["model"].model.visual; nb = 0; nq = 0; nraw = 0
+    for name, p in vis.named_parameters():
+        W2 = p.reshape(p.shape[0], -1) if p.dim() >= 2 else None
+        if W2 is not None and W2.numel() >= 65536 and W2.shape[1] % 8 == 0:
+            Q, b = _e8_rtn_to_pkg(W2, bpw, pkg, "visual." + name); p.copy_(Q.reshape(p.shape).to(p.dtype)); nb += b; nq += p.numel()
+        else:
+            package.write_raw(pkg, "raw.visual." + name, p.detach().float().cpu().numpy().astype("float16")); nraw += p.numel()
+    return dict(e8_bytes=nb, e8_params=nq, raw_params=nraw, bpw=8 * nb / nq)
+
+
+@torch.no_grad()
+def package_mtp(pkg, bpw):
+    """MTP block: NOT loaded by this runtime, so it is quantized straight from the checkpoint and NOT evaluated."""
+    import sys
+    from safetensors import safe_open
+    if CODEC not in sys.path: sys.path.insert(0, CODEC)
+    import package
+    idx = json.load(open(os.path.join(H.MODEL_DIR, "model.safetensors.index.json")))["weight_map"]; nb = 0; nq = 0; nraw = 0
+    for k in sorted(k for k in idx if k.startswith("mtp.")):
+        with safe_open(os.path.join(H.MODEL_DIR, idx[k]), "pt", device="cuda") as f: p = f.get_tensor(k)
+        W2 = p.reshape(p.shape[0], -1) if p.dim() >= 2 else None
+        if W2 is not None and W2.numel() >= 65536 and W2.shape[1] % 8 == 0:
+            Q, b = _e8_rtn_to_pkg(W2, bpw, pkg, k); nb += b; nq += p.numel()
+        else:
+            package.write_raw(pkg, "raw." + k, p.float().cpu().numpy().astype("float16")); nraw += p.numel()
+        del p
+    return dict(e8_bytes=nb, e8_params=nq, raw_params=nraw, bpw=8 * nb / nq)
+
+
+def package_aux_files(pkg):
+    """Tokenizer, chat template, configs: copied verbatim; they are part of the product bytes."""
+    import shutil
+    n = 0
+    for f in ("config.json", "generation_config.json", "tokenizer.json", "tokenizer_config.json", "vocab.json", "merges.txt", "chat_template.jinja",
+              "preprocessor_config.json", "video_preprocessor_config.json"):
+        src = os.path.join(H.MODEL_DIR, f)
+        if os.path.exists(src): shutil.copy(src, os.path.join(pkg, "aux." + f)); n += os.path.getsize(src)
+    return n
+
+
+@torch.no_grad()
+def vision_teacher(path="/workspace/work/data/vision/vision_inputs.pt", max_new=64):
+    """BF16 teacher continuations for the image prompts (greedy), cached with their log-probabilities on CPU."""
+    data = torch.load(path); model = H.S["model"]; dt = model.dtype; T = []
+    for s in data:
+        inp = {k: v.cuda() for k, v in s["inputs"].items()}; inp["pixel_values"] = inp["pixel_values"].to(dt); L = inp["input_ids"].shape[1]
+        full = model.generate(**inp, max_new_tokens=max_new, do_sample=False)
+        lg = model(**_vis_inputs(s, full, dt)).logits[0, L - 1:-1].float()
+        T.append(dict(full=full.cpu(), L=L, lp=F.log_softmax(lg, -1).to(torch.float16).cpu(), kind=s["kind"]))
+    H.S["vis"] = dict(data=data, T=T)
+    return len(T)
+
+
+def _vis_inputs(s, ids, dt):
+    inp = {k: v.cuda() for k, v in s["inputs"].items()}; inp["pixel_values"] = inp["pixel_values"].to(dt)
+    extra = ids.shape[1] - inp["input_ids"].shape[1]
+    if "mm_token_type_ids" in inp and extra > 0:
+        tt = inp["mm_token_type_ids"]; inp["mm_token_type_ids"] = torch.cat([tt, torch.zeros(1, extra, dtype=tt.dtype, device=tt.device)], 1)
+    inp["input_ids"] = ids.cuda(); inp["attention_mask"] = torch.ones_like(inp["input_ids"])
+    return inp
+
+
+@torch.no_grad()
+def vision_eval():
+    V_ = H.S["vis"]; model = H.S["model"]; out = {}
+    for s, tt in zip(V_["data"], V_["T"]):
+        lg = model(**_vis_inputs(s, tt["full"], model.dtype)).logits[0, tt["L"] - 1:-1].float()
+        lps = F.log_softmax(lg, -1); lpt = tt["lp"].cuda().float()
+        out.setdefault(tt["kind"], []).append(((lpt.exp() * (lpt - lps)).sum(-1).mean().item(), (lps.argmax(-1) == lpt.argmax(-1)).float().mean().item()))
+    allv = [v for vs in out.values() for v in vs]
+    return dict(kl=sum(v[0] for v in allv) / len(allv), agree=sum(v[1] for v in allv) / len(allv), n=len(allv),
+                by_kind={k: dict(kl=sum(v[0] for v in vs) / len(vs), agree=sum(v[1] for v in vs) / len(vs)) for k, vs in out.items()})

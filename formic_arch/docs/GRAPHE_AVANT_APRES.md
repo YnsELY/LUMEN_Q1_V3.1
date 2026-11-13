@@ -70,6 +70,23 @@ variante A_b2 :          b = W µ_professeur − Q µ_élève   (ancre la sortie
 Résultat (voir le rapport) : gain net sans rétroaction (KL −15 % à octets égaux), **aucun gain une fois la passe E8-LDLQ appliquée** :
 la rétroaction de LDLQ, pilotée par un Gram dont la composante dominante est précisément cette direction moyenne, annule déjà cette erreur.
 
+## Architecture candidate A_rot (pilote exécuté de bout en bout ; non retenue)
+
+```
+h' = R h   (R orthogonale de Haar, fixée par une graine)
+embedding            E'  = E Rᵀ
+lecteurs du résiduel W'  = W diag(1+w) Rᵀ      (gain de la RMSNorm replié ; la norme devient sans gain)
+écrivains            W'  = R W                  (down_proj, out_proj, o_proj)
+tête                 W'  = W diag(1+w_final) Rᵀ (norme finale sans gain)
+```
+
+* Exacte en arithmétique réelle (`N(Rh) = R N(h)`) ; le sous-calcul interne des mélangeurs et des MLP reçoit les mêmes arguments.
+* **Non exacte en stockage BF16** : résidu mesuré 0,003 nat (sélection) à 0,009 (confirmation, 0,044 sur le domaine math).
+* Un gain de `post_attention_layernorm` vaut 1/256 sur une dimension aux couches 0–10 et exactement 0 à la couche 7 : le repli doit se faire
+  par multiplication, jamais par division.
+* Non raccordés dans ce pilote : sortie du merger Vision et MTP (hors du chemin texte évalué).
+* Résultat : égalité avec le témoin sur 600 documents (ΔKL +0,0001, IC 95 % [−0,0055 ; +0,0059]).
+
 ## Structures de reconstruction essayées et rejetées
 
 | Structure | Graphe après | Dommage BF16 seul (KL) | À octets égaux, quantifié sans rétroaction |

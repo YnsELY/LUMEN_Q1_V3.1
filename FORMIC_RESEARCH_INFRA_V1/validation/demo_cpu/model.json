@@ -1,0 +1,14 @@
+{
+  "backend": "toy",
+  "synthetic": true,
+  "checkpoint": "formic/toy-fixture",
+  "revision": "9a7e35050dae89f6d170bae6d98bb92add32109d478bd32bade3fb0b373ef13b",
+  "vocab_size": 64,
+  "seed": 17,
+  "model_settings": {
+    "backend": "toy",
+    "device": "cpu",
+    "seed": 17
+  },
+  "validation_scope": "synthetic_causal_fixture_not_Qwen"
+}

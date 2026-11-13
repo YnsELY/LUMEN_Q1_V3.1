@@ -1,0 +1,10 @@
+{
+  "ids": [
+    "select-0",
+    "select-1",
+    "select-2"
+  ],
+  "sha256": "960f96a7105631799f393bc4c15eba0d7d17fbc0e337eddec5cb1d00f0592f66",
+  "positions": "last keep_last predictors in each complete input",
+  "keep_last": 8
+}

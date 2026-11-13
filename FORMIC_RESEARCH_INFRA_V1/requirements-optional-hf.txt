@@ -1,0 +1,5 @@
+# Optional runtime packages. NOT integration-tested on Qwen in this delivery.
+# Resolve and pin versions compatible with the actual checkpoint on the pod.
+# Do not install a new torch build implicitly; inspect dependencies first.
+transformers
+accelerate

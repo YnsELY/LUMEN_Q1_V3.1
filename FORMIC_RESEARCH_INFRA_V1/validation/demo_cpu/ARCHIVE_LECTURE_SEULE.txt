@@ -1,0 +1,1 @@
+Run de démonstration archivé : données synthétiques, pas Qwen. Copier le kit et relancer run_demo.py dans un nouveau dossier pour reproduire. Le code_snapshot est omis car le code exact est inclus dans la livraison. Ne pas --resume cette copie archivée.

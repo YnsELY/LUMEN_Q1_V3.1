@@ -1,0 +1,24 @@
+{
+  "id": "A1_example_rank8_E8",
+  "spec": {
+    "id": "A1_example_rank8_E8",
+    "changes": [
+      {
+        "target": "blocks.0.mlp.up_proj",
+        "kind": "lowrank_linear",
+        "rank": 8
+      }
+    ],
+    "quantization": [
+      {
+        "target": "blocks.0.mlp.up_proj.left",
+        "kind": "lumen_cpu"
+      },
+      {
+        "target": "blocks.0.mlp.up_proj.right",
+        "kind": "lumen_cpu"
+      }
+    ]
+  },
+  "status": "completed"
+}

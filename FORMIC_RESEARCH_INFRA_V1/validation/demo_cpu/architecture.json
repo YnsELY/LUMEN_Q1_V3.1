@@ -1,0 +1,157 @@
+{
+  "unique_parameters": 7328,
+  "parameter_count_note": "Unique Parameter objects; separately wrapped shared views can overlap. Storage bytes deduplicated by allocation.",
+  "parameter_storage_bytes": 29312,
+  "loaded_mtp_names": [],
+  "modules": [
+    {
+      "path": "",
+      "type": "ToyLM",
+      "local_parameters": 0
+    },
+    {
+      "path": "embed_tokens",
+      "type": "Embedding",
+      "local_parameters": 1024
+    },
+    {
+      "path": "blocks",
+      "type": "ModuleList",
+      "local_parameters": 0
+    },
+    {
+      "path": "blocks.0",
+      "type": "ToyBlock",
+      "local_parameters": 0
+    },
+    {
+      "path": "blocks.0.norm",
+      "type": "LayerNorm",
+      "local_parameters": 32
+    },
+    {
+      "path": "blocks.0.qkv",
+      "type": "Linear",
+      "local_parameters": 768,
+      "in_features": 16,
+      "out_features": 48,
+      "bias": false
+    },
+    {
+      "path": "blocks.0.o_proj",
+      "type": "Linear",
+      "local_parameters": 256,
+      "in_features": 16,
+      "out_features": 16,
+      "bias": false
+    },
+    {
+      "path": "blocks.0.post_norm",
+      "type": "LayerNorm",
+      "local_parameters": 32
+    },
+    {
+      "path": "blocks.0.mlp",
+      "type": "ToyMLP",
+      "local_parameters": 0
+    },
+    {
+      "path": "blocks.0.mlp.gate_proj",
+      "type": "Linear",
+      "local_parameters": 512,
+      "in_features": 16,
+      "out_features": 32,
+      "bias": false
+    },
+    {
+      "path": "blocks.0.mlp.up_proj",
+      "type": "Linear",
+      "local_parameters": 512,
+      "in_features": 16,
+      "out_features": 32,
+      "bias": false
+    },
+    {
+      "path": "blocks.0.mlp.down_proj",
+      "type": "Linear",
+      "local_parameters": 512,
+      "in_features": 32,
+      "out_features": 16,
+      "bias": false
+    },
+    {
+      "path": "blocks.1",
+      "type": "ToyBlock",
+      "local_parameters": 0
+    },
+    {
+      "path": "blocks.1.norm",
+      "type": "LayerNorm",
+      "local_parameters": 32
+    },
+    {
+      "path": "blocks.1.qkv",
+      "type": "Linear",
+      "local_parameters": 768,
+      "in_features": 16,
+      "out_features": 48,
+      "bias": false
+    },
+    {
+      "path": "blocks.1.o_proj",
+      "type": "Linear",
+      "local_parameters": 256,
+      "in_features": 16,
+      "out_features": 16,
+      "bias": false
+    },
+    {
+      "path": "blocks.1.post_norm",
+      "type": "LayerNorm",
+      "local_parameters": 32
+    },
+    {
+      "path": "blocks.1.mlp",
+      "type": "ToyMLP",
+      "local_parameters": 0
+    },
+    {
+      "path": "blocks.1.mlp.gate_proj",
+      "type": "Linear",
+      "local_parameters": 512,
+      "in_features": 16,
+      "out_features": 32,
+      "bias": false
+    },
+    {
+      "path": "blocks.1.mlp.up_proj",
+      "type": "Linear",
+      "local_parameters": 512,
+      "in_features": 16,
+      "out_features": 32,
+      "bias": false
+    },
+    {
+      "path": "blocks.1.mlp.down_proj",
+      "type": "Linear",
+      "local_parameters": 512,
+      "in_features": 32,
+      "out_features": 16,
+      "bias": false
+    },
+    {
+      "path": "norm",
+      "type": "LayerNorm",
+      "local_parameters": 32
+    },
+    {
+      "path": "lm_head",
+      "type": "Linear",
+      "local_parameters": 1024,
+      "in_features": 16,
+      "out_features": 64,
+      "bias": false
+    }
+  ],
+  "note": "Loaded module tree, not a proof that all paths execute in text forward."
+}

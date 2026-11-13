@@ -1,0 +1,1 @@
+{"base":{"kind":"lowrank_linear","target":"blocks.0.mlp.up_proj"},"parameter":"rank","values":[4,8,12],"prefix":"example_rank"}

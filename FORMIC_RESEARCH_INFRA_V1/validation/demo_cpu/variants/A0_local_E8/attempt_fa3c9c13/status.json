@@ -1,0 +1,14 @@
+{
+  "id": "A0_local_E8",
+  "spec": {
+    "id": "A0_local_E8",
+    "changes": [],
+    "quantization": [
+      {
+        "target": "blocks.0.mlp.up_proj",
+        "kind": "lumen_cpu"
+      }
+    ]
+  },
+  "status": "completed"
+}

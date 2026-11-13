@@ -1,0 +1,75 @@
+{
+  "documents": [
+    {
+      "id": "cal-0",
+      "source_id": "synthetic-cal-0",
+      "split": "cal",
+      "token_hash": "1925fdd3d0a188fbfaba1224a1a8c7aca7ffe23dec499b6de9ee3ea7305ae686",
+      "used_tokens": 24
+    },
+    {
+      "id": "cal-1",
+      "source_id": "synthetic-cal-1",
+      "split": "cal",
+      "token_hash": "41101eee718cb2bb4c96452c59864d349b1ac94cc2de74997bd5ba1815c46297",
+      "used_tokens": 24
+    },
+    {
+      "id": "cal-2",
+      "source_id": "synthetic-cal-2",
+      "split": "cal",
+      "token_hash": "f2cdd6366a395a9971eeaf0aa38f3e40b21119dd2e5d70dcba965cb99420a956",
+      "used_tokens": 24
+    },
+    {
+      "id": "select-0",
+      "source_id": "synthetic-select-0",
+      "split": "select",
+      "token_hash": "4ec00e173cc6a102e6bc301f52dd6a0920446907d69164eafbd72b074eecf0c2",
+      "used_tokens": 24
+    },
+    {
+      "id": "select-1",
+      "source_id": "synthetic-select-1",
+      "split": "select",
+      "token_hash": "f951c36be2e9f89709187c4891f65de310c5eca91285e75cc754d86bee0a19ad",
+      "used_tokens": 24
+    },
+    {
+      "id": "select-2",
+      "source_id": "synthetic-select-2",
+      "split": "select",
+      "token_hash": "a421a4e9a881598d56401bb461b678d37b982b15ab635c449c72acff93d0b37f",
+      "used_tokens": 24
+    },
+    {
+      "id": "confirm-0",
+      "source_id": "synthetic-confirm-0",
+      "split": "confirm",
+      "token_hash": "be2646f5c6f16f28fa446d1b481c20a0f539743382134d64e0208b7488718458",
+      "used_tokens": 24
+    },
+    {
+      "id": "confirm-1",
+      "source_id": "synthetic-confirm-1",
+      "split": "confirm",
+      "token_hash": "eb46c7ae99fb6c7f965a01d621e0c8bbb9adf3cad7311c7a8e344ea9449581f3",
+      "used_tokens": 24
+    },
+    {
+      "id": "confirm-2",
+      "source_id": "synthetic-confirm-2",
+      "split": "confirm",
+      "token_hash": "cb4f62885a88e783029c1e4dcbdd9ade33017b506b93270ab613518de10784ca",
+      "used_tokens": 24
+    }
+  ],
+  "splits": {
+    "cal": 3,
+    "select": 3,
+    "confirm": 3
+  },
+  "semantic_decontamination_verified": false,
+  "fingerprint": "8cba6a324053d275915993f460b407174156b3355426c5ee2509e68f40c8837f",
+  "tokenized_fingerprint": "1636ba205d9b7b737f0af946e802a95b6b60ca817eb51be60ebaf6ea1f3e167a"
+}

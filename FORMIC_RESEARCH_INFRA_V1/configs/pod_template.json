@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "model": {
+    "backend": "hf_local",
+    "path": "/workspace/models/Qwen3.8-27B/snapshots/37561816e66b5b9153b1b64c10968c18c1e6f4a0",
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "auto_class": "AutoModelForImageTextToText",
+    "attn_implementation": "sdpa",
+    "vram_margin_bytes": 6000000000,
+    "max_logit_elements": 64000000,
+    "allow_unverified_revision": false
+  },
+  "data_file": "/workspace/formic_data/calibration_sources.jsonl",
+  "evaluation_split": "select",
+  "max_length": 256,
+  "keep_last": 8,
+  "capture_positions": 256,
+  "positions_per_document": 64,
+  "max_seconds": 600,
+  "disk_reserve_bytes": 2000000000,
+  "max_candidate_save_bytes": 1000000000,
+  "cpu_threads": 4,
+  "variants": [{"id": "A0_runtime_parity", "changes": []}]
+}

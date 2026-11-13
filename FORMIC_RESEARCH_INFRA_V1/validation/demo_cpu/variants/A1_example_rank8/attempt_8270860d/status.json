@@ -1,0 +1,14 @@
+{
+  "id": "A1_example_rank8",
+  "spec": {
+    "id": "A1_example_rank8",
+    "changes": [
+      {
+        "target": "blocks.0.mlp.up_proj",
+        "kind": "lowrank_linear",
+        "rank": 8
+      }
+    ]
+  },
+  "status": "completed"
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "model": {"backend": "toy", "device": "cpu", "seed": 17},
+  "fixture_data": {"seed": 125, "docs_per_split": 3, "length": 24, "vocab": 64},
+  "evaluation_split": "select",
+  "max_length": 32,
+  "keep_last": 8,
+  "capture_positions": 48,
+  "positions_per_document": 16,
+  "max_seconds": 300,
+  "disk_reserve_bytes": 10000000,
+  "max_candidate_save_bytes": 10000000,
+  "cpu_threads": 1,
+  "variants": [
+    {"id": "A0_full", "changes": []},
+    {"id": "A0_local_E8", "changes": [], "quantization": [{"target": "blocks.0.mlp.up_proj", "kind": "lumen_cpu"}]},
+    {"id": "A1_example_rank8", "changes": [{"target": "blocks.0.mlp.up_proj", "kind": "lowrank_linear", "rank": 8}]},
+    {"id": "A1_example_rank8_E8", "changes": [{"target": "blocks.0.mlp.up_proj", "kind": "lowrank_linear", "rank": 8}],
+     "quantization": [{"target": "blocks.0.mlp.up_proj.left", "kind": "lumen_cpu"}, {"target": "blocks.0.mlp.up_proj.right", "kind": "lumen_cpu"}]}
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-11-13T01:16:11.394048+00:00",
+  "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "versions": {
+    "torch": "2.10.0+cpu",
+    "numpy": "2.3.5",
+    "safetensors": "0.7.0",
+    "transformers": null,
+    "accelerate": null,
+    "psutil": "7.2.2",
+    "pytest": "9.0.2"
+  },
+  "logical_cpus": 5,
+  "cpu_quota_equivalent": 4.0,
+  "ram": {
+    "total": 6236844032,
+    "available": 4843560960,
+    "percent": 22.3,
+    "used": 1393283072,
+    "free": 4955820032,
+    "active": 4202496,
+    "inactive": 686505984,
+    "buffers": 2330624,
+    "cached": 66535424,
+    "shared": 12288,
+    "slab": 76820480
+  },
+  "disk": {
+    "total": 33770192896,
+    "used": 10518528,
+    "free": 32024911872
+  },
+  "cuda": {
+    "available": false,
+    "torch_cuda": null,
+    "devices": []
+  },
+  "no_gpu_test_performed": true
+}

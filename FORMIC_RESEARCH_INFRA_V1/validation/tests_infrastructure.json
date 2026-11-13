@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "tests_run": 87,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 7.919489900000144,
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "torch": "2.10.0+cpu",
+  "code_fingerprint": "9a7e35050dae89f6d170bae6d98bb92add32109d478bd32bade3fb0b373ef13b",
+  "scope": "CPU synthetic fixtures + small real files; NOT Qwen nor CUDA validation"
+}

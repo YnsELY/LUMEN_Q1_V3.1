@@ -1,0 +1,125 @@
+{
+  "status": "confirmation_consumed",
+  "frozen_candidates": [
+    "A0_local_E8",
+    "A1_example_rank8_E8"
+  ],
+  "results": {
+    "A0_local_E8": {
+      "documents": [
+        {
+          "kl_nats_mean": 6.660320705292851e-05,
+          "kl_nats_p99": 0.0001428862200565874,
+          "top1_agreement": 1.0,
+          "positions": 8,
+          "id": "confirm-0",
+          "source_id": "synthetic-confirm-0",
+          "token_hash": "be2646f5c6f16f28fa446d1b481c20a0f539743382134d64e0208b7488718458",
+          "elapsed_forward_seconds": 0.00031890800005385245,
+          "input_tokens": 24,
+          "teacher_forced_prefill_input_tokens_per_second": 75256.81386464823,
+          "not_autoregressive_generation_throughput": true
+        },
+        {
+          "kl_nats_mean": 6.509637554374652e-05,
+          "kl_nats_p99": 0.0001664001315468749,
+          "top1_agreement": 1.0,
+          "positions": 8,
+          "id": "confirm-1",
+          "source_id": "synthetic-confirm-1",
+          "token_hash": "eb46c7ae99fb6c7f965a01d621e0c8bbb9adf3cad7311c7a8e344ea9449581f3",
+          "elapsed_forward_seconds": 0.00031271000011656724,
+          "input_tokens": 24,
+          "teacher_forced_prefill_input_tokens_per_second": 76748.42502975168,
+          "not_autoregressive_generation_throughput": true
+        },
+        {
+          "kl_nats_mean": 0.00010768747395748998,
+          "kl_nats_p99": 0.0002602054526334314,
+          "top1_agreement": 1.0,
+          "positions": 8,
+          "id": "confirm-2",
+          "source_id": "synthetic-confirm-2",
+          "token_hash": "cb4f62885a88e783029c1e4dcbdd9ade33017b506b93270ab613518de10784ca",
+          "elapsed_forward_seconds": 0.0003958409999995638,
+          "input_tokens": 24,
+          "teacher_forced_prefill_input_tokens_per_second": 60630.40463222973,
+          "not_autoregressive_generation_throughput": true
+        }
+      ],
+      "summary": {
+        "documents": 3,
+        "positions": 24,
+        "document_mean_kl": 7.9795685518055e-05,
+        "token_weighted_mean_kl": 7.9795685518055e-05,
+        "bootstrap_document_mean_95pct": [
+          6.509637554374652e-05,
+          0.00010768747395748998
+        ],
+        "bootstrap_unit": "source_id (documents clustered)",
+        "source_clusters": 3,
+        "bootstrap_note": "Descriptive interval resampling sources/episodes; not a capacity guarantee."
+      },
+      "trained_on_confirmation": false
+    },
+    "A1_example_rank8_E8": {
+      "documents": [
+        {
+          "kl_nats_mean": 0.0006273499568777343,
+          "kl_nats_p99": 0.0017366145256147037,
+          "top1_agreement": 1.0,
+          "positions": 8,
+          "id": "confirm-0",
+          "source_id": "synthetic-confirm-0",
+          "token_hash": "be2646f5c6f16f28fa446d1b481c20a0f539743382134d64e0208b7488718458",
+          "elapsed_forward_seconds": 0.00032455600012326613,
+          "input_tokens": 24,
+          "teacher_forced_prefill_input_tokens_per_second": 73947.1770384304,
+          "not_autoregressive_generation_throughput": true
+        },
+        {
+          "kl_nats_mean": 0.0004267694717108422,
+          "kl_nats_p99": 0.001668471446790314,
+          "top1_agreement": 0.875,
+          "positions": 8,
+          "id": "confirm-1",
+          "source_id": "synthetic-confirm-1",
+          "token_hash": "eb46c7ae99fb6c7f965a01d621e0c8bbb9adf3cad7311c7a8e344ea9449581f3",
+          "elapsed_forward_seconds": 0.0003083030001107545,
+          "input_tokens": 24,
+          "teacher_forced_prefill_input_tokens_per_second": 77845.49612354813,
+          "not_autoregressive_generation_throughput": true
+        },
+        {
+          "kl_nats_mean": 0.0008976105998924564,
+          "kl_nats_p99": 0.0031665297388810314,
+          "top1_agreement": 0.75,
+          "positions": 8,
+          "id": "confirm-2",
+          "source_id": "synthetic-confirm-2",
+          "token_hash": "cb4f62885a88e783029c1e4dcbdd9ade33017b506b93270ab613518de10784ca",
+          "elapsed_forward_seconds": 0.00029079699993417307,
+          "input_tokens": 24,
+          "teacher_forced_prefill_input_tokens_per_second": 82531.80055307591,
+          "not_autoregressive_generation_throughput": true
+        }
+      ],
+      "summary": {
+        "documents": 3,
+        "positions": 24,
+        "document_mean_kl": 0.0006505766761603443,
+        "token_weighted_mean_kl": 0.0006505766761603443,
+        "bootstrap_document_mean_95pct": [
+          0.0004267694717108421,
+          0.0008976105998924564
+        ],
+        "bootstrap_unit": "source_id (documents clustered)",
+        "source_clusters": 3,
+        "bootstrap_note": "Descriptive interval resampling sources/episodes; not a capacity guarantee."
+      },
+      "trained_on_confirmation": false
+    }
+  },
+  "synthetic": true,
+  "no_selection_based_on_this_report": true
+}

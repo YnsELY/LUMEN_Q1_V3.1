@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "scope": "CPU regression/codec tests, NOT Qwen quality validation",
+  "manifest": {
+    "verified": true,
+    "files_checked": 112,
+    "actual_files": 112,
+    "errors": []
+  },
+  "tests": {
+    "tests_run": 107,
+    "passed": 107,
+    "failures": 0,
+    "errors": 0
+  },
+  "source_unchanged": true
+}

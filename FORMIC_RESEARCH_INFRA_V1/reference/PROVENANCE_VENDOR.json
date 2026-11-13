@@ -1,0 +1,57 @@
+{
+  "source_archive": "LUMEN_Q1_V3_1_CORRIGE_ET_VERIFIE.zip",
+  "source_sha256": "3bc6375147ea68c65e96ebb62bbb923923f0e527f19c8c0efa201f318c3b847a",
+  "library_files": [
+    {
+      "path": "vendor/lumen_ref/__init__.py",
+      "source_path": "lumen_ref/__init__.py",
+      "sha256": "d763bb76d086c20556a8818e8ed5419a551837058d141217e24ae122edd50362",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/budget.py",
+      "source_path": "lumen_ref/budget.py",
+      "sha256": "9a9e4e07c84a4df62abc15e5d2d711532be93e2458046871438666b015ef0b62",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/calibration.py",
+      "source_path": "lumen_ref/calibration.py",
+      "sha256": "bacc70f315405bbb2d2eb8aa92354c46aaa1c768d1968dd0ed6d05d7ce6fbae3",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/e8.py",
+      "source_path": "lumen_ref/e8.py",
+      "sha256": "fd34058c5aee39cd743308972517da9c6bb603383fcb2c0ea927e91ef117e01d",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/entropy.py",
+      "source_path": "lumen_ref/entropy.py",
+      "sha256": "d5d52249e11bab9719411afee2e67e37b3ff0f9eaacf14e0176a9a80ba1d8e29",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/linalg.py",
+      "source_path": "lumen_ref/linalg.py",
+      "sha256": "3ce70ac4a4f8af1cf0cc7872ec448a25fad4708d6983a91b0ce87b482011aa40",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/metrics.py",
+      "source_path": "lumen_ref/metrics.py",
+      "sha256": "57038402cf2208539052d1ed4778b01256cd08785000bf9755d0e5703e19bce8",
+      "unchanged": true
+    },
+    {
+      "path": "vendor/lumen_ref/quantization.py",
+      "source_path": "lumen_ref/quantization.py",
+      "sha256": "4d6b1e92c0e1d204e258257605c778308ba263b8bb54101c2556d16db6d9be86",
+      "unchanged": true
+    }
+  ],
+  "validator_source": "tools/validate_capture.py",
+  "validator_sha256": "d07859ee2f1d0d35c40d050c51f79a43539126002dcc3420c36fe1bd41c7788b",
+  "reference_modified": false
+}

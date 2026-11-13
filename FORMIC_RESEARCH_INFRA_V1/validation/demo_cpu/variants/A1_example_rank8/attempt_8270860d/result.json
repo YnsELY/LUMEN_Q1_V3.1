@@ -1,0 +1,82 @@
+{
+  "id": "A1_example_rank8",
+  "status": "completed",
+  "source_kind": "synthetic_fixture",
+  "scope": "text_teacher_forced_selected_positions; not global capability evaluation",
+  "changes": [
+    {
+      "kind": "lowrank_linear",
+      "rank": 8,
+      "initialization": "SVD of original; truncated when rank < full",
+      "path": "blocks.0.mlp.up_proj",
+      "old_params": 512,
+      "new_params": 384
+    }
+  ],
+  "quantization": [],
+  "recovery": null,
+  "documents": [
+    {
+      "kl_nats_mean": 0.0005836368779943374,
+      "kl_nats_p99": 0.0022036303049144004,
+      "top1_agreement": 0.75,
+      "positions": 8,
+      "id": "select-0",
+      "source_id": "synthetic-select-0",
+      "token_hash": "4ec00e173cc6a102e6bc301f52dd6a0920446907d69164eafbd72b074eecf0c2",
+      "elapsed_forward_seconds": 0.00029645599988725735,
+      "input_tokens": 24,
+      "teacher_forced_prefill_input_tokens_per_second": 80956.3645503118,
+      "not_autoregressive_generation_throughput": true
+    },
+    {
+      "kl_nats_mean": 0.00038532564036276623,
+      "kl_nats_p99": 0.0008597021083446988,
+      "top1_agreement": 1.0,
+      "positions": 8,
+      "id": "select-1",
+      "source_id": "synthetic-select-1",
+      "token_hash": "f951c36be2e9f89709187c4891f65de310c5eca91285e75cc754d86bee0a19ad",
+      "elapsed_forward_seconds": 0.0003588270001273486,
+      "input_tokens": 24,
+      "teacher_forced_prefill_input_tokens_per_second": 66884.5989612887,
+      "not_autoregressive_generation_throughput": true
+    },
+    {
+      "kl_nats_mean": 0.00022222373586451837,
+      "kl_nats_p99": 0.0005371003241583308,
+      "top1_agreement": 0.75,
+      "positions": 8,
+      "id": "select-2",
+      "source_id": "synthetic-select-2",
+      "token_hash": "a421a4e9a881598d56401bb461b678d37b982b15ab635c449c72acff93d0b37f",
+      "elapsed_forward_seconds": 0.001457501000004413,
+      "input_tokens": 24,
+      "teacher_forced_prefill_input_tokens_per_second": 16466.541017760763,
+      "not_autoregressive_generation_throughput": true
+    }
+  ],
+  "summary": {
+    "documents": 3,
+    "positions": 24,
+    "document_mean_kl": 0.00039706208474054065,
+    "token_weighted_mean_kl": 0.00039706208474054065,
+    "bootstrap_document_mean_95pct": [
+      0.0002222237358645184,
+      0.000517533132117147
+    ],
+    "bootstrap_unit": "source_id (documents clustered)",
+    "source_clusters": 3,
+    "bootstrap_note": "Descriptive interval resampling sources/episodes; not a capacity guarantee."
+  },
+  "candidate_unique_params": 7200,
+  "runtime_parameter_bytes": 28800,
+  "gpu_peak_allocated_bytes": null,
+  "elapsed_seconds": 0.010889686999917103,
+  "saved_modules": {
+    "blocks.0.mlp.up_proj": "module_13291736a498.safetensors"
+  },
+  "model_10gb_produced": false,
+  "saved_state_is_dense_not_compressed_package": true,
+  "encoded_local_tensor_bytes": 0
+}

@@ -1,0 +1,8 @@
+{
+  "pod_billing_start_utc": "REPLACE_WITH_REAL_POD_START_ISO_TIMESTAMP_WITH_TIMEZONE",
+  "hourly_total_usd": null,
+  "remaining_budget_at_start_usd": null,
+  "reserve_usd": 1.0,
+  "max_pod_seconds": 21600,
+  "note": "Fill actual price incl. running storage and real balance. The supervisor kills its process tree only; it NEVER stops RunPod billing. Stop pod separately. This 6h ceiling is editable, not a duration prediction."
+}

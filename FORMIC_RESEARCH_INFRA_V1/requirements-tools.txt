@@ -1,0 +1,5 @@
+# Tested CPU utility versions. Install only in an appropriate environment.
+# PyTorch intentionally omitted: preserve the pod's CUDA-compatible installation.
+numpy==2.3.5
+safetensors==0.7.0
+psutil==7.2.2

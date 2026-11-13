@@ -1,61 +1,51 @@
-# FORMIC / LUMEN — Recherche autonome de co-conception architecture–compression
+# FORMIC / LUMEN — Recherche autonome architecture × compression
 
-**Prompt V5 — Référence : LUMEN Q1-v3.1.** Remplace le mandat architectural V4 pour ce sprint.
+**Prompt V6 — avec infrastructure préparée.** Remplace V5. Base de compression : **LUMEN Q1-v3.1**.
 
-## 1. Le projet et ton objectif
+## Le projet, l’objectif et ta responsabilité
 
-Formic vise à dériver du modèle préentraîné `Qwen/Qwen3.8-27B` une version beaucoup plus compacte, en préservant au maximum ses capacités générales. Lumen est notre recette de compression. Le premier objectif est **10 000 000 000 octets au maximum pour le modèle complet**, texte, Vision, MTP, poids transformés, correcteurs, tables, échelles et métadonnées nécessaires inclus.
+Formic doit devenir une version dérivée de `Qwen/Qwen3.8-27B` qui conserve au maximum les capacités du BF16 sous **10 000 000 000 octets complets** : texte, Vision, MTP, poids, correcteurs, transformations, tables, échelles et métadonnées nécessaires compris. La révision cible est `37561816e66b5b9153b1b64c10968c18c1e6f4a0` ; vérifie les fichiers locaux sans substitution silencieuse.
 
-Notre hypothèse est qu’une architecture dérivée pourrait mieux préserver les capacités sous compression Lumen que la structure BF16 originale. **Examine cette hypothèse sans la tenir pour acquise.**
+Lumen est notre recette de compression. Nous voulons découvrir si une architecture différente, conçue en tenant compte de Lumen, peut mieux préserver les capacités que la structure originale simplement quantifiée. **Ce meilleur couple architecture–compression est ton objectif ; sa supériorité n’est pas acquise.**
 
-Ta mission est de découvrir, concevoir et expérimenter des modifications architecturales qui fonctionnent particulièrement bien avec Lumen. Le résultat recherché est un meilleur couple **architecture + compression**, pas une architecture différente pour elle-même ni une accélération présentée comme un gain de capacités.
+Tu es le responsable scientifique, pas l’exécutant d’une architecture décidée à l’avance. Formule tes hypothèses, inspecte le vrai graphe, cherche dans les sources primaires et invente les expériences qui les départagent. Tu peux modifier représentations, briques ou structure profonde, réutiliser et adapter les poids, remettre en question dimensions, partage ou organisation. Ne limite pas la mission à des rotations ou au choix des bits : une véritable reconstruction doit être étudiée et, si les ressources le permettent, un pilote structurel exécuté. Un blocage matériel n’est pas une réfutation scientifique.
 
-## 2. Ce dont tu disposes et où nous en sommes
+## Ce qui est disponible et ce qui reste hypothétique
 
-Le pod contiendra le modèle BF16 complet et `LUMEN_Q1_V3_1_CORRIGE_ET_VERIFIE.zip`. La révision cible est `37561816e66b5b9153b1b64c10968c18c1e6f4a0` : vérifie l’identité des fichiers locaux, sans substitution silencieuse.
+Tu disposes du modèle BF16 complet prépositionné et du kit `FORMIC_RESEARCH_INFRA_V1`. L’archive Lumen originale se trouve dans `reference/LUMEN_Q1_V3_1_CORRIGE_ET_VERIFIE.zip` ; sa bibliothèque CPU inchangée est raccordée dans `vendor/lumen_ref/`.
 
-Lis le README, `RECETTE_MAX_PROPOSEE_V3_1.md`, le bilan V3.1 et les composants pertinents. Les anciennes versions ne remplacent pas les décisions actuelles.
+Lumen articule E8, compensation LDLQ, arrondi sensible aux statistiques/coûts, allocation de précision, calibration et récupération. La V3.1 est une référence CPU testée et une proposition d’intégration, **pas un pipeline GPU complet ni un modèle de 10 Go validé**. La calibration asymétrique a un signal synthétique ; BGCC et les polissages restent expérimentaux et désactivés par défaut. Aucun de leurs pourcentages ne prédit les benchmarks Qwen.
 
-Le projet Lumen articule quantification vectorielle E8, compensation d’erreur LDLQ, arrondi tenant compte des statistiques et du coût de codage, allocation de précision et récupération après compression. **Toutes ces composantes ne constituent pas encore un pipeline industriel intégré.**
+Lis le README du kit, la recette V3.1 et son bilan ; consulte le reste selon tes hypothèses. Réutilise le travail valide, sans refaire un audit exhaustif ni consacrer tout le pod au développement d’un moteur. Corrige cependant un défaut qui invaliderait une expérience.
 
-La V3.1 fournit une référence CPU testée : algèbre, encodeur/décodeur et mesures. La calibration asymétrique régularisée montre un signal positif **synthétique, pas encore démontré sur Qwen**. BGCC et les polissages restent expérimentaux, désactivés par défaut. Le codec CPU n’est pas un kernel GPU ni le format produit définitif. Aucun Formic complet de 10 Go n’est encore validé.
+## L’infrastructure est là pour te faire gagner du temps
 
-Réutilise ces acquis sans refaire un audit exhaustif ni développer tout le moteur. Corrige toutefois un défaut qui invaliderait tes expériences.
+Elle fournit déjà : inspection du matériel et des en-têtes de poids, chargement local, préparation des données, captures par hooks, diagnostics, substitutions réversibles, récupération locale, raccordement E8 CPU, comparaison des logits, logs, reprise, gel/confirmation et archivage. La démonstration `run_demo.py` vérifie cette chaîne sur un petit modèle causal **synthétique**, jamais présenté comme Qwen.
 
-## 3. Tu es responsable de la recherche
+Les scripts partagent `formic_lab/`. Le backend, les candidats et le quantifieur acceptent des factories Python ; voir `docs/EXTENSION_AGENT.md`. L’exécution multi-variantes charge un seul modèle de base, applique des substitutions puis les restaure. Le contrôle reste versionné ; les poids originaux ne sont pas écrasés.
 
-**Tu choisis les hypothèses, les mécanismes et les expériences.** Étudie le graphe exécuté, les poids et les activations. Consulte les sources primaires pertinentes, sans présumer que leurs résultats se transfèrent à notre modèle.
+**Tu as toute liberté pour modifier, remplacer, supprimer ou ajouter des fichiers, changer d’outil ou de protocole d’exécution si c’est scientifiquement préférable.** Aucun exemple de factorisation, rang, grille ou ordre des scripts ne t’impose une solution. Les limites techniques sont des protections initiales ajustables après mesure, pas des frontières à ta recherche. Documente tes changements, relance les tests pertinents et crée une nouvelle version d’expérience plutôt que réécrire l’historique. Un défaut de ce kit doit être réparé ou contourné proprement, pas accepté pour rester conforme à son code.
 
-L’espace de recherche inclut les représentations équivalentes, les modifications de briques et **les reconstructions profondes**. Tu peux remettre en question dimensions, décompositions, partage, connexions, organisation des blocs ou mécanismes internes, en réutilisant autant que possible les poids préentraînés. Aucune architecture de remplacement n’est imposée.
+Attention aux limites déclarées : le chargeur HF n’a pas encore été validé sur ce Qwen ici ; les captures standard sont textuelles, à contexte court et sans état persistant ; Vision/MTP/récurrence demandent des extensions. Lumen CPU est volontairement borné aux petites matrices, sans kernel CUDA ni Hadamard automatique. Un proxy scalaire est étiqueté **NOT_LUMEN**. Ne transforme pas une démonstration technique en preuve sur le produit.
 
-**La reconstruction profonde exige une investigation réelle, pas une simple mention.** Réalise au moins un pilote structurel sur des blocs réels lorsque les ressources le permettent. Documente sinon le blocage concret, sans le présenter comme une impossibilité scientifique.
+## Comment juger tes idées
 
-Pour chaque proposition, explique son intérêt pour Lumen, la réutilisation des poids, la récupération nécessaire et son critère d’abandon. Tu peux dépasser les pistes déjà suggérées. Privilégie quelques expériences approfondies plutôt qu’un catalogue superficiel.
+Cherche ce qui améliore le modèle **après quantification et récupération**, pas seulement le BF16. Réinvestis les économies structurelles en précision lorsque c’est utile, en comptant tous les coûts. Lumen n’est pas un carcan : adapte ses briques si nécessaire, mais distingue ce gain de celui de l’architecture.
 
-## 4. Rechercher la synergie, sans figer une mauvaise solution
+Compare au meilleur contrôle réellement disponible ; la référence historique L0 absente ne doit pas être déclarée reproduite. Pas d’octets supplémentaires cachés pour le candidat : mêmes budgets réels, ou frontière taille–qualité explicite. Rends aussi les efforts de récupération comparables, ou rapporte le déséquilibre. Distingue architecture de départ/candidate et recette de départ/candidate ; ne somme pas leurs gains.
 
-Évalue les structures **après quantification**, pas seulement en BF16. Analyse ensemble dommage structurel, erreurs de quantification, récupération et coût final. Des économies de paramètres peuvent être réinvesties en précision ; les facteurs, adaptations et conversions ajoutés doivent aussi être comptés.
+Une transformation exacte demande une vérification d’équivalence. Une reconstruction approximative demande de mesurer dommage, récupération puis résultat quantifié. Recalcule les statistiques après changements de bases, dimensions, entrées ou états. Capture les vraies activations contextualisées, pas des embeddings substitués aux couches profondes.
 
-Lumen est ton point de départ, pas un carcan. Adapte ses réglages ou une brique lorsque l’architecture le justifie, en isolant cette contribution : une meilleure compression seule n’est pas un gain architectural.
+Sépare calibration, sélection et confirmation par sources/documents/épisodes. Gèle les finalistes avant la confirmation. Aucun benchmark final ni ses traces ne sert à sélectionner. Préserve conditions de génération et périmètre ; aucun domaine n’est volontairement abandonné. Signale explicitement les domaines, modalités et contextes non évalués. MSE/KL ne sont pas des pourcentages de capacités ; une greffe locale n’est pas un modèle complet.
 
-Recalcule les statistiques et adapte les interfaces après changement de base, dimensions ou états. Une transformation exacte exige preuve et vérification numérique. Une reconstruction approximative exige de mesurer dommage et récupération, pas une identité initiale au BF16.
+## Organise librement ton sprint dans le budget réel
 
-## 5. Ce qui permettra de conclure
+Inspecte les ressources et chronomètre un premier essai. L’opérateur dispose d’un crédit RunPod inférieur à 10 dollars ; **le GPU, son tarif exact et le solde doivent être renseignés, pas supposés**. Le repère antérieur de 8–15 heures concerne un travail global estimatif : il n’autorise pas autant d’heures de location. Prépare autant que possible recherche, code et données hors du temps GPU payant ; concentre le pod sur les expériences décisives et réserve de quoi analyser/exporter.
 
-Compare à l’architecture originale avec la meilleure réalisation Lumen disponible, versionnée ; une référence historique absente reste non reproduite. Pas d’octets supplémentaires accordés au candidat, sauf courbe taille–qualité explicite. Rends comparables les efforts d’adaptation et distingue effets recette, architecture et combinaison.
+Le superviseur estime les dépenses depuis le vrai démarrage du pod et peut terminer les scripts. **Il n’arrête pas RunPod ni sa facturation.** Prévoir l’arrêt effectif du pod séparément avec l’opérateur. Aucune location, dépense supplémentaire, action destructive ou transmission externe des données n’est autorisée par ce prompt. Avance sans demander de validation entre chaque essai dans l’enveloppe convenue.
 
-Utilise des activations authentiques et contextualisées, sur préfixes communs. Sépare calibration, sélection et confirmation par documents/épisodes. Aucun benchmark final ni ses traces ne sert à sélectionner les candidats. Conserve les conditions de génération, sans davantage de tirages ou de réflexion.
+## Ce que tu dois livrer
 
-N’abandonne délibérément aucun domaine : raisonnement, mathématiques, code, connaissances, langues, consignes, outils, agents, long contexte, vision et robustesse. Déclare les domaines et interfaces non testés. Une erreur locale plus faible ne prouve ni un gain de capacités ni un score de benchmark.
+Un dossier compact, reproductible et décisionnel : hypothèses examinées, architectures réellement essayées et graphe avant/après, code/configurations versionnés, résultats bruts, coûts de stockage/mémoire/calcul, limites et décision d’intégration. Le rapport automatique du kit est un tableau de mesures, pas ta conclusion scientifique.
 
-Distingue taille estimée, octets encodés, mémoire des poids et pic d’inférence. Évalue après export/décodage dès que possible. Un bloc greffé dans du BF16 n’est pas un modèle complet de 10 Go ; un codec de substitution ne valide pas Lumen.
-
-## 6. Organisation et résultat attendu
-
-Le GPU sera précisé séparément. Inspecte les ressources, chronomètre un essai et établis ton plan. Vise **10 à 15 heures maximum selon l’enveloppe autorisée**, rapport compris. Une récupération complète n’est pas présumée réalisable. Aucun dépassement ni ressource payante supplémentaire sans autorisation.
-
-Travaille sur des copies, préserve les poids et résultats d’origine, sauvegarde progressivement et réserve du temps à la confirmation. Avance sans validation entre chaque étape dans les limites accordées.
-
-Livre un dossier compact et reproductible : **rapport décisionnel, description des architectures effectivement examinées, code/configurations des prototypes, résultats bruts et bilan des coûts**. Identifie précisément ce qui a été publié, démontré, mesuré, estimé ou reste hypothétique.
-
-La conclusion doit répondre : **quelle modification a réellement été essayée, pourquoi elle s’accorde avec Lumen, ce qu’elle gagne ou perd face au contrôle, et quelle intégration ou expérience suivante est justifiée.** Une conclusion négative solide est recevable. Une revendication de nouvelle architecture optimale sans preuve ne l’est pas.
+Réponds clairement : **qu’as-tu modifié, pourquoi cela s’accorde-t-il avec Lumen, quel gain ou quelle perte subsiste face au contrôle équitable, et que faut-il tester ensuite ?** Distingue publié, rapporté, démontré, mesuré, estimé et non testé. Une conclusion négative précise est acceptable ; une architecture dite optimale sans preuve ne l’est pas.

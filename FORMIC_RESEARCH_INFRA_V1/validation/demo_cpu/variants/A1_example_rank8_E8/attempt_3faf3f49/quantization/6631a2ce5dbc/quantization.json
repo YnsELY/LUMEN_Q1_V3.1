@@ -1,0 +1,20 @@
+{
+  "method": "LUMEN_Q1_v3.1_CPU_matrix_reference",
+  "shape": [
+    32,
+    8
+  ],
+  "matrix_blob_bytes": 541,
+  "bias_file_bytes": 0,
+  "encoded_tensor_files_bytes": 541,
+  "encoded_bpw_weight_blob_only": 16.90625,
+  "runtime_weight_dtype": "torch.float32",
+  "runtime_dense_parameter_bytes": 1024,
+  "gram_from": "full-width inputs of actual selected module",
+  "damping_absolute": 0.010487435299108628,
+  "hadamard_applied": false,
+  "historical_L0_reproduced": false,
+  "gpu_codec_implemented": false,
+  "runtime_cast_max_abs_error": 0.0,
+  "weight_sha256": "aaf62a766f427c1262a25a5119a39d6e246f8506396c668f16a9cea1d0e9d66e"
+}

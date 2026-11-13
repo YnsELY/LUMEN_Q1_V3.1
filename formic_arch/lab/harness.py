@@ -224,7 +224,7 @@ def _match_mult(m, Wsub, c, spec, lo=0.2, hi=2.5, iters=12):
     Ws = Wsub[sel].float()
     if c is not None: Ws = Ws * c
     rms = Ws.pow(2).mean(1).sqrt().clamp_min(1e-12)
-    extra = 16 * mr + (16 * n if c is not None else 0) + 8 * 656
+    extra = 16 * mr + (16 * n if c is not None else 0) + (16 * n if spec.get("perm") else 0) + 8 * 656
     if spec.get("bias_corr", False) and m["kind"] != "embed": extra += 16 * mr
     target = spec["match_bpw"] * Wsub.numel()
     for _ in range(iters):
@@ -323,10 +323,15 @@ def _finish(m, Q, hist, c, spec, st, write=True, mu_override=None):
 def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_override=None):
     """Quantize one matrix in place (or just measure bits on a row sample). Returns (bits, n_params)."""
     W, Wsub, rows, cols = _sub(m)
-    Hm = None; c_ext = None
+    Hm = None; c_ext = None; perm = None
     if H is not None and not sample:
         Hm = H.pop() if isinstance(H, list) else H
         if cols is not None: Hm = Hm[cols][:, cols]
+        if spec.get("perm") and m["kind"] != "embed":
+            # exact column permutation = LDLQ processing order: most energetic inputs first, so that their error
+            # is compensated by the many columns that follow (GPTQ "act_order"); stored as 16 bits per column
+            perm = torch.argsort(torch.diagonal(Hm), descending=True)
+            Hm = Hm[perm][:, perm]; Wsub = Wsub.float()[:, perm]
         if spec.get("rule") == "ldlcol" and m["kind"] != "embed": c_ext = _ldlcol(Hm, spec)
         if spec.get("match_bpw"): mult = _match_mult(m, Wsub, c_ext, spec)
     r, c = _scales(m, Wsub, spec, mult, st, c_ext)
@@ -340,10 +345,13 @@ def quantize_matrix(m, spec, mult, st=None, sample=None, write=True, H=None, mu_
     if H is not None:
         prep = fq.ldl_prepare(Hm, c, spec.get("damp", 0.01)); del Hm
         Q, hist, _ = fq.quantize_ldlq(Wsub, None, r, c, prep=prep); del prep
+        if perm is not None:
+            Qo = torch.empty_like(Q); Qo[:, perm] = Q; Q = Qo; del Qo
         torch.cuda.empty_cache()
     else:
         Q, hist = fq.quantize_rtn(Wsub, r, c)
-    return _finish(m, Q, hist, c, spec, st, write, mu_override)
+    res = _finish(m, Q, hist, c, spec, st, write, mu_override)
+    return (res[0] + (16 * Q.shape[1] if perm is not None else 0), res[1])
 
 
 @torch.no_grad()
@@ -351,7 +359,12 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
     """LDLQ for several matrices that read the SAME input (same Gram): one factorisation, rows stacked
     (rows are independent in the reference algebra, so this is identical to separate calls)."""
     subs = [_sub(m) for m in ms]
-    c_ext = None
+    c_ext = None; perm = None
+    if spec.get("perm") and not any(sb[3] is not None for sb in subs):
+        Hm0 = H.pop() if isinstance(H, list) else H
+        perm = torch.argsort(torch.diagonal(Hm0), descending=True)
+        H = [Hm0[perm][:, perm]]; del Hm0
+        subs = [(sb[0], sb[1].float()[:, perm], sb[2], sb[3]) for sb in subs]
     if spec.get("rule") == "ldlcol" and not any(sb[3] is not None for sb in subs):
         Hm0 = H[0] if isinstance(H, list) else H
         c_ext = _ldlcol(Hm0, spec); del Hm0
@@ -373,7 +386,10 @@ def quantize_group(ms, spec, mult, st, H, mu_override=None):
         hist = fq.shell_hist((2 * q).view(k, n // 8, 8))
         Q = q * x[0][:, None]
         if c is not None: Q = Q / c
-        out.append(_finish(m, Q, hist, c, spec, st, True, mu_override))
+        if perm is not None:
+            Qo = torch.empty_like(Q); Qo[:, perm] = Q; Q = Qo; del Qo
+        res = _finish(m, Q, hist, c, spec, st, True, mu_override)
+        out.append((res[0] + (16 * n if perm is not None else 0), res[1]))
     del Qp; torch.cuda.empty_cache()
     return out
 

@@ -1,0 +1,40 @@
+{
+ "frozen_at": "2026-11-13T13:20:45Z",
+ "protocol": "Variants below were chosen on the selection split only. Confirmation metrics were written to sealed files at variant creation and never printed. This lock is committed before any sealed file is read.",
+ "control_for_ldlq": "A0_Q0ldlq",
+ "control_for_no_feedback": "A0_Q0rtn",
+ "finalists": [
+  "A0_Q0ldlq",
+  "ArotN_Q0ldlq",
+  "Arot_Q0ldlq",
+  "Ab_Q0ldlq",
+  "A0_Qldlcol_ldlq",
+  "Arot_bf16",
+  "A0_Q0rtn",
+  "Ab_Q0rtn",
+  "Ab_Q0rtn_mu4dom",
+  "A0_Qmix_rtn",
+  "A1_w0.125_Q0rtn",
+  "A2_drop2_Q0rtn",
+  "A1_w0.125_bf16",
+  "A2_drop2_bf16"
+ ],
+ "sealed_sha256": {
+  "A0_Q0ldlq": "dc90f3b7cd20434115196d41d569c2e1b22b633cd9cc22939fcd5d7ea6fc0fc9",
+  "ArotN_Q0ldlq": "c9b606b0dbdccc043a91732cde6f42af66e88bd6f1623f97ce3a593e10989499",
+  "Arot_Q0ldlq": "a8fc1fd25ce7a36d8001163c54816ca23dbc928988ec1f0f20ab7b3da1fca70b",
+  "Ab_Q0ldlq": "f84a93697ce4036cf3162deb0a87d69d7f22a19b030d9bdc6c6d5eab774dd8f8",
+  "A0_Qldlcol_ldlq": "3b6469ec251b9b8bb888942d361c0abbf2f3192e3c32dee4c052f44155e1ae51",
+  "Arot_bf16": "97f3adc7857350c6c2715c6673c9524eede496ca19510a35de2d56712c7efc51",
+  "A0_Q0rtn": "cc873b5be2cd6ba2a08469a8c2ccbee423c35e9b134862df189a677c5382cd19",
+  "Ab_Q0rtn": "fd789f1f9c3ca1d9cb3bdcb3719923b9241b177d7f4ac1fb9c9627d21e89a5d8",
+  "Ab_Q0rtn_mu4dom": "c49053dffbe6228570f7fadc1b78d8161eabc0b195d5cb308d7f98dda5d48657",
+  "A0_Qmix_rtn": "d161c4f2ea6e21b7c6101e1e60ee0f607cbc90182ac6c9ef1a241141dc560efd",
+  "A1_w0.125_Q0rtn": "0f8ed8827324ed74c9a275a702c9a3ac0c7cfe1f9d17e074a02131b489a79877",
+  "A2_drop2_Q0rtn": "929e5e87d756d2fbb2fa69026f699923b2bee6246bb45fdd1b95d3e780d40f54",
+  "A1_w0.125_bf16": "e5e84bb32a9c55def000f6b997891262d9298d48aef0b2f25c3ef025d39bb37b",
+  "A2_drop2_bf16": "9be504c32508430a1dad2c62ee823639ce10c87bfeaa49f5d9b03f36dd7ae1a8"
+ },
+ "code_commit_before_lock": "7ec4003a8bea7a1d788aea2d85d7a632f8275a22",
+ "pending_not_in_lock": "A0_Qperm_ldlq and the 600-document 'big' comparison are declared separately (results/big_comparison.lock.json) before being run."
+}

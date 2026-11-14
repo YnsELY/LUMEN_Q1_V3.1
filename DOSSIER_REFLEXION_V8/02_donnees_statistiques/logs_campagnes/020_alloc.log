@@ -1,0 +1,9 @@
+restore 1184 biases left: 0
+A0_Qalloc_rtn mult=0.5977 bpw=2.8245 bits/target-1=+0.0181% {'in_proj_qkv': 3.103, 'in_proj_z': 3.102, 'in_proj_a': 3.139, 'in_proj_b': 3.146, 'out_proj': 3.416, 'gate_proj': 2.498, 'up_proj': 2.498, 'down_proj': 2.716, 'q_proj': 3.949, 'k_proj': 4.157, 'v_proj': 4.091, 'o_proj': 3.749, 'embed': 2.724, 'lm_head': 3.326}
+[A0_Qalloc_rtn] SELECT KL=0.19156 agree=0.8582 ppl_s=6.7614 ppl_t=6.4635 | chat:0.4690 code:0.2826 en_pr:0.1215 math_:0.0798 multi:0.1096 scien:0.0870  (confirm sealed; 69s)
+Ab_Qalloc_rtn mult=0.5989 bpw=2.8239 bits/target-1=-0.0044% {'in_proj_qkv': 3.103, 'in_proj_z': 3.102, 'in_proj_a': 3.139, 'in_proj_b': 3.146, 'out_proj': 3.415, 'gate_proj': 2.498, 'up_proj': 2.498, 'down_proj': 2.714, 'q_proj': 3.945, 'k_proj': 4.151, 'v_proj': 4.086, 'o_proj': 3.746, 'embed': 2.721, 'lm_head': 3.326}
+[Ab_Qalloc_rtn] SELECT KL=0.16719 agree=0.8640 ppl_s=6.5866 ppl_t=6.4635 | chat:0.4174 code:0.2503 en_pr:0.0997 math_:0.0705 multi:0.0962 scien:0.0690  (confirm sealed; 70s)
+A2_drop2_Q0rtn mult=0.5584 bpw(on kept)=2.9066 bits/target-1=-0.0089%
+[A2_drop2_Q0rtn] SELECT KL=0.25266 agree=0.8414 ppl_s=6.9104 ppl_t=6.4635 | chat:0.6686 code:0.3358 en_pr:0.1432 math_:0.1154 multi:0.1293 scien:0.1237  (confirm sealed; 70s)
+
+[job 020_alloc OK in 335.8s]

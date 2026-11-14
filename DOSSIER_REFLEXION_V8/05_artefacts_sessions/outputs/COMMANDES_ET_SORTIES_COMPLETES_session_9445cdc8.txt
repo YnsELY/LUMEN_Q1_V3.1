@@ -1,0 +1,517 @@
+
+
+######## [23:28:18] Read the earlier column-scale rules in the harness
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch/lab && grep -n "def _ldlcol" -A 22 harness.py; grep -n "def _scales" -A 40 harness.py | head -80
+--- SORTIE COMPLETE ---
+212:def _ldlcol(Hm, spec):
+213-    """Column scales c_j = sqrt(LDL pivot_j): flattens the pivots seen by LDLQ (transform-coding optimum for a
+214-    diagonal change of input basis). Geometric mean 1, clipped to +-log2(clip) bits, FP16."""
+215-    d = fq.ldl_pivots(Hm, spec.get("damp", 0.01))
+216-    c = d.sqrt(); c = c / c.log().mean().exp()
+217-    clip = spec.get("col_clip", 4.0)
+218-    c = c.clamp(1.0 / clip, clip); c = c / c.log().mean().exp()
+219-    return fq.fp16(c.float())
+220-
+221-
+222-@torch.no_grad()
+223-def _match_mult(m, Wsub, c, spec, lo=0.004, hi=2.5, iters=18):
+224-    """Per-matrix rate matching: multiplier such that the no-feedback bit estimate (row sample) of THIS matrix
+225-    equals spec['match_bpw'] * numel, scale vectors / bias / header included."""
+226-    mr, n = Wsub.shape
+227-    sel = torch.arange(0, mr, max(1, mr // 1024), device=Wsub.device)
+228-    Ws = Wsub[sel].float()
+229-    if c is not None: Ws = Ws * c
+230-    rms = Ws.pow(2).mean(1).sqrt().clamp_min(1e-12)
+231-    if "_rf" in spec and spec["_rf"] is not None: rms = rms * spec["_rf"][sel]
+232-    extra = 16 * mr + (16 * n if c is not None else 0) + (16 * n if spec.get("perm") else 0) + 8 * 656
+233-    if spec.get("bias_corr", False) and m["kind"] != "embed": extra += 16 * mr
+234-    mb = spec["match_bpw"]
+264:def _scales(m, W, spec, mult, st, c_ext=None):
+265-    """Return (r [rows], c [cols] or None) for matrix dict m, weight W (possibly row/col subset)."""
+266-    rule = spec.get("rule", "lumen")
+267-    kind = m["kind"]
+268-    f = 2.0 ** (-spec.get("kind_dbits", {}).get(kind, 0.0))     # +d bits for this family  <=> step / 2^d
+269-    mult = mult * f
+270-    if "io_mult" in spec: spec = dict(spec, io_mult=spec["io_mult"] * f)
+271-    if rule == "mix":                                           # column scaling only where it measured useful
+272-        rule = "col" if kind in spec.get("col_kinds", ()) else "lumen"
+273-    if rule == "ldlcol":
+274-        if c_ext is None or kind == "embed": rule = "lumen"
+275-        else: return fq.row_steps(W.float() * c_ext, mult), c_ext
+276-    if kind == "embed" or rule == "lumen" or (kind == "lm_head" and rule in ("fisher_global",)):
+277-        if kind == "lm_head" and rule == "fisher_global" and spec.get("head_col", True):
+278-            rule = "col"
+279-        else:
+280-            mm = spec.get("io_mult", mult) if kind in ("embed", "lm_head") else mult
+281-            r = fq.row_steps(W, mm); rf = _rowfactor(m, W, spec, st)
+282-            if rf is not None: r = fq.fp16(r * rf).clamp_min(6e-8)
+283-            return r, None
+284-    name = m["name"]
+285-    X = st["X"][name].cuda().float()
+286-    if "cols" in m: X = X[m["cols"]]
+287-    ac = spec.get("alpha_col", 1.0)
+288-    c = (X.clamp_min(X.mean() * 1e-6)).pow(ac / 2)
+289-    c = fq.fp16(c / c.log().mean().exp())                       # geometric mean 1, FP16-rounded
+290-    if rule == "col" or kind == "lm_head":
+291-        mm = spec.get("io_mult", mult) if kind == "lm_head" else mult
+292-        return fq.row_steps(W.float() * c, mm), c
+293-    G = st["G"][name].cuda().float()
+294-    if "rows" in m: G = G[m["rows"]]
+295-    ar = spec.get("alpha_row", 1.0)
+296-    G = G.clamp_min(G.median() * spec.get("g_floor", 1e-4))
+297-    if rule == "fisher_local":
+298-        rho = G.pow(-ar / 2)
+299-        Wn = W.float() * c / rho[:, None]
+300-        rho = rho * Wn.pow(2).mean().sqrt()                     # overall RMS of normalized matrix = 1
+301-        return fq.fp16(mult * rho).clamp_min(6e-8), c
+302-    if rule == "fisher_global":
+303-        Xr = X.clamp_min(X.mean() * 1e-6).sqrt()               # true (unnormalised) column scale
+304-        c = fq.fp16(Xr)
+
+
+######## [23:28:26] Check exponents used in earlier scale trials and their recorded results
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1 && grep -rn "alpha_col\|col_clip\|alpha_row" formic_arch/jobs formic_v7/jobs | head -20; echo ---; python3 -I - <<'EOF'
+import json
+s=json.load(open('formic_arch/results/summary_select.json'))
+print(type(s), list(s.keys())[:60] if isinstance(s,dict) else len(s))
+def g(d,*ks):
+    for k in ks:
+        if isinstance(d,dict) and k in d: d=d[k]
+        else: return None
+    return d
+if isinstance(s,dict):
+    for k,v in s.items():
+        if isinstance(v,dict):
+            print(k, {a:(round(b,5) if isinstance(b,float) else b) for a,b in v.items() if not isinstance(b,(dict,list))})
+EOF
+grep -n "Échelles\|échelles de colonne\|ldlcol\|Qcol\|H9\|H10\|H11\|H12\|H7\|H8" formic_arch/RAPPORT_ARCHITECTURE_X_LUMEN.md | head -40
+--- SORTIE COMPLETE ---
+formic_arch/jobs/040_ldlcol.py:8:spec = dict(rule="ldlcol", match_bpw=2.811, col_clip=4.0)
+formic_arch/jobs/045_diag_ldlcol_proxy.py:27:                c = H._ldlcol(Hm, dict(col_clip=clip)); res[f"ldlcol_clip{clip:g}"] = run(W, Hm, c, 2.82)
+---
+<class 'list'> 27
+32:| Échelles de colonne (pivots LDL) | +5,6 % / +0,1 % avec LDLQ | neutre à négatif |
+78:| H7 | Biais ancré sur la sortie moyenne du professeur | ajout | A_b2, passe LDLQ | **rejetée (mesuré)** : KL 3,0 ; cause de la divergence en profondeur non identifiée |
+79:| H8 | Pas par ligne / échelles par colonne tirés d'un Fisher diagonal | recette | 3 règles sur le modèle entier + diagnostic par famille | **rejetée (mesuré)** : nulle à catastrophique |
+80:| H9 | Répartition des bits entre familles selon la sensibilité mesurée | recette | décalages par famille à octets égaux | **non concluante (mesuré)** : prédiction −16 %, mesure +0,8 % |
+81:| H10 | Changement de base diagonal des entrées qui aplatit les pivots de LDLQ | transformation exacte | passe LDLQ complète, chaque matrice au débit du témoin ; contrôle local | **rejetée (mesuré)** : +5,6 % de KL ; l'erreur locale ne baisse pas non plus |
+82:| H11 | Rotation cohérente du flux résiduel, gains de normalisation repliés | transformation exacte | passe LDLQ complète dans la base tournée (émulée, puis native), vérification d'équivalence, comparaison sur 600 documents | **égalité (mesuré, 600 documents)** : ΔKL +0,0001, IC 95 % [-0,0055 ; +0,0059] (+0,1 %), 306 documents améliorés sur 600 ; résidu d'équivalence avant quantification 0,003–0,009 nat |
+83:| H12 | Ordre de traitement des colonnes dans LDLQ (second moment décroissant) | transformation exacte (permutation) | diagnostic local sur 5 couches ; passe complète, comparaison sur 600 documents | **égalité (mesuré, 600 documents)** : ΔKL +0,0035, IC 95 % [-0,0022 ; +0,0091] (+3,3 %), 239 documents améliorés sur 600 ; gain local 2–5 % |
+135:C'est une marge sur le critère local, pas un gain de KL (voir H10, H11).
+152:| échelles de colonne (pivots LDL), E8-LDLQ | `A0_Qldlcol_ldlq` | -0,29 % | 0,1186 | 89,1 % | +0,0063 [-0,0083 ; +0,0181] (+5,6 %) | 0,229 | 0,228 | 0,088 | 0,047 | 0,077 | 0,043 |
+157:| échelles de colonne sur entrées des mélangeurs | `A0_Qmix_rtn` | +0,10 % | 0,1798 | 86,1 % | -0,0102 [-0,0271 ; +0,0103] (-5,4 %) | 0,397 | 0,279 | 0,117 | 0,085 | 0,105 | 0,095 |
+158:| biais + échelles de colonne (mélangeurs) | `Ab_Qmix_rtn` | +0,08 % | 0,1617 | 87,1 % | -0,0284 [-0,0450 ; -0,0080] (-14,9 %) | 0,346 | 0,263 | 0,104 | 0,076 | 0,100 | 0,081 |
+160:| échelles de colonne partout | `A0_Qcol_rtn` | +0,05 % | 0,2130 | 84,9 % | +0,0229 [-0,0036 ; +0,0646] (+12,1 %) | 0,488 | 0,312 | 0,143 | 0,090 | 0,145 | 0,100 |
+189:   saturées ou normalisées. Échelles de colonne par second moment : +12 % partout, −5 % si on les limite aux entrées des mélangeurs.
+190:   Répartition des bits par famille : prédite à −16 %, mesurée à +0,8 %. Échelles par pivots LDL sous LDLQ : +5,6 % ; même l'erreur
+206:| échelles de colonne (pivots LDL), E8-LDLQ | `A0_Qldlcol_ldlq` | -0,29 % | 0,1186 | 89,5 % | +0,0001 [-0,0130 ; +0,0122] (+0,1 %) | 0,221 | 0,141 | 0,084 | 0,126 | 0,088 | 0,050 |
+210:| échelles de colonne sur entrées des mélangeurs | `A0_Qmix_rtn` | +0,10 % | 0,1802 | 86,1 % | -0,0321 [-0,0628 ; -0,0080] (-15,1 %) | 0,389 | 0,178 | 0,107 | 0,197 | 0,116 | 0,094 |
+252:| `A0_Qldlcol_ldlq` | 0,1225 | 0,115 · 0,121 · 0,103 · 0,124 · 0,135 · 0,116 · 0,119 · 0,149 | 89,9 % |
+299:* Résolution statistique : ±15 % du témoin sur 72 documents, ±5 % sur 600. Seules la rotation et l'ordre des colonnes ont été évalués sur 600 documents ; le biais et les échelles de colonne ne l'ont été que sur 72 + 72.
+312:* Un diagnostic local (colonnes, H10) a consommé 25 min de GPU au lieu des 3 prévues.
+
+
+######## [23:30:40] Compare F1's damping level to pivots and typical input energies using recorded statistics
+--- COMMANDE ---
+cd /workspace/work && CUDA_VISIBLE_DEVICES="" timeout 100 python3 -I - <<'EOF'
+import torch, math, collections, statistics as S, json
+st=torch.load('stats_fisher.pt', map_location='cpu'); X=st['X']; MU=st['MU']
+ds=torch.load('dstat_L1.pt', map_location='cpu')
+shapes={'gate_proj':5120,'up_proj':5120,'down_proj':17408,'in_proj_qkv':5120,'in_proj_z':5120,'out_proj':6144,'q_proj':5120,'k_proj':5120,'v_proj':5120,'o_proj':6144,'lm_head':5120}
+print("matrix | lam=0.01*mean diag(X) | median X | lam/medianX | AM(d_damped) GM(d_damped) | lam/AM(d) lam/GM(d) | lam after removing top-1 dim / after centring (mean^2 removed)")
+rows=collections.defaultdict(list)
+for k in X:
+    kind=k.split('.')[-1]
+    if kind not in ('in_proj_qkv','q_proj','gate_proj','down_proj','out_proj','o_proj','lm_head'): continue
+    if k not in ds: continue
+    x=X[k].double(); n=len(x); lam=0.01*float(x.mean()); med=float(x.median())
+    am=ds[k]['dsum']/n; gm=math.exp(ds[k]['dlogmean'])
+    xs=x.sort().values; lam1=0.01*float(xs[:-1].mean()); lamc=0.01*float((x-MU[k].double()**2).clamp_min(0).mean())
+    L=int(k.split('.')[1]) if k.startswith('layers') else 64
+    rows[kind].append((L,lam,med,lam/med,am,gm,lam/am,lam/gm,lam1/lam,lamc/lam))
+for kind,lst in rows.items():
+    lst.sort()
+    print(f"== {kind}: median lam/medX {S.median([r[3] for r in lst]):.3f} max {max(r[3] for r in lst):.3f} | median lam/AM(d) {S.median([r[6] for r in lst]):.3f} max {max(r[6] for r in lst):.3f} | median lam/GM(d) {S.median([r[7] for r in lst]):.3f} max {max(r[7] for r in lst):.3f}")
+    for r in lst:
+        if kind in('in_proj_qkv','q_proj','out_proj','o_proj') or r[0] in (0,1,2,3,7,15,31,47,60,61,62,63,64):
+            print("   L%-2d lam %.4g medX %.4g lam/med %.3f | AM %.4g GM %.4g | lam/AM %.3f lam/GM %.3f | lam(no top1)/lam %.3f lam(centred)/lam %.3f"%r)
+EOF
+--- SORTIE COMPLETE ---
+matrix | lam=0.01*mean diag(X) | median X | lam/medianX | AM(d_damped) GM(d_damped) | lam/AM(d) lam/GM(d) | lam after removing top-1 dim / after centring (mean^2 removed)
+== in_proj_qkv: median lam/medX 0.030 max 0.097 | median lam/AM(d) 0.033 max 0.091 | median lam/GM(d) 0.040 max 0.149
+   L0  lam 0.009977 medX 0.5223 lam/med 0.019 | AM 0.3886 GM 0.3272 | lam/AM 0.026 lam/GM 0.030 | lam(no top1)/lam 0.953 lam(centred)/lam 0.914
+   L1  lam 0.001325 medX 0.0137 lam/med 0.097 | AM 0.01449 GM 0.008914 | lam/AM 0.091 lam/GM 0.149 | lam(no top1)/lam 0.207 lam(centred)/lam 0.193
+   L2  lam 0.001652 medX 0.02245 lam/med 0.074 | AM 0.02421 GM 0.01575 | lam/AM 0.068 lam/GM 0.105 | lam(no top1)/lam 0.245 lam(centred)/lam 0.226
+   L4  lam 0.001454 medX 0.04011 lam/med 0.036 | AM 0.0357 GM 0.0288 | lam/AM 0.041 lam/GM 0.050 | lam(no top1)/lam 0.425 lam(centred)/lam 0.394
+   L5  lam 0.002166 medX 0.04547 lam/med 0.048 | AM 0.0468 GM 0.03543 | lam/AM 0.046 lam/GM 0.061 | lam(no top1)/lam 0.352 lam(centred)/lam 0.325
+   L6  lam 0.003897 medX 0.05363 lam/med 0.073 | AM 0.063 GM 0.04464 | lam/AM 0.062 lam/GM 0.087 | lam(no top1)/lam 0.226 lam(centred)/lam 0.208
+   L8  lam 0.002766 medX 0.07086 lam/med 0.039 | AM 0.06977 GM 0.05659 | lam/AM 0.040 lam/GM 0.049 | lam(no top1)/lam 0.421 lam(centred)/lam 0.384
+   L9  lam 0.002931 medX 0.07264 lam/med 0.040 | AM 0.07199 GM 0.05787 | lam/AM 0.041 lam/GM 0.051 | lam(no top1)/lam 0.403 lam(centred)/lam 0.372
+   L10 lam 0.002962 medX 0.07322 lam/med 0.040 | AM 0.07168 GM 0.05801 | lam/AM 0.041 lam/GM 0.051 | lam(no top1)/lam 0.413 lam(centred)/lam 0.375
+   L12 lam 0.003754 medX 0.0755 lam/med 0.050 | AM 0.07433 GM 0.05857 | lam/AM 0.051 lam/GM 0.064 | lam(no top1)/lam 0.338 lam(centred)/lam 0.304
+   L13 lam 0.003853 medX 0.08261 lam/med 0.047 | AM 0.07696 GM 0.06202 | lam/AM 0.050 lam/GM 0.062 | lam(no top1)/lam 0.334 lam(centred)/lam 0.306
+   L14 lam 0.004299 medX 0.0881 lam/med 0.049 | AM 0.08286 GM 0.06622 | lam/AM 0.052 lam/GM 0.065 | lam(no top1)/lam 0.329 lam(centred)/lam 0.296
+   L16 lam 0.004012 medX 0.09858 lam/med 0.041 | AM 0.08729 GM 0.07329 | lam/AM 0.046 lam/GM 0.055 | lam(no top1)/lam 0.371 lam(centred)/lam 0.333
+   L17 lam 0.004338 medX 0.1035 lam/med 0.042 | AM 0.09397 GM 0.07847 | lam/AM 0.046 lam/GM 0.055 | lam(no top1)/lam 0.372 lam(centred)/lam 0.334
+   L18 lam 0.004569 medX 0.1137 lam/med 0.040 | AM 0.1032 GM 0.08684 | lam/AM 0.044 lam/GM 0.053 | lam(no top1)/lam 0.406 lam(centred)/lam 0.359
+   L20 lam 0.007265 medX 0.1963 lam/med 0.037 | AM 0.1783 GM 0.1523 | lam/AM 0.041 lam/GM 0.048 | lam(no top1)/lam 0.432 lam(centred)/lam 0.387
+   L21 lam 0.008065 medX 0.2724 lam/med 0.030 | AM 0.2331 GM 0.2022 | lam/AM 0.035 lam/GM 0.040 | lam(no top1)/lam 0.506 lam(centred)/lam 0.463
+   L22 lam 0.00678 medX 0.261 lam/med 0.026 | AM 0.2148 GM 0.1899 | lam/AM 0.032 lam/GM 0.036 | lam(no top1)/lam 0.546 lam(centred)/lam 0.504
+   L24 lam 0.006627 medX 0.2288 lam/med 0.029 | AM 0.2063 GM 0.1726 | lam/AM 0.032 lam/GM 0.038 | lam(no top1)/lam 0.557 lam(centred)/lam 0.510
+   L25 lam 0.007111 medX 0.2337 lam/med 0.030 | AM 0.205 GM 0.1695 | lam/AM 0.035 lam/GM 0.042 | lam(no top1)/lam 0.519 lam(centred)/lam 0.477
+   L26 lam 0.006451 medX 0.2016 lam/med 0.032 | AM 0.1827 GM 0.1487 | lam/AM 0.035 lam/GM 0.043 | lam(no top1)/lam 0.512 lam(centred)/lam 0.470
+   L28 lam 0.006461 medX 0.1946 lam/med 0.033 | AM 0.1741 GM 0.1405 | lam/AM 0.037 lam/GM 0.046 | lam(no top1)/lam 0.466 lam(centred)/lam 0.433
+   L29 lam 0.00701 medX 0.2194 lam/med 0.032 | AM 0.1918 GM 0.155 | lam/AM 0.037 lam/GM 0.045 | lam(no top1)/lam 0.448 lam(centred)/lam 0.422
+   L30 lam 0.007091 medX 0.2043 lam/med 0.035 | AM 0.1889 GM 0.1495 | lam/AM 0.038 lam/GM 0.047 | lam(no top1)/lam 0.441 lam(centred)/lam 0.412
+   L32 lam 0.00692 medX 0.2173 lam/med 0.032 | AM 0.1991 GM 0.1636 | lam/AM 0.035 lam/GM 0.042 | lam(no top1)/lam 0.450 lam(centred)/lam 0.426
+   L33 lam 0.008206 medX 0.2446 lam/med 0.034 | AM 0.2323 GM 0.1895 | lam/AM 0.035 lam/GM 0.043 | lam(no top1)/lam 0.438 lam(centred)/lam 0.414
+   L34 lam 0.008218 medX 0.2397 lam/med 0.034 | AM 0.2333 GM 0.1892 | lam/AM 0.035 lam/GM 0.043 | lam(no top1)/lam 0.448 lam(centred)/lam 0.422
+   L36 lam 0.01078 medX 0.3438 lam/med 0.031 | AM 0.3349 GM 0.2737 | lam/AM 0.032 lam/GM 0.039 | lam(no top1)/lam 0.535 lam(centred)/lam 0.502
+   L37 lam 0.01125 medX 0.3963 lam/med 0.028 | AM 0.3779 GM 0.3121 | lam/AM 0.030 lam/GM 0.036 | lam(no top1)/lam 0.587 lam(centred)/lam 0.550
+   L38 lam 0.009503 medX 0.4075 lam/med 0.023 | AM 0.3607 GM 0.3121 | lam/AM 0.026 lam/GM 0.030 | lam(no top1)/lam 0.640 lam(centred)/lam 0.602
+   L40 lam 0.009269 medX 0.3583 lam/med 0.026 | AM 0.3523 GM 0.2889 | lam/AM 0.026 lam/GM 0.032 | lam(no top1)/lam 0.636 lam(centred)/lam 0.602
+   L41 lam 0.008995 medX 0.3556 lam/med 0.025 | AM 0.3376 GM 0.2781 | lam/AM 0.027 lam/GM 0.032 | lam(no top1)/lam 0.620 lam(centred)/lam 0.588
+   L42 lam 0.008581 medX 0.3185 lam/med 0.027 | AM 0.3134 GM 0.2533 | lam/AM 0.027 lam/GM 0.034 | lam(no top1)/lam 0.603 lam(centred)/lam 0.571
+   L44 lam 0.008382 medX 0.2966 lam/med 0.028 | AM 0.2901 GM 0.2342 | lam/AM 0.029 lam/GM 0.036 | lam(no top1)/lam 0.572 lam(centred)/lam 0.542
+   L45 lam 0.008451 medX 0.3294 lam/med 0.026 | AM 0.3023 GM 0.2517 | lam/AM 0.028 lam/GM 0.034 | lam(no top1)/lam 0.574 lam(centred)/lam 0.547
+   L46 lam 0.008969 medX 0.3186 lam/med 0.028 | AM 0.3105 GM 0.2523 | lam/AM 0.029 lam/GM 0.036 | lam(no top1)/lam 0.567 lam(centred)/lam 0.535
+   L48 lam 0.009094 medX 0.3377 lam/med 0.027 | AM 0.3315 GM 0.2758 | lam/AM 0.027 lam/GM 0.033 | lam(no top1)/lam 0.599 lam(centred)/lam 0.562
+   L49 lam 0.01023 medX 0.3756 lam/med 0.027 | AM 0.3717 GM 0.3082 | lam/AM 0.028 lam/GM 0.033 | lam(no top1)/lam 0.602 lam(centred)/lam 0.564
+   L50 lam 0.01013 medX 0.3825 lam/med 0.026 | AM 0.3855 GM 0.3172 | lam/AM 0.026 lam/GM 0.032 | lam(no top1)/lam 0.666 lam(centred)/lam 0.620
+   L52 lam 0.01197 medX 0.5322 lam/med 0.022 | AM 0.5284 GM 0.44 | lam/AM 0.023 lam/GM 0.027 | lam(no top1)/lam 0.837 lam(centred)/lam 0.770
+   L53 lam 0.01179 medX 0.5809 lam/med 0.020 | AM 0.5379 GM 0.4579 | lam/AM 0.022 lam/GM 0.026 | lam(no top1)/lam 0.884 lam(centred)/lam 0.809
+   L54 lam 0.01141 medX 0.6087 lam/med 0.019 | AM 0.5511 GM 0.4748 | lam/AM 0.021 lam/GM 0.024 | lam(no top1)/lam 0.929 lam(centred)/lam 0.850
+   L56 lam 0.01209 medX 0.6862 lam/med 0.018 | AM 0.6102 GM 0.5338 | lam/AM 0.020 lam/GM 0.023 | lam(no top1)/lam 0.949 lam(centred)/lam 0.866
+   L57 lam 0.01266 medX 0.7508 lam/med 0.017 | AM 0.6348 GM 0.5625 | lam/AM 0.020 lam/GM 0.023 | lam(no top1)/lam 0.950 lam(centred)/lam 0.866
+   L58 lam 0.01242 medX 0.7831 lam/med 0.016 | AM 0.6433 GM 0.5807 | lam/AM 0.019 lam/GM 0.021 | lam(no top1)/lam 0.962 lam(centred)/lam 0.879
+   L60 lam 0.01413 medX 0.8779 lam/med 0.016 | AM 0.7289 GM 0.6598 | lam/AM 0.019 lam/GM 0.021 | lam(no top1)/lam 0.931 lam(centred)/lam 0.855
+   L61 lam 0.01216 medX 0.7665 lam/med 0.016 | AM 0.6136 GM 0.5651 | lam/AM 0.020 lam/GM 0.022 | lam(no top1)/lam 0.940 lam(centred)/lam 0.853
+   L62 lam 0.01318 medX 0.7775 lam/med 0.017 | AM 0.6194 GM 0.5634 | lam/AM 0.021 lam/GM 0.023 | lam(no top1)/lam 0.888 lam(centred)/lam 0.813
+== out_proj: median lam/medX 0.016 max 0.241 | median lam/AM(d) 0.016 max 0.184 | median lam/GM(d) 0.023 max 0.271
+   L0  lam 3.11e-05 medX 0.0001291 lam/med 0.241 | AM 0.000169 GM 0.0001149 | lam/AM 0.184 lam/GM 0.271 | lam(no top1)/lam 0.676 lam(centred)/lam 0.071
+   L1  lam 2.01e-06 medX 0.000128 lam/med 0.016 | AM 0.0001005 GM 6.85e-05 | lam/AM 0.020 lam/GM 0.029 | lam(no top1)/lam 0.982 lam(centred)/lam 0.933
+   L2  lam 3.624e-06 medX 0.0002189 lam/med 0.017 | AM 0.0001787 GM 0.0001228 | lam/AM 0.020 lam/GM 0.030 | lam(no top1)/lam 0.892 lam(centred)/lam 0.916
+   L4  lam 4.677e-06 medX 0.0003318 lam/med 0.014 | AM 0.0002704 GM 0.0001936 | lam/AM 0.017 lam/GM 0.024 | lam(no top1)/lam 0.995 lam(centred)/lam 0.977
+   L5  lam 5.776e-06 medX 0.0004222 lam/med 0.014 | AM 0.0003625 GM 0.0002623 | lam/AM 0.016 lam/GM 0.022 | lam(no top1)/lam 0.991 lam(centred)/lam 0.976
+   L6  lam 8.014e-06 medX 0.0005731 lam/med 0.014 | AM 0.0004793 GM 0.0003519 | lam/AM 0.017 lam/GM 0.023 | lam(no top1)/lam 0.978 lam(centred)/lam 0.959
+   L8  lam 1.03e-05 medX 0.0007208 lam/med 0.014 | AM 0.0006958 GM 0.0004681 | lam/AM 0.015 lam/GM 0.022 | lam(no top1)/lam 0.987 lam(centred)/lam 0.977
+   L9  lam 1.142e-05 medX 0.0008619 lam/med 0.013 | AM 0.0007256 GM 0.0005216 | lam/AM 0.016 lam/GM 0.022 | lam(no top1)/lam 0.988 lam(centred)/lam 0.979
+   L10 lam 1.491e-05 medX 0.000913 lam/med 0.016 | AM 0.0008086 GM 0.0005761 | lam/AM 0.018 lam/GM 0.026 | lam(no top1)/lam 0.930 lam(centred)/lam 0.935
+   L12 lam 1.959e-05 medX 0.001394 lam/med 0.014 | AM 0.001225 GM 0.000847 | lam/AM 0.016 lam/GM 0.023 | lam(no top1)/lam 0.988 lam(centred)/lam 0.971
+   L13 lam 1.974e-05 medX 0.001519 lam/med 0.013 | AM 0.001297 GM 0.0009745 | lam/AM 0.015 lam/GM 0.020 | lam(no top1)/lam 0.991 lam(centred)/lam 0.977
+   L14 lam 2.348e-05 medX 0.001676 lam/med 0.014 | AM 0.001485 GM 0.00105 | lam/AM 0.016 lam/GM 0.022 | lam(no top1)/lam 0.994 lam(centred)/lam 0.972
+   L16 lam 2.411e-05 medX 0.001851 lam/med 0.013 | AM 0.001569 GM 0.001178 | lam/AM 0.015 lam/GM 0.020 | lam(no top1)/lam 0.996 lam(centred)/lam 0.976
+   L17 lam 3.147e-05 medX 0.002273 lam/med 0.014 | AM 0.002167 GM 0.00146 | lam/AM 0.015 lam/GM 0.022 | lam(no top1)/lam 0.994 lam(centred)/lam 0.977
+   L18 lam 4.568e-05 medX 0.002819 lam/med 0.016 | AM 0.002444 GM 0.001703 | lam/AM 0.019 lam/GM 0.027 | lam(no top1)/lam 0.931 lam(centred)/lam 0.950
+   L20 lam 7.066e-05 medX 0.004198 lam/med 0.017 | AM 0.004053 GM 0.002697 | lam/AM 0.017 lam/GM 0.026 | lam(no top1)/lam 0.957 lam(centred)/lam 0.973
+   L21 lam 0.0001069 medX 0.004679 lam/med 0.023 | AM 0.004973 GM 0.003111 | lam/AM 0.022 lam/GM 0.034 | lam(no top1)/lam 0.764 lam(centred)/lam 0.949
+   L22 lam 7.845e-05 medX 0.004552 lam/med 0.017 | AM 0.00487 GM 0.003228 | lam/AM 0.016 lam/GM 0.024 | lam(no top1)/lam 0.972 lam(centred)/lam 0.972
+   L24 lam 9.851e-05 medX 0.006107 lam/med 0.016 | AM 0.006298 GM 0.004505 | lam/AM 0.016 lam/GM 0.022 | lam(no top1)/lam 0.975 lam(centred)/lam 0.956
+   L25 lam 0.000109 medX 0.007752 lam/med 0.014 | AM 0.006444 GM 0.005085 | lam/AM 0.017 lam/GM 0.021 | lam(no top1)/lam 0.985 lam(centred)/lam 0.954
+   L26 lam 0.0001209 medX 0.007672 lam/med 0.016 | AM 0.006968 GM 0.005254 | lam/AM 0.017 lam/GM 0.023 | lam(no top1)/lam 0.988 lam(centred)/lam 0.931
+   L28 lam 0.0001495 medX 0.01087 lam/med 0.014 | AM 0.008955 GM 0.007126 | lam/AM 0.017 lam/GM 0.021 | lam(no top1)/lam 0.993 lam(centred)/lam 0.949
+   L29 lam 0.0001284 medX 0.009957 lam/med 0.013 | AM 0.008082 GM 0.006733 | lam/AM 0.016 lam/GM 0.019 | lam(no top1)/lam 0.995 lam(centred)/lam 0.957
+   L30 lam 0.0001681 medX 0.01142 lam/med 0.015 | AM 0.01006 GM 0.007865 | lam/AM 0.017 lam/GM 0.021 | lam(no top1)/lam 0.992 lam(centred)/lam 0.947
+   L32 lam 0.0001598 medX 0.01177 lam/med 0.014 | AM 0.01062 GM 0.008446 | lam/AM 0.015 lam/GM 0.019 | lam(no top1)/lam 0.995 lam(centred)/lam 0.951
+   L33 lam 0.0001743 medX 0.01248 lam/med 0.014 | AM 0.01223 GM 0.009724 | lam/AM 0.014 lam/GM 0.018 | lam(no top1)/lam 0.979 lam(centred)/lam 0.963
+   L34 lam 0.0002117 medX 0.01307 lam/med 0.016 | AM 0.01226 GM 0.00919 | lam/AM 0.017 lam/GM 0.023 | lam(no top1)/lam 0.986 lam(centred)/lam 0.935
+   L36 lam 0.0002194 medX 0.01236 lam/med 0.018 | AM 0.01221 GM 0.008448 | lam/AM 0.018 lam/GM 0.026 | lam(no top1)/lam 0.957 lam(centred)/lam 0.963
+   L37 lam 0.0001957 medX 0.01163 lam/med 0.017 | AM 0.01233 GM 0.008317 | lam/AM 0.016 lam/GM 0.024 | lam(no top1)/lam 0.940 lam(centred)/lam 0.959
+   L38 lam 0.0001535 medX 0.01018 lam/med 0.015 | AM 0.01036 GM 0.007512 | lam/AM 0.015 lam/GM 0.020 | lam(no top1)/lam 0.935 lam(centred)/lam 0.980
+   L40 lam 0.0001847 medX 0.01222 lam/med 0.015 | AM 0.01292 GM 0.00979 | lam/AM 0.014 lam/GM 0.019 | lam(no top1)/lam 0.991 lam(centred)/lam 0.961
+   L41 lam 0.0001742 medX 0.01215 lam/med 0.014 | AM 0.01133 GM 0.009085 | lam/AM 0.015 lam/GM 0.019 | lam(no top1)/lam 0.977 lam(centred)/lam 0.948
+   L42 lam 0.000208 medX 0.012 lam/med 0.017 | AM 0.01269 GM 0.009351 | lam/AM 0.016 lam/GM 0.022 | lam(no top1)/lam 0.967 lam(centred)/lam 0.937
+   L44 lam 0.0002787 medX 0.01607 lam/med 0.017 | AM 0.01759 GM 0.01273 | lam/AM 0.016 lam/GM 0.022 | lam(no top1)/lam 0.984 lam(centred)/lam 0.931
+   L45 lam 0.0002131 medX 0.01439 lam/med 0.015 | AM 0.01439 GM 0.01082 | lam/AM 0.015 lam/GM 0.020 | lam(no top1)/lam 0.986 lam(centred)/lam 0.954
+   L46 lam 0.0003551 medX 0.01727 lam/med 0.021 | AM 0.02082 GM 0.01402 | lam/AM 0.017 lam/GM 0.025 | lam(no top1)/lam 0.968 lam(centred)/lam 0.942
+   L48 lam 0.0003738 medX 0.02159 lam/med 0.017 | AM 0.02456 GM 0.01674 | lam/AM 0.015 lam/GM 0.022 | lam(no top1)/lam 0.968 lam(centred)/lam 0.956
+   L49 lam 0.0004331 medX 0.02697 lam/med 0.016 | AM 0.03063 GM 0.02146 | lam/AM 0.014 lam/GM 0.020 | lam(no top1)/lam 0.986 lam(centred)/lam 0.973
+   L50 lam 0.000771 medX 0.04448 lam/med 0.017 | AM 0.04317 GM 0.02872 | lam/AM 0.018 lam/GM 0.027 | lam(no top1)/lam 0.927 lam(centred)/lam 0.946
+   L52 lam 0.00103 medX 0.04937 lam/med 0.021 | AM 0.0552 GM 0.03042 | lam/AM 0.019 lam/GM 0.034 | lam(no top1)/lam 0.935 lam(centred)/lam 0.936
+   L53 lam 0.0009476 medX 0.04966 lam/med 0.019 | AM 0.05591 GM 0.03182 | lam/AM 0.017 lam/GM 0.030 | lam(no top1)/lam 0.948 lam(centred)/lam 0.963
+   L54 lam 0.0008395 medX 0.04368 lam/med 0.019 | AM 0.05329 GM 0.02785 | lam/AM 0.016 lam/GM 0.030 | lam(no top1)/lam 0.927 lam(centred)/lam 0.960
+   L56 lam 0.001562 medX 0.06456 lam/med 0.024 | AM 0.08259 GM 0.04191 | lam/AM 0.019 lam/GM 0.037 | lam(no top1)/lam 0.965 lam(centred)/lam 0.954
+   L57 lam 0.001359 medX 0.05621 lam/med 0.024 | AM 0.07989 GM 0.03846 | lam/AM 0.017 lam/GM 0.035 | lam(no top1)/lam 0.945 lam(centred)/lam 0.950
+   L58 lam 0.001219 medX 0.04667 lam/med 0.026 | AM 0.07594 GM 0.03539 | lam/AM 0.016 lam/GM 0.034 | lam(no top1)/lam 0.867 lam(centred)/lam 0.949
+   L60 lam 0.003802 medX 0.07262 lam/med 0.052 | AM 0.1857 GM 0.06582 | lam/AM 0.020 lam/GM 0.058 | lam(no top1)/lam 0.844 lam(centred)/lam 0.889
+   L61 lam 0.00295 medX 0.07018 lam/med 0.042 | AM 0.1796 GM 0.0667 | lam/AM 0.016 lam/GM 0.044 | lam(no top1)/lam 0.983 lam(centred)/lam 0.941
+   L62 lam 0.009353 medX 0.2193 lam/med 0.043 | AM 0.3883 GM 0.1682 | lam/AM 0.024 lam/GM 0.056 | lam(no top1)/lam 0.893 lam(centred)/lam 0.776
+== gate_proj: median lam/medX 0.015 max 0.022 | median lam/AM(d) 0.020 max 0.028 | median lam/GM(d) 0.021 max 0.034
+   L0  lam 9.139e-05 medX 0.005753 lam/med 0.016 | AM 0.003284 GM 0.002725 | lam/AM 0.028 lam/GM 0.034 | lam(no top1)/lam 0.976 lam(centred)/lam 0.939
+   L1  lam 0.0001544 medX 0.01077 lam/med 0.014 | AM 0.006726 GM 0.005867 | lam/AM 0.023 lam/GM 0.026 | lam(no top1)/lam 0.982 lam(centred)/lam 0.956
+   L2  lam 0.0002351 medX 0.02002 lam/med 0.012 | AM 0.01223 GM 0.01167 | lam/AM 0.019 lam/GM 0.020 | lam(no top1)/lam 0.977 lam(centred)/lam 0.952
+   L3  lam 0.0002694 medX 0.02277 lam/med 0.012 | AM 0.01477 GM 0.01414 | lam/AM 0.018 lam/GM 0.019 | lam(no top1)/lam 0.984 lam(centred)/lam 0.962
+   L7  lam 0.0005972 medX 0.05198 lam/med 0.011 | AM 0.03571 GM 0.03477 | lam/AM 0.017 lam/GM 0.017 | lam(no top1)/lam 0.965 lam(centred)/lam 0.957
+   L15 lam 0.0009973 medX 0.08198 lam/med 0.012 | AM 0.05571 GM 0.05404 | lam/AM 0.018 lam/GM 0.018 | lam(no top1)/lam 0.952 lam(centred)/lam 0.912
+   L31 lam 0.003959 medX 0.2284 lam/med 0.017 | AM 0.1711 GM 0.1584 | lam/AM 0.023 lam/GM 0.025 | lam(no top1)/lam 0.677 lam(centred)/lam 0.655
+   L47 lam 0.005945 medX 0.3524 lam/med 0.017 | AM 0.2883 GM 0.2665 | lam/AM 0.021 lam/GM 0.022 | lam(no top1)/lam 0.776 lam(centred)/lam 0.738
+   L60 lam 0.01529 medX 1.07 lam/med 0.014 | AM 0.8063 GM 0.7613 | lam/AM 0.019 lam/GM 0.020 | lam(no top1)/lam 0.943 lam(centred)/lam 0.879
+   L61 lam 0.01624 medX 1.127 lam/med 0.014 | AM 0.8325 GM 0.7879 | lam/AM 0.020 lam/GM 0.021 | lam(no top1)/lam 0.932 lam(centred)/lam 0.865
+   L62 lam 0.01545 medX 1.067 lam/med 0.014 | AM 0.7525 GM 0.7132 | lam/AM 0.021 lam/GM 0.022 | lam(no top1)/lam 0.912 lam(centred)/lam 0.849
+   L63 lam 0.01336 medX 0.8981 lam/med 0.015 | AM 0.5775 GM 0.5498 | lam/AM 0.023 lam/GM 0.024 | lam(no top1)/lam 0.884 lam(centred)/lam 0.806
+== down_proj: median lam/medX 0.013 max 0.081 | median lam/AM(d) 0.017 max 0.038 | median lam/GM(d) 0.019 max 0.100
+   L0  lam 9.817e-07 medX 3.54e-05 lam/med 0.028 | AM 3.382e-05 GM 1.915e-05 | lam/AM 0.029 lam/GM 0.051 | lam(no top1)/lam 0.982 lam(centred)/lam 0.994
+   L1  lam 1.239e-06 medX 8.661e-05 lam/med 0.014 | AM 5.492e-05 GM 4.436e-05 | lam/AM 0.023 lam/GM 0.028 | lam(no top1)/lam 0.995 lam(centred)/lam 0.995
+   L2  lam 4.476e-06 medX 0.000193 lam/med 0.023 | AM 0.0001815 GM 0.0001239 | lam/AM 0.025 lam/GM 0.036 | lam(no top1)/lam 0.804 lam(centred)/lam 0.855
+   L3  lam 3.606e-06 medX 0.0002281 lam/med 0.016 | AM 0.0001649 GM 0.0001281 | lam/AM 0.022 lam/GM 0.028 | lam(no top1)/lam 0.992 lam(centred)/lam 0.996
+   L7  lam 1.132e-05 medX 0.0008716 lam/med 0.013 | AM 0.0006702 GM 0.0005871 | lam/AM 0.017 lam/GM 0.019 | lam(no top1)/lam 0.997 lam(centred)/lam 0.994
+   L15 lam 2.105e-05 medX 0.001838 lam/med 0.011 | AM 0.001463 GM 0.00134 | lam/AM 0.014 lam/GM 0.016 | lam(no top1)/lam 0.998 lam(centred)/lam 0.995
+   L31 lam 0.0001401 medX 0.01206 lam/med 0.012 | AM 0.009619 GM 0.009029 | lam/AM 0.015 lam/GM 0.016 | lam(no top1)/lam 0.995 lam(centred)/lam 0.992
+   L47 lam 0.0003569 medX 0.02681 lam/med 0.013 | AM 0.0241 GM 0.02115 | lam/AM 0.015 lam/GM 0.017 | lam(no top1)/lam 0.991 lam(centred)/lam 0.990
+   L60 lam 0.003452 medX 0.1907 lam/med 0.018 | AM 0.2072 GM 0.1414 | lam/AM 0.017 lam/GM 0.024 | lam(no top1)/lam 0.995 lam(centred)/lam 0.956
+   L61 lam 0.004461 medX 0.2082 lam/med 0.021 | AM 0.2487 GM 0.1512 | lam/AM 0.018 lam/GM 0.030 | lam(no top1)/lam 0.952 lam(centred)/lam 0.936
+   L62 lam 0.00737 medX 0.2861 lam/med 0.026 | AM 0.3545 GM 0.1982 | lam/AM 0.021 lam/GM 0.037 | lam(no top1)/lam 0.979 lam(centred)/lam 0.930
+   L63 lam 0.02859 medX 0.3532 lam/med 0.081 | AM 0.7589 GM 0.2861 | lam/AM 0.038 lam/GM 0.100 | lam(no top1)/lam 0.968 lam(centred)/lam 0.896
+== q_proj: median lam/medX 0.037 max 0.208 | median lam/AM(d) 0.037 max 0.106 | median lam/GM(d) 0.047 max 0.217
+   L3  lam 0.01699 medX 0.08185 lam/med 0.208 | AM 0.1598 GM 0.07816 | lam/AM 0.106 lam/GM 0.217 | lam(no top1)/lam 0.098 lam(centred)/lam 0.076
+   L7  lam 0.01423 medX 0.0701 lam/med 0.203 | AM 0.1429 GM 0.07472 | lam/AM 0.100 lam/GM 0.190 | lam(no top1)/lam 0.128 lam(centred)/lam 0.099
+   L11 lam 0.0112 medX 0.08012 lam/med 0.140 | AM 0.1187 GM 0.07589 | lam/AM 0.094 lam/GM 0.148 | lam(no top1)/lam 0.179 lam(centred)/lam 0.137
+   L15 lam 0.008277 medX 0.09346 lam/med 0.089 | AM 0.1084 GM 0.07779 | lam/AM 0.076 lam/GM 0.106 | lam(no top1)/lam 0.238 lam(centred)/lam 0.190
+   L19 lam 0.006899 medX 0.1241 lam/med 0.056 | AM 0.1382 GM 0.1047 | lam/AM 0.050 lam/GM 0.066 | lam(no top1)/lam 0.397 lam(centred)/lam 0.335
+   L23 lam 0.008382 medX 0.2 lam/med 0.042 | AM 0.2035 GM 0.1586 | lam/AM 0.041 lam/GM 0.053 | lam(no top1)/lam 0.458 lam(centred)/lam 0.398
+   L27 lam 0.007695 medX 0.1785 lam/med 0.043 | AM 0.1752 GM 0.1336 | lam/AM 0.044 lam/GM 0.058 | lam(no top1)/lam 0.449 lam(centred)/lam 0.396
+   L31 lam 0.007562 medX 0.2002 lam/med 0.038 | AM 0.1931 GM 0.1498 | lam/AM 0.039 lam/GM 0.050 | lam(no top1)/lam 0.468 lam(centred)/lam 0.425
+   L35 lam 0.008857 medX 0.2509 lam/med 0.035 | AM 0.2605 GM 0.2029 | lam/AM 0.034 lam/GM 0.044 | lam(no top1)/lam 0.521 lam(centred)/lam 0.482
+   L39 lam 0.009495 medX 0.3133 lam/med 0.030 | AM 0.3207 GM 0.2528 | lam/AM 0.030 lam/GM 0.038 | lam(no top1)/lam 0.590 lam(centred)/lam 0.549
+   L43 lam 0.01008 medX 0.2839 lam/med 0.035 | AM 0.3103 GM 0.2318 | lam/AM 0.032 lam/GM 0.043 | lam(no top1)/lam 0.544 lam(centred)/lam 0.504
+   L47 lam 0.01026 medX 0.3327 lam/med 0.031 | AM 0.3544 GM 0.2755 | lam/AM 0.029 lam/GM 0.037 | lam(no top1)/lam 0.608 lam(centred)/lam 0.563
+   L51 lam 0.01131 medX 0.406 lam/med 0.028 | AM 0.4649 GM 0.3557 | lam/AM 0.024 lam/GM 0.032 | lam(no top1)/lam 0.766 lam(centred)/lam 0.720
+   L55 lam 0.01188 medX 0.5252 lam/med 0.023 | AM 0.5752 GM 0.4435 | lam/AM 0.021 lam/GM 0.027 | lam(no top1)/lam 0.890 lam(centred)/lam 0.845
+   L59 lam 0.01359 medX 0.6595 lam/med 0.021 | AM 0.7168 GM 0.5607 | lam/AM 0.019 lam/GM 0.024 | lam(no top1)/lam 0.903 lam(centred)/lam 0.876
+   L63 lam 0.01319 medX 0.7544 lam/med 0.017 | AM 0.6186 GM 0.5453 | lam/AM 0.021 lam/GM 0.024 | lam(no top1)/lam 0.905 lam(centred)/lam 0.845
+== o_proj: median lam/medX 0.016 max 0.041 | median lam/AM(d) 0.026 max 0.038 | median lam/GM(d) 0.035 max 0.078
+   L3  lam 4.344e-06 medX 0.0001047 lam/med 0.041 | AM 0.0001308 GM 5.55e-05 | lam/AM 0.033 lam/GM 0.078 | lam(no top1)/lam 0.805 lam(centred)/lam 0.635
+   L7  lam 7.268e-06 medX 0.0004137 lam/med 0.018 | AM 0.000338 GM 0.0001963 | lam/AM 0.022 lam/GM 0.037 | lam(no top1)/lam 0.983 lam(centred)/lam 0.927
+   L11 lam 1.171e-05 medX 0.0007439 lam/med 0.016 | AM 0.0005289 GM 0.0003207 | lam/AM 0.022 lam/GM 0.037 | lam(no top1)/lam 0.986 lam(centred)/lam 0.919
+   L15 lam 1.686e-05 medX 0.001007 lam/med 0.017 | AM 0.0008413 GM 0.0005219 | lam/AM 0.020 lam/GM 0.032 | lam(no top1)/lam 0.971 lam(centred)/lam 0.903
+   L19 lam 6.011e-05 medX 0.004037 lam/med 0.015 | AM 0.003015 GM 0.002151 | lam/AM 0.020 lam/GM 0.028 | lam(no top1)/lam 0.967 lam(centred)/lam 0.925
+   L23 lam 9.841e-05 medX 0.006374 lam/med 0.015 | AM 0.004308 GM 0.003309 | lam/AM 0.023 lam/GM 0.030 | lam(no top1)/lam 0.971 lam(centred)/lam 0.927
+   L27 lam 0.0002582 medX 0.01655 lam/med 0.016 | AM 0.008341 GM 0.006694 | lam/AM 0.031 lam/GM 0.039 | lam(no top1)/lam 0.991 lam(centred)/lam 0.876
+   L31 lam 0.0003166 medX 0.01814 lam/med 0.017 | AM 0.01029 GM 0.008352 | lam/AM 0.031 lam/GM 0.038 | lam(no top1)/lam 0.989 lam(centred)/lam 0.897
+   L35 lam 0.0004409 medX 0.03298 lam/med 0.013 | AM 0.01664 GM 0.01364 | lam/AM 0.026 lam/GM 0.032 | lam(no top1)/lam 0.994 lam(centred)/lam 0.918
+   L39 lam 0.0002999 medX 0.02157 lam/med 0.014 | AM 0.0113 GM 0.00931 | lam/AM 0.027 lam/GM 0.032 | lam(no top1)/lam 0.997 lam(centred)/lam 0.929
+   L43 lam 0.0004954 medX 0.03081 lam/med 0.016 | AM 0.01601 GM 0.01256 | lam/AM 0.031 lam/GM 0.039 | lam(no top1)/lam 0.992 lam(centred)/lam 0.873
+   L47 lam 0.0003891 medX 0.02578 lam/med 0.015 | AM 0.01562 GM 0.01267 | lam/AM 0.025 lam/GM 0.031 | lam(no top1)/lam 0.986 lam(centred)/lam 0.895
+   L51 lam 0.0009692 medX 0.06667 lam/med 0.015 | AM 0.03934 GM 0.03094 | lam/AM 0.025 lam/GM 0.031 | lam(no top1)/lam 0.992 lam(centred)/lam 0.856
+   L55 lam 0.001027 medX 0.05596 lam/med 0.018 | AM 0.04111 GM 0.03056 | lam/AM 0.025 lam/GM 0.034 | lam(no top1)/lam 0.974 lam(centred)/lam 0.812
+   L59 lam 0.003063 medX 0.1469 lam/med 0.021 | AM 0.09796 GM 0.06625 | lam/AM 0.031 lam/GM 0.046 | lam(no top1)/lam 0.816 lam(centred)/lam 0.757
+   L63 lam 0.0105 medX 0.499 lam/med 0.021 | AM 0.2766 GM 0.1806 | lam/AM 0.038 lam/GM 0.058 | lam(no top1)/lam 0.993 lam(centred)/lam 0.773
+== lm_head: median lam/medX 0.015 max 0.015 | median lam/AM(d) 0.026 max 0.026 | median lam/GM(d) 0.029 max 0.029
+   L64 lam 0.03436 medX 2.238 lam/med 0.015 | AM 1.305 GM 1.202 | lam/AM 0.026 lam/GM 0.029 | lam(no top1)/lam 0.984 lam(centred)/lam 0.887
+
+
+######## [23:34:08] Check attention and GDN forward code, codec modes, and raw bias-variant result
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1 && F=/usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/modeling_qwen3_5.py && sed -n '763,810p' $F | cut -c1-170; echo ----RMS; sed -n '828,846p' $F; echo ----MLP; sed -n '822,826p' $F; echo ----GDN; sed -n '560,650p' $F | grep -n "in_proj\|norm\|out_proj\|conv1d\|reshape\|view\|split\|repeat\|z\b\|gate\|beta\|softplus\|sigmoid\|A_log\|dt_bias" | cut -c1-190; echo ---- repeat_kv; sed -n '699,709p' $F | cut -c1-160
+python3 -I - <<'EOF'
+import json,collections
+m=json.load(open('formic_v7/results/package_manifest_F1.json'))
+c=collections.Counter((v.get('kind'),v.get('mode')) for v in m.values() if isinstance(v,dict))
+print(c)
+d=json.load(open('formic_arch/results/variant_Ab_Q0ldlq.json')); print('Ab_Q0ldlq kl', d.get('kl') or d.get('select',{}).get('kl') or [k for k in d][:12])
+d0=json.load(open('formic_arch/results/variant_A0_Q0ldlq.json')); print('A0_Q0ldlq keys', [k for k in d0][:14])
+for nm in ('variant_Ab_Q0ldlq','variant_A0_Q0ldlq','variant_ArotN_Q0ldlq_big','variant_A0_Q0ldlq_big','variant_A0_Qldlcol_ldlq'):
+    d=json.load(open(f'formic_arch/results/{nm}.json'))
+    r=d.get('select') or d
+    print(nm, {k:(round(v,5) if isinstance(v,float) else v) for k,v in r.items() if k in ('kl','agree','n_docs','split')}, {k:round(v,5) for k,v in d.get('info',{}).items() if isinstance(v,float)} if isinstance(d.get('info'),dict) else '')
+EOF
+--- SORTIE COMPLETE ---
+    def forward(
+        self,
+        hidden_states: torch.Tensor,
+        position_embeddings: tuple[torch.Tensor, torch.Tensor],
+        attention_mask: torch.Tensor | None,
+        past_key_values: Cache | None = None,
+        **kwargs: Unpack[FlashAttentionKwargs],
+    ) -> tuple[torch.Tensor, torch.Tensor | None]:
+        input_shape = hidden_states.shape[:-1]
+        hidden_shape = (*input_shape, -1, self.head_dim)
+
+        query_states, gate = torch.chunk(
+            self.q_proj(hidden_states).view(*input_shape, -1, self.head_dim * 2), 2, dim=-1
+        )
+        gate = gate.reshape(*input_shape, -1)
+
+        query_states = self.q_norm(query_states.view(hidden_shape)).transpose(1, 2)
+        key_states = self.k_norm(self.k_proj(hidden_states).view(hidden_shape)).transpose(1, 2)
+        value_states = self.v_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+
+        cos, sin = position_embeddings
+        query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
+
+        if past_key_values is not None:
+            key_states, value_states = past_key_values.update(key_states, value_states, self.layer_idx)
+
+        attention_interface: Callable = ALL_ATTENTION_FUNCTIONS.get_interface(
+            self.config._attn_implementation, eager_attention_forward
+        )
+
+        attn_output, attn_weights = attention_interface(
+            self,
+            query_states,
+            key_states,
+            value_states,
+            attention_mask,
+            dropout=0.0 if not self.training else self.attention_dropout,
+            scaling=self.scaling,
+            **kwargs,
+        )
+
+        attn_output = attn_output.reshape(*input_shape, -1).contiguous()
+        attn_output = attn_output * torch.sigmoid(gate)
+
+        attn_output = self.o_proj(attn_output)
+        return attn_output, attn_weights
+
+
+----RMS
+class Qwen3_5RMSNorm(nn.Module):
+    def __init__(self, dim: int, eps: float = 1e-6):
+        super().__init__()
+        self.eps = eps
+        self.weight = nn.Parameter(torch.zeros(dim))
+
+    def _norm(self, x):
+        return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps)
+
+    def forward(self, x):
+        output = self._norm(x.float())
+        # Llama does x.to(float16) * w whilst Qwen3_5 is (x * w).to(float16)
+        # See https://github.com/huggingface/transformers/pull/29402
+        output = output * (1.0 + self.weight.float())
+        return output.type_as(x)
+
+    def extra_repr(self):
+        return f"{tuple(self.weight.shape)}, eps={self.eps}"
+
+----MLP
+    def forward(self, x):
+        down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+        return down_proj
+
+
+----GDN
+1:        b = self.in_proj_b(hidden_states)
+2:        a = self.in_proj_a(hidden_states)
+6:            mixed_qkv = causal_conv1d_update(
+9:                self.conv1d.weight.squeeze(1),
+10:                self.conv1d.bias,
+19:            mixed_qkv = causal_conv1d_fn(
+21:                self.conv1d.weight.squeeze(1),
+22:                self.conv1d.bias,
+32:        query, key, value = torch.split(
+42:        query = query.reshape(batch_size, seq_len, -1, self.head_k_dim)
+43:        key = key.reshape(batch_size, seq_len, -1, self.head_k_dim)
+44:        value = value.reshape(batch_size, seq_len, -1, self.head_v_dim)
+46:        beta = b.sigmoid()
+48:        g = -self.A_log.float().exp() * F.softplus(a.float() + self.dt_bias)
+50:            query = query.repeat_interleave(self.num_v_heads // self.num_k_heads, dim=2)
+51:            key = key.repeat_interleave(self.num_v_heads // self.num_k_heads, dim=2)
+54:            core_attn_out, last_recurrent_state = torch_recurrent_gated_delta_rule(
+59:                beta=beta,
+62:                use_qk_l2norm_in_kernel=True,
+67:            core_attn_out, last_recurrent_state = torch_chunk_gated_delta_rule(
+72:                beta=beta,
+75:                use_qk_l2norm_in_kernel=True,
+84:        # reshape input data into 2D tensor
+85:        core_attn_out = core_attn_out.reshape(-1, self.head_v_dim)
+86:        z = z.reshape(-1, self.head_v_dim)
+87:        core_attn_out = self.norm(core_attn_out, z)
+88:        core_attn_out = core_attn_out.reshape(batch_size, seq_len, -1)
+90:        output = self.out_proj(core_attn_out)
+---- repeat_kv
+def repeat_kv(hidden_states: torch.Tensor, n_rep: int) -> torch.Tensor:
+    """
+    This is the equivalent of torch.repeat_interleave(x, dim=1, repeats=n_rep). The hidden states go from (batch,
+    num_key_value_heads, seqlen, head_dim) to (batch, num_attention_heads, seqlen, head_dim)
+    """
+    batch, num_key_value_heads, slen, head_dim = hidden_states.shape
+    if n_rep == 1:
+        return hidden_states
+    hidden_states = hidden_states[:, :, None, :, :].expand(batch, num_key_value_heads, n_rep, slen, head_dim)
+    return hidden_states.reshape(batch, num_key_value_heads * n_rep, slen, head_dim)
+
+Counter({('e8', 'prod'): 581, ('raw', None): 581, ('e8', 'shell'): 37})
+Ab_Q0ldlq kl 0.11324941068111609
+A0_Q0ldlq keys ['id', 'info', 'select', 'time']
+variant_Ab_Q0ldlq {'split': 'select', 'n_docs': 72, 'kl': 0.11325, 'agree': 0.89339} {'bits': 75874486552.55896, 'bpw': 2.82131, 'seconds': 1030.45551, 'mult': 0.59596, 'target_bits': 75946828759.04, 'bits_over_target': -0.00095, 'bytes': 9484310819.06987}
+variant_A0_Q0ldlq {'split': 'select', 'n_docs': 72, 'kl': 0.11232, 'agree': 0.89107} {'bits': 75872572714.63591, 'bpw': 2.82124, 'seconds': 1019.52427, 'mult': 0.59494, 'target_bits': 75946828759.04, 'bits_over_target': -0.00098, 'bytes': 9484071589.32949}
+variant_ArotN_Q0ldlq_big {'split': 'select', 'n_docs': 72, 'kl': 0.10581, 'agree': 0.89787} {'bits': 75843683982.7022, 'bpw': 2.82016, 'seconds': 1143.90835, 'mult': 0.59494, 'target_bits': 75946828759.04, 'bits_over_target': -0.00136, 'bytes': 9480460497.83777}
+variant_A0_Q0ldlq_big {'split': 'select', 'n_docs': 72, 'kl': 0.11232, 'agree': 0.89107} {'bits': 75872572714.63591, 'bpw': 2.82124, 'seconds': 1107.31133, 'mult': 0.59494, 'target_bits': 75946828759.04, 'bits_over_target': -0.00098, 'bytes': 9484071589.32949}
+variant_A0_Qldlcol_ldlq {'split': 'select', 'n_docs': 72, 'kl': 0.11864, 'agree': 0.89137} {'bits': 75729649985.44612, 'bpw': 2.81592, 'seconds': 1051.77417, 'mult': 0.59494, 'target_bits': 75946828759.04, 'bits_over_target': -0.00286, 'bytes': 9466206248.18077}
+
+
+######## [23:34:32] Compute the noise-energy factor of output-head centring, plain and sensitivity-weighted
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && CUDA_VISIBLE_DEVICES="" timeout 110 python3 -I - <<'EOF'
+import json, torch, math, time
+from safetensors import safe_open
+torch.set_num_threads(32)
+idx=json.load(open('model.safetensors.index.json'))['weight_map']
+st=torch.load('/workspace/work/stats_fisher.pt', map_location='cpu')
+G=st['G']['lm_head'].double(); print('G lm_head', G.shape, 'min %.3g med %.3g max %.3g'%(G.min(),G.median(),G.max()), 'share of top 1%% rows: %.3f'%(G.sort().values[-2483:].sum()/G.sum()))
+with safe_open(idx['lm_head.weight'],'pt',device='cpu') as f: W=f.get_tensor('lm_head.weight')
+V,n=W.shape; s=torch.zeros(n,dtype=torch.float64); sg=torch.zeros(n,dtype=torch.float64); e=torch.zeros(V,dtype=torch.float64)
+for i in range(0,V,16384):
+    w=W[i:i+16384].double(); s+=w.sum(0); sg+=(G[i:i+16384,None]*w).sum(0); e[i:i+16384]=(w*w).sum(1)
+mu=s/V; mug=sg/G.sum()
+def after(a):
+    ec=torch.zeros(V,dtype=torch.float64)
+    for i in range(0,V,16384):
+        w=W[i:i+16384].double()-a; ec[i:i+16384]=(w*w).sum(1)
+    return ec
+ec=after(mu); ecg=after(mug)
+print('unweighted noise-energy factor (plain mean): %.4f'%(ec.sum()/e.sum()))
+print('G-weighted factor, plain-mean shift: %.4f ; G-weighted-mean shift: %.4f ; unweighted factor with G-mean shift: %.4f'%((G*ec).sum()/(G*e).sum(), (G*ecg).sum()/(G*e).sum(), ecg.sum()/e.sum()))
+print('cos(mu, mu_G)=%.4f |mu|=%.4f |mu_G|=%.4f median row norm %.4f'%(float((mu@mug)/(mu.norm()*mug.norm())), mu.norm(), mug.norm(), e.sqrt().median()))
+r=(ec/e); print('rows whose energy increases after plain centring: %.2f%%'%(100*float((r>1).double().mean())), 'G-mass on those rows: %.3f%%'%(100*float(G[r>1].sum()/G.sum())))
+# does the common mode align with the mean final hidden state direction? (X lm_head = E[x_j^2], MU = E[x_j])
+X=st['X']['lm_head'].double(); MU=st['MU']['lm_head'].double()
+print('mean-row . mean-input: mu.MU=%.4f ; |MU|=%.3f ; cos=%.4f ; E[(mu.x)^2] lower bound (mu.MU)^2=%.4f'%(float(mu@MU), MU.norm(), float(mu@MU/(mu.norm()*MU.norm())), float(mu@MU)**2))
+EOF
+--- SORTIE COMPLETE ---
+G lm_head torch.Size([248320]) min 3.04e-17 med 6.28e-13 max 0.0107 share of top 1% rows: 0.723
+unweighted noise-energy factor (plain mean): 0.9469
+G-weighted factor, plain-mean shift: 1.1227 ; G-weighted-mean shift: 0.9656 ; unweighted factor with G-mean shift: 1.0850
+cos(mu, mu_G)=-0.6826 |mu|=0.2267 |mu_G|=0.1710 median row norm 0.9737
+rows whose energy increases after plain centring: 9.52% G-mass on those rows: 83.574%
+mean-row . mean-input: mu.MU=-2.0452 ; |MU|=44.642 ; cos=-0.2021 ; E[(mu.x)^2] lower bound (mu.MU)^2=4.1829
+Shell cwd was reset to /workspace
+
+
+######## [23:36:59] Summarize recorded LDL pivot dispersion per family and the definition of the top-8 column error share
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch && grep -n "top8_cols_weighted_err_share" -B6 jobs/043_diag_error_structure.py | cut -c1-220 | tail -12; python3 -I - <<'EOF'
+import json, collections, statistics as S
+d=json.load(open('results/diag_ldl_headroom.json'))
+fam=collections.defaultdict(list)
+for k,v in d.items():
+    L,nm=k.split('.'); fam[nm].append((int(L[1:]), v['orig']['am_over_gm'], v['orig']['top8_share'], v['centred']['am_over_gm'], v.get('rotated',{}).get('am_over_gm')))
+for nm,l in fam.items():
+    l.sort()
+    print(nm, 'n=%d'%len(l), 'AM/GM orig: med %.2f range %.2f-%.2f | top8 pivot share: med %.3f max %.3f'%(S.median([x[1] for x in l]), min(x[1] for x in l), max(x[1] for x in l), S.median([x[2] for x in l]), max(x[2] for x in l)))
+    print('   ', ' '.join('L%d:%.2f/%.2f%s'%(x[0],x[1],x[2],('/r%.2f'%x[4]) if x[4] else '') for x in l))
+EOF
+--- SORTIE COMPLETE ---
+38-            # (b) concentration: top 0.1% entries share of squared error; top-8 columns share of weighted error
+39-            e2 = E.pow(2); k = max(1, e2.numel() // 1000)
+40-            rec["top0.1pct_entries_err_share"] = float(e2.flatten().float().topk(k).values.sum() / e2.sum())
+41:            colw = (e2.sum(0) * torch.diagonal(Hm)); rec["top8_cols_weighted_err_share"] = float(colw.topk(8).values.sum() / colw.sum())
+--
+44-            for b in (3.0, 4.0, 6.0):
+45-                r = int(rec["bpw"] * m_ * n_ / ((m_ + n_) * b)); r = min(r, len(evs))
+46-                rec["factor_equal_bytes"][b] = dict(rank=r, of=len(evs), truncation_energy_loss=float(1 - evs[:r].sum() / tot))
+47-            out[f"L{i}.{nm}"] = rec
+48-            print("L%-2d %-9s %5dx%-5d LDLQ rel proxy err %.4f (frob %.3f) | err in top16/64/256 dirs: %.3f/%.3f/%.3f ; rank-64 FP16 costs %.3f bpw -> same bits remove %.3f | top0.1%% entries %.4f, top8 cols %.4f | fa
+49-                i, nm, m_, n_, rec["rel_proxy_err"], rec["rel_frob_err"], *[rec["err_top_share"][r] for r in (16, 64, 256)], rec["lowrank_vs_bits"][64]["cost_bpw"], rec["lowrank_vs_bits"][64]["err_removed_by_same_bits
+50:                rec["top0.1pct_entries_err_share"], rec["top8_cols_weighted_err_share"], rec["factor_equal_bytes"][4.0]["rank"], rec["factor_equal_bytes"][4.0]["of"], rec["factor_equal_bytes"][4.0]["truncation_energy_
+mixer_in n=9 AM/GM orig: med 1.29 range 1.10-2.04 | top8 pivot share: med 0.130 max 0.470
+    L1:1.64/0.26/r1.08 L2:1.54/0.25/r1.05 L3:2.04/0.47/r1.02 L16:1.20/0.12/r1.02 L31:1.29/0.13/r1.03 L32:1.22/0.13/r1.02 L47:1.30/0.11/r1.03 L62:1.10/0.04/r1.02 L63:1.14/0.02/r1.03
+mixer_out n=9 AM/GM orig: med 1.46 range 1.23-2.36 | top8 pivot share: med 0.021 max 0.060
+    L1:1.47/0.03/r1.08 L2:1.46/0.05/r1.07 L3:2.36/0.05/r1.20 L16:1.33/0.02/r1.05 L31:1.23/0.02/r1.09 L32:1.26/0.02/r1.03 L47:1.23/0.02/r1.08 L62:2.29/0.06/r1.17 L63:1.53/0.02/r1.13
+mlp_in n=9 AM/GM orig: med 1.06 range 1.04-1.15 | top8 pivot share: med 0.022 max 0.052
+    L1:1.15/0.02/r1.07 L2:1.05/0.01/r1.04 L3:1.04/0.01/r1.03 L16:1.04/0.01/r1.02 L31:1.08/0.05/r1.02 L32:1.08/0.05/r1.02 L47:1.09/0.04/r1.02 L62:1.06/0.02/r1.02 L63:1.05/0.02/r1.02
+mlp_down n=9 AM/GM orig: med 1.25 range 1.07-2.63 | top8 pivot share: med 0.011 max 0.087
+    L1:1.25/0.01 L2:1.49/0.06 L3:1.31/0.01 L16:1.10/0.00 L31:1.07/0.01 L32:1.07/0.00 L47:1.14/0.01 L62:1.80/0.03 L63:2.63/0.09

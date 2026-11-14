@@ -1,0 +1,14 @@
+  ldlq layer 0 done, 18s elapsed, bpw so far 2.8183, peak 62.8 GiB
+  ldlq layer 8 done, 144s elapsed, bpw so far 2.8217, peak 62.8 GiB
+  ldlq layer 16 done, 268s elapsed, bpw so far 2.8217, peak 62.8 GiB
+  ldlq layer 24 done, 393s elapsed, bpw so far 2.8219, peak 62.8 GiB
+  ldlq layer 32 done, 516s elapsed, bpw so far 2.8229, peak 62.8 GiB
+  ldlq layer 40 done, 640s elapsed, bpw so far 2.8243, peak 62.8 GiB
+  ldlq layer 48 done, 766s elapsed, bpw so far 2.8251, peak 62.8 GiB
+  ldlq layer 56 done, 892s elapsed, bpw so far 2.8258, peak 62.8 GiB
+  ldlq layer 63 done, 1001s elapsed, bpw so far 2.8259, peak 62.8 GiB
+Ab2_Q0ldlq bpw=2.8259 bits/target-1=+0.0665% pass 1025s peak 64.4 GiB {'embed': 2.815, 'in_proj_qkv': 2.828, 'in_proj_z': 2.828, 'in_proj_a': 2.849, 'in_proj_b': 2.843, 'out_proj': 2.823, 'gate_proj': 2.827, 'up_proj': 2.827, 'down_proj': 2.825, 'q_proj': 2.828, 'k_proj': 2.825, 'v_proj': 2.828, 'o_proj': 2.822, 'lm_head': 2.826}
+[Ab2_Q0ldlq] SELECT KL=3.00842 agree=0.4151 ppl_s=60.3741 ppl_t=6.4635 | chat:4.5048 code:3.0521 en_pr:2.5291 math_:2.1690 multi:3.6878 scien:2.1078  (confirm sealed; 70s)
+Ab2_Q0ldlq LONG (8192 tok) KL by 1024-bucket: [2.6311, 2.4635, 2.3337, 2.3305, 2.2302, 2.3124, 2.1435, 2.2903] mean 2.3419
+
+[job 035_ldlq_bias_teacher OK in 1159.8s]

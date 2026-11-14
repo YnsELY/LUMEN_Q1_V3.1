@@ -1,0 +1,68 @@
+  L0 in_proj_qkv  |(W-Q)mu_S|=3.8733 |W(mu_T-mu_S)|=0.0000 |W mu_T|=300.235  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 in_proj_z    |(W-Q)mu_S|=3.1082 |W(mu_T-mu_S)|=0.0000 |W mu_T|=155.760  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 in_proj_a    |(W-Q)mu_S|=0.3348 |W(mu_T-mu_S)|=0.0000 |W mu_T|=20.523  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 in_proj_b    |(W-Q)mu_S|=0.1793 |W(mu_T-mu_S)|=0.0000 |W mu_T|=15.316  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 out_proj     |(W-Q)mu_S|=0.3399 |W(mu_T-mu_S)|=0.0123 |W mu_T|=13.621  |mu_T-mu_S|/|mu_T|=0.00064
+  L0 gate_proj    |(W-Q)mu_S|=0.3504 |W(mu_T-mu_S)|=0.0241 |W mu_T|=4.000  |mu_T-mu_S|/|mu_T|=0.00695
+  L0 up_proj      |(W-Q)mu_S|=0.3351 |W(mu_T-mu_S)|=0.0239 |W mu_T|=3.104  |mu_T-mu_S|/|mu_T|=0.00695
+  L0 down_proj    |(W-Q)mu_S|=0.0072 |W(mu_T-mu_S)|=0.0018 |W mu_T|=0.898  |mu_T-mu_S|/|mu_T|=0.01490
+  ldlq layer 0 done, 18s elapsed, bpw so far 2.8288, peak 66.7 GiB
+  L1 in_proj_qkv  |(W-Q)mu_S|=12.6631 |W(mu_T-mu_S)|=0.0399 |W mu_T|=20.470  |mu_T-mu_S|/|mu_T|=0.00073
+  L1 in_proj_z    |(W-Q)mu_S|=9.9350 |W(mu_T-mu_S)|=0.0320 |W mu_T|=20.696  |mu_T-mu_S|/|mu_T|=0.00073
+  L1 in_proj_a    |(W-Q)mu_S|=1.3183 |W(mu_T-mu_S)|=0.0032 |W mu_T|=3.335  |mu_T-mu_S|/|mu_T|=0.00073
+  L1 in_proj_b    |(W-Q)mu_S|=1.0846 |W(mu_T-mu_S)|=0.0049 |W mu_T|=7.058  |mu_T-mu_S|/|mu_T|=0.00073
+  L1 out_proj     |(W-Q)mu_S|=0.0344 |W(mu_T-mu_S)|=0.0135 |W mu_T|=2.713  |mu_T-mu_S|/|mu_T|=0.00851
+  L1 gate_proj    |(W-Q)mu_S|=0.3772 |W(mu_T-mu_S)|=0.0448 |W mu_T|=4.819  |mu_T-mu_S|/|mu_T|=0.00833
+  L1 up_proj      |(W-Q)mu_S|=0.3690 |W(mu_T-mu_S)|=0.0307 |W mu_T|=2.943  |mu_T-mu_S|/|mu_T|=0.00833
+  L1 down_proj    |(W-Q)mu_S|=0.0072 |W(mu_T-mu_S)|=0.0028 |W mu_T|=0.317  |mu_T-mu_S|/|mu_T|=0.02161
+  L2 in_proj_qkv  |(W-Q)mu_S|=14.0273 |W(mu_T-mu_S)|=0.0675 |W mu_T|=26.063  |mu_T-mu_S|/|mu_T|=0.00095
+  L2 in_proj_z    |(W-Q)mu_S|=11.0463 |W(mu_T-mu_S)|=0.0489 |W mu_T|=28.880  |mu_T-mu_S|/|mu_T|=0.00095
+  L2 in_proj_a    |(W-Q)mu_S|=1.6760 |W(mu_T-mu_S)|=0.0113 |W mu_T|=3.615  |mu_T-mu_S|/|mu_T|=0.00095
+  L2 in_proj_b    |(W-Q)mu_S|=1.1656 |W(mu_T-mu_S)|=0.0130 |W mu_T|=7.358  |mu_T-mu_S|/|mu_T|=0.00095
+  L2 out_proj     |(W-Q)mu_S|=0.0385 |W(mu_T-mu_S)|=0.0154 |W mu_T|=1.113  |mu_T-mu_S|/|mu_T|=0.01348
+  L2 gate_proj    |(W-Q)mu_S|=0.5157 |W(mu_T-mu_S)|=0.0622 |W mu_T|=5.402  |mu_T-mu_S|/|mu_T|=0.01007
+  L2 up_proj      |(W-Q)mu_S|=0.5074 |W(mu_T-mu_S)|=0.0419 |W mu_T|=3.035  |mu_T-mu_S|/|mu_T|=0.01007
+  L2 down_proj    |(W-Q)mu_S|=0.0716 |W(mu_T-mu_S)|=0.0029 |W mu_T|=2.573  |mu_T-mu_S|/|mu_T|=0.00323
+  L3 q_proj       |(W-Q)mu_S|=18.1442 |W(mu_T-mu_S)|=0.1817 |W mu_T|=336.870  |mu_T-mu_S|/|mu_T|=0.00069
+  L3 k_proj       |(W-Q)mu_S|=4.4389 |W(mu_T-mu_S)|=0.0526 |W mu_T|=14.480  |mu_T-mu_S|/|mu_T|=0.00069
+  L3 v_proj       |(W-Q)mu_S|=3.0780 |W(mu_T-mu_S)|=0.0366 |W mu_T|=7.404  |mu_T-mu_S|/|mu_T|=0.00069
+  L3 o_proj       |(W-Q)mu_S|=0.0826 |W(mu_T-mu_S)|=0.0067 |W mu_T|=7.925  |mu_T-mu_S|/|mu_T|=0.00550
+  L3 gate_proj    |(W-Q)mu_S|=0.4773 |W(mu_T-mu_S)|=0.0838 |W mu_T|=6.760  |mu_T-mu_S|/|mu_T|=0.01210
+  L3 up_proj      |(W-Q)mu_S|=0.4645 |W(mu_T-mu_S)|=0.0496 |W mu_T|=3.513  |mu_T-mu_S|/|mu_T|=0.01210
+  L3 down_proj    |(W-Q)mu_S|=0.0108 |W(mu_T-mu_S)|=0.0071 |W mu_T|=0.588  |mu_T-mu_S|/|mu_T|=0.02622
+bias mode True, layers 0-3 quantized only: KL=0.00592 agree=0.9838
+  L0 in_proj_qkv  |(W-Q)mu_S|=3.8733 |W(mu_T-mu_S)|=0.0000 |W mu_T|=300.235  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 in_proj_z    |(W-Q)mu_S|=3.1082 |W(mu_T-mu_S)|=0.0000 |W mu_T|=155.760  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 in_proj_a    |(W-Q)mu_S|=0.3348 |W(mu_T-mu_S)|=0.0000 |W mu_T|=20.523  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 in_proj_b    |(W-Q)mu_S|=0.1793 |W(mu_T-mu_S)|=0.0000 |W mu_T|=15.316  |mu_T-mu_S|/|mu_T|=0.00000
+  L0 out_proj     |(W-Q)mu_S|=0.3408 |W(mu_T-mu_S)|=0.0123 |W mu_T|=13.621  |mu_T-mu_S|/|mu_T|=0.00064
+  L0 gate_proj    |(W-Q)mu_S|=0.3481 |W(mu_T-mu_S)|=0.0088 |W mu_T|=4.000  |mu_T-mu_S|/|mu_T|=0.00339
+  L0 up_proj      |(W-Q)mu_S|=0.3324 |W(mu_T-mu_S)|=0.0087 |W mu_T|=3.104  |mu_T-mu_S|/|mu_T|=0.00339
+  L0 down_proj    |(W-Q)mu_S|=0.0072 |W(mu_T-mu_S)|=0.0021 |W mu_T|=0.898  |mu_T-mu_S|/|mu_T|=0.01361
+  ldlq layer 0 done, 18s elapsed, bpw so far 2.8289, peak 66.7 GiB
+  L1 in_proj_qkv  |(W-Q)mu_S|=12.5045 |W(mu_T-mu_S)|=0.0147 |W mu_T|=20.470  |mu_T-mu_S|/|mu_T|=0.00033
+  L1 in_proj_z    |(W-Q)mu_S|=9.6600 |W(mu_T-mu_S)|=0.0115 |W mu_T|=20.696  |mu_T-mu_S|/|mu_T|=0.00033
+  L1 in_proj_a    |(W-Q)mu_S|=1.5597 |W(mu_T-mu_S)|=0.0024 |W mu_T|=3.335  |mu_T-mu_S|/|mu_T|=0.00033
+  L1 in_proj_b    |(W-Q)mu_S|=1.2546 |W(mu_T-mu_S)|=0.0020 |W mu_T|=7.058  |mu_T-mu_S|/|mu_T|=0.00033
+  L1 out_proj     |(W-Q)mu_S|=0.0337 |W(mu_T-mu_S)|=0.0082 |W mu_T|=2.713  |mu_T-mu_S|/|mu_T|=0.00634
+  L1 gate_proj    |(W-Q)mu_S|=0.3799 |W(mu_T-mu_S)|=0.0083 |W mu_T|=4.819  |mu_T-mu_S|/|mu_T|=0.00280
+  L1 up_proj      |(W-Q)mu_S|=0.3672 |W(mu_T-mu_S)|=0.0075 |W mu_T|=2.943  |mu_T-mu_S|/|mu_T|=0.00280
+  L1 down_proj    |(W-Q)mu_S|=0.0072 |W(mu_T-mu_S)|=0.0022 |W mu_T|=0.317  |mu_T-mu_S|/|mu_T|=0.01983
+  L2 in_proj_qkv  |(W-Q)mu_S|=13.7379 |W(mu_T-mu_S)|=0.0125 |W mu_T|=26.063  |mu_T-mu_S|/|mu_T|=0.00028
+  L2 in_proj_z    |(W-Q)mu_S|=10.8594 |W(mu_T-mu_S)|=0.0096 |W mu_T|=28.880  |mu_T-mu_S|/|mu_T|=0.00028
+  L2 in_proj_a    |(W-Q)mu_S|=1.3606 |W(mu_T-mu_S)|=0.0027 |W mu_T|=3.615  |mu_T-mu_S|/|mu_T|=0.00028
+  L2 in_proj_b    |(W-Q)mu_S|=1.0832 |W(mu_T-mu_S)|=0.0018 |W mu_T|=7.358  |mu_T-mu_S|/|mu_T|=0.00028
+  L2 out_proj     |(W-Q)mu_S|=0.0390 |W(mu_T-mu_S)|=0.0140 |W mu_T|=1.113  |mu_T-mu_S|/|mu_T|=0.01055
+  L2 gate_proj    |(W-Q)mu_S|=0.5185 |W(mu_T-mu_S)|=0.0095 |W mu_T|=5.402  |mu_T-mu_S|/|mu_T|=0.00238
+  L2 up_proj      |(W-Q)mu_S|=0.5037 |W(mu_T-mu_S)|=0.0082 |W mu_T|=3.035  |mu_T-mu_S|/|mu_T|=0.00238
+  L2 down_proj    |(W-Q)mu_S|=0.0717 |W(mu_T-mu_S)|=0.0029 |W mu_T|=2.573  |mu_T-mu_S|/|mu_T|=0.00285
+  L3 q_proj       |(W-Q)mu_S|=18.0528 |W(mu_T-mu_S)|=0.0335 |W mu_T|=336.870  |mu_T-mu_S|/|mu_T|=0.00016
+  L3 k_proj       |(W-Q)mu_S|=4.3779 |W(mu_T-mu_S)|=0.0072 |W mu_T|=14.480  |mu_T-mu_S|/|mu_T|=0.00016
+  L3 v_proj       |(W-Q)mu_S|=2.9387 |W(mu_T-mu_S)|=0.0065 |W mu_T|=7.404  |mu_T-mu_S|/|mu_T|=0.00016
+  L3 o_proj       |(W-Q)mu_S|=0.0821 |W(mu_T-mu_S)|=0.0075 |W mu_T|=7.925  |mu_T-mu_S|/|mu_T|=0.00513
+  L3 gate_proj    |(W-Q)mu_S|=0.4755 |W(mu_T-mu_S)|=0.0125 |W mu_T|=6.760  |mu_T-mu_S|/|mu_T|=0.00270
+  L3 up_proj      |(W-Q)mu_S|=0.4673 |W(mu_T-mu_S)|=0.0094 |W mu_T|=3.513  |mu_T-mu_S|/|mu_T|=0.00270
+  L3 down_proj    |(W-Q)mu_S|=0.0105 |W(mu_T-mu_S)|=0.0082 |W mu_T|=0.588  |mu_T-mu_S|/|mu_T|=0.02579
+bias mode teacher, layers 0-3 quantized only: KL=0.00753 agree=0.9837
+
+[job 039_ab2_localize OK in 186.9s]

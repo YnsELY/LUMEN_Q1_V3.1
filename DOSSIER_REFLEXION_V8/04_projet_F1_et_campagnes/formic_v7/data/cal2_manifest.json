@@ -1,0 +1,160 @@
+{
+ "seed": 2468,
+ "tokenizer": "/root/models/qwen3.8-27b",
+ "tokens_per_doc": 2048,
+ "bos_token_id": 248044,
+ "counts_per_domain": {
+  "en_prose": 12,
+  "web": 12,
+  "multiling": 20,
+  "code": 12,
+  "math": 10,
+  "science": 10,
+  "chat": 16,
+  "tools": 16,
+  "reasoning": 20
+ },
+ "targets": {
+  "en_prose": 12,
+  "web": 12,
+  "multiling": 20,
+  "code": 12,
+  "math": 10,
+  "science": 10,
+  "chat": 16,
+  "tools": 16,
+  "reasoning": 20
+ },
+ "counts_multiling_language": {
+  "fr": 3,
+  "zh": 3,
+  "de": 3,
+  "es": 3,
+  "ja": 2,
+  "ar": 2,
+  "ru": 2,
+  "ko": 2
+ },
+ "counts_code_language": {
+  "python": 6,
+  "c": 6
+ },
+ "datasets": [
+  [
+   "chat",
+   "HuggingFaceH4/ultrachat_200k:train_sft",
+   "MIT"
+  ],
+  [
+   "code",
+   "local:/usr/include",
+   "system headers (various: GPL/LGPL/BSD etc.) - research use"
+  ],
+  [
+   "code",
+   "local:dist-packages",
+   "see package metadata"
+  ],
+  [
+   "code",
+   "local:python3.12-stdlib",
+   "PSF License (CPython stdlib)"
+  ],
+  [
+   "en_prose",
+   "wikimedia/wikipedia:20231101.en",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "math",
+   "meta-math/MetaMathQA:train",
+   "MIT"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.ar",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.de",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.es",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.fr",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.ja",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.ko",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.ru",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "multiling",
+   "wikimedia/wikipedia:20231101.zh",
+   "CC-BY-SA-3.0 and GFDL"
+  ],
+  [
+   "reasoning",
+   "glaiveai/reasoning-v1-20m",
+   "apache-2.0"
+  ],
+  [
+   "reasoning",
+   "open-thoughts/OpenThoughts-114k",
+   "apache-2.0"
+  ],
+  [
+   "science",
+   "ccdv/arxiv-summarization:train",
+   "unknown/arXiv (dataset card apache-2.0; papers retain author licenses)"
+  ],
+  [
+   "tools",
+   "Team-ACE/ToolACE",
+   "apache-2.0"
+  ],
+  [
+   "tools",
+   "glaiveai/glaive-function-calling-v2",
+   "apache-2.0"
+  ],
+  [
+   "web",
+   "HuggingFaceFW/fineweb-edu:sample-10BT",
+   "ODC-By 1.0"
+  ]
+ ],
+ "bos_rows": 38,
+ "overlap_checks": {
+  "shared_13grams_with_competitor_text_before_boilerplate_discount": 139,
+  "shared_13grams_after_boilerplate_discount": 0,
+  "n_boilerplate_13grams": 184,
+  "n_competitor_13grams": 244224,
+  "source_id_in_old_sets": 0,
+  "first300_start_in_old_sets": 0,
+  "duplicate_source_ids": 0,
+  "duplicate_texts": 0,
+  "competitor_doc_ids_used": 0
+ },
+ "sha256": {
+  "cal2_tokens.pt": "10e517b73a9cf8487171c9e90befbdf85ab5f210ab8b6e7dc904a3fc143d9aec",
+  "cal2.jsonl": "dd1305e37286a5a6f0943b6d3a251682ff2680afc71fe2a0488d66a425cee753"
+ }
+}

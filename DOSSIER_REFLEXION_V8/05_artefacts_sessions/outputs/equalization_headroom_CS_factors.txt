@@ -1,0 +1,16 @@
+gate_proj    median AM/GM(X)     1.31 | CS factor (mean sqrtX)^2/meanX median 0.808 [lognormal pred 0.872] | without top dim: AM/GM 1.12 CS 0.926
+     by layer (L: CS / CS without top dim): 0:0.83/0.84 1:0.87/0.88 2:0.94/0.96 3:0.95/0.96 7:0.95/0.98 15:0.91/0.95 16:0.89/0.93 31:0.64/0.93 32:0.63/0.92 47:0.70/0.89 55:0.83/0.85 60:0.84/0.88 61:0.83/0.88 62:0.82/0.89 63:0.79/0.89
+down_proj    median AM/GM(X)     1.19 | CS factor (mean sqrtX)^2/meanX median 0.900 [lognormal pred 0.918] | without top dim: AM/GM 1.18 CS 0.908
+     by layer (L: CS / CS without top dim): 0:0.63/0.64 1:0.86/0.86 2:0.64/0.79 3:0.82/0.83 7:0.90/0.90 15:0.94/0.94 16:0.94/0.94 31:0.95/0.96 32:0.95/0.95 47:0.90/0.90 55:0.81/0.83 60:0.78/0.78 61:0.71/0.74 62:0.63/0.64 63:0.33/0.34
+in_proj_qkv  median AM/GM(X)     2.57 | CS factor (mean sqrtX)^2/meanX median 0.437 [lognormal pred 0.624] | without top dim: AM/GM 1.36 CS 0.804
+     by layer (L: CS / CS without top dim): 0:0.70/0.73 1:0.16/0.73 2:0.20/0.76 16:0.31/0.81 32:0.38/0.82 60:0.79/0.84 61:0.79/0.84 62:0.75/0.84
+out_proj     median AM/GM(X)     1.57 | CS factor (mean sqrtX)^2/meanX median 0.777 [lognormal pred 0.798] | without top dim: AM/GM 1.53 CS 0.798
+     by layer (L: CS / CS without top dim): 0:0.06/0.09 1:0.75/0.76 2:0.70/0.78 16:0.85/0.85 32:0.86/0.86 60:0.44/0.51 61:0.56/0.56 62:0.48/0.53
+q_proj       median AM/GM(X)     3.15 | CS factor (mean sqrtX)^2/meanX median 0.370 [lognormal pred 0.564] | without top dim: AM/GM 1.58 CS 0.722
+     by layer (L: CS / CS without top dim): 3:0.07/0.65 7:0.08/0.59 15:0.17/0.65 31:0.35/0.72 47:0.45/0.72 55:0.68/0.76 63:0.77/0.85
+o_proj       median AM/GM(X)     1.59 | CS factor (mean sqrtX)^2/meanX median 0.778 [lognormal pred 0.793] | without top dim: AM/GM 1.55 CS 0.787
+     by layer (L: CS / CS without top dim): 3:0.41/0.49 7:0.70/0.71 15:0.73/0.75 31:0.77/0.78 47:0.82/0.83 55:0.72/0.74 63:0.71/0.71
+lm_head      median AM/GM(X)     1.41 | CS factor (mean sqrtX)^2/meanX median 0.775 [lognormal pred 0.841] | without top dim: AM/GM 1.39 CS 0.785
+     by layer (L: CS / CS without top dim): 64:0.78/0.79
+
+[exited with code 0]

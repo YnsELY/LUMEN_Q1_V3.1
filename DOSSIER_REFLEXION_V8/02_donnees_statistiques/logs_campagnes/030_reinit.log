@@ -1,0 +1,6 @@
+{'select': (72, 1024, 5120), 'confirm': (72, 1024, 5120)} 68s
+long teacher: (12, 8192, 5120)
+teacher sanity KL=1.72e-04 agree=0.9966 mult_Q0rtn 0.5916926675150393 alloc GiB 53.3
+teacher long sanity KL=0.00e+00
+
+[job 030_reinit OK in 244.3s]

@@ -1,0 +1,4 @@
+docs used for mu: 96 | cosine(mu_4dom, mu_full): min 0.88940 mean 0.98923
+[Ab_Q0rtn_mu4dom] SELECT KL=0.16471 agree=0.8695 ppl_s=6.6980 ppl_t=6.4635 | chat:0.3960 code:0.2475 en_pr:0.0957 math_:0.0820 multi:0.0937 scien:0.0735  (confirm sealed; 70s)
+
+[job 036c_bias_heldout OK in 165.9s]

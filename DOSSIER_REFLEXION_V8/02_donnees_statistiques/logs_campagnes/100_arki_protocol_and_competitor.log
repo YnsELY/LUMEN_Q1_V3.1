@@ -1,0 +1,27 @@
+arki teacher: (torch.Size([108, 4096]), 191486) 215s
+BF16 self-check on P-A108: P-A108 KL=0.0000 p99=0.000 top1=100.00% | code:0.000 encycl:0.000 instru:0.000 long:0.000 math:0.000 multil:0.000 tools:0.000 web:0.000
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/100_arki_protocol_and_competitor.py", line 11, in <module>
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_v7/lab/v7.py", line 95, in load_gguf
+    for name, typ, nbytes, a in ex.map(_deq, [(path, i) for i in idxs], chunksize=1):
+  File "/usr/lib/python3.12/concurrent/futures/process.py", line 642, in _chain_from_iterable_of_lists
+    for element in iterable:
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+concurrent.futures.process.BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending.
+
+[job 100_arki_protocol_and_competitor ERROR in 494.1s]

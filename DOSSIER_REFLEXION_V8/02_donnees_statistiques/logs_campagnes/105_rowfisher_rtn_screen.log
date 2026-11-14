@@ -1,0 +1,8 @@
+rtn_lumen                    bpw 2.8069 | select(36 docs) KL 0.2902 | P-A108-dev KL=0.1124 p99=0.884 top1=86.67% | code:0.046 encycl:0.128 instru:0.099 long:0.125 math:0.053 multil:0.185 tools:0.048 web:0.124
+rtn_row0.5_body              bpw 2.8072 | select(36 docs) KL 0.3137 | P-A108-dev KL=0.1258 p99=0.980 top1=85.76% | code:0.048 encycl:0.144 instru:0.104 long:0.135 math:0.060 multil:0.224 tools:0.051 web:0.133
+rtn_row1.0_body              bpw 2.8081 | select(36 docs) KL 0.3190 | P-A108-dev KL=0.1347 p99=1.049 top1=85.47% | code:0.057 encycl:0.156 instru:0.113 long:0.151 math:0.065 multil:0.224 tools:0.050 web:0.150
+rtn_row1.0_writers           bpw 2.8059 | select(36 docs) KL 0.3547 | P-A108-dev KL=0.1187 p99=0.909 top1=86.20% | code:0.049 encycl:0.135 instru:0.105 long:0.136 math:0.057 multil:0.189 tools:0.051 web:0.133
+rtn_row1.0_head              bpw 2.8080 | select(36 docs) KL 0.3024 | P-A108-dev KL=0.1054 p99=0.867 top1=87.39% | code:0.046 encycl:0.115 instru:0.093 long:0.116 math:0.051 multil:0.182 tools:0.045 web:0.109
+rtn_row2.0_head              bpw 2.8046 | select(36 docs) KL 0.3285 | P-A108-dev KL=0.1510 p99=1.290 top1=85.12% | code:0.060 encycl:0.149 instru:0.127 long:0.159 math:0.070 multil:0.300 tools:0.055 web:0.146
+
+[job 105_rowfisher_rtn_screen OK in 1762.4s]

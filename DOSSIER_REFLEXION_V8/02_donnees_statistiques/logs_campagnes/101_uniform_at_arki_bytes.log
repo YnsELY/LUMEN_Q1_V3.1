@@ -1,0 +1,16 @@
+  ldlq layer 0 done, 18s elapsed, bpw so far 2.8072, peak 67.8 GiB
+  ldlq layer 8 done, 153s elapsed, bpw so far 2.8093, peak 67.8 GiB
+  ldlq layer 16 done, 283s elapsed, bpw so far 2.8090, peak 67.8 GiB
+  ldlq layer 24 done, 410s elapsed, bpw so far 2.8087, peak 67.8 GiB
+  ldlq layer 32 done, 535s elapsed, bpw so far 2.8086, peak 67.8 GiB
+  ldlq layer 40 done, 664s elapsed, bpw so far 2.8085, peak 67.8 GiB
+  ldlq layer 48 done, 788s elapsed, bpw so far 2.8084, peak 67.8 GiB
+  ldlq layer 56 done, 913s elapsed, bpw so far 2.8084, peak 67.8 GiB
+  ldlq layer 63 done, 1023s elapsed, bpw so far 2.8083, peak 67.8 GiB
+L0_uniform_2.808 bpw=2.8084 bits/target-1=-0.5520% pass 1048s peak 69.4 GiB {'embed': 2.805, 'in_proj_qkv': 2.809, 'in_proj_z': 2.809, 'in_proj_a': 2.83, 'in_proj_b': 2.823, 'out_proj': 2.805, 'gate_proj': 2.809, 'up_proj': 2.809, 'down_proj': 2.807, 'q_proj': 2.809, 'k_proj': 2.806, 'v_proj': 2.809, 'o_proj': 2.808, 'lm_head': 2.81}
+[L0_uniform_2.808] SELECT KL=0.11437 agree=0.8945 ppl_s=6.9768 ppl_t=6.4635 | chat:0.2381 code:0.2110 en_pr:0.0817 math_:0.0437 multi:0.0711 scien:0.0405  (confirm sealed; 69s)
+[L0_uniform_2.808] BIG(600) KL=0.11042 agree=0.8944 ppl_s=5.7705 ppl_t=5.4222 | chat:0.2441 code:0.1665 en_pr:0.0610 math_:0.0688 multi:0.0770 scien:0.0452  (293s)
+L0_uniform_2.808 LONG (8192 tok) KL by 1024-bucket: [0.1097, 0.1093, 0.0943, 0.1155, 0.1156, 0.1008, 0.1012, 0.1434] mean 0.1112
+[L0_uniform_2.808] P-A108 KL=0.0666 p99=0.622 top1=90.01% | code:0.025 encycl:0.077 instru:0.058 long:0.061 math:0.027 multil:0.134 tools:0.038 web:0.069
+
+[job 101_uniform_at_arki_bytes OK in 1701.0s]

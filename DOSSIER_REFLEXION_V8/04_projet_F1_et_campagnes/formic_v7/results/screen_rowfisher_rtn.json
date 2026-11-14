@@ -1,0 +1,154 @@
+{
+ "rtn_lumen": {
+  "spec": {
+   "rule": "lumen"
+  },
+  "bpw": 2.8068607513977013,
+  "select36": 0.290168108832505,
+  "arkidev": 0.11238017678260803,
+  "arkidev_by_domain": {
+   "code": 0.04613320156931877,
+   "encyclopedic": 0.12794707715511322,
+   "instruction": 0.0994909405708313,
+   "long": 0.1245638057589531,
+   "math": 0.053374096751213074,
+   "multilingual": 0.18479737639427185,
+   "tools": 0.04825982078909874,
+   "web": 0.12383150309324265
+  }
+ },
+ "rtn_row0.5_body": {
+  "spec": {
+   "rule": "lumen",
+   "row_clip": 0.5,
+   "row_kinds": [
+    "in_proj_qkv",
+    "in_proj_z",
+    "in_proj_a",
+    "in_proj_b",
+    "out_proj",
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+   ]
+  },
+  "bpw": 2.807179196747745,
+  "select36": 0.3136712676948971,
+  "arkidev": 0.1257632076740265,
+  "arkidev_by_domain": {
+   "code": 0.04796641319990158,
+   "encyclopedic": 0.1442570686340332,
+   "instruction": 0.10360585898160934,
+   "long": 0.13549450039863586,
+   "math": 0.059716563671827316,
+   "multilingual": 0.22436785697937012,
+   "tools": 0.050850436091423035,
+   "web": 0.1332608163356781
+  }
+ },
+ "rtn_row1.0_body": {
+  "spec": {
+   "rule": "lumen",
+   "row_clip": 1.0,
+   "row_kinds": [
+    "in_proj_qkv",
+    "in_proj_z",
+    "in_proj_a",
+    "in_proj_b",
+    "out_proj",
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+   ]
+  },
+  "bpw": 2.808078309588945,
+  "select36": 0.31896939170029426,
+  "arkidev": 0.13465248048305511,
+  "arkidev_by_domain": {
+   "code": 0.05732697993516922,
+   "encyclopedic": 0.15560628473758698,
+   "instruction": 0.11343993991613388,
+   "long": 0.15102629363536835,
+   "math": 0.06498625874519348,
+   "multilingual": 0.22379329800605774,
+   "tools": 0.04970088601112366,
+   "web": 0.14955177903175354
+  }
+ },
+ "rtn_row1.0_writers": {
+  "spec": {
+   "rule": "lumen",
+   "row_clip": 1.0,
+   "row_kinds": [
+    "out_proj",
+    "o_proj",
+    "down_proj"
+   ]
+  },
+  "bpw": 2.8059172908896657,
+  "select36": 0.3547206102973885,
+  "arkidev": 0.11873093247413635,
+  "arkidev_by_domain": {
+   "code": 0.048841316252946854,
+   "encyclopedic": 0.13505461812019348,
+   "instruction": 0.10469444841146469,
+   "long": 0.13582956790924072,
+   "math": 0.05695237219333649,
+   "multilingual": 0.18941240012645721,
+   "tools": 0.050507303327322006,
+   "web": 0.13277654349803925
+  }
+ },
+ "rtn_row1.0_head": {
+  "spec": {
+   "rule": "lumen",
+   "row_clip": 1.0,
+   "row_kinds": [
+    "lm_head"
+   ]
+  },
+  "bpw": 2.807992640424481,
+  "select36": 0.3024174121932851,
+  "arkidev": 0.10544987767934799,
+  "arkidev_by_domain": {
+   "code": 0.04596031829714775,
+   "encyclopedic": 0.11549931019544601,
+   "instruction": 0.0934002548456192,
+   "long": 0.11602883785963058,
+   "math": 0.051201026886701584,
+   "multilingual": 0.18199294805526733,
+   "tools": 0.04540582746267319,
+   "web": 0.10854879021644592
+  }
+ },
+ "rtn_row2.0_head": {
+  "spec": {
+   "rule": "lumen",
+   "row_clip": 2.0,
+   "row_kinds": [
+    "lm_head"
+   ]
+  },
+  "bpw": 2.8046237042905404,
+  "select36": 0.32846840740078026,
+  "arkidev": 0.15098820626735687,
+  "arkidev_by_domain": {
+   "code": 0.06027371808886528,
+   "encyclopedic": 0.14936454594135284,
+   "instruction": 0.12682338058948517,
+   "long": 0.15871275961399078,
+   "math": 0.07045252621173859,
+   "multilingual": 0.299826979637146,
+   "tools": 0.0554070845246315,
+   "web": 0.14609093964099884
+  }
+ }
+}

@@ -1,0 +1,23 @@
+mlp_in(gate,up)      lumen         bpw=2.825 params=11.41B KL=0.03773 agree=0.9407
+mlp_in(gate,up)      col           bpw=2.860 params=11.41B KL=0.03544 agree=0.9460
+mlp_in(gate,up)      fisher_local  bpw=2.931 params=11.41B KL=0.06265 agree=0.9280
+mlp_down             lumen         bpw=2.823 params=5.70B KL=0.02590 agree=0.9548
+mlp_down             col           bpw=2.868 params=5.70B KL=0.02324 agree=0.9571
+mlp_down             fisher_local  bpw=3.039 params=5.70B KL=0.02323 agree=0.9583
+gdn_in(qkv,z,a,b)    lumen         bpw=2.825 params=4.05B KL=0.03160 agree=0.9558
+gdn_in(qkv,z,a,b)    col           bpw=2.753 params=4.05B KL=0.02711 agree=0.9598
+gdn_in(qkv,z,a,b)    fisher_local  bpw=2.283 params=4.05B KL=1.87430 agree=0.5579
+gdn_out              lumen         bpw=2.824 params=1.51B KL=0.01799 agree=0.9681
+gdn_out              col           bpw=2.842 params=1.51B KL=0.02777 agree=0.9601
+gdn_out              fisher_local  bpw=2.970 params=1.51B KL=0.01613 agree=0.9715
+attn_in(q,k,v)       lumen         bpw=2.825 params=1.17B KL=0.02400 agree=0.9637
+attn_in(q,k,v)       col           bpw=2.518 params=1.17B KL=0.02436 agree=0.9666
+attn_in(q,k,v)       fisher_local  bpw=1.926 params=1.17B KL=0.03845 agree=0.9512
+attn_out             lumen         bpw=2.823 params=0.50B KL=0.00844 agree=0.9775
+attn_out             col           bpw=2.830 params=0.50B KL=0.00902 agree=0.9806
+attn_out             fisher_local  bpw=3.006 params=0.50B KL=0.01055 agree=0.9790
+embed                lumen         bpw=2.825 params=1.27B KL=0.00582 agree=0.9874
+lm_head              lumen         bpw=2.825 params=1.27B KL=0.01337 agree=0.9467
+lm_head              col           bpw=2.773 params=1.27B KL=0.01821 agree=0.9365
+
+[job 007b_bykind OK in 316.6s]

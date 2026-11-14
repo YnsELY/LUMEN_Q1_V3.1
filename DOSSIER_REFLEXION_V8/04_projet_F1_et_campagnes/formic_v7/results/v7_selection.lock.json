@@ -1,0 +1,15 @@
+{
+ "decided_at": "2026-11-13T19:32:35Z",
+ "selected": "F1_cal12_uniform",
+ "rule_as_declared": "lowest primary metric among candidates that pass all guards",
+ "literal_outcome_of_declared_rule": "L2_cal2_uniform (P-A108-dev KL 0.0567 vs 0.0581 for F1_cal12_uniform; both pass all guards; L0_uniform_2.808 fails the domain guard: tools +26 % vs Arki05)",
+ "amendment": "The declared rule had no tie-break. The primary-metric difference between the two candidates that pass the guards is not statistically resolved: F1 vs L2 on P-A108-dev = +2.4 %, window-bootstrap 95 % CI [-0.4, +5.4]. Tie broken with the largest development set already listed in the rule file: big-600, F1 vs L2 = -9.0 % [-14.0, -4.3], F1 better in all 6 domains; long-8192 0.109 vs 0.116. F1 is therefore selected. This amendment is committed BEFORE any sealed confirmation result is read and before conf2 is evaluated.",
+ "asymmetric_target": "not promoted: 12-layer pilot = -7.1 % on P-A108-dev but +2.9 % on select (ridge 0.1); -2.4 % / +5.3 % (ridge 0.01). The pre-declared promotion criterion (>= 3 % better without being worse on select) is not met.",
+ "reported_alongside": "L2_cal2_uniform sealed P-A108-conf result will be reported next to F1's (no conf2 for L2: its weights were not kept).",
+ "sealed_sha256": {
+  "F1_cal12_uniform": "c407be48365624879ada4962bb794a702f2893caefb4cd305775859b94f57aa2",
+  "L2_cal2_uniform": "4435a699bb5265cd00e533106759895a046ef3616fcca066d407aab0c846096b"
+ },
+ "conf2_tokens_sha256": "2d54a3ce3ebe9d976b73f508019cf4f6d19971e5a9b3e0dacd66b633f6337a35",
+ "code_commit_before": "41418f9d9666da9337d78c572f6b480ac50b0f0e"
+}

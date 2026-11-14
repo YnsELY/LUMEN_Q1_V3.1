@@ -1,0 +1,2215 @@
+
+
+######## [20:54:02] Read model config and local download metadata
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && cat config.json; echo ----; cat crc32.txt; echo ----; find .cache -type f | head -50; echo ----; for f in $(find .cache -type f | head -40); do echo "== $f"; head -c 400 "$f"; echo; done 2>/dev/null | head -150
+--- SORTIE COMPLETE ---
+{
+    "architectures": [
+        "Qwen3_5ForConditionalGeneration"
+    ],
+    "image_token_id": 248056,
+    "language_model_only": false,
+    "model_type": "qwen3_5",
+    "text_config": {
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "attn_output_gate": true,
+        "bos_token_id": 248044,
+        "dtype": "bfloat16",
+        "eos_token_id": 248044,
+        "full_attention_interval": 4,
+        "head_dim": 256,
+        "hidden_act": "silu",
+        "hidden_size": 5120,
+        "initializer_range": 0.02,
+        "intermediate_size": 17408,
+        "layer_types": [
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention"
+        ],
+        "linear_conv_kernel_dim": 4,
+        "linear_key_head_dim": 128,
+        "linear_num_key_heads": 16,
+        "linear_num_value_heads": 48,
+        "linear_value_head_dim": 128,
+        "mamba_ssm_dtype": "float32",
+        "max_position_embeddings": 262144,
+        "model_type": "qwen3_5_text",
+        "mtp_num_hidden_layers": 1,
+        "mtp_use_dedicated_embeddings": false,
+        "num_attention_heads": 24,
+        "num_hidden_layers": 64,
+        "num_key_value_heads": 4,
+        "output_gate_type": "swish",
+        "pad_token_id": null,
+        "partial_rotary_factor": 0.25,
+        "rms_norm_eps": 1e-06,
+        "rope_parameters": {
+            "mrope_interleaved": true,
+            "mrope_section": [
+                11,
+                11,
+                10
+            ],
+            "partial_rotary_factor": 0.25,
+            "rope_theta": 10000000,
+            "rope_type": "default"
+        },
+        "tie_word_embeddings": false,
+        "use_cache": true,
+        "vocab_size": 248320
+    },
+    "tie_word_embeddings": false,
+    "transformers_version": "5.8.0.dev0",
+    "video_token_id": 248057,
+    "vision_config": {
+        "deepstack_visual_indexes": [],
+        "depth": 27,
+        "hidden_act": "gelu_pytorch_tanh",
+        "hidden_size": 1152,
+        "in_channels": 3,
+        "initializer_range": 0.02,
+        "intermediate_size": 4304,
+        "model_type": "qwen3_5",
+        "num_heads": 16,
+        "num_position_embeddings": 2304,
+        "out_hidden_size": 5120,
+        "patch_size": 16,
+        "spatial_merge_size": 2,
+        "temporal_patch_size": 2
+    },
+    "vision_end_token_id": 248054,
+    "vision_start_token_id": 248053
+}----
+cf59f3ab  chat_template.jinja
+ac8d98f1  generation_config.json
+1824fcb5  merges.txt
+030e383a  preprocessor_config.json
+6b61f895  tokenizer.json
+7adf2118  tokenizer_config.json
+44c041dc  video_preprocessor_config.json
+da8db314  vocab.json
+----
+.cache/huggingface/CACHEDIR.TAG
+.cache/huggingface/.gitignore
+.cache/huggingface/trees/37561816e66b5b9153b1b64c10968c18c1e6f4a0.json
+.cache/huggingface/download/crc32.txt.lock
+.cache/huggingface/download/chat_template.jinja.lock
+.cache/huggingface/download/config.json.lock
+.cache/huggingface/download/generation_config.json.lock
+.cache/huggingface/download/merges.txt.lock
+.cache/huggingface/download/LICENSE.lock
+.cache/huggingface/download/config.json.metadata
+.cache/huggingface/download/README.md.lock
+.cache/huggingface/download/tokenizer.json.lock
+.cache/huggingface/download/model-00001-of-00018.safetensors.lock
+.cache/huggingface/download/model-00012-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00007-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00002-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00001-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00013-of-00018.safetensors.lock
+.cache/huggingface/download/model-00013-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00017-of-00018.safetensors.lock
+.cache/huggingface/download/video_preprocessor_config.json.lock
+.cache/huggingface/download/crc32.txt.metadata
+.cache/huggingface/download/chat_template.jinja.metadata
+.cache/huggingface/download/.gitattributes.lock
+.cache/huggingface/download/generation_config.json.metadata
+.cache/huggingface/download/LICENSE.metadata
+.cache/huggingface/download/model-00002-of-00018.safetensors.lock
+.cache/huggingface/download/tokenizer_config.json.lock
+.cache/huggingface/download/model-00003-of-00018.safetensors.lock
+.cache/huggingface/download/model-00016-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00004-of-00018.safetensors.lock
+.cache/huggingface/download/model-00005-of-00018.safetensors.lock
+.cache/huggingface/download/model-00018-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00004-of-00018.safetensors.metadata
+.cache/huggingface/download/model-00015-of-00018.safetensors.lock
+.cache/huggingface/download/model-00016-of-00018.safetensors.lock
+.cache/huggingface/download/tokenizer_config.json.metadata
+.cache/huggingface/download/README.md.metadata
+.cache/huggingface/download/model-00006-of-00018.safetensors.lock
+.cache/huggingface/download/model-00014-of-00018.safetensors.lock
+.cache/huggingface/download/model-00014-of-00018.safetensors.metadata
+.cache/huggingface/download/vocab.json.metadata
+.cache/huggingface/download/.gitattributes.metadata
+.cache/huggingface/download/model-00007-of-00018.safetensors.lock
+.cache/huggingface/download/model.safetensors.index.json.lock
+.cache/huggingface/download/video_preprocessor_config.json.metadata
+.cache/huggingface/download/merges.txt.metadata
+.cache/huggingface/download/model-00008-of-00018.safetensors.lock
+.cache/huggingface/download/model-00008-of-00018.safetensors.metadata
+.cache/huggingface/download/model.safetensors.index.json.metadata
+----
+== .cache/huggingface/CACHEDIR.TAG
+Signature: 8a477f597d28d172789f06886806bc55
+# This file is a cache directory tag created by huggingface_hub.
+# For information about cache directory tags, see:
+#	https://bford.info/cachedir/
+
+== .cache/huggingface/.gitignore
+*
+== .cache/huggingface/trees/37561816e66b5b9153b1b64c10968c18c1e6f4a0.json
+{
+ "format_version": 1,
+ "files": {
+  ".gitattributes": {
+   "size": 1570,
+   "blob_id": "52373fe24473b1aa44333d318f578ae6bf04b49b"
+  },
+  "LICENSE": {
+   "size": 11544,
+   "blob_id": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+  },
+  "README.md": {
+   "size": 65056,
+   "blob_id": "4d43b0e391581a8857be5d29f7a2ba527781ba78"
+  },
+  "chat_template.jinja": {
+   "size": 9004,
+   "blob_id": "9bd39df8984b
+== .cache/huggingface/download/crc32.txt.lock
+
+== .cache/huggingface/download/chat_template.jinja.lock
+
+== .cache/huggingface/download/config.json.lock
+
+== .cache/huggingface/download/generation_config.json.lock
+
+== .cache/huggingface/download/merges.txt.lock
+
+== .cache/huggingface/download/LICENSE.lock
+
+== .cache/huggingface/download/config.json.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+706cebd746c4b6f2b1d1f892630867acfdfd3df8
+1794557159.262715
+
+== .cache/huggingface/download/README.md.lock
+
+== .cache/huggingface/download/tokenizer.json.lock
+
+== .cache/huggingface/download/model-00001-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00012-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+a3de1c7114677a8f5ac5c4892c90e8238ea5c1e2038c80e757dfc87c3902ca55
+1794557290.5583835
+
+== .cache/huggingface/download/model-00007-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+80b0c49033e9a0d5762562aa12f4acdb7f54da586f3d0110f28c48d91cf07892
+1794557204.0521297
+
+== .cache/huggingface/download/model-00002-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+06a148c01bfbe3faa14a5f184a7ff29a706f7ae1c8b2705d2058e26d17a001fb
+1794557204.6807046
+
+== .cache/huggingface/download/model-00001-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+ba0ce20aae489ad196733da5064bcdf159a1fe84f53336648196e1ebb7751b1c
+1794557204.680817
+
+== .cache/huggingface/download/model-00013-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00013-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+06ab79a41f74c9c5cb734816feb0c7fc364104b227165ee7391231e1155aa02a
+1794557257.720261
+
+== .cache/huggingface/download/model-00017-of-00018.safetensors.lock
+
+== .cache/huggingface/download/video_preprocessor_config.json.lock
+
+== .cache/huggingface/download/crc32.txt.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+6de5ee6a0c6596744baee911af0a5cdcb8d99a1e
+1794557159.3124046
+
+== .cache/huggingface/download/chat_template.jinja.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+9bd39df8984ba783a0b32cf2ebcd2117136e79ff
+1794557159.3142025
+
+== .cache/huggingface/download/.gitattributes.lock
+
+== .cache/huggingface/download/generation_config.json.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+023756cfadf88e5bf69eefeee3e172f38c448d64
+1794557159.327229
+
+== .cache/huggingface/download/LICENSE.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+f938136e3adacfd92be087f6e113b5d6d97f678f
+1794557159.326164
+
+== .cache/huggingface/download/model-00002-of-00018.safetensors.lock
+
+== .cache/huggingface/download/tokenizer_config.json.lock
+
+== .cache/huggingface/download/model-00003-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00016-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+73cb9a1089fb6155cb648609478d6633be8a5c7d9ca5a05bc8925ce8a553cefe
+1794557279.180161
+
+== .cache/huggingface/download/model-00004-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00005-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00018-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+1d3479509e21494658f9b64d317f5ea8e55c4025d28c702d6c4d0b356ce8ea06
+1794557290.7989569
+
+== .cache/huggingface/download/model-00004-of-00018.safetensors.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+511e34063187882659753c4d93f3859f93c019fd438d8813071921c81d9a3f1a
+1794557204.695934
+
+== .cache/huggingface/download/model-00015-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00016-of-00018.safetensors.lock
+
+== .cache/huggingface/download/tokenizer_config.json.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+35b5ec3afea617e41060511a1e5b49946e0a2a76
+1794557274.1090543
+
+== .cache/huggingface/download/README.md.metadata
+37561816e66b5b9153b1b64c10968c18c1e6f4a0
+4d43b0e391581a8857be5d29f7a2ba527781ba78
+1794557159.3558533
+
+== .cache/huggingface/download/model-00006-of-00018.safetensors.lock
+
+== .cache/huggingface/download/model-00014-of-00018.safetensors.lock
+Shell cwd was reset to /workspace
+
+
+######## [20:54:11] Compare local files with the recorded revision tree
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && python3 -I - <<'EOF'
+import json,os
+t=json.load(open('.cache/huggingface/trees/37561816e66b5b9153b1b64c10968c18c1e6f4a0.json'))
+print(t.keys())
+for k,v in t['files'].items():
+    loc=os.path.getsize(k) if os.path.exists(k) else None
+    print(k, v, 'local_size=',loc, 'OK' if loc==v.get('size') else 'MISMATCH')
+EOF
+echo ---; for f in .cache/huggingface/download/*.metadata; do echo "$(basename $f .metadata): $(sed -n 1p $f) $(sed -n 2p $f)"; done
+--- SORTIE COMPLETE ---
+dict_keys(['format_version', 'files'])
+.gitattributes {'size': 1570, 'blob_id': '52373fe24473b1aa44333d318f578ae6bf04b49b'} local_size= 1570 OK
+LICENSE {'size': 11544, 'blob_id': 'f938136e3adacfd92be087f6e113b5d6d97f678f'} local_size= 11544 OK
+README.md {'size': 65056, 'blob_id': '4d43b0e391581a8857be5d29f7a2ba527781ba78'} local_size= 65056 OK
+chat_template.jinja {'size': 9004, 'blob_id': '9bd39df8984ba783a0b32cf2ebcd2117136e79ff'} local_size= 9004 OK
+config.json {'size': 4312, 'blob_id': '706cebd746c4b6f2b1d1f892630867acfdfd3df8'} local_size= 4312 OK
+crc32.txt {'size': 238, 'blob_id': '6de5ee6a0c6596744baee911af0a5cdcb8d99a1e'} local_size= 238 OK
+generation_config.json {'size': 202, 'blob_id': '023756cfadf88e5bf69eefeee3e172f38c448d64'} local_size= 202 OK
+merges.txt {'size': 3353259, 'blob_id': 'a494e019ca1502219fd0128658b979e5f05ae8e8'} local_size= 3353259 OK
+model-00001-of-00018.safetensors {'size': 3966730552, 'blob_id': '79b73cdd69afeca931d181f5d1e21ad2d73bb7b7', 'lfs_sha256': 'ba0ce20aae489ad196733da5064bcdf159a1fe84f53336648196e1ebb7751b1c', 'lfs_size': 3966730552, 'xet_hash': '6026d6bb4baa574f54205e2894816127bcf444bb4f727aa76a4fd3c90e810140'} local_size= 3966730552 OK
+model-00002-of-00018.safetensors {'size': 3043080328, 'blob_id': '81cf43545884a227a01351942dfbc72577812316', 'lfs_sha256': '06a148c01bfbe3faa14a5f184a7ff29a706f7ae1c8b2705d2058e26d17a001fb', 'lfs_size': 3043080328, 'xet_hash': '9c56e976ca79eb9ff5c91e64f51cdefb5f6b2651c96d8569df49033f79642d78'} local_size= 3043080328 OK
+model-00003-of-00018.safetensors {'size': 2542796952, 'blob_id': 'a2da5e6cd6307a6cae13d04820ab0d31b47b48bd', 'lfs_sha256': '2e1bf62cbcd406eaa64b60d10353e1f0ef4039d0976e56f05cabe953454f9968', 'lfs_size': 2542796952, 'xet_hash': '25dbcd3a3e6ffa886f2113a11f2960806a7cb16029232bd7fa29b8ef56f47dba'} local_size= 2542796952 OK
+model-00004-of-00018.safetensors {'size': 3988973152, 'blob_id': '175ddab3f2488ad181f73d789d2d778cf6d4fca6', 'lfs_sha256': '511e34063187882659753c4d93f3859f93c019fd438d8813071921c81d9a3f1a', 'lfs_size': 3988973152, 'xet_hash': '66a8888c9a4bad0b8e450c82effb3f79d57ba20f1d85cc9108175e94ac140de8'} local_size= 3988973152 OK
+model-00005-of-00018.safetensors {'size': 2099339864, 'blob_id': '64890208fdd563c3aac0c2f55f69948bcaa1a492', 'lfs_sha256': '635cb53446dc74f219740fc59e18b774f877b803b9722e289ca62575a6efa701', 'lfs_size': 2099339864, 'xet_hash': '4591cd5a10b4eb6243ed33bb9b266314305b61a25b9414e8be1b96cf5361f7f9'} local_size= 2099339864 OK
+model-00006-of-00018.safetensors {'size': 3979553696, 'blob_id': '3ae29b86e4c773babfe17124dbd10d54d37819ec', 'lfs_sha256': '0bc5214fac607f0e6cc92eec3789d4b8559410ef9fce66621ba8158e8410dae0', 'lfs_size': 3979553696, 'xet_hash': 'ea6d40067bf102178c2e666278354066fe975f039278ee54e3db90de012bbe34'} local_size= 3979553696 OK
+model-00007-of-00018.safetensors {'size': 2108759344, 'blob_id': 'b7e9c0f038884839f3dad38fef7e75ee3362c24f', 'lfs_sha256': '80b0c49033e9a0d5762562aa12f4acdb7f54da586f3d0110f28c48d91cf07892', 'lfs_size': 2108759344, 'xet_hash': 'a246b410f148cf8c56d5d34b8c7bb5b3e559d47c25663347e15c7ab580408a36'} local_size= 2108759344 OK
+model-00008-of-00018.safetensors {'size': 3979553696, 'blob_id': '0b58cbc52714e1c683711be87e7c2e33fb10e7a0', 'lfs_sha256': '7192c5b66185d3592927daabee1cc19e6f6e0ce75988ee20e824b624765fda79', 'lfs_size': 3979553696, 'xet_hash': '32f7508f3f22f0f9aa5ddd5fd842df5cfd06f517d5b3bfb05a97e55ec8e12370'} local_size= 3979553696 OK
+model-00009-of-00018.safetensors {'size': 2108759344, 'blob_id': '4fc0c6b28004d809225d0e115f30e9e11c2345dc', 'lfs_sha256': 'af3c48cc37af44f3db6ae0579baf019180d48d9c527caa0a1f03ff85813a56d8', 'lfs_size': 2108759344, 'xet_hash': 'a5839f6a8e20769a67bd7275109cf7634935aa33d1e412384f1868b5f3480fa2'} local_size= 2108759344 OK
+model-00010-of-00018.safetensors {'size': 3979553696, 'blob_id': '9ec693a17c788084116c51b4f34632670df77612', 'lfs_sha256': '163490a76f3bea3a40855b7efc04ce6d27afaf1a34f0bbde495b9491f76457c9', 'lfs_size': 3979553696, 'xet_hash': 'ae49938ccc855ea88d41d91824d57f6f88890629c070c85498e3f1a927d46d19'} local_size= 3979553696 OK
+model-00011-of-00018.safetensors {'size': 2108759344, 'blob_id': '3c63baaed16d833432a919647af53ac76bb6b007', 'lfs_sha256': '5f3ae1b948aeee39da77aec558e8236cd65fe4d7cb7686a76bb007acc563c6d8', 'lfs_size': 2108759344, 'xet_hash': '57e280b907e917b6bd5dcc21e8033095d6dbb6ca582f77041997994584f18092'} local_size= 2108759344 OK
+model-00012-of-00018.safetensors {'size': 3979553696, 'blob_id': '8568b440a4666ed1b4cda0b5d21496378304f326', 'lfs_sha256': 'a3de1c7114677a8f5ac5c4892c90e8238ea5c1e2038c80e757dfc87c3902ca55', 'lfs_size': 3979553696, 'xet_hash': 'a72c94c82909dc5cfd14b8df1493a73fe4ffd4cbadb0bb8380584e12214b09a4'} local_size= 3979553696 OK
+model-00013-of-00018.safetensors {'size': 2108759344, 'blob_id': '724083995a2257194321a3d00b36fd7d4bb7348d', 'lfs_sha256': '06ab79a41f74c9c5cb734816feb0c7fc364104b227165ee7391231e1155aa02a', 'lfs_size': 2108759344, 'xet_hash': 'f165c39bec94c28be80ddfe9232a096396b7ab27e6c05d21be20ad52d8494d2a'} local_size= 2108759344 OK
+model-00014-of-00018.safetensors {'size': 3979553696, 'blob_id': 'a60b80b6510d7938d951fbddc76aaadd121c6268', 'lfs_sha256': '4138ed94603065ba884bbcadedb04d7718bb40117e85e6f5c6fc5b9c05b7a85b', 'lfs_size': 3979553696, 'xet_hash': '5af32c2cee1783cd9cddfdec9cec66bd27ee3d82bd47276a39739d355c9c716c'} local_size= 3979553696 OK
+model-00015-of-00018.safetensors {'size': 2108759344, 'blob_id': '7d4c34f3d716e1a47acff2f576b65b41a3ec4f3f', 'lfs_sha256': '69224e27b9de4e7dbf6fc936c6eaae08447bda3b80a6c31a871ab451173afd22', 'lfs_size': 2108759344, 'xet_hash': '5018c69ce6ae1996c2d72a22ab4d0100d7724ea8f408489434b00a6f72456f8d'} local_size= 2108759344 OK
+model-00016-of-00018.safetensors {'size': 3979564040, 'blob_id': 'c67e3e42c9715298fa7f68c6b378bfb1d74290d0', 'lfs_sha256': '73cb9a1089fb6155cb648609478d6633be8a5c7d9ca5a05bc8925ce8a553cefe', 'lfs_size': 3979564040, 'xet_hash': 'a388a1515e4e5ed6868514ad34b893a0894d3ce30c0537ffdedd830e3ae293e4'} local_size= 3979564040 OK
+model-00017-of-00018.safetensors {'size': 2108759344, 'blob_id': '23dd899179729a4370c655e2c2241cfdbe4ef4ba', 'lfs_sha256': 'beb51f01056142ac4984bd800507b0dd0fd18de57f8e9ef6ea41d1a3598983a8', 'lfs_size': 2108759344, 'xet_hash': '061688bf6eceb81886ee32a5c4a8ad96757bd158ca40865c71fe29eb453ee6ac'} local_size= 2108759344 OK
+model-00018-of-00018.safetensors {'size': 3392197344, 'blob_id': 'a92b4073fc6a58ffc9334ac63360fc8d9cc50d33', 'lfs_sha256': '1d3479509e21494658f9b64d317f5ea8e55c4025d28c702d6c4d0b356ce8ea06', 'lfs_size': 3392197344, 'xet_hash': '292e3e23b96b24c89622eef7ddc1e89b2bcd76765e6cf97c4f43316d2d02a43c'} local_size= 3392197344 OK
+model.safetensors.index.json {'size': 112216, 'blob_id': 'da35e3c564457dface7d138f0b6cac284ff8958c'} local_size= 112216 OK
+preprocessor_config.json {'size': 390, 'blob_id': '2ea84a437d448ff71b08df68fdd949d5cc4ebb64'} local_size= 390 OK
+tokenizer.json {'size': 12809320, 'blob_id': '9328ce9c41e80f6dd7bc2c66d8ae1fc93bf87440', 'lfs_sha256': '0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3', 'lfs_size': 12809320, 'xet_hash': 'ddca7e708ff0da8902fdcef5209d5eea8bf922715733eb02f93026a37478e426'} local_size= 12809320 OK
+tokenizer_config.json {'size': 9984, 'blob_id': '35b5ec3afea617e41060511a1e5b49946e0a2a76'} local_size= 9984 OK
+video_preprocessor_config.json {'size': 385, 'blob_id': '3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe'} local_size= 385 OK
+vocab.json {'size': 6722759, 'blob_id': '0aa0ce0658d60ac4a5d609f4eadb0e8e43514176'} local_size= 6722759 OK
+---
+LICENSE: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 f938136e3adacfd92be087f6e113b5d6d97f678f
+README.md: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 4d43b0e391581a8857be5d29f7a2ba527781ba78
+chat_template.jinja: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 9bd39df8984ba783a0b32cf2ebcd2117136e79ff
+config.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 706cebd746c4b6f2b1d1f892630867acfdfd3df8
+crc32.txt: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 6de5ee6a0c6596744baee911af0a5cdcb8d99a1e
+generation_config.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 023756cfadf88e5bf69eefeee3e172f38c448d64
+merges.txt: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 a494e019ca1502219fd0128658b979e5f05ae8e8
+model-00001-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 ba0ce20aae489ad196733da5064bcdf159a1fe84f53336648196e1ebb7751b1c
+model-00002-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 06a148c01bfbe3faa14a5f184a7ff29a706f7ae1c8b2705d2058e26d17a001fb
+model-00003-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 2e1bf62cbcd406eaa64b60d10353e1f0ef4039d0976e56f05cabe953454f9968
+model-00004-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 511e34063187882659753c4d93f3859f93c019fd438d8813071921c81d9a3f1a
+model-00005-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 635cb53446dc74f219740fc59e18b774f877b803b9722e289ca62575a6efa701
+model-00006-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 0bc5214fac607f0e6cc92eec3789d4b8559410ef9fce66621ba8158e8410dae0
+model-00007-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 80b0c49033e9a0d5762562aa12f4acdb7f54da586f3d0110f28c48d91cf07892
+model-00008-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 7192c5b66185d3592927daabee1cc19e6f6e0ce75988ee20e824b624765fda79
+model-00009-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 af3c48cc37af44f3db6ae0579baf019180d48d9c527caa0a1f03ff85813a56d8
+model-00010-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 163490a76f3bea3a40855b7efc04ce6d27afaf1a34f0bbde495b9491f76457c9
+model-00011-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 5f3ae1b948aeee39da77aec558e8236cd65fe4d7cb7686a76bb007acc563c6d8
+model-00012-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 a3de1c7114677a8f5ac5c4892c90e8238ea5c1e2038c80e757dfc87c3902ca55
+model-00013-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 06ab79a41f74c9c5cb734816feb0c7fc364104b227165ee7391231e1155aa02a
+model-00014-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 4138ed94603065ba884bbcadedb04d7718bb40117e85e6f5c6fc5b9c05b7a85b
+model-00015-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 69224e27b9de4e7dbf6fc936c6eaae08447bda3b80a6c31a871ab451173afd22
+model-00016-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 73cb9a1089fb6155cb648609478d6633be8a5c7d9ca5a05bc8925ce8a553cefe
+model-00017-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 beb51f01056142ac4984bd800507b0dd0fd18de57f8e9ef6ea41d1a3598983a8
+model-00018-of-00018.safetensors: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 1d3479509e21494658f9b64d317f5ea8e55c4025d28c702d6c4d0b356ce8ea06
+model.safetensors.index.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 da35e3c564457dface7d138f0b6cac284ff8958c
+preprocessor_config.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 2ea84a437d448ff71b08df68fdd949d5cc4ebb64
+tokenizer.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3
+tokenizer_config.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 35b5ec3afea617e41060511a1e5b49946e0a2a76
+video_preprocessor_config.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe
+vocab.json: 37561816e66b5b9153b1b64c10968c18c1e6f4a0 0aa0ce0658d60ac4a5d609f4eadb0e8e43514176
+Shell cwd was reset to /workspace
+
+
+######## [20:54:21] Hash local checkpoint files against the recorded revision tree
+--- COMMANDE ---
+mkdir -p /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad && cd /root/models/qwen3.8-27b && python3 -I - <<'EOF' > /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad/identity_check.txt 2>&1
+import json,os,hashlib,time
+t=json.load(open('.cache/huggingface/trees/37561816e66b5b9153b1b64c10968c18c1e6f4a0.json'))['files']
+ok=True; t0=time.time()
+for k,v in sorted(t.items()):
+    if 'lfs_sha256' in v:
+        h=hashlib.sha256()
+        with open(k,'rb') as f:
+            while True:
+                b=f.read(1<<24)
+                if not b: break
+                h.update(b)
+        good = h.hexdigest()==v['lfs_sha256']
+        print('sha256', k, h.hexdigest(), 'MATCH' if good else 'MISMATCH', flush=True)
+    else:
+        data=open(k,'rb').read()
+        h=hashlib.sha1(b'blob %d\0'%len(data)+data).hexdigest()
+        good = h==v['blob_id']
+        print('gitblob', k, h, 'MATCH' if good else 'MISMATCH', flush=True)
+    ok = ok and good
+print('ALL_MATCH' if ok else 'SOME_MISMATCH', 'seconds', round(time.time()-t0,1))
+EOF
+echo done
+--- SORTIE COMPLETE ---
+Command running in background with ID: bplt4a24c. Output is being written to: /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/tasks/bplt4a24c.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the file only if the user asks for progress, or if you need a line it prints before you can go on, such as a server's ready line or port.
+Session cwd remains /workspace; directory changes made by the backgrounded command do not apply to subsequent commands.
+
+
+######## [20:54:22] Show project git history and status
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1 && git log --oneline | head -40; echo; git status --short | head -20
+--- SORTIE COMPLETE ---
+53fbcb7 formic_v7: rapport final V7, recette expérimentale retenue (F1), confirmation, paquet complet 9,974 Go, manifeste
+9583236 formic_v7: F1 (calibration combinée, paquet réel 9,449 Go), pilote asymétrique non promu, sélection de F1 gelée avant confirmation
+41418f9 formic_v7: concurrent XQD Q2 mesuré, cible asymétrique (code + pilote), règle de sélection déclarée avant les résultats F1/asymétrique
+9487e1a formic_v7: calibration cal2 (-31 % vs Arki05 sur P-A108-dev, mes 600 documents inchangés), groupes de calibration multiples, emballage Vision/MTP
+99c97d4 formic_v7: codec réel rapide (fichiers = coût idéal), export/décodage de paquet, criblage Fisher par ligne (négatif), allocation Fisher par matrice (modèle non prédictif)
+da983f1 formic_v7: transplantation de l'allocation Arki05 (L1), partage dev/confirmation du protocole public, résumé V7, jeu de calibration cal2
+865025b formic_v7: première comparaison sous protocole commun — Lumen uniforme vs Arki05 2.82 bpw à octets égaux
+325ecfa formic_v7: concurrent Arki05 2.82 bpw mesuré dans notre graphe (correspondance des têtes GDN corrigée), allocation par matrice, limite de coquille extensible
+2faf286 formic_v7: audit du pipeline, protocole public Arki05, chargeur GGUF (correspondance des tenseurs à corriger) ; état d'interruption
+2ce1cba formic_arch: rapport final campagne architecture x Lumen (12 hypothèses, confirmation, comparaison 600 documents), réponse au dossier de pistes
+585f071 formic_arch: confirmation lue après gel ; déclaration préalable de la comparaison sur 600 documents
+e533e72 formic_arch: gel des finalistes avant lecture de la confirmation (selection.lock.json)
+7ec4003 formic_arch: campagne 2 (biais, changement de base diagonal, rotation du résiduel, structure de l'erreur, Vision), rapport en cours
+3c18b5d formic_arch: témoin E8-LDLQ complet, points de reprise, correctif cache séquentiel, parité
+8844bd2 formic_arch: diagnostics (couches, familles, structure), règles d'échelle, correction de biais, passes LDLQ
+f8fd335 formic_arch: portage GPU E8/LDLQ de Lumen, banc d'évaluation, passes séquentielles, corpus
+d232ae7 Ajout de l infrastructure de recherche
+29fcb0f Ajout du prompt
+202416f first commit
+
+?? PROMPT_AGENT_ARCHITECTURE_THEORIQUE_FORMIC_F1_V8.md
+
+
+######## [20:54:48] Locate installed model implementation source
+--- COMMANDE ---
+python3 -c "import transformers,os;print(transformers.__version__, os.path.dirname(transformers.__file__))" 2>&1; ls $(python3 -c "import transformers,os;print(os.path.dirname(transformers.__file__))")/models/qwen3_5/ 2>&1; wc -l $(python3 -c "import transformers,os;print(os.path.dirname(transformers.__file__))")/models/qwen3_5/*.py
+--- SORTIE COMPLETE ---
+5.22.2 /usr/local/lib/python3.12/dist-packages/transformers
+__init__.py
+__pycache__
+configuration_qwen3_5.py
+modeling_qwen3_5.py
+modular_qwen3_5.py
+tokenization_qwen3_5.py
+    34 /usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/__init__.py
+   194 /usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/configuration_qwen3_5.py
+  1969 /usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/modeling_qwen3_5.py
+   702 /usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/modular_qwen3_5.py
+    94 /usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/tokenization_qwen3_5.py
+  2993 total
+
+
+######## [20:54:56] List classes and functions in the model source
+--- COMMANDE ---
+grep -n "^class \|^def \|    def " /usr/local/lib/python3.12/dist-packages/transformers/models/qwen3_5/modeling_qwen3_5.py | head -150
+--- SORTIE COMPLETE ---
+74:class Qwen3_5VisionRotaryEmbedding(nn.Module):
+81:    def __init__(self, config: Qwen3_5VisionConfig):
+95:    def compute_axial_rope_parameters(
+116:    def forward(self, x, position_ids):
+126:    def recomposition_frequencies(self, freq):
+135:class Qwen3_5TextRotaryEmbedding(nn.Module):
+136:    def __init__(self, config: Qwen3_5TextConfig):
+154:    def compute_default_rope_parameters(
+178:    def forward(self, x, position_ids):
+190:    def recomposition_frequencies(self, freq):
+204:class Qwen3_5RMSNormGated(nn.Module):
+205:    def __init__(self, hidden_size: int, eps: float = 1e-6, **kwargs) -> None:
+211:    def forward(self, hidden_states: torch.Tensor, gate: torch.Tensor) -> torch.Tensor:
+223:def apply_mask_to_padding_states(hidden_states, attention_mask):
+236:def causal_conv1d_update(
+256:def causal_conv1d_fn(
+280:def l2norm(x: torch.FloatTensor, dim: int = -1, eps: float = 1e-6):
+287:def torch_chunk_gated_delta_rule(
+424:def torch_recurrent_gated_delta_rule(
+490:class Qwen3_5GatedDeltaNet(nn.Module):
+491:    def __init__(self, config: Qwen3_5Config, layer_idx: int):
+536:    def forward(
+653:def rotate_half(x):
+661:def apply_rotary_pos_emb(q, k, cos, sin, unsqueeze_dim=1):
+699:def repeat_kv(hidden_states: torch.Tensor, n_rep: int) -> torch.Tensor:
+711:def eager_attention_forward(
+736:class Qwen3_5Attention(nn.Module):
+739:    def __init__(self, config: Qwen3_5Config, layer_idx: int):
+763:    def forward(
+811:class Qwen3_5MLP(nn.Module):
+812:    def __init__(self, config: Qwen3_5Config, intermediate_size: int):
+822:    def forward(self, x):
+828:class Qwen3_5RMSNorm(nn.Module):
+829:    def __init__(self, dim: int, eps: float = 1e-6):
+834:    def _norm(self, x):
+837:    def forward(self, x):
+844:    def extra_repr(self):
+848:class Qwen3_5DecoderLayer(GradientCheckpointingLayer):
+849:    def __init__(self, config: Qwen3_5TextConfig, layer_idx: int):
+861:    def forward(
+904:class Qwen3_5PreTrainedModel(PreTrainedModel):
+921:    def _init_weights(self, module):
+935:class Qwen3_5VisionMLP(nn.Module):
+936:    def __init__(self, config):
+944:    def forward(self, hidden_state):
+948:class Qwen3_5VisionPatchEmbed(nn.Module):
+949:    def __init__(self, config) -> None:
+959:    def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
+968:class Qwen3_5VisionPatchMerger(nn.Module):
+969:    def __init__(self, config: Qwen3_5VisionConfig, use_postshuffle_norm=False) -> None:
+978:    def forward(self, x: torch.Tensor) -> torch.Tensor:
+984:def apply_rotary_pos_emb_vision(
+998:class Qwen3_5VisionAttention(nn.Module):
+999:    def __init__(self, config: Qwen3_5VisionConfig) -> None:
+1012:    def forward(
+1081:class Qwen3_5VisionBlock(GradientCheckpointingLayer):
+1082:    def __init__(self, config, attn_implementation: str = "sdpa") -> None:
+1090:    def forward(
+1111:class Qwen3_5VisionModel(Qwen3_5PreTrainedModel):
+1120:    def __init__(self, config, *inputs, **kwargs) -> None:
+1150:    def forward(self, hidden_states: torch.Tensor, grid_thw: torch.Tensor, **kwargs) -> torch.Tensor:
+1199:class Qwen3_5ModelOutputWithPast(BaseModelOutputWithPast):
+1209:class Qwen3_5TextModel(Qwen3_5PreTrainedModel):
+1212:    def __init__(self, config: Qwen3_5TextConfig):
+1227:    def forward(
+1298:class Qwen3_5Model(Qwen3_5PreTrainedModel):
+1305:    def __init__(self, config):
+1314:    def get_vision_position_ids(
+1366:    def get_rope_index(
+1462:    def get_video_features(
+1474:    def get_image_features(
+1487:    def get_placeholder_mask(
+1528:    def compute_3d_position_ids(
+1579:    def forward(
+1662:class Qwen3_5ForCausalLM(Qwen3_5PreTrainedModel, GenerationMixin):
+1670:    def __init__(self, config):
+1681:    def forward(
+1737:class Qwen3_5ForTokenClassification(GenericForTokenClassification, Qwen3_5PreTrainedModel):
+1743:class Qwen3_5CausalLMOutputWithPast(CausalLMOutputWithPast):
+1753:class Qwen3_5ForConditionalGeneration(Qwen3_5PreTrainedModel, GenerationMixin):
+1760:    def __init__(self, config):
+1768:    def get_video_features(
+1781:    def get_image_features(
+1795:    def forward(
+1885:    def _prepare_position_ids_for_generation(self, inputs_tensor, model_kwargs):
+1924:class Qwen3_5TextForSequenceClassification(GenericForSequenceClassification, Qwen3_5PreTrainedModel):
+1929:class Qwen3_5ForSequenceClassification(GenericForSequenceClassification, Qwen3_5PreTrainedModel):
+1930:    def forward(
+
+
+######## [20:55:33] Show checkpoint identity hash results
+--- COMMANDE ---
+cat /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad/identity_check.txt
+--- SORTIE COMPLETE ---
+gitblob .gitattributes 52373fe24473b1aa44333d318f578ae6bf04b49b MATCH
+gitblob LICENSE f938136e3adacfd92be087f6e113b5d6d97f678f MATCH
+gitblob README.md 4d43b0e391581a8857be5d29f7a2ba527781ba78 MATCH
+gitblob chat_template.jinja 9bd39df8984ba783a0b32cf2ebcd2117136e79ff MATCH
+gitblob config.json 706cebd746c4b6f2b1d1f892630867acfdfd3df8 MATCH
+gitblob crc32.txt 6de5ee6a0c6596744baee911af0a5cdcb8d99a1e MATCH
+gitblob generation_config.json 023756cfadf88e5bf69eefeee3e172f38c448d64 MATCH
+gitblob merges.txt a494e019ca1502219fd0128658b979e5f05ae8e8 MATCH
+sha256 model-00001-of-00018.safetensors ba0ce20aae489ad196733da5064bcdf159a1fe84f53336648196e1ebb7751b1c MATCH
+sha256 model-00002-of-00018.safetensors 06a148c01bfbe3faa14a5f184a7ff29a706f7ae1c8b2705d2058e26d17a001fb MATCH
+sha256 model-00003-of-00018.safetensors 2e1bf62cbcd406eaa64b60d10353e1f0ef4039d0976e56f05cabe953454f9968 MATCH
+sha256 model-00004-of-00018.safetensors 511e34063187882659753c4d93f3859f93c019fd438d8813071921c81d9a3f1a MATCH
+sha256 model-00005-of-00018.safetensors 635cb53446dc74f219740fc59e18b774f877b803b9722e289ca62575a6efa701 MATCH
+sha256 model-00006-of-00018.safetensors 0bc5214fac607f0e6cc92eec3789d4b8559410ef9fce66621ba8158e8410dae0 MATCH
+sha256 model-00007-of-00018.safetensors 80b0c49033e9a0d5762562aa12f4acdb7f54da586f3d0110f28c48d91cf07892 MATCH
+sha256 model-00008-of-00018.safetensors 7192c5b66185d3592927daabee1cc19e6f6e0ce75988ee20e824b624765fda79 MATCH
+sha256 model-00009-of-00018.safetensors af3c48cc37af44f3db6ae0579baf019180d48d9c527caa0a1f03ff85813a56d8 MATCH
+sha256 model-00010-of-00018.safetensors 163490a76f3bea3a40855b7efc04ce6d27afaf1a34f0bbde495b9491f76457c9 MATCH
+sha256 model-00011-of-00018.safetensors 5f3ae1b948aeee39da77aec558e8236cd65fe4d7cb7686a76bb007acc563c6d8 MATCH
+sha256 model-00012-of-00018.safetensors a3de1c7114677a8f5ac5c4892c90e8238ea5c1e2038c80e757dfc87c3902ca55 MATCH
+sha256 model-00013-of-00018.safetensors 06ab79a41f74c9c5cb734816feb0c7fc364104b227165ee7391231e1155aa02a MATCH
+sha256 model-00014-of-00018.safetensors 4138ed94603065ba884bbcadedb04d7718bb40117e85e6f5c6fc5b9c05b7a85b MATCH
+sha256 model-00015-of-00018.safetensors 69224e27b9de4e7dbf6fc936c6eaae08447bda3b80a6c31a871ab451173afd22 MATCH
+sha256 model-00016-of-00018.safetensors 73cb9a1089fb6155cb648609478d6633be8a5c7d9ca5a05bc8925ce8a553cefe MATCH
+sha256 model-00017-of-00018.safetensors beb51f01056142ac4984bd800507b0dd0fd18de57f8e9ef6ea41d1a3598983a8 MATCH
+sha256 model-00018-of-00018.safetensors 1d3479509e21494658f9b64d317f5ea8e55c4025d28c702d6c4d0b356ce8ea06 MATCH
+gitblob model.safetensors.index.json da35e3c564457dface7d138f0b6cac284ff8958c MATCH
+gitblob preprocessor_config.json 2ea84a437d448ff71b08df68fdd949d5cc4ebb64 MATCH
+sha256 tokenizer.json 0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3 MATCH
+gitblob tokenizer_config.json 35b5ec3afea617e41060511a1e5b49946e0a2a76 MATCH
+gitblob video_preprocessor_config.json 3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe MATCH
+gitblob vocab.json 0aa0ce0658d60ac4a5d609f4eadb0e8e43514176 MATCH
+ALL_MATCH seconds 53.4
+
+
+######## [20:55:47] Display the structure diagnostics file
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch/results && python3 -I - <<'EOF'
+import json
+def show(o, d=0, maxk=40, path=''):
+    if isinstance(o, dict):
+        for i,(k,v) in enumerate(o.items()):
+            if i>=maxk: print(' '*d+'...'); break
+            if isinstance(v,(dict,list)) and len(json.dumps(v))>300:
+                print(' '*d+str(k)+':'); show(v,d+2,maxk)
+            else: print(' '*d+str(k)+': '+json.dumps(v)[:300])
+    elif isinstance(o, list):
+        print(' '*d+'[list len %d]'%len(o))
+        for v in o[:3]:
+            show(v,d+2,maxk) if isinstance(v,(dict,list)) else print(' '*d+json.dumps(v)[:300])
+for f in ['diag_structure.json']:
+    print('=====',f); show(json.load(open(f)), maxk=30)
+EOF
+--- SORTIE COMPLETE ---
+===== diag_structure.json
+head_from_embed_R2: 0.17239855173489038
+cos_rowwise_mean: 0.009285017799784138
+spectra:
+  embed: {"n": 5120, "erank": 4342.376427483689, "top12%": 0.2608237479256284, "top25%": 0.4160354135274439, "top50%": 0.6753677117570709}
+  lm_head: {"n": 5120, "erank": 3497.900853845083, "top12%": 0.27908605053694624, "top25%": 0.42900036605279657, "top50%": 0.6739451276479167}
+  lm_head_actw: {"n": 5120, "erank": 151.08141099198707, "top12%": 0.7027957207631013, "top25%": 0.7683062427300387, "top50%": 0.8700858082804545}
+  layers.1.mlp.gate_proj: {"n": 5120, "erank": 3189.2181041185268, "top12%": 0.4258371541963437, "top25%": 0.6214237610160631, "top50%": 0.8440929082995056}
+  layers.1.mlp.gate_proj_actw: {"n": 5120, "erank": 2301.2541428318173, "top12%": 0.5371609085842325, "top25%": 0.7021833356350994, "top50%": 0.8787194406512165}
+  layers.1.mlp.up_proj: {"n": 5120, "erank": 3451.478805798444, "top12%": 0.38775158897198103, "top25%": 0.5952343122328722, "top50%": 0.8338707011327745}
+  layers.1.mlp.up_proj_actw: {"n": 5120, "erank": 2693.7132231894984, "top12%": 0.49103958896486316, "top25%": 0.6708809103749827, "top50%": 0.8664211610502098}
+  layers.1.mlp.down_proj: {"n": 5120, "erank": 4011.4480279790755, "top12%": 0.3082267249499788, "top25%": 0.5094804791943134, "top50%": 0.7744386814823105}
+  layers.1.mlp.down_proj_actw: {"n": 5120, "erank": 3436.9576806320133, "top12%": 0.3867433247528077, "top25%": 0.5847195386058963, "top50%": 0.8207531787171056}
+  layers.1.linear_attn.in_proj_qkv: {"n": 5120, "erank": 2651.4338095122835, "top12%": 0.49056891550211007, "top25%": 0.699423007709219, "top50%": 0.9001628750314847}
+  layers.1.linear_attn.in_proj_qkv_actw: {"n": 5120, "erank": 94.13437270465269, "top12%": 0.8481918204718745, "top25%": 0.9136607205687871, "top50%": 0.9717795422722578}
+  layers.1.linear_attn.in_proj_z: {"n": 5120, "erank": 2447.2551603362617, "top12%": 0.5084798842441683, "top25%": 0.7273919917597399, "top50%": 0.925696192440817}
+  layers.1.linear_attn.in_proj_z_actw: {"n": 5120, "erank": 33.16000365856272, "top12%": 0.8950932547927639, "top25%": 0.9437074531287419, "top50%": 0.9849198163449105}
+  layers.1.linear_attn.out_proj: {"n": 5120, "erank": 2406.732221684217, "top12%": 0.4575261600649633, "top25%": 0.674315055603958, "top50%": 0.9018152514084768}
+  layers.1.linear_attn.out_proj_actw: {"n": 5120, "erank": 860.9887323287029, "top12%": 0.6258177996443639, "top25%": 0.7970297990477772, "top50%": 0.948212547465516}
+  layers.15.mlp.gate_proj: {"n": 5120, "erank": 3705.957830988187, "top12%": 0.3613906697896243, "top25%": 0.5551843358857984, "top50%": 0.7976492614269173}
+  layers.15.mlp.gate_proj_actw: {"n": 5120, "erank": 2988.7556005565984, "top12%": 0.4158288057160247, "top25%": 0.5963225129770208, "top50%": 0.8170547721264649}
+  layers.15.mlp.up_proj: {"n": 5120, "erank": 3806.053574115593, "top12%": 0.3468029005283834, "top25%": 0.5442240314141948, "top50%": 0.7927639095445399}
+  layers.15.mlp.up_proj_actw: {"n": 5120, "erank": 3558.065946618275, "top12%": 0.3754567627752392, "top25%": 0.5667039670869057, "top50%": 0.803216300860199}
+  layers.15.mlp.down_proj: {"n": 5120, "erank": 3490.6234910697704, "top12%": 0.3940805129768107, "top25%": 0.581133674781902, "top50%": 0.8103336199314789}
+  layers.15.mlp.down_proj_actw: {"n": 5120, "erank": 3288.7662283692407, "top12%": 0.4199751613241511, "top25%": 0.6088720627839713, "top50%": 0.8288650135183693}
+  layers.15.self_attn.q_proj: {"n": 5120, "erank": 2441.4973572270765, "top12%": 0.5160325745297569, "top25%": 0.6924533764972132, "top50%": 0.8786314728406844}
+  layers.15.self_attn.q_proj_actw: {"n": 5120, "erank": 4.034493357409859, "top12%": 0.9640956686270021, "top25%": 0.9781482631244386, "top50%": 0.9916519123287745}
+  layers.15.self_attn.o_proj: {"n": 5120, "erank": 1857.5582308018127, "top12%": 0.6146228998057829, "top25%": 0.7923496439294596, "top50%": 0.9427719019019932}
+  layers.15.self_attn.o_proj_actw: {"n": 5120, "erank": 1142.6907597326867, "top12%": 0.7208307136364506, "top25%": 0.8672285337259169, "top50%": 0.9699833901818211}
+  layers.31.mlp.gate_proj: {"n": 5120, "erank": 3666.847190829385, "top12%": 0.3645356460865441, "top25%": 0.5552234374194164, "top50%": 0.7970108415206296}
+  layers.31.mlp.gate_proj_actw: {"n": 5120, "erank": 539.0301882715972, "top12%": 0.5936311146958352, "top25%": 0.717115763515649, "top50%": 0.8710264349949025}
+  layers.31.mlp.up_proj: {"n": 5120, "erank": 3838.4565831203613, "top12%": 0.3379621845003938, "top25%": 0.5356948521369858, "top50%": 0.7902062187821068}
+  layers.31.mlp.up_proj_actw: {"n": 5120, "erank": 3062.0884156223206, "top12%": 0.3998017402828055, "top25%": 0.5802862841833801, "top50%": 0.809591390790141}
+  layers.31.mlp.down_proj: {"n": 5120, "erank": 3566.0447221836052, "top12%": 0.3769034488765585, "top25%": 0.5729643924460461, "top50%": 0.8132386042651525}
+  ...
+weight_stats:
+  layers.1.linear_attn.in_proj_qkv: {"kurt_rownorm": 3.1574840545654297, "rowrms_cv": 0.08969064801931381, "colrms_cv": 0.04496868699789047, "X_max_over_median": 39285.55859375, "X_top8_share": 0.8109596371650696, "G_p99_over_p01": 322.9361572265625}
+  layers.1.linear_attn.in_proj_z: {"kurt_rownorm": 3.205148935317993, "rowrms_cv": 0.0798276737332344, "colrms_cv": 0.04782775044441223, "X_max_over_median": 39285.55859375, "X_top8_share": 0.8109596371650696, "G_p99_over_p01": 290.9832763671875}
+  layers.1.linear_attn.in_proj_a: {"kurt_rownorm": 4.318475246429443, "rowrms_cv": 0.20404887199401855, "colrms_cv": 0.2666844427585602, "X_max_over_median": 39285.55859375, "X_top8_share": 0.8109596371650696, "G_p99_over_p01": 7061.35009765625}
+  layers.1.linear_attn.in_proj_b: {"kurt_rownorm": 4.756946563720703, "rowrms_cv": 0.2268397957086563, "colrms_cv": 0.2688101828098297, "X_max_over_median": 39285.55859375, "X_top8_share": 0.8109596371650696, "G_p99_over_p01": 87.591796875}
+  layers.1.linear_attn.out_proj: {"kurt_rownorm": 3.2835795879364014, "rowrms_cv": 0.2090560346841812, "colrms_cv": 0.04737221077084541, "X_max_over_median": 178.94528198242188, "X_top8_share": 0.07306179404258728, "G_p99_over_p01": 5.911990642547607}
+  layers.1.mlp.gate_proj: {"kurt_rownorm": 3.1526734828948975, "rowrms_cv": 0.05517581105232239, "colrms_cv": 0.020816411823034286, "X_max_over_median": 134.93923950195312, "X_top8_share": 0.043954554945230484, "G_p99_over_p01": 25.5070858001709}
+  layers.1.mlp.up_proj: {"kurt_rownorm": 3.0981967449188232, "rowrms_cv": 0.04094546288251877, "colrms_cv": 0.027268830686807632, "X_max_over_median": 134.93923950195312, "X_top8_share": 0.043954554945230484, "G_p99_over_p01": 29.59998321533203}
+  layers.1.mlp.down_proj: {"kurt_rownorm": 3.3393290042877197, "rowrms_cv": 0.05432715266942978, "colrms_cv": 0.0316535159945488, "X_max_over_median": 117.5143814086914, "X_top8_share": 0.018590860068798065, "G_p99_over_p01": 5.97360372543335}
+  layers.31.self_attn.q_proj: {"kurt_rownorm": 3.179582118988037, "rowrms_cv": 0.1432809978723526, "colrms_cv": 0.060573093593120575, "X_max_over_median": 10295.31640625, "X_top8_share": 0.6076463460922241, "G_p99_over_p01": 2879.1220703125}
+  layers.31.self_attn.k_proj: {"kurt_rownorm": 4.236830711364746, "rowrms_cv": 0.18161916732788086, "colrms_cv": 0.13247238099575043, "X_max_over_median": 10295.31640625, "X_top8_share": 0.6076463460922241, "G_p99_over_p01": 83.12171936035156}
+  layers.31.self_attn.v_proj: {"kurt_rownorm": 3.9599664211273193, "rowrms_cv": 0.10935460031032562, "colrms_cv": 0.13384416699409485, "X_max_over_median": 10295.31640625, "X_top8_share": 0.6076463460922241, "G_p99_over_p01": 345.6093444824219}
+  layers.31.self_attn.o_proj: {"kurt_rownorm": 3.4021964073181152, "rowrms_cv": 0.1736900508403778, "colrms_cv": 0.07144493609666824, "X_max_over_median": 120.03319549560547, "X_top8_share": 0.03781910240650177, "G_p99_over_p01": 47.91309356689453}
+  layers.31.mlp.gate_proj: {"kurt_rownorm": 3.1760215759277344, "rowrms_cv": 0.07333371788263321, "colrms_cv": 0.05108644440770149, "X_max_over_median": 2863.96484375, "X_top8_share": 0.3509120047092438, "G_p99_over_p01": 416.1252136230469}
+  layers.31.mlp.up_proj: {"kurt_rownorm": 3.1749749183654785, "rowrms_cv": 0.05867623910307884, "colrms_cv": 0.07992333173751831, "X_max_over_median": 2863.96484375, "X_top8_share": 0.3509120047092438, "G_p99_over_p01": 137.24810791015625}
+  layers.31.mlp.down_proj: {"kurt_rownorm": 3.247299909591675, "rowrms_cv": 0.14179423451423645, "colrms_cv": 0.05687627196311951, "X_max_over_median": 102.38215637207031, "X_top8_share": 0.010142271406948566, "G_p99_over_p01": 40.479068756103516}
+  layers.32.linear_attn.in_proj_qkv: {"kurt_rownorm": 3.388796806335449, "rowrms_cv": 0.0769667997956276, "colrms_cv": 0.0686073824763298, "X_max_over_median": 8975.9482421875, "X_top8_share": 0.5957894921302795, "G_p99_over_p01": 2592.660888671875}
+  layers.32.linear_attn.in_proj_z: {"kurt_rownorm": 3.3240628242492676, "rowrms_cv": 0.10624381899833679, "colrms_cv": 0.05252610892057419, "X_max_over_median": 8975.9482421875, "X_top8_share": 0.5957894921302795, "G_p99_over_p01": 2350.211181640625}
+  layers.32.linear_attn.in_proj_a: {"kurt_rownorm": 5.033914566040039, "rowrms_cv": 0.20801590383052826, "colrms_cv": 0.29279106855392456, "X_max_over_median": 8975.9482421875, "X_top8_share": 0.5957894921302795, "G_p99_over_p01": 1132.5555419921875}
+  layers.32.linear_attn.in_proj_b: {"kurt_rownorm": 8.610008239746094, "rowrms_cv": 0.2389555722475052, "colrms_cv": 0.4872869849205017, "X_max_over_median": 8975.9482421875, "X_top8_share": 0.5957894921302795, "G_p99_over_p01": 60.133052825927734}
+  layers.32.linear_attn.out_proj: {"kurt_rownorm": 3.3982794284820557, "rowrms_cv": 0.16875194013118744, "colrms_cv": 0.0620378814637661, "X_max_over_median": 44.305240631103516, "X_top8_share": 0.027106372639536858, "G_p99_over_p01": 41.066646575927734}
+  layers.32.mlp.gate_proj: {"kurt_rownorm": 3.225156545639038, "rowrms_cv": 0.0748504251241684, "colrms_cv": 0.046187590807676315, "X_max_over_median": 3036.900146484375, "X_top8_share": 0.35787177085876465, "G_p99_over_p01": 357.5934143066406}
+  layers.32.mlp.up_proj: {"kurt_rownorm": 3.1883652210235596, "rowrms_cv": 0.061276327818632126, "colrms_cv": 0.07533521205186844, "X_max_over_median": 3036.900146484375, "X_top8_share": 0.35787177085876465, "G_p99_over_p01": 139.39639282226562}
+  layers.32.mlp.down_proj: {"kurt_rownorm": 3.313656806945801, "rowrms_cv": 0.12715153396129608, "colrms_cv": 0.05892085283994675, "X_max_over_median": 24.72974395751953, "X_top8_share": 0.00689719570800662, "G_p99_over_p01": 36.23305130004883}
+  layers.62.linear_attn.in_proj_qkv: {"kurt_rownorm": 3.8890132904052734, "rowrms_cv": 0.14047574996948242, "colrms_cv": 0.03489895164966583, "X_max_over_median": 972.9256591796875, "X_top8_share": 0.17184801399707794, "G_p99_over_p01": 2369.1025390625}
+  layers.62.linear_attn.in_proj_z: {"kurt_rownorm": 3.686959743499756, "rowrms_cv": 0.13841280341148376, "colrms_cv": 0.06915485113859177, "X_max_over_median": 972.9256591796875, "X_top8_share": 0.17184801399707794, "G_p99_over_p01": 161.7393798828125}
+  layers.62.linear_attn.in_proj_a: {"kurt_rownorm": 10.788790702819824, "rowrms_cv": 0.16064958274364471, "colrms_cv": 0.38779085874557495, "X_max_over_median": 972.9256591796875, "X_top8_share": 0.17184801399707794, "G_p99_over_p01": 245.2891387939453}
+  layers.62.linear_attn.in_proj_b: {"kurt_rownorm": 7.124979019165039, "rowrms_cv": 0.2767885625362396, "colrms_cv": 0.35572388768196106, "X_max_over_median": 972.9256591796875, "X_top8_share": 0.17184801399707794, "G_p99_over_p01": 986.64013671875}
+  layers.62.linear_attn.out_proj: {"kurt_rownorm": 4.254454135894775, "rowrms_cv": 0.07877703011035919, "colrms_cv": 0.10348279029130936, "X_max_over_median": 2811.42041015625, "X_top8_share": 0.25456446409225464, "G_p99_over_p01": 3.337904453277588}
+  layers.62.mlp.gate_proj: {"kurt_rownorm": 3.371342182159424, "rowrms_cv": 0.1194142997264862, "colrms_cv": 0.04383217543363571, "X_max_over_median": 653.5664672851562, "X_top8_share": 0.1321382373571396, "G_p99_over_p01": 87.06107330322266}
+  layers.62.mlp.up_proj: {"kurt_rownorm": 3.168325662612915, "rowrms_cv": 0.09626590460538864, "colrms_cv": 0.02544708363711834, "X_max_over_median": 653.5664672851562, "X_top8_share": 0.1321382373571396, "G_p99_over_p01": 253.79751586914062}
+  ...
+taylor_share_weakest:
+  0: [0.002725059482148448, 0.007355329186720808, 0.023066580876862246]
+  1: [0.0120358677464278, 0.030633175247693746, 0.08726921416859502]
+  2: [0.007404343341316063, 0.017671672081933494, 0.04682949577469177]
+  3: [0.013613405583011384, 0.03318106513640807, 0.09000164628174204]
+  4: [0.016403234198548545, 0.03947121598683036, 0.10543510304297109]
+  5: [0.009440504823913527, 0.023694951555454404, 0.06661242114972385]
+  6: [0.005067704741895762, 0.013059778216244157, 0.03752370875920422]
+  7: [0.006857436507309509, 0.017723424650181844, 0.05082617382151587]
+  8: [0.010155399062429654, 0.025587559135073715, 0.07228365501285412]
+  9: [0.011957541319027104, 0.030283314162681728, 0.08607777923633407]
+  10: [0.011723017708702143, 0.03035120630302202, 0.08768244690501796]
+  11: [0.006400226300934835, 0.016674150514690466, 0.048171582118996775]
+  12: [0.009368428184837196, 0.024523797906412848, 0.07177079983518599]
+  13: [0.008009195051189308, 0.02095416298370888, 0.060811592511259505]
+  14: [0.012836612827087137, 0.03413510915765161, 0.10008264556204331]
+  15: [0.0077174311779594, 0.020241483032867776, 0.059336804196323166]
+  16: [0.007747635130736352, 0.020115659664980523, 0.05829493631136753]
+  17: [0.009036146578105038, 0.02321203900699454, 0.06737540400831896]
+  18: [0.009147681128047268, 0.023652547142405816, 0.06924806560549909]
+  19: [0.010182007054850816, 0.02545173279012591, 0.07235093915962781]
+  20: [0.011177154652559723, 0.027799379380432872, 0.07795072466058138]
+  21: [0.014057249976353789, 0.03435440848754989, 0.09447565127464883]
+  22: [0.00902606281058388, 0.02226461155171963, 0.06184391592076622]
+  23: [0.01355879954774276, 0.03307632203162293, 0.09038776254372025]
+  24: [0.009830134235175588, 0.024133873303678385, 0.06653223742541106]
+  25: [0.012964869173125546, 0.03167304032689271, 0.08686387769806393]
+  26: [0.010048196000750324, 0.024823663240928755, 0.06951951119667078]
+  27: [0.010689405118310263, 0.026533722144099065, 0.07556744230121683]
+  28: [0.010322244688452066, 0.025654523297135492, 0.07310829249498424]
+  29: [0.0065607244577641465, 0.016338728626725973, 0.04668689837855003]
+  ...
+
+
+######## [20:55:48] Read the diagnostic job scripts
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch && cat jobs/005_diag_struct.py; echo ------; cat jobs/043_diag_error_structure.py; echo ------; cat jobs/038_diag_headroom.py
+--- SORTIE COMPLETE ---
+# Structural diagnostics on the BF16 weights (no model modification).
+import json, math, time
+H.restore()
+lm = H.S["lm"]; out = {}
+E = lm.embed_tokens.weight; Wh = model.lm_head.weight
+def cgram(A, B=None, scale=None, chunk=16384):
+    """sum over row chunks of A_c^T B_c in float64 (A, B [V, n])."""
+    out = 0
+    for i in range(0, A.shape[0], chunk):
+        a = A[i:i+chunk].double(); b = a if B is None else B[i:i+chunk].double()
+        if scale is not None: a = a * scale; b = a
+        out = out + a.T @ b
+    return out
+# (1) is lm_head a linear function of embed_tokens?  min_M ||Wh - E M||
+EtE = cgram(E); EtW = cgram(E, Wh)
+M = torch.linalg.solve(EtE + 1e-8*EtE.diagonal().mean()*torch.eye(5120, device=E.device, dtype=torch.float64), EtW)
+ss_res = 0.0; ss_tot = 0.0; cs = 0.0
+for i in range(0, E.shape[0], 16384):
+    e = E[i:i+16384].double(); w = Wh[i:i+16384].double()
+    ss_res += float((w - e @ M).pow(2).sum()); ss_tot += float(w.pow(2).sum())
+    cs += float(torch.nn.functional.cosine_similarity(e, w, dim=1).sum())
+out["head_from_embed_R2"] = 1 - ss_res/ss_tot; out["cos_rowwise_mean"] = cs/E.shape[0]
+print("lm_head ~ embed*M  R2=%.4f ; mean row cosine(embed, head)=%.4f" % (out["head_from_embed_R2"], out["cos_rowwise_mean"]))
+del M, EtE, EtW, e, w
+# (2) spectra: energy captured by top-r singular directions (plain and activation-weighted)
+def spec_energy(W, X=None):
+    if W.shape[0] > 100000:
+        G = cgram(W, scale=None if X is None else X.double().sqrt().cuda()[None, :])
+    else:
+        W = W.double()
+        if X is not None: W = W * X.double().sqrt().cuda()[None, :]
+        G = W.T @ W if W.shape[0] >= W.shape[1] else W @ W.T
+    ev = torch.linalg.eigvalsh(G).flip(0).clamp_min(0)
+    cs = ev.cumsum(0)/ev.sum(); n = len(ev)
+    p = ev/ev.sum(); erank = float(torch.exp(-(p[p>0]*p[p>0].log()).sum()))
+    return {"n": n, "erank": erank, **{"top%d%%"%int(100*f): float(cs[int(n*f)-1]) for f in (0.125, 0.25, 0.5)}}
+st = H.S["st"]
+sp = {"embed": spec_energy(E), "lm_head": spec_energy(Wh), "lm_head_actw": spec_energy(Wh, st["X"]["lm_head"])}
+for i in (1, 15, 31, 32, 47, 62):
+    L = lm.layers[i]
+    for k in ("gate_proj", "up_proj", "down_proj"):
+        nm = f"layers.{i}.mlp.{k}"
+        sp[nm] = spec_energy(getattr(L.mlp, k).weight); sp[nm+"_actw"] = spec_energy(getattr(L.mlp, k).weight, st["X"][nm])
+    if hasattr(L, "linear_attn"):
+        for k in ("in_proj_qkv", "in_proj_z", "out_proj"):
+            nm = f"layers.{i}.linear_attn.{k}"; sp[nm] = spec_energy(getattr(L.linear_attn, k).weight); sp[nm+"_actw"] = spec_energy(getattr(L.linear_attn, k).weight, st["X"][nm])
+    else:
+        for k in ("q_proj", "o_proj"):
+            nm = f"layers.{i}.self_attn.{k}"; sp[nm] = spec_energy(getattr(L.self_attn, k).weight); sp[nm+"_actw"] = spec_energy(getattr(L.self_attn, k).weight, st["X"][nm])
+for k, v in sp.items(): print(k, {a: (round(b, 3) if isinstance(b, float) else b) for a, b in v.items()})
+out["spectra"] = sp
+# (3) weight statistics relevant to an E8 + per-row-step codec: kurtosis, row-RMS spread, massive input dims
+ws = {}
+for m in H.qmats():
+    if m["layer"] not in (-1, 1, 31, 32, 62, 64): continue
+    W = m["mod"].weight.float(); rms = W.pow(2).mean(1).sqrt()
+    z = W / rms.clamp_min(1e-12)[:, None]
+    d = dict(kurt_rownorm=float(z.pow(4).mean()), rowrms_cv=float(rms.std()/rms.mean()),
+             colrms_cv=float(W.pow(2).mean(0).sqrt().std()/W.pow(2).mean(0).sqrt().mean()))
+    if m["name"] in st["X"]:
+        X = st["X"][m["name"]]; d["X_max_over_median"] = float(X.max()/X.median()); d["X_top8_share"] = float(X.topk(8).values.sum()/X.sum())
+        G = st["G"][m["name"]]; d["G_p99_over_p01"] = float(torch.quantile(G[:100000], .99)/torch.quantile(G[:100000], .01).clamp_min(1e-30))
+    ws[m["name"]] = d; print(m["name"], {a: round(b, 3) for a, b in d.items()})
+out["weight_stats"] = ws
+# (4) SwiGLU channel saliency concentration (Taylor): share of saliency in the weakest channels
+ts = {}
+for i in range(64):
+    s = st["TS"][f"layers.{i}.mlp.down_proj"].double().sort().values; c = s.cumsum(0)/s.sum()
+    ts[i] = [float(c[int(len(s)*f)-1]) for f in (0.125, 0.25, 0.5)]
+print("Taylor saliency share of weakest 12.5/25/50% channels, layers 0,8,..:", {i: [round(a, 4) for a in ts[i]] for i in range(0, 64, 8)})
+out["taylor_share_weakest"] = ts
+json.dump(out, open(H.OUT+"/diag_structure.json", "w"))
+
+for k in ("E", "Wh", "W", "z", "rms", "sp", "ws"):
+    if k in globals(): del globals()[k]
+import gc; gc.collect(); torch.cuda.empty_cache(); print("alloc GiB", torch.cuda.memory_allocated()/2**30)
+------
+# Structure of what remains AFTER the real E8-LDLQ (BF16 prefix, real inputs), to decide three families of ideas:
+#  (a) low-rank protection / correction (QERA, SRR): share of the activation-weighted error in its top-r directions,
+#      against the same bytes spent on E8 precision;
+#  (b) exceptions / channel splitting (SpQR, OCS): concentration of the error on few entries / columns;
+#  (c) factorise-then-quantise: truncation loss (activation metric) of the rank affordable at equal bytes.
+import importlib, seq, json, math, time
+import formic_q as fq
+importlib.reload(seq); SQ = seq
+H.restore(); lm = H.S["lm"]; out = {}; mult = H.S["mult_Q0ldlq"]
+sq = SQ.Seq(n_docs=144); want = {1, 16, 31, 32, 47, 62}
+def top_share(ev, rs=(16, 64, 256)):
+    ev = ev.clamp_min(0).flip(0); tot = ev.sum()
+    return {r: float(ev[:r].sum() / tot) for r in rs}
+for i, L in enumerate(lm.layers):
+    if i in want:
+        gd = hasattr(L, "linear_attn")
+        todo = [("mixer_in", (L.linear_attn.in_proj_qkv if gd else L.self_attn.q_proj)), ("mixer_out", (L.linear_attn.out_proj if gd else L.self_attn.o_proj)),
+                ("mlp_gate", L.mlp.gate_proj), ("mlp_down", L.mlp.down_proj)]
+        for nm, mod in todo:
+            Hm = sq.gram(i, mod); W = mod.weight.float(); m_, n_ = W.shape
+            r_ = fq.row_steps(W, mult)
+            Q, hist, _ = fq.quantize_ldlq(W, Hm.clone(), r_, None, damp=0.01)
+            E = (W - Q).double(); Wd = W.double()
+            sig = float(((Wd @ Hm) * Wd).sum()); err = float(((E @ Hm) * E).sum())
+            rec = dict(shape=[m_, n_], bpw=fq.matrix_bits(hist, m_, n_) / (m_ * n_), rel_proxy_err=err / sig, rel_frob_err=float(E.norm() / Wd.norm()))
+            # (a) spectrum of the activation-weighted error and signal on the smaller side
+            if m_ <= n_:
+                ev_e = torch.linalg.eigvalsh((E @ Hm) @ E.T); ev_w = torch.linalg.eigvalsh((Wd @ Hm) @ Wd.T)
+            else:
+                lam, V = torch.linalg.eigh(Hm); Hh = (V * lam.clamp_min(0).sqrt()) @ V.T; del V
+                A = E @ Hh; ev_e = torch.linalg.eigvalsh(A.T @ A); A = Wd @ Hh; ev_w = torch.linalg.eigvalsh(A.T @ A); del A, Hh
+            rec["err_top_share"] = top_share(ev_e); rec["sig_top_share"] = top_share(ev_w)
+            # same bytes in E8 precision: rank r FP16 factors cost 16 r (m+n) bits -> db bits/weight -> error x 4^-db
+            rec["lowrank_vs_bits"] = {}
+            for r in (16, 64, 256):
+                db = 16 * r * (m_ + n_) / (m_ * n_)
+                rec["lowrank_vs_bits"][r] = dict(cost_bpw=db, err_removed_by_ideal_rank_r=rec["err_top_share"][r], err_removed_by_same_bits=1 - 4 ** (-db))
+            # (b) concentration: top 0.1% entries share of squared error; top-8 columns share of weighted error
+            e2 = E.pow(2); k = max(1, e2.numel() // 1000)
+            rec["top0.1pct_entries_err_share"] = float(e2.flatten().float().topk(k).values.sum() / e2.sum())
+            colw = (e2.sum(0) * torch.diagonal(Hm)); rec["top8_cols_weighted_err_share"] = float(colw.topk(8).values.sum() / colw.sum())
+            # (c) factorisation at equal bytes: rank r = bpw*m*n / ((m+n)*b) ; loss = signal energy outside top-r
+            evs = ev_w.clamp_min(0).flip(0); tot = evs.sum(); rec["factor_equal_bytes"] = {}
+            for b in (3.0, 4.0, 6.0):
+                r = int(rec["bpw"] * m_ * n_ / ((m_ + n_) * b)); r = min(r, len(evs))
+                rec["factor_equal_bytes"][b] = dict(rank=r, of=len(evs), truncation_energy_loss=float(1 - evs[:r].sum() / tot))
+            out[f"L{i}.{nm}"] = rec
+            print("L%-2d %-9s %5dx%-5d LDLQ rel proxy err %.4f (frob %.3f) | err in top16/64/256 dirs: %.3f/%.3f/%.3f ; rank-64 FP16 costs %.3f bpw -> same bits remove %.3f | top0.1%% entries %.4f, top8 cols %.4f | factorise@4b: rank %d/%d loses %.3f of signal" % (
+                i, nm, m_, n_, rec["rel_proxy_err"], rec["rel_frob_err"], *[rec["err_top_share"][r] for r in (16, 64, 256)], rec["lowrank_vs_bits"][64]["cost_bpw"], rec["lowrank_vs_bits"][64]["err_removed_by_same_bits"],
+                rec["top0.1pct_entries_err_share"], rec["top8_cols_weighted_err_share"], rec["factor_equal_bytes"][4.0]["rank"], rec["factor_equal_bytes"][4.0]["of"], rec["factor_equal_bytes"][4.0]["truncation_energy_loss"]), flush=True)
+            del Hm, E, Wd, Q, W, e2; torch.cuda.empty_cache()
+    sq.advance(i)
+    if i >= max(want): break
+# cross-layer shared basis: is the joint row space of adjacent layers lower-dimensional than each alone?
+def erank(G):
+    ev = torch.linalg.eigvalsh(G).clamp_min(0); p = ev / ev.sum(); p = p[p > 0]
+    return float(torch.exp(-(p * p.log()).sum()))
+sh = {}
+for a, b in ((16, 17), (30, 34), (40, 41)):
+    for k in ("gate_proj", "down_proj"):
+        Wa = getattr(lm.layers[a].mlp, k).weight.double(); Wb = getattr(lm.layers[b].mlp, k).weight.double()
+        if k == "down_proj": Wa = Wa.T; Wb = Wb.T          # compare column spaces in the residual dimension
+        Ga = Wa.T @ Wa; Gb = Wb.T @ Wb
+        sh[f"{k} L{a}+L{b}"] = dict(erank_a=erank(Ga), erank_b=erank(Gb), erank_joint=erank(Ga + Gb))
+        print("shared basis %s L%d+L%d: effective rank %.0f and %.0f alone, %.0f jointly (of 5120)" % (k, a, b, erank(Ga), erank(Gb), erank(Ga + Gb)))
+out["shared_basis"] = sh
+json.dump(out, open(H.OUT + "/diag_error_structure.json", "w"), indent=1)
+del sq; torch.cuda.empty_cache()
+------
+# How much can ANY exact diagonal / orthogonal change of the input basis still give to E8-LDLQ?
+# LDLQ proxy loss at fixed rate ~ sum of LDL pivots D_j (uniform lattice noise per column); a diagonal rescaling
+# c_j = sqrt(D_j) flattens the pivots, so the classical transform-coding headroom is AM(D)/GM(D).
+# Also: is the Gram dominated by a few token positions?   BF16 weights, calibration split, real layer inputs.
+import importlib, seq, json, math, time
+importlib.reload(seq); SQ = seq
+import formic_q as fq
+H.restore(); lm = H.S["lm"]; out = {}
+sq = SQ.Seq(n_docs=144)
+want = {1, 2, 3, 16, 31, 32, 47, 62, 63}
+def pivots(Hm, damp=0.01):
+    Hm = Hm.clone(); Hm.diagonal().add_(damp * Hm.diagonal().mean())
+    C = torch.linalg.cholesky(Hm.flip(0, 1)); d = (torch.diagonal(C) ** 2).flip(0)
+    return d
+def stats(d):
+    am = float(d.mean()); gm = float(d.log().mean().exp())
+    return dict(am_over_gm=am/gm, headroom_bits=0.5*math.log2(am/gm), top8_share=float(d.topk(8).values.sum()/d.sum()))
+g = torch.Generator(device="cuda"); g.manual_seed(0)
+for i, L in enumerate(lm.layers):
+    if i in want:
+        mods = {"mixer_in": (L.linear_attn.in_proj_qkv if hasattr(L, "linear_attn") else L.self_attn.q_proj),
+                "mixer_out": (L.linear_attn.out_proj if hasattr(L, "linear_attn") else L.self_attn.o_proj),
+                "mlp_in": L.mlp.gate_proj, "mlp_down": L.mlp.down_proj}
+        for nm, mod in mods.items():
+            Hm = sq.gram(i, mod); n = Hm.shape[0]; r = {}
+            r["orig"] = stats(pivots(Hm))
+            Hc = sq.gram(i, mod, center=True); r["centred"] = stats(pivots(Hc)); del Hc
+            if n <= 6144:      # random orthogonal rotation of the input basis (incoherence), cheap sizes only
+                Qr = torch.linalg.qr(torch.randn(n, n, dtype=torch.float64, device="cuda", generator=g))[0]
+                r["rotated"] = stats(pivots(Qr @ Hm @ Qr.T)); del Qr
+            dg = torch.diagonal(Hm); r["diag_am_over_gm"] = float(dg.mean()/dg.log().mean().exp())
+            r["trace"] = float(dg.sum())
+            # per-position share of the input energy (is the Gram dominated by a few positions?)
+            acc = {}
+            def hook(m_, inp):
+                x = inp[0].float(); acc["e"] = acc.get("e", 0) + x.pow(2).sum(-1).sum(0).double(); raise SQ._Stop()
+            hk = mod.register_forward_pre_hook(hook)
+            for b in range(0, sq.n, sq.bs):
+                try: L(sq.h[b:b + sq.bs], **sq._kw(i))
+                except SQ._Stop: pass
+            hk.remove(); e = acc["e"]
+            r["pos0_share"] = float(e[0]/e.sum()); r["pos_first8_share"] = float(e[:8].sum()/e.sum()); r["pos_max_over_median"] = float(e.max()/e.median())
+            out[f"L{i}.{nm}"] = r; del Hm
+            print("L%-2d %-9s n=%5d | AM/GM pivots: orig %.2f (%.2f bit)  centred %.2f (%.2f bit)%s | diag AM/GM %.1f | pos0 share %.4f, first8 %.4f, max/med %.1f" % (
+                i, nm, n, r["orig"]["am_over_gm"], r["orig"]["headroom_bits"], r["centred"]["am_over_gm"], r["centred"]["headroom_bits"],
+                ("  rotated %.2f (%.2f bit)" % (r["rotated"]["am_over_gm"], r["rotated"]["headroom_bits"])) if "rotated" in r else "",
+                r["diag_am_over_gm"], r["pos0_share"], r["pos_first8_share"], r["pos_max_over_median"]), flush=True)
+    sq.advance(i)
+    if i >= max(want): break
+json.dump(out, open(H.OUT + "/diag_ldl_headroom.json", "w"), indent=1)
+del sq; torch.cuda.empty_cache()
+
+
+######## [20:55:56] Print error-structure and LDL headroom diagnostics
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch/results && python3 -I - <<'EOF'
+import json
+d=json.load(open('diag_error_structure.json'))
+for k,v in d.items():
+    if k=='shared_basis':
+        for kk,vv in v.items(): print('shared',kk,{a:round(b,1) for a,b in vv.items()})
+        continue
+    print(k, v['shape'], 'bpw %.3f'%v['bpw'], 'relproxy %.4f'%v['rel_proxy_err'], 'frob %.3f'%v['rel_frob_err'],
+          'errtop', {a:round(b,3) for a,b in v['err_top_share'].items()}, 'sigtop', {a:round(b,3) for a,b in v['sig_top_share'].items()},
+          'top8cols %.3f'%v['top8_cols_weighted_err_share'], 'fact', {a:(b['rank'],round(b['truncation_energy_loss'],4)) for a,b in v['factor_equal_bytes'].items()})
+print()
+d=json.load(open('diag_ldl_headroom.json'))
+for k,v in d.items():
+    print(k, 'orig %.2f/%.2fb top8 %.3f'%(v['orig']['am_over_gm'],v['orig']['headroom_bits'],v['orig']['top8_share']), 'centred %.2f/%.2fb'%(v['centred']['am_over_gm'],v['centred']['headroom_bits']), ('rot %.2f'%v['rotated']['am_over_gm']) if 'rotated' in v else '', 'diagAMGM %.1f'%v['diag_am_over_gm'], 'trace %.3g'%v['trace'])
+EOF
+--- SORTIE COMPLETE ---
+L1.mixer_in [10240, 5120] bpw 2.827 relproxy 0.0023 frob 0.202 errtop {'16': 0.124, '64': 0.165, '256': 0.276} sigtop {'16': 0.579, '64': 0.718, '256': 0.862} top8cols 0.533 fact {'3.0': (3216, 0.0015), '4.0': (2412, 0.0047), '6.0': (1608, 0.0142)}
+L1.mixer_out [5120, 6144] bpw 2.821 relproxy 0.0017 frob 0.195 errtop {'16': 0.062, '64': 0.106, '256': 0.244} sigtop {'16': 0.863, '64': 0.887, '256': 0.926} top8cols 0.037 fact {'3.0': (2625, 0.0036), '4.0': (1969, 0.0084), '6.0': (1312, 0.0183)}
+L1.mlp_gate [17408, 5120] bpw 2.827 relproxy 0.0063 frob 0.199 errtop {'16': 0.015, '64': 0.044, '256': 0.139} sigtop {'16': 0.262, '64': 0.433, '256': 0.657} top8cols 0.058 fact {'3.0': (3728, 0.0048), '4.0': (2796, 0.0162), '6.0': (1864, 0.047)}
+L1.mlp_down [5120, 17408] bpw 2.827 relproxy 0.0062 frob 0.213 errtop {'16': 0.012, '64': 0.038, '256': 0.127} sigtop {'16': 0.168, '64': 0.258, '256': 0.436} top8cols 0.006 fact {'3.0': (3727, 0.0216), '4.0': (2795, 0.0574), '6.0': (1863, 0.1295)}
+L16.mixer_in [10240, 5120] bpw 2.822 relproxy 0.0045 frob 0.182 errtop {'16': 0.046, '64': 0.075, '256': 0.174} sigtop {'16': 0.631, '64': 0.723, '256': 0.828} top8cols 0.389 fact {'3.0': (3210, 0.0078), '4.0': (2408, 0.0178), '6.0': (1605, 0.0379)}
+L16.mixer_out [5120, 6144] bpw 2.818 relproxy 0.0102 frob 0.187 errtop {'16': 0.023, '64': 0.063, '256': 0.198} sigtop {'16': 0.3, '64': 0.432, '256': 0.638} top8cols 0.009 fact {'3.0': (2623, 0.0196), '4.0': (1967, 0.0435), '6.0': (1311, 0.0917)}
+L16.mlp_gate [17408, 5120] bpw 2.822 relproxy 0.0087 frob 0.181 errtop {'16': 0.009, '64': 0.033, '256': 0.118} sigtop {'16': 0.342, '64': 0.459, '256': 0.628} top8cols 0.070 fact {'3.0': (3721, 0.0152), '4.0': (2791, 0.0388), '6.0': (1860, 0.084)}
+L16.mlp_down [5120, 17408] bpw 2.818 relproxy 0.0129 frob 0.182 errtop {'16': 0.009, '64': 0.031, '256': 0.114} sigtop {'16': 0.116, '64': 0.204, '256': 0.378} top8cols 0.003 fact {'3.0': (3716, 0.0374), '4.0': (2787, 0.0903), '6.0': (1858, 0.1826)}
+L31.mixer_in [12288, 5120] bpw 2.822 relproxy 0.0022 frob 0.185 errtop {'16': 0.057, '64': 0.092, '256': 0.191} sigtop {'16': 0.827, '64': 0.882, '256': 0.931} top8cols 0.332 fact {'3.0': (3399, 0.0031), '4.0': (2549, 0.0072), '6.0': (1699, 0.0152)}
+L31.mixer_out [5120, 6144] bpw 2.822 relproxy 0.0109 frob 0.198 errtop {'16': 0.02, '64': 0.066, '256': 0.213} sigtop {'16': 0.247, '64': 0.385, '256': 0.617} top8cols 0.023 fact {'3.0': (2627, 0.0142), '4.0': (1970, 0.0337), '6.0': (1313, 0.0779)}
+L31.mlp_gate [17408, 5120] bpw 2.822 relproxy 0.0065 frob 0.180 errtop {'16': 0.021, '64': 0.044, '256': 0.128} sigtop {'16': 0.551, '64': 0.639, '256': 0.749} top8cols 0.159 fact {'3.0': (3721, 0.0122), '4.0': (2790, 0.0303), '6.0': (1860, 0.0632)}
+L31.mlp_down [5120, 17408] bpw 2.819 relproxy 0.0135 frob 0.180 errtop {'16': 0.01, '64': 0.033, '256': 0.12} sigtop {'16': 0.099, '64': 0.179, '256': 0.347} top8cols 0.003 fact {'3.0': (3717, 0.0358), '4.0': (2787, 0.0903), '6.0': (1858, 0.1877)}
+L32.mixer_in [10240, 5120] bpw 2.821 relproxy 0.0056 frob 0.181 errtop {'16': 0.05, '64': 0.079, '256': 0.177} sigtop {'16': 0.592, '64': 0.694, '256': 0.803} top8cols 0.300 fact {'3.0': (3210, 0.0102), '4.0': (2407, 0.0231), '6.0': (1605, 0.0478)}
+L32.mixer_out [5120, 6144] bpw 2.816 relproxy 0.0135 frob 0.182 errtop {'16': 0.024, '64': 0.068, '256': 0.208} sigtop {'16': 0.225, '64': 0.344, '256': 0.551} top8cols 0.012 fact {'3.0': (2621, 0.0264), '4.0': (1966, 0.0589), '6.0': (1310, 0.1244)}
+L32.mlp_gate [17408, 5120] bpw 2.822 relproxy 0.0063 frob 0.180 errtop {'16': 0.022, '64': 0.045, '256': 0.129} sigtop {'16': 0.569, '64': 0.654, '256': 0.757} top8cols 0.172 fact {'3.0': (3721, 0.0124), '4.0': (2790, 0.0305), '6.0': (1860, 0.063)}
+L32.mlp_down [5120, 17408] bpw 2.818 relproxy 0.0133 frob 0.180 errtop {'16': 0.01, '64': 0.033, '256': 0.118} sigtop {'16': 0.112, '64': 0.19, '256': 0.351} top8cols 0.003 fact {'3.0': (3716, 0.0374), '4.0': (2787, 0.0934), '6.0': (1858, 0.1924)}
+L47.mixer_in [12288, 5120] bpw 2.822 relproxy 0.0028 frob 0.184 errtop {'16': 0.051, '64': 0.093, '256': 0.2} sigtop {'16': 0.822, '64': 0.873, '256': 0.921} top8cols 0.239 fact {'3.0': (3399, 0.0041), '4.0': (2549, 0.0094), '6.0': (1699, 0.0192)}
+L47.mixer_out [5120, 6144] bpw 2.820 relproxy 0.0109 frob 0.194 errtop {'16': 0.018, '64': 0.059, '256': 0.196} sigtop {'16': 0.25, '64': 0.398, '256': 0.626} top8cols 0.019 fact {'3.0': (2625, 0.0171), '4.0': (1969, 0.0387), '6.0': (1312, 0.0849)}
+L47.mlp_gate [17408, 5120] bpw 2.822 relproxy 0.0059 frob 0.180 errtop {'16': 0.02, '64': 0.044, '256': 0.13} sigtop {'16': 0.626, '64': 0.695, '256': 0.778} top8cols 0.123 fact {'3.0': (3721, 0.0129), '4.0': (2790, 0.0314), '6.0': (1860, 0.0633)}
+L47.mlp_down [5120, 17408] bpw 2.819 relproxy 0.0134 frob 0.183 errtop {'16': 0.011, '64': 0.035, '256': 0.121} sigtop {'16': 0.122, '64': 0.195, '256': 0.349} top8cols 0.009 fact {'3.0': (3717, 0.039), '4.0': (2787, 0.0972), '6.0': (1858, 0.199)}
+L62.mixer_in [10240, 5120] bpw 2.822 relproxy 0.0033 frob 0.181 errtop {'16': 0.021, '64': 0.052, '256': 0.159} sigtop {'16': 0.788, '64': 0.837, '256': 0.883} top8cols 0.092 fact {'3.0': (3211, 0.0088), '4.0': (2408, 0.0189), '6.0': (1605, 0.0366)}
+L62.mixer_out [5120, 6144] bpw 2.818 relproxy 0.0084 frob 0.195 errtop {'16': 0.053, '64': 0.116, '256': 0.288} sigtop {'16': 0.414, '64': 0.557, '256': 0.723} top8cols 0.132 fact {'3.0': (2622, 0.0127), '4.0': (1967, 0.0294), '6.0': (1311, 0.0666)}
+L62.mlp_gate [17408, 5120] bpw 2.822 relproxy 0.0024 frob 0.180 errtop {'16': 0.013, '64': 0.037, '256': 0.124} sigtop {'16': 0.848, '64': 0.88, '256': 0.913} top8cols 0.076 fact {'3.0': (3721, 0.0054), '4.0': (2791, 0.0131), '6.0': (1860, 0.026)}
+L62.mlp_down [5120, 17408] bpw 2.821 relproxy 0.0080 frob 0.207 errtop {'16': 0.024, '64': 0.062, '256': 0.166} sigtop {'16': 0.324, '64': 0.44, '256': 0.59} top8cols 0.022 fact {'3.0': (3719, 0.0204), '4.0': (2789, 0.0525), '6.0': (1859, 0.1104)}
+shared gate_proj L16+L17 {'erank_a': 3681.4, 'erank_b': 3712.7, 'erank_joint': 3998.5}
+shared down_proj L16+L17 {'erank_a': 3579.0, 'erank_b': 3666.3, 'erank_joint': 3928.8}
+shared gate_proj L30+L34 {'erank_a': 3644.4, 'erank_b': 3800.7, 'erank_joint': 4119.5}
+shared down_proj L30+L34 {'erank_a': 3629.5, 'erank_b': 4135.2, 'erank_joint': 4261.7}
+shared gate_proj L40+L41 {'erank_a': 3858.5, 'erank_b': 3901.4, 'erank_joint': 4185.5}
+shared down_proj L40+L41 {'erank_a': 4012.2, 'erank_b': 3886.9, 'erank_joint': 4235.9}
+
+L1.mixer_in orig 1.64/0.36b top8 0.263 centred 1.32/0.20b rot 1.08 diagAMGM 8.1 trace 673
+L1.mixer_out orig 1.47/0.28b top8 0.031 centred 1.47/0.28b rot 1.08 diagAMGM 1.7 trace 1.14
+L1.mlp_in orig 1.15/0.10b top8 0.022 centred 1.15/0.10b rot 1.07 diagAMGM 1.2 trace 75.5
+L1.mlp_down orig 1.25/0.16b top8 0.010 centred 1.25/0.16b  diagAMGM 1.3 trace 1.97
+L2.mixer_in orig 1.54/0.31b top8 0.249 centred 1.22/0.14b rot 1.05 diagAMGM 6.4 trace 836
+L2.mixer_out orig 1.46/0.27b top8 0.046 centred 1.45/0.27b rot 1.07 diagAMGM 1.7 trace 1.98
+L2.mlp_in orig 1.05/0.03b top8 0.007 centred 1.05/0.03b rot 1.04 diagAMGM 1.1 trace 114
+L2.mlp_down orig 1.49/0.29b top8 0.062 centred 1.48/0.28b  diagAMGM 1.8 trace 7.22
+L3.mixer_in orig 2.04/0.51b top8 0.470 centred 1.15/0.10b rot 1.02 diagAMGM 18.4 trace 8.68e+03
+L3.mixer_out orig 2.36/0.62b top8 0.055 centred 2.46/0.65b rot 1.20 diagAMGM 4.3 trace 2.49
+L3.mlp_in orig 1.04/0.03b top8 0.006 centred 1.05/0.03b rot 1.03 diagAMGM 1.1 trace 130
+L3.mlp_down orig 1.31/0.19b top8 0.011 centred 1.31/0.19b  diagAMGM 1.3 trace 5.67
+L16.mixer_in orig 1.20/0.13b top8 0.115 centred 1.08/0.06b rot 1.02 diagAMGM 3.7 trace 2.02e+03
+L16.mixer_out orig 1.33/0.21b top8 0.016 centred 1.33/0.21b rot 1.05 diagAMGM 1.4 trace 14
+L16.mlp_in orig 1.04/0.03b top8 0.012 centred 1.04/0.03b rot 1.02 diagAMGM 1.2 trace 532
+L16.mlp_down orig 1.10/0.07b top8 0.005 centred 1.10/0.07b  diagAMGM 1.1 trace 40.8
+L31.mixer_in orig 1.29/0.19b top8 0.133 centred 1.17/0.11b rot 1.03 diagAMGM 3.4 trace 3.81e+03
+L31.mixer_out orig 1.23/0.15b top8 0.017 centred 1.23/0.15b rot 1.09 diagAMGM 1.5 trace 210
+L31.mlp_in orig 1.08/0.06b top8 0.051 centred 1.04/0.03b rot 1.02 diagAMGM 1.7 trace 1.99e+03
+L31.mlp_down orig 1.07/0.05b top8 0.005 centred 1.07/0.05b  diagAMGM 1.1 trace 235
+L32.mixer_in orig 1.22/0.14b top8 0.130 centred 1.10/0.07b rot 1.02 diagAMGM 3.0 trace 3.52e+03
+L32.mixer_out orig 1.26/0.16b top8 0.021 centred 1.26/0.16b rot 1.03 diagAMGM 1.3 trace 99.4
+L32.mlp_in orig 1.08/0.06b top8 0.052 centred 1.04/0.03b rot 1.02 diagAMGM 1.7 trace 2.13e+03
+L32.mlp_down orig 1.07/0.05b top8 0.004 centred 1.07/0.05b  diagAMGM 1.1 trace 250
+L47.mixer_in orig 1.30/0.19b top8 0.107 centred 1.23/0.15b rot 1.03 diagAMGM 2.6 trace 5.2e+03
+L47.mixer_out orig 1.23/0.15b top8 0.020 centred 1.23/0.15b rot 1.08 diagAMGM 1.4 trace 274
+L47.mlp_in orig 1.09/0.06b top8 0.042 centred 1.06/0.04b rot 1.02 diagAMGM 1.5 trace 3.01e+03
+L47.mlp_down orig 1.14/0.10b top8 0.011 centred 1.14/0.10b  diagAMGM 1.2 trace 607
+L62.mixer_in orig 1.10/0.07b top8 0.036 centred 1.10/0.07b rot 1.02 diagAMGM 1.5 trace 6.72e+03
+L62.mixer_out orig 2.29/0.60b top8 0.060 centred 2.33/0.61b rot 1.17 diagAMGM 3.9 trace 5.63e+03
+L62.mlp_in orig 1.06/0.04b top8 0.022 centred 1.05/0.04b rot 1.02 diagAMGM 1.3 trace 7.87e+03
+L62.mlp_down orig 1.80/0.42b top8 0.033 centred 1.81/0.43b  diagAMGM 2.2 trace 1.26e+04
+L63.mixer_in orig 1.14/0.09b top8 0.024 centred 1.13/0.09b rot 1.03 diagAMGM 1.4 trace 6.72e+03
+L63.mixer_out orig 1.53/0.31b top8 0.021 centred 1.55/0.31b rot 1.13 diagAMGM 2.0 trace 6.44e+03
+L63.mlp_in orig 1.05/0.04b top8 0.023 centred 1.05/0.03b rot 1.02 diagAMGM 1.4 trace 6.82e+03
+L63.mlp_down orig 2.63/0.70b top8 0.087 centred 2.65/0.70b  diagAMGM 5.7 trace 4.91e+04
+
+
+######## [20:55:59] Print per-family and layer-drop sensitivity diagnostics
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch/results && python3 -I - <<'EOF'
+import json
+d=json.load(open('diag_bykind_rules.json')); print(json.dumps(d)[:2700]); print()
+d=json.load(open('diag_layerdrop_single.json')); 
+print(type(d), list(d.keys())[:10] if isinstance(d,dict) else len(d))
+if isinstance(d,dict):
+    for k,v in d.items():
+        s=json.dumps(v); print(k, s[:1500])
+EOF
+--- SORTIE COMPLETE ---
+{"mlp_in(gate,up)|lumen": {"kl": 0.037734729276659586, "agree": 0.940673828125, "bpw": 2.8252836943533595, "params": 11408506880}, "mlp_in(gate,up)|col": {"kl": 0.03543907295291623, "agree": 0.9459635416666666, "bpw": 2.8597957325305723, "params": 11408506880}, "mlp_in(gate,up)|fisher_local": {"kl": 0.06264729355461895, "agree": 0.927978515625, "bpw": 2.9309678588673354, "params": 11408506880}, "mlp_down|lumen": {"kl": 0.025897748787732173, "agree": 0.9547526041666666, "bpw": 2.823251723296118, "params": 5704253440}, "mlp_down|col": {"kl": 0.02324067826460426, "agree": 0.9571126302083334, "bpw": 2.8679096542917737, "params": 5704253440}, "mlp_down|fisher_local": {"kl": 0.02322959542895357, "agree": 0.9582926432291666, "bpw": 3.038864239642519, "params": 5704253440}, "gdn_in(qkv,z,a,b)|lumen": {"kl": 0.03160213519974301, "agree": 0.9557698567708334, "bpw": 2.825330750493741, "params": 4050124800}, "gdn_in(qkv,z,a,b)|col": {"kl": 0.02711391148235028, "agree": 0.9598388671875, "bpw": 2.7533285821498263, "params": 4050124800}, "gdn_in(qkv,z,a,b)|fisher_local": {"kl": 1.8743048484126728, "agree": 0.5579020182291666, "bpw": 2.2826255326965583, "params": 4050124800}, "gdn_out|lumen": {"kl": 0.01798996391395728, "agree": 0.9681396484375, "bpw": 2.8243711131357925, "params": 1509949440}, "gdn_out|col": {"kl": 0.027770094728718202, "agree": 0.9600830078125, "bpw": 2.841773369234563, "params": 1509949440}, "gdn_out|fisher_local": {"kl": 0.016128920930592965, "agree": 0.9715169270833334, "bpw": 2.970138032278122, "params": 1509949440}, "attn_in(q,k,v)|lumen": {"kl": 0.02399607157955567, "agree": 0.9637451171875, "bpw": 2.8247220565892066, "params": 1174405120}, "attn_in(q,k,v)|col": {"kl": 0.02435715849666546, "agree": 0.966552734375, "bpw": 2.518482209531496, "params": 1174405120}, "attn_in(q,k,v)|fisher_local": {"kl": 0.03845407871995121, "agree": 0.951171875, "bpw": 1.9256362559242461, "params": 1174405120}, "attn_out|lumen": {"kl": 0.008444390453708669, "agree": 0.9774576822916666, "bpw": 2.8231331619325335, "params": 503316480}, "attn_out|col": {"kl": 0.009021898489057397, "agree": 0.9805908203125, "bpw": 2.82981664308723, "params": 503316480}, "attn_out|fisher_local": {"kl": 0.010548719791889502, "agree": 0.9790445963541666, "bpw": 3.0064967113971885, "params": 503316480}, "embed|lumen": {"kl": 0.005822525767143816, "agree": 0.9873860677083334, "bpw": 2.8252428793228073, "params": 1271398400}, "lm_head|lumen": {"kl": 0.013370298314839602, "agree": 0.9466959635416666, "bpw": 2.825244491347328, "params": 1271398400}, "lm_head|col": {"kl": 0.018212941630433004, "agree": 0.9364827473958334, "bpw": 2.7727940922452525, "params": 1271398400}}
+
+<class 'dict'> ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+0 {"kl": 8.695268134276072, "agree": 0.050008138020833336, "ce": 9.903741200764975, "by_domain": {"en_prose": 9.19903031984965, "math_reasoning": 8.191505948702494}}
+1 {"kl": 0.09009035478811711, "agree": 0.9242757161458334, "ce": 1.3436646573245525, "by_domain": {"en_prose": 0.12295280272761981, "math_reasoning": 0.05722790684861442}}
+2 {"kl": 0.09798508432383339, "agree": 0.9206136067708334, "ce": 1.3719289029637973, "by_domain": {"en_prose": 0.11062378824378054, "math_reasoning": 0.08534638040388624}}
+3 {"kl": 0.062297648284584284, "agree": 0.9400227864583334, "ce": 1.3327555023133755, "by_domain": {"en_prose": 0.05440126142154137, "math_reasoning": 0.07019403514762719}}
+4 {"kl": 0.04141108454981198, "agree": 0.950439453125, "ce": 1.3154094616572063, "by_domain": {"en_prose": 0.039991214560965695, "math_reasoning": 0.04283095453865826}}
+5 {"kl": 0.0327725043365111, "agree": 0.9541829427083334, "ce": 1.3009705940882366, "by_domain": {"en_prose": 0.026729505509138107, "math_reasoning": 0.03881550316388408}}
+6 {"kl": 0.041143236604208745, "agree": 0.9476318359375, "ce": 1.309702252348264, "by_domain": {"en_prose": 0.029878710862249136, "math_reasoning": 0.05240776234616836}}
+7 {"kl": 0.03863095887936652, "agree": 0.9554443359375, "ce": 1.3149831431607406, "by_domain": {"en_prose": 0.0223699767763416, "math_reasoning": 0.05489194098239144}}
+8 {"kl": 0.044420505912664034, "agree": 0.9543863932291666, "ce": 1.3368848711252213, "by_domain": {"en_prose": 0.016853776527568698, "math_reasoning": 0.07198723529775937}}
+9 {"kl": 0.03148548056681951, "agree": 0.9607340494791666, "ce": 1.3064220199982326, "by_domain": {"en_prose": 0.015548020135611296, "math_reasoning": 0.04742294099802772}}
+10 {"kl": 0.03459745201204593, "agree": 0.9595947265625, "ce": 1.3106999186178048, "by_domain": {"en_prose": 0.016376330012766022, "math_reasoning": 0.052818574011325836}}
+11 {"kl": 0.039791951809699334, "agree": 0.9595540364583334, "ce": 1.3217846676707268, "by_domain": {"en_prose": 0.013392074188838402, "math_reasoning": 0.06619182943056028}}
+12 {"kl": 0.034689931684018425, "agree": 0.9583333333333334, "ce": 1.3090235739946365, "by_domain": {"en_prose": 0.014734678319655359, "math_reasoning": 0.054645185048381485}}
+13 {"kl": 0.027391120325773954, "agree": 0.96435546875, "ce": 1.2937374524772167, "by_domain": {"en_prose": 0.010707472606251637, "math_reasoning": 0.044074768045296274}}
+14 {"kl": 0.02889736704916383, "agree": 0.9638671875, "ce": 1.2977909296751022, "by_domain": {"en_prose": 0.011619506520219147, "math_reasoning": 0.04617522757810851}}
+15 {"kl": 0.03481418724792699, "agree": 0.9648030598958334, "ce": 1.3087364546954632, "by_domain": {"en_prose": 0.010481915126244227, "math_reasoning": 0.05914645936960975}}
+16 {"kl": 0.03258956865950798, "agree": 0.9630940755208334, "ce": 1.293509017676115, "by_domain": {"en_prose": 0.012173729172597328, "math_reasoning": 0.05300540814641863}}
+17 {"kl": 0.031354453802729644, "agree": 0.9627685546875, "ce": 1.3000967750946681, "by_domain": {"en_prose": 0.013870809925720096, "math_reasoning": 0.0488380976797392}}
+18 {"kl": 0.049256406840868294, "agree": 0.94970703125, "ce": 1.3157838781674702, "by_domain": {"en_prose": 0.024000567849725485, "math_reasoning": 0.0745122458320111}}
+19 {"kl": 0.04375283691721658, "agree": 0.9506022135416666, "ce": 1.3080789595842361, "by_domain": {"en_prose": 0.02590527245774865, "math_reasoning": 0.06160040137668451}}
+20 {"kl": 0.05195967014878988, "agree": 0.9417724609375, "ce": 1.3301598529020946, "by_domain": {"en_prose": 0.03417438920587301, "math_reasoning": 0.06974495109170675}}
+21 {"kl": 0.08940846100449562, "agree": 0.9286295572916666, "ce": 1.3795057063301404, "by_domain": {"en_prose": 0.03436368641753992, "math_reasoning": 0.14445323559145132}}
+22 {"kl": 0.05071738746482879, "agree": 0.9437662760416666, "ce": 1.32922259469827, "by_domain": {"en_prose": 0.026209877726311486, "math_reasoning": 0.07522489720334609}}
+23 {"kl": 0.05410722914772729, "agree": 0.9434814453125, "ce": 1.3327592549224694, "by_domain": {"en_prose": 0.03632503173624476, "math_reasoning": 0.07188942655920982}}
+24 {"kl": 0.05734759056940675, "agree": 0.9375813802083334, "ce": 1.3338108584284782, "by_domain": {"en_prose": 0.03733262264480194, "math_reasoning": 0.07736255849401157}}
+25 {"kl": 0.05185907306925704, "agree": 0.9399007161458334, "ce": 1.3284490903218586, "by_domain": {"en_prose": 0.03349205610963205, "math_reasoning": 0.07022609002888203}}
+26 {"kl": 0.04612456145696342, "agree": 0.9434814453125, "ce": 1.3075036431352298, "by_domain": {"en_prose": 0.03123481439736982, "math_reasoning": 0.061014308516557016}}
+27 {"kl": 0.051281551675250135, "agree": 0.9441731770833334, "ce": 1.2883890469868977, "by_domain": {"en_prose": 0.030587180828054745, "math_reasoning": 0.07197592252244552}}
+28 {"kl": 0.04661162294602642, "agree": 0.9436442057291666, "ce": 1.3105034430821736, "by_domain": {"en_prose": 0.02741422977608939, "math_reasoning": 0.06580901611596346}}
+29 {"kl": 0.04719033026291678, "agree": 0.9496256510416666, "ce": 1.272505975017945, "by_domain": {"en_prose": 0.02146997496796151, "math_reasoning": 0.07291068555787206}}
+30 {"kl": 0.041670787148177624, "agree": 0.9494222005208334, "ce": 1.3135365210473537, "by_domain": {"en_prose": 0.025122488693644602, "math_reasoning": 0.05821908560271064}}
+31 {"kl": 0.04261829024956872, "agree": 0.9483642578125, "ce": 1.3057307054599125, "by_domain": {"en_prose": 0.023704001447185874, "math_reasoning": 0.061532579051951565}}
+32 {"kl": 0.040848923924689494, "agree": 0.9503580729166666, "ce": 1.293056432157755, "by_domain": {"en_prose": 0.02269901878510912, "math_reasoning": 0.05899882906426986}}
+33 {"kl": 0.06379368850806107, "agree": 0.9449462890625, "ce": 1.2659468712906043, "by_domain": {"en_prose": 0.026018929900601506, "math_reasoning": 0.10156844711552064}}
+34 {"kl": 0.048462028498761356, "agree": 0.9370524088541666, "ce": 1.3088006762166817, "by_domain": {"en_prose": 0.04150442724737028, "math_reasoning": 0.05541962975015243}}
+35 {"kl": 0.05608566819379727, "agree": 0.9322509765625, "ce": 1.329640008509159, "by_domain": {"en_prose": 0.061384428292512894, "math_reasoning": 0.05078690809508165}}
+36 {"kl": 0.04603537071185807, "agree": 0.938720703125, "ce": 1.3435945361852646, "by_domain": {"en_prose": 0.05134073877707124, "math_reasoning": 0.04073000264664491}}
+37 {"kl": 0.03626724216155708, "agree": 0.9416910807291666, "ce": 1.3205746772388618, "by_domain": {"en_prose": 0.04457021364942193, "math_reasoning": 0.027964270673692226}}
+38 {"kl": 0.03399625533105185, "agree": 0.9447428385416666, "ce": 1.310315515846014, "by_domain": {"en_prose": 0.044423040157804884, "math_reasoning": 0.023569470504298806}}
+39 {"kl": 0.03537829627748579, "agree": 0.9423828125, "ce": 1.3158028970162075, "by_domain": {"en_prose": 0.047249033115804195, "math_reasoning": 0.02350755943916738}}
+40 {"kl": 0.03543078887742013, "agree": 0.9429524739583334, "ce": 1.3232863855858643, "by_domain": {"en_prose": 0.0446316545518736, "math_reasoning": 0.02622992320296665}}
+41 {"kl": 0.03283798675208042, "agree": 0.945556640625, "ce": 1.3093857963879902, "by_domain": {"en_prose": 0.04007111396640539, "math_reasoning": 0.02560485953775545}}
+42 {"kl": 0.031645407900214195, "agree": 0.9456380208333334, "ce": 1.3128542924920719, "by_domain": {"en_prose": 0.03536727877023319, "math_reasoning": 0.027923537030195195}}
+43 {"kl": 0.03537457634229213, "agree": 0.9423828125, "ce": 1.3147793027261894, "by_domain": {"en_prose": 0.03747626921782891, "math_reasoning": 0.03327288346675535}}
+44 {"kl": 0.03115452907513827, "agree": 0.945068359375, "ce": 1.3314716517925262, "by_domain": {"en_prose": 0.03140562679618597, "math_reasoning": 0.03090343135409057}}
+45 {"kl": 0.028601471877967317, "agree": 0.9496663411458334, "ce": 1.3080438586572807, "by_domain": {"en_prose": 0.02531190247585376, "math_reasoning": 0.03189104128008088}}
+46 {"kl": 0.05574274501608064, "agree": 0.9432373046875, "ce": 1.2772847972810268, "by_domain": {"en_prose": 0.028630379975462954, "math_reasoning": 0.08285511005669832}}
+47 {"kl": 0.03957164194434881, "agree": 0.9441731770833334, "ce": 1.3246048738559086, "by_domain": {"en_prose": 0.028697604623933632, "math_reasoning": 0.05044567926476399}}
+48 {"kl": 0.04488787466349701, "agree": 0.9432373046875, "ce": 1.2843026133875053, "by_domain": {"en_prose": 0.03065972977007429, "math_reasoning": 0.05911601955691973}}
+49 {"kl": 0.030994023584450286, "agree": 0.9412434895833334, "ce": 1.3092208951711655, "by_domain": {"en_prose": 0.034028103885551296, "math_reasoning": 0.027959943283349276}}
+50 {"kl": 0.050835610988239445, "agree": 0.92626953125, "ce": 1.328779141108195, "by_domain": {"en_prose": 0.05889433342963457, "math_reasoning": 0.042776888546844326}}
+51 {"kl": 0.08200782972077529, "agree": 0.9098714192708334, "ce": 1.3567995379368465, "by_domain": {"en_prose": 0.08061275134483974, "math_reasoning": 0.08340290809671085}}
+52 {"kl": 0.04878925113007426, "agree": 0.9288736979166666, "ce": 1.3394947697718937, "by_domain": {"en_prose": 0.06548844464123249, "math_reasoning": 0.032090057618916035}}
+53 {"kl": 0.05659753712825477, "agree": 0.9316813151041666, "ce": 1.3300467220445473, "by_domain": {"en_prose": 0.06897922791540623, "math_reasoning": 0.044215846341103315}}
+54 {"kl": 0.06637247434506814, "agree": 0.9212646484375, "ce": 1.350273368259271, "by_domain": {"en_prose": 0.09673889602224033, "math_reasoning": 0.03600605266789595}}
+55 {"kl": 0.07128032436594367, "agree": 0.9254964192708334, "ce": 1.3572193545599778, "by_domain": {"en_prose": 0.1067608433465163, "math_reasoning": 0.03579980538537105}}
+56 {"kl": 0.08017729494410257, "agree": 0.9246419270833334, "ce": 1.3532498429218929, "by_domain": {"en_prose": 0.13370551044742265, "math_reasoning": 0.02664907944078247}}
+57 {"kl": 0.06505122016339253, "agree": 0.9275716145833334, "ce": 1.3487981980045636, "by_domain": {"en_prose": 0.10484266156951587, "math_reasoning": 0.025259778757269185}}
+58 {"kl": 0.08691365302850802, "agree": 0.92626953125, "ce": 1.363173036525647, "by_domain": {"en_prose": 0.11887355210880439, "math_reasoning": 0.05495375394821167}}
+59 {"kl": 0.10090820801754792, "agree": 0.9172770182291666, "ce": 1.3753317917386692, "by_domain": {"en_prose": 0.13672653151055178, "math_reasoning": 0.06508988452454408}}
+60 {"kl": 0.07832141872495413, "agree": 0.9264322916666666, "ce": 1.3712542926271756, "by_domain": {"en_prose": 0.10897576281179984, "math_reasoning": 0.04766707463810841}}
+61 {"kl": 0.059426383348181844, "agree": 0.92626953125, "ce": 1.340024537096421, "by_domain": {"en_prose": 0.08780266530811787, "math_reasoning": 0.03105010138824582}}
+62 {"kl": 0.174048511000971, "agree": 0.8571370442708334, "ce": 1.4552653282880783, "by_domain": {"en_prose": 0.20167882492144903, "math_reasoning": 0.14641819708049297}}
+63 {"kl": 0.6870982858041922, "agree": 0.7745361328125, "ce": 2.0144399578372636, "by_domain": {"en_prose": 0.7260970622301102, "math_reasoning": 0.6480995093782743}}
+
+
+######## [21:01:51] Read column-scale and act-order diagnostic jobs and results
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch && cat jobs/045_diag_ldlcol_proxy.py; echo; python3 -I -c "
+import json
+d=json.load(open('results/diag_ldlcol_proxy.json'))
+print(json.dumps(d,indent=0)[:6000])
+"; echo; cat jobs/048_diag_actorder.py; python3 -I -c "
+import json
+d=json.load(open('results/diag_actorder.json'))
+print(json.dumps(d)[:5000])
+"
+--- SORTIE COMPLETE ---
+# Why did LDL-pivot column scaling not help in KL?  Local check at matched bits (BF16 prefix, real inputs):
+# activation-weighted output error of E8-LDLQ with the reference steps vs with column scales (clip 4 and 2).
+import importlib, seq, json
+import formic_q as fq
+importlib.reload(seq); SQ = seq
+H.restore(); lm = H.S["lm"]; out = {}
+sq = SQ.Seq(n_docs=144); want = {3, 16, 31, 47, 62}
+def run(W, Hm, c, target_bpw):
+    m_, n_ = W.shape; lo, hi = 0.2, 2.5; Wc = W if c is None else W * c
+    for _ in range(9):                                  # bisection on the real LDLQ bits of this matrix
+        mid = (lo * hi) ** 0.5; r = fq.row_steps(Wc, mid)
+        Q, hist, _ = fq.quantize_ldlq(W, Hm.clone(), r, c, damp=0.01)
+        bpw = fq.matrix_bits(hist, m_, n_, has_col_scale=c is not None) / (m_ * n_)
+        if bpw > target_bpw: lo = mid
+        else: hi = mid
+    E = (W - Q).double(); Wd = W.double()
+    return bpw, float(((E @ Hm) * E).sum() / ((Wd @ Hm) * Wd).sum()), float(hist[-1] / hist.sum())
+for i, L in enumerate(lm.layers):
+    if i in want:
+        gd = hasattr(L, "linear_attn")
+        for nm, mod in (("mixer_in", (L.linear_attn.in_proj_z if gd else L.self_attn.k_proj)), ("mixer_out", (L.linear_attn.out_proj if gd else L.self_attn.o_proj)), ("mlp_down", L.mlp.down_proj)):
+            Hm = sq.gram(i, mod); W = mod.weight.float()
+            if nm == "mlp_down": W = W[:1024]          # rows are independent: a row subset is enough for the proxy
+            if W.shape[0] > 2048: W = W[:2048]
+            res = {"lumen": run(W, Hm, None, 2.82)}
+            for clip in (2.0, 4.0, 64.0):
+                c = H._ldlcol(Hm, dict(col_clip=clip)); res[f"ldlcol_clip{clip:g}"] = run(W, Hm, c, 2.82)
+            out[f"L{i}.{nm}"] = res
+            print("L%-2d %-9s" % (i, nm), " | ".join("%s: bpw %.3f err %.5f esc %.1e" % (k, *v) for k, v in res.items()), flush=True)
+            del Hm
+    sq.advance(i)
+    if i >= max(want): break
+json.dump(out, open(H.OUT + "/diag_ldlcol_proxy.json", "w"), indent=1); del sq
+
+{
+"L3.mixer_in": {
+"lumen": [
+2.8234629137829534,
+0.004787363400357003,
+1.8310546875e-05
+],
+"ldlcol_clip2": [
+2.816594596585818,
+0.004444036143991737,
+0.00031890869140625
+],
+"ldlcol_clip4": [
+2.8230761177836015,
+0.004331446163196328,
+0.00098114013671875
+],
+"ldlcol_clip64": [
+2.822950453100897,
+0.0043243486969332355,
+0.0012664794921875
+]
+},
+"L3.mixer_out": {
+"lumen": [
+2.822109926633414,
+0.005873150564286154,
+2.5431315104166668e-05
+],
+"ldlcol_clip2": [
+2.8256907298955487,
+0.0045372527020736825,
+0.0001430511474609375
+],
+"ldlcol_clip4": [
+2.8130633444963338,
+0.005305913749630532,
+0.0008246103922526041
+],
+"ldlcol_clip64": [
+2.813816061979528,
+0.005760405122182934,
+0.002284367879231771
+]
+},
+"L3.mlp_down": {
+"lumen": [
+2.8255599554980027,
+0.008565514238482801,
+9.873334099264706e-06
+],
+"ldlcol_clip2": [
+2.8151165994658918,
+0.009272350194763558,
+3.769818474264706e-05
+],
+"ldlcol_clip4": [
+2.819585159363411,
+0.009708125581565984,
+0.0003823673023897059
+],
+"ldlcol_clip64": [
+2.824054046649053,
+0.009783086067607626,
+0.000679464901194853
+]
+},
+"L16.mixer_in": {
+"lumen": [
+2.8222108161857498,
+0.002140221720362395,
+3.0517578125e-06
+],
+"ldlcol_clip2": [
+2.8136083048964946,
+0.0021913227302529045,
+0.000128936767578125
+],
+"ldlcol_clip4": [
+2.815800186102446,
+0.0022398339015373987,
+0.00058441162109375
+],
+"ldlcol_clip64": [
+2.8186695159834776,
+0.00243780060565662,
+0.001085662841796875
+]
+},
+"L16.mixer_out": {
+"lumen": [
+2.818235779366986,
+0.012139809676241318,
+3.1789143880208335e-06
+],
+"ldlcol_clip2": [
+2.823483500636476,
+0.012304905013643322,
+3.5603841145833336e-05
+],
+"ldlcol_clip4": [
+2.8195976958261455,
+0.01279151342223996,
+0.00015385945638020834
+],
+"ldlcol_clip64": [
+2.819889084710715,
+0.01281830815751945,
+0.00018056233723958334
+]
+},
+"L16.mlp_down": {
+"lumen": [
+2.8181888260366246,
+0.013277632622317027,
+4.039091222426471e-06
+],
+"ldlcol_clip2": [
+2.817223138723828,
+0.01431450610300891,
+2.243939568014706e-05
+],
+"ldlcol_clip4": [
+2.8168571453532394,
+0.014381729218059247,
+5.5200913373161765e-05
+],
+"ldlcol_clip64": [
+2.816940789736254,
+0.014385308950686182,
+6.327909581801471e-05
+]
+},
+"L31.mixer_in": {
+"lumen": [
+2.8225801683601035,
+0.003774028266050989,
+9.918212890625e-05
+],
+"ldlcol_clip2": [
+2.813374593813843,
+0.004295954119766815,
+0.000897216796875
+],
+"ldlcol_clip4": [
+2.8204438696335714,
+0.004798949865683425,
+0.002520751953125
+],
+"ldlcol_clip64": [
+2.8164042643320792,
+0.004993659194161421,
+0.00301055908203125
+]
+},
+"L31.mixer_out": {
+"lumen": [
+2.8226193207879873,
+0.011366783923360192,
+2.9881795247395832e-05
+],
+"ldlcol_clip2": [
+2.823947421309138,
+0.010897504980659395,
+0.0003604888916015625
+],
+"ldlcol_clip4": [
+2.8250907232113427,
+0.011143729757292251,
+0.0007692972819010416
+],
+"ldlcol_clip64": [
+2.8258067101762108,
+0.011161985087397365,
+0.0008144378662109375
+]
+},
+"L31.mlp_down": {
+"lumen": [
+2.818515364758966,
+0.013967901927598154,
+1.0770909926470589e-05
+],
+"ldlcol_clip2": [
+2.819425093968992,
+0.014525575474504176,
+4.622515510110294e-05
+],
+"ldlcol_clip4": [
+2.8192824657417015,
+0.014572331531070687,
+7.898667279411765e-05
+],
+"ldlcol_clip64": [
+2.819319647663881,
+0.014574965805349716,
+8.123061236213235e-05
+]
+},
+"L47.mixer_in": {
+"lumen": [
+2.8234064883867602,
+0.004079384431040363,
+0.00013427734375
+],
+"ldlcol_clip2": [
+2.8146926400650774,
+0.00467441316286228,
+0.00081024169921875
+],
+"ldlcol_clip4": [
+2.8219792663418617,
+0.005536460081637603,
+0.00291595458984375
+],
+"ldlcol_clip64": [
+2.825183416041537,
+0.005890099387833113,
+0.00386810302734375
+]
+},
+"L47.mixer_out": {
+"lumen": [
+2.820761451459946,
+0.01130854702885856,
+2.6702880859375e-05
+],
+"ldlcol_clip2": [
+2.8224659515790482,
+0.011084856126066205,
+0.00016339619954427084
+],
+"ldlcol_clip4": [
+2.822913850304676,
+0.011266099058292641,
+0.000385284423828125
+],
+"ldlcol_clip64": [
+2.8232902057766798,
+0.011287478939353742,
+0.0004202524820963542
+]
+},
+"L47.mlp_down": {
+"lumen": [
+2.8186624709427424,
+0.014088210197793136,
+1.3912425321691176e-05
+],
+"ldlcol_clip2": [
+2.8153862599345127,
+0.014948756170893963,
+4.57763671875e-05
+],
+"ldlcol_clip4": [
+2.8135618878848403,
+0.015171263941381812,
+0.00012162152458639706
+],
+"ldlcol_clip64": [
+2.8139430513569024,
+0.015192459086599233,
+0.00015303667853860294
+]
+},
+"L62.mixer_in": {
+"lumen": [
+2.8225246349107165,
+0.002333825582002191,
+0.000113677978515625
+],
+"ldlcol_clip2": [
+2.8126958953472645,
+0.0025441755542067127,
+0.000675201416015625
+],
+"ldlcol_clip4": [
+2.82322436360712,
+0.002671452899919534,
+0.00192718505859375
+],
+"ldlcol_clip64": [
+2.822787343048536,
+0.0027212511125290443,
+0.002278900146484375
+]
+},
+"L62.mixer_out": {
+"lumen": [
+2.8173835795150985,
+0.008989564494888854,
+0.00012652079264322916
+],
+"ldlcol_clip2": [
+2.8205294331293778,
+0.006737122227781599,
+0.0004437764485677083
+],
+"ldlcol_clip4": [
+2.8149190627687317,
+0.007470056894258618,
+0.0011278788248697917
+],
+"ldlcol_clip64": [
+2.8219107087751563,
+0.008099331961855095,
+0.002997716267903646
+]
+},
+"L62.mlp_down": {
+"lumen": [
+2.820780765203481,
+0.008068184641231178,
+4.532757927389706e-05
+],
+"ldlcol_clip2": [
+2.8180733335846173,
+0.007780653834590063,
+0.0001656027401194853
+],
+"ldlcol_clip4": [
+2.815440522348973,
+0.008693029895447575,
+0.0008019840016084559
+],
+"ldlcol_clip64": [
+2.81783104549422,
+0.009506701383906328,
+0.002563925350413603
+]
+}
+}
+
+# LDLQ processing order: does sorting the input columns by decreasing second moment (exact permutation, GPTQ act_order)
+# reduce the sum of LDL pivots, and the real activation-weighted error at matched bits?  BF16 prefix, real inputs.
+import importlib, harness, seq, json, math, formic_q
+importlib.reload(formic_q); _S = dict(harness.S); importlib.reload(harness); harness.S.update(_S); H = harness
+importlib.reload(seq); SQ = seq; fq = formic_q
+H.restore(); lm = H.S["lm"]; out = {}
+sq = SQ.Seq(n_docs=144); want = {3, 16, 31, 32, 62}
+def amgm(Hm): d = fq.ldl_pivots(Hm, 0.01); return float(d.mean() / d.log().mean().exp()), float(d.sum())
+def run(W, Hm, target_bpw=2.82):
+    m_, n_ = W.shape; lo, hi = 0.3, 1.2
+    prep = fq.ldl_prepare(Hm.clone(), None, 0.01)            # factor once per ordering
+    for _ in range(6):
+        mid = (lo * hi) ** 0.5; r = fq.row_steps(W, mid)
+        Q, hist, _ = fq.quantize_ldlq(W, None, r, None, prep=prep)
+        bpw = fq.matrix_bits(hist, m_, n_) / (m_ * n_)
+        if bpw > target_bpw: lo = mid
+        else: hi = mid
+    E = (W - Q).double(); Wd = W.double()
+    return bpw, float(((E @ Hm) * E).sum() / ((Wd @ Hm) * Wd).sum())
+for i, L in enumerate(lm.layers):
+    if i in want:
+        gd = hasattr(L, "linear_attn")
+        for nm, mod in (("mixer_in", (L.linear_attn.in_proj_z if gd else L.self_attn.k_proj)), ("mixer_out", (L.linear_attn.out_proj if gd else L.self_attn.o_proj)),
+                        ("mlp_gate", L.mlp.gate_proj), ("mlp_down", L.mlp.down_proj)):
+            Hm = sq.gram(i, mod); W = mod.weight.float()[:512]
+            rec = {}
+            for tag, perm in (("native", None), ("desc", torch.argsort(torch.diagonal(Hm), descending=True)), ("asc", torch.argsort(torch.diagonal(Hm), descending=False))):
+                Hp = Hm if perm is None else Hm[perm][:, perm]; Wp = W if perm is None else W[:, perm]
+                a, tr = amgm(Hp); b, e = run(Wp, Hp)
+                rec[tag] = dict(am_over_gm=a, sum_pivots=tr, bpw=b, rel_proxy_err=e); del Hp
+            out[f"L{i}.{nm}"] = rec
+            print("L%-2d %-9s" % (i, nm), " | ".join("%s: AM/GM %.2f err %.5f (bpw %.3f)" % (k, v["am_over_gm"], v["rel_proxy_err"], v["bpw"]) for k, v in rec.items()), flush=True)
+            del Hm; torch.cuda.empty_cache()
+    sq.advance(i)
+    if i >= max(want): break
+json.dump(out, open(H.OUT + "/diag_actorder.json", "w"), indent=1); del sq
+{"L3.mixer_in": {"native": {"am_over_gm": 2.0404379765985, "sum_pivots": 813.9764421611046, "bpw": 2.8437765346689314, "rel_proxy_err": 0.004336368914381896}, "desc": {"am_over_gm": 1.1626978182900114, "sum_pivots": 463.8262198088897, "bpw": 2.843773411538666, "rel_proxy_err": 0.003502784539202978}, "asc": {"am_over_gm": 21.05520560250223, "sum_pivots": 8399.393435063315, "bpw": 2.8396087934559087, "rel_proxy_err": 0.015298460128065924}}, "L3.mixer_out": {"native": {"am_over_gm": 2.3631533938503377, "sum_pivots": 0.8222883950955066, "bpw": 2.842093959978916, "rel_proxy_err": 0.004946900673479191}, "desc": {"am_over_gm": 1.9692982602231448, "sum_pivots": 0.6852416394455254, "bpw": 2.795939711412473, "rel_proxy_err": 0.005795961281134915}, "asc": {"am_over_gm": 4.482941357281821, "sum_pivots": 1.5598947844771174, "bpw": 2.8372419642373568, "rel_proxy_err": 0.011062961421811134}}, "L3.mlp_gate": {"native": {"am_over_gm": 1.0449608589947819, "sum_pivots": 75.70216394715479, "bpw": 2.844088154130058, "rel_proxy_err": 0.009076772445963787}, "desc": {"am_over_gm": 1.0115414905697722, "sum_pivots": 73.2810986165795, "bpw": 2.8449935672798534, "rel_proxy_err": 0.008856375312273975}, "asc": {"am_over_gm": 1.1283679677279987, "sum_pivots": 81.74458990534245, "bpw": 2.8435089089318026, "rel_proxy_err": 0.00985235965811053}}, "L3.mlp_down": {"native": {"am_over_gm": 1.310106287761051, "sum_pivots": 2.8803367632740935, "bpw": 2.844582613571442, "rel_proxy_err": 0.008085526170341577}, "desc": {"am_over_gm": 1.098043988606231, "sum_pivots": 2.4141067771529503, "bpw": 2.7927744906643643, "rel_proxy_err": 0.008218446594415596}, "asc": {"am_over_gm": 1.783472408752242, "sum_pivots": 3.9210567823417817, "bpw": 2.8389668830755297, "rel_proxy_err": 0.012725295843760663}}, "L16.mixer_in": {"native": {"am_over_gm": 1.1954164722710812, "sum_pivots": 439.87051796703287, "bpw": 2.8423084445178413, "rel_proxy_err": 0.001469806342229665}, "desc": {"am_over_gm": 1.0254634862562897, "sum_pivots": 377.3338960261084, "bpw": 2.8440816508652054, "rel_proxy_err": 0.001391534352175748}, "asc": {"am_over_gm": 4.793105827270974, "sum_pivots": 1763.691560069436, "bpw": 2.8418646869301925, "rel_proxy_err": 0.002834044953735237}}, "L16.mixer_out": {"native": {"am_over_gm": 1.3330903943904997, "sum_pivots": 9.528317471062385, "bpw": 2.8382939321340697, "rel_proxy_err": 0.011781659559475969}, "desc": {"am_over_gm": 1.2275847265083435, "sum_pivots": 8.774211445838747, "bpw": 2.8453604424560974, "rel_proxy_err": 0.011728707001960062}, "asc": {"am_over_gm": 1.4822875672758726, "sum_pivots": 10.594710294098821, "bpw": 2.8377955959273478, "rel_proxy_err": 0.014350267104983588}}, "L16.mlp_gate": {"native": {"am_over_gm": 1.040480025762902, "sum_pivots": 301.813249811679, "bpw": 2.842643368356634, "rel_proxy_err": 0.008135266845833935}, "desc": {"am_over_gm": 1.0042364787206715, "sum_pivots": 291.3000420165584, "bpw": 2.843074237958585, "rel_proxy_err": 0.007931559399669394}, "asc": {"am_over_gm": 1.218859681124689, "sum_pivots": 353.55604366834496, "bpw": 2.842033275570659, "rel_proxy_err": 0.009205429003559399}}, "L16.mlp_down": {"native": {"am_over_gm": 1.0972591388251103, "sum_pivots": 28.90239974450845, "bpw": 2.8370007866236144, "rel_proxy_err": 0.012857545909892869}, "desc": {"am_over_gm": 1.039701775862629, "sum_pivots": 27.386307644001867, "bpw": 2.8403596556398756, "rel_proxy_err": 0.012653379994778755}, "asc": {"am_over_gm": 1.1845205712081104, "sum_pivots": 31.200913114570113, "bpw": 2.8368103968879343, "rel_proxy_err": 0.014511466951681578}}, "L31.mixer_in": {"native": {"am_over_gm": 1.2937625078767288, "sum_pivots": 976.602615818373, "bpw": 2.841382778291546, "rel_proxy_err": 0.003149328775290824}, "desc": {"am_over_gm": 1.054613838238428, "sum_pivots": 796.0801359070119, "bpw": 2.848239086864474, "rel_proxy_err": 0.0029779613812989433}, "asc": {"am_over_gm": 4.29698598868285, "sum_pivots": 3243.5997574003054, "bpw": 2.844132198585691, "rel_proxy_err": 0.006673664768673952}}, "L31.mixer_out": {"native": {"am_over_gm": 1.232460468933965, "sum_pivots": 62.87671021013098, "bpw": 2.842883209375667, "rel_proxy_err": 0.01072219219204679}, "desc": {"am_over_gm": 1.1223394197988128, "sum_pivots": 57.25864012266146, "bpw": 2.846329084385825, "rel_proxy_err": 0.01003609160164674}, "asc": {"am_over_gm": 1.692536881966242, "sum_pivots": 86.34853103191261, "bpw": 2.8400259511770547, "rel_proxy_err": 0.015472099063396253}}, "L31.mlp_gate": {"native": {"am_over_gm": 1.0820211986470565, "sum_pivots": 863.6621168913464, "bpw": 2.841946661235151, "rel_proxy_err": 0.0065948051173396775}, "desc": {"am_over_gm": 1.0071545342296828, "sum_pivots": 803.9040437998472, "bpw": 2.8431274244152704, "rel_proxy_err": 0.006396768571058372}, "asc": {"am_over_gm": 1.9694284772013408, "sum_pivots": 1571.9846984630408, "bpw": 2.8417170439880244, "rel_proxy_err": 0.008607311943202354}}, "L31.mlp_down": {"native": {"am_over_gm": 1.067132580110467, "sum_pivots": 162.12902292195886,
+
+
+######## [21:02:00] Inspect recorded statistics files (keys and shapes)
+--- COMMANDE ---
+cd /workspace/work && CUDA_VISIBLE_DEVICES="" python3 -I - <<'EOF'
+import torch, json
+st=torch.load('stats_fisher.pt', map_location='cpu')
+print(type(st), list(st.keys()))
+for k,v in st.items():
+    if isinstance(v,dict):
+        ks=list(v.keys()); print(k, len(ks), ks[:4], [tuple(v[x].shape) for x in ks[:4]])
+    else: print(k, v)
+d=torch.load('dstat_L1.pt', map_location='cpu')
+print(type(d), len(d)); ks=list(d.keys()); print(ks[:5])
+print({k:(v if not torch.is_tensor(v) else tuple(v.shape)) for k,v in d[ks[0]].items()})
+EOF
+--- SORTIE COMPLETE ---
+<class 'dict'> ['X', 'G', 'TS', 'ntok', 'T', 'n_docs', 'MU']
+X 497 ['layers.0.linear_attn.in_proj_qkv', 'layers.0.linear_attn.in_proj_z', 'layers.0.linear_attn.in_proj_b', 'layers.0.linear_attn.in_proj_a'] [(5120,), (5120,), (5120,), (5120,)]
+G 497 ['lm_head', 'layers.63.mlp.down_proj', 'layers.63.mlp.up_proj', 'layers.63.mlp.gate_proj'] [(248320,), (5120,), (17408,), (17408,)]
+TS 64 ['layers.63.mlp.down_proj', 'layers.62.mlp.down_proj', 'layers.61.mlp.down_proj', 'layers.60.mlp.down_proj'] [(17408,), (17408,), (17408,), (17408,)]
+ntok 73728
+T 512
+n_docs 144
+MU 497 ['layers.0.linear_attn.in_proj_qkv', 'layers.0.linear_attn.in_proj_z', 'layers.0.linear_attn.in_proj_b', 'layers.0.linear_attn.in_proj_a'] [(5120,), (5120,), (5120,), (5120,)]
+<class 'dict'> 401
+['layers.0.linear_attn.in_proj_qkv', 'layers.0.linear_attn.in_proj_z', 'layers.0.linear_attn.out_proj', 'layers.0.mlp.gate_proj', 'layers.0.mlp.up_proj']
+{'dsum': 1989.6636862401326, 'dlogmean': -1.11725774078534, 'r': (10240,)}
+
+
+######## [21:02:44] Read RMSNorm gain vectors and summarize their dispersion
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && CUDA_VISIBLE_DEVICES="" python3 -I - <<'EOF'
+import json, torch, math
+from safetensors import safe_open
+idx=json.load(open('model.safetensors.index.json'))['weight_map']
+def get(k):
+    with safe_open(idx[k],'pt',device='cpu') as f: return f.get_tensor(k).float()
+def desc(g):
+    a=g.abs().double()
+    am=(a**2).mean(); gm=(a.clamp_min(1e-30)**2).log().mean().exp()
+    q=torch.quantile(a, torch.tensor([0.0,0.001,0.01,0.5,0.99,0.999,1.0],dtype=torch.float64))
+    return 'min %.4g p0.1 %.3g p1 %.3g med %.3g p99 %.3g p99.9 %.3g max %.3g | AM/GM(g^2) %.3f (%.3f bit) n|g|<0.05: %d  neg: %d'%(*q.tolist(), am/gm, 0.5*math.log2(am/gm), int((a<0.05).sum()), int((g<0).sum()))
+for i in [0,1,2,3,7,10,11,16,31,32,47,62,63]:
+    for nm in ('input_layernorm','post_attention_layernorm'):
+        g=1+get(f'model.language_model.layers.{i}.{nm}.weight')
+        print(f'L{i:2d} {nm:26s}', desc(g))
+g=1+get('model.language_model.norm.weight'); print('final norm', desc(g))
+for k in ['mtp.norm.weight','mtp.pre_fc_norm_embedding.weight','mtp.pre_fc_norm_hidden.weight','mtp.layers.0.input_layernorm.weight','mtp.layers.0.post_attention_layernorm.weight']:
+    print(k, desc(1+get(k)))
+# where are the smallest gains
+for i in range(0,12):
+    g=1+get(f'model.language_model.layers.{i}.post_attention_layernorm.weight')
+    v,ix=g.abs().topk(3,largest=False)
+    g2=1+get(f'model.language_model.layers.{i}.input_layernorm.weight'); v2,ix2=g2.abs().topk(3,largest=False)
+    print(i,'post_attn smallest', [(int(a),round(float(b),5)) for a,b in zip(ix,v)], 'input smallest', [(int(a),round(float(b),5)) for a,b in zip(ix2,v2)])
+EOF
+--- SORTIE COMPLETE ---
+L 0 input_layernorm            min 0.8682 p0.1 0.874 p1 0.886 med 0.97 p99 1.06 p99.9 1.13 max 1.2 | AM/GM(g^2) 1.004 (0.003 bit) n|g|<0.05: 0  neg: 0
+L 0 post_attention_layernorm   min 0.003906 p0.1 0.489 p1 0.668 med 0.786 p99 0.888 p99.9 0.941 max 1 | AM/GM(g^2) 1.006 (0.004 bit) n|g|<0.05: 1  neg: 0
+L 1 input_layernorm            min 0.3281 p0.1 0.917 p1 0.931 med 0.977 p99 1.28 p99.9 1.35 max 1.39 | AM/GM(g^2) 1.009 (0.007 bit) n|g|<0.05: 0  neg: 0
+L 1 post_attention_layernorm   min 0.003906 p0.1 0.466 p1 0.694 med 0.847 p99 0.888 p99.9 0.916 max 1.01 | AM/GM(g^2) 1.006 (0.004 bit) n|g|<0.05: 1  neg: 0
+L 2 input_layernorm            min 0.3594 p0.1 0.82 p1 0.981 med 1.03 p99 1.22 p99.9 1.28 max 1.3 | AM/GM(g^2) 1.005 (0.003 bit) n|g|<0.05: 0  neg: 0
+L 2 post_attention_layernorm   min 0.003906 p0.1 0.318 p1 0.453 med 0.878 p99 0.913 p99.9 0.919 max 1.05 | AM/GM(g^2) 1.026 (0.018 bit) n|g|<0.05: 1  neg: 0
+L 3 input_layernorm            min 1.022 p0.1 1.12 p1 1.17 med 1.24 p99 1.44 p99.9 1.6 max 1.89 | AM/GM(g^2) 1.004 (0.003 bit) n|g|<0.05: 0  neg: 0
+L 3 post_attention_layernorm   min 0.003906 p0.1 0.384 p1 0.514 med 0.913 p99 0.953 p99.9 1.08 max 1.11 | AM/GM(g^2) 1.019 (0.014 bit) n|g|<0.05: 1  neg: 0
+L 7 input_layernorm            min 0.9282 p0.1 0.968 p1 0.982 med 1.06 p99 1.4 p99.9 1.57 max 2.05 | AM/GM(g^2) 1.018 (0.013 bit) n|g|<0.05: 0  neg: 0
+L 7 post_attention_layernorm   min 0 p0.1 0.348 p1 0.441 med 0.983 p99 1.03 p99.9 1.05 max 1.07 | AM/GM(g^2) 1.064 (0.045 bit) n|g|<0.05: 1  neg: 0
+L10 input_layernorm            min 0.4414 p0.1 0.646 p1 0.873 med 1.04 p99 1.18 p99.9 1.28 max 1.34 | AM/GM(g^2) 1.007 (0.005 bit) n|g|<0.05: 0  neg: 0
+L10 post_attention_layernorm   min 0.003906 p0.1 0.457 p1 0.591 med 0.942 p99 1.02 p99.9 1.06 max 1.39 | AM/GM(g^2) 1.021 (0.015 bit) n|g|<0.05: 1  neg: 0
+L11 input_layernorm            min 0.9072 p0.1 0.925 p1 0.939 med 1.03 p99 1.35 p99.9 1.49 max 2.01 | AM/GM(g^2) 1.017 (0.012 bit) n|g|<0.05: 0  neg: 0
+L11 post_attention_layernorm   min 0.07422 p0.1 0.454 p1 0.567 med 0.977 p99 1.06 p99.9 1.12 max 1.28 | AM/GM(g^2) 1.023 (0.016 bit) n|g|<0.05: 0  neg: 0
+L16 input_layernorm            min 0.541 p0.1 0.644 p1 0.799 med 1.03 p99 1.19 p99.9 1.3 max 1.39 | AM/GM(g^2) 1.007 (0.005 bit) n|g|<0.05: 0  neg: 0
+L16 post_attention_layernorm   min 0.08594 p0.1 0.573 p1 0.674 med 0.954 p99 1.09 p99.9 1.18 max 1.43 | AM/GM(g^2) 1.013 (0.010 bit) n|g|<0.05: 0  neg: 0
+L31 input_layernorm            min 0.2148 p0.1 0.287 p1 0.512 med 0.976 p99 1.34 p99.9 1.49 max 1.58 | AM/GM(g^2) 1.048 (0.034 bit) n|g|<0.05: 0  neg: 0
+L31 post_attention_layernorm   min 0.2969 p0.1 0.329 p1 0.473 med 1.02 p99 1.36 p99.9 1.46 max 1.79 | AM/GM(g^2) 1.078 (0.054 bit) n|g|<0.05: 0  neg: 0
+L32 input_layernorm            min 0.2773 p0.1 0.321 p1 0.47 med 0.999 p99 1.38 p99.9 1.49 max 1.65 | AM/GM(g^2) 1.064 (0.045 bit) n|g|<0.05: 0  neg: 0
+L32 post_attention_layernorm   min 0.3164 p0.1 0.356 p1 0.505 med 1.01 p99 1.34 p99.9 1.45 max 1.75 | AM/GM(g^2) 1.068 (0.047 bit) n|g|<0.05: 0  neg: 0
+L47 input_layernorm            min 0.3906 p0.1 0.435 p1 0.668 med 1.04 p99 1.32 p99.9 1.52 max 1.59 | AM/GM(g^2) 1.026 (0.018 bit) n|g|<0.05: 0  neg: 0
+L47 post_attention_layernorm   min 0.3984 p0.1 0.438 p1 0.557 med 1.06 p99 1.32 p99.9 1.42 max 1.67 | AM/GM(g^2) 1.048 (0.034 bit) n|g|<0.05: 0  neg: 0
+L62 input_layernorm            min 0.9634 p0.1 1.05 p1 1.08 med 1.13 p99 1.37 p99.9 1.65 max 2.13 | AM/GM(g^2) 1.004 (0.003 bit) n|g|<0.05: 0  neg: 0
+L62 post_attention_layernorm   min 0.6445 p0.1 0.815 p1 1.16 med 1.32 p99 1.38 p99.9 1.51 max 1.61 | AM/GM(g^2) 1.003 (0.002 bit) n|g|<0.05: 0  neg: 0
+L63 input_layernorm            min 0.8818 p0.1 0.917 p1 0.983 med 1.08 p99 1.8 p99.9 1.98 max 2.02 | AM/GM(g^2) 1.032 (0.023 bit) n|g|<0.05: 0  neg: 0
+L63 post_attention_layernorm   min 0.7842 p0.1 0.86 p1 1.04 med 1.23 p99 1.29 p99.9 1.39 max 1.52 | AM/GM(g^2) 1.003 (0.002 bit) n|g|<0.05: 0  neg: 0
+final norm min 0.7148 p0.1 1.06 p1 1.46 med 1.96 p99 2.15 p99.9 2.41 max 2.71 | AM/GM(g^2) 1.011 (0.008 bit) n|g|<0.05: 0  neg: 0
+mtp.norm.weight min 0.7754 p0.1 1.43 p1 1.73 med 2.27 p99 2.52 p99.9 2.73 max 2.93 | AM/GM(g^2) 1.012 (0.008 bit) n|g|<0.05: 0  neg: 0
+mtp.pre_fc_norm_embedding.weight min 0.25 p0.1 0.254 p1 0.27 med 0.537 p99 0.746 p99.9 0.77 max 0.814 | AM/GM(g^2) 1.142 (0.096 bit) n|g|<0.05: 0  neg: 0
+mtp.pre_fc_norm_hidden.weight min 0.625 p0.1 0.671 p1 0.746 med 0.825 p99 1.18 p99.9 1.36 max 1.46 | AM/GM(g^2) 1.014 (0.010 bit) n|g|<0.05: 0  neg: 0
+mtp.layers.0.input_layernorm.weight min 0.7744 p0.1 0.825 p1 0.879 med 1 p99 1.52 p99.9 1.88 max 1.95 | AM/GM(g^2) 1.031 (0.022 bit) n|g|<0.05: 0  neg: 0
+mtp.layers.0.post_attention_layernorm.weight min 0.8379 p0.1 0.983 p1 1.07 med 1.2 p99 1.4 p99.9 1.48 max 1.52 | AM/GM(g^2) 1.006 (0.004 bit) n|g|<0.05: 0  neg: 0
+0 post_attn smallest [(3994, 0.00391), (4349, 0.40625), (2610, 0.45703)] input smallest [(5058, 0.86816), (26, 0.87109), (4973, 0.87207)]
+1 post_attn smallest [(3994, 0.00391), (4078, 0.42578), (4349, 0.43359)] input smallest [(3994, 0.32812), (4939, 0.84863), (574, 0.91162)]
+2 post_attn smallest [(3994, 0.00391), (253, 0.25), (3586, 0.30859)] input smallest [(3994, 0.35938), (4939, 0.63867), (2610, 0.68945)]
+3 post_attn smallest [(3994, 0.00391), (253, 0.29688), (344, 0.33984)] input smallest [(843, 1.02161), (4939, 1.03296), (2479, 1.10205)]
+4 post_attn smallest [(3994, 0.00391), (253, 0.23828), (4406, 0.29297)] input smallest [(3994, 0.29688), (4939, 0.69727), (2610, 0.70312)]
+5 post_attn smallest [(3994, 0.00391), (253, 0.21484), (4406, 0.32422)] input smallest [(3994, 0.38672), (4939, 0.81152), (2610, 0.85059)]
+6 post_attn smallest [(3994, 0.12109), (3842, 0.28906), (253, 0.28906)] input smallest [(3994, 0.57031), (4939, 0.74414), (2610, 0.75586)]
+7 post_attn smallest [(3994, 0.0), (253, 0.17188), (4406, 0.26562)] input smallest [(4939, 0.92822), (2610, 0.95654), (4972, 0.95801)]
+8 post_attn smallest [(3994, 0.00391), (253, 0.18359), (3986, 0.22656)] input smallest [(3994, 0.42188), (4939, 0.58984), (2610, 0.59375)]
+9 post_attn smallest [(3994, 0.00391), (253, 0.19922), (3986, 0.21484)] input smallest [(3994, 0.44141), (4939, 0.58594), (3321, 0.59375)]
+10 post_attn smallest [(3994, 0.00391), (253, 0.24219), (3986, 0.35156)] input smallest [(3994, 0.44141), (2610, 0.57422), (4939, 0.57617)]
+11 post_attn smallest [(3994, 0.07422), (253, 0.33984), (3456, 0.37891)] input smallest [(4640, 0.90723), (679, 0.91309), (4995, 0.91699)]
+Shell cwd was reset to /workspace
+
+
+######## [21:06:23] Measure common-mode (mean row) energy of embedding and output head
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && CUDA_VISIBLE_DEVICES="" python3 -I - <<'EOF'
+import json, torch, math, time
+from safetensors import safe_open
+torch.set_num_threads(16)
+idx=json.load(open('model.safetensors.index.json'))['weight_map']
+def get(k):
+    with safe_open(idx[k],'pt',device='cpu') as f: return f.get_tensor(k)
+t=time.time()
+for name in ['model.language_model.embed_tokens.weight','lm_head.weight']:
+    W=get(name)                     # BF16 [V, 5120]
+    V,n=W.shape
+    s=torch.zeros(n,dtype=torch.float64); e=torch.zeros(V,dtype=torch.float64)
+    for i in range(0,V,16384):
+        w=W[i:i+16384].double(); s+=w.sum(0); e[i:i+16384]=(w*w).sum(1)
+    mean=s/V
+    tot=float(e.sum()); mm=float((mean*mean).sum())*V
+    rms=(e/n).sqrt()
+    # per-row energy after centering
+    ec=torch.zeros(V,dtype=torch.float64)
+    for i in range(0,V,16384):
+        w=W[i:i+16384].double()-mean; ec[i:i+16384]=(w*w).sum(1)
+    q=torch.quantile(rms[::8], torch.tensor([0.001,0.01,0.25,0.5,0.75,0.99,0.999],dtype=torch.float64))
+    ratio=(ec/e.clamp_min(1e-30))
+    qr=torch.quantile(ratio[::8], torch.tensor([0.01,0.25,0.5,0.75,0.99],dtype=torch.float64))
+    print(name, 'V',V,'| common-mode share of total energy: %.4f%%'%(100*mm/tot), '| |mean|/median row norm: %.4f'%(math.sqrt(mm/V)/float(e.sqrt().median())),
+          '| row RMS quantiles', [round(float(x),5) for x in q], '| per-row energy ratio after centering (quantiles)', [round(float(x),4) for x in qr],
+          '| rows with zero energy:', int((e==0).sum()), '| row rms cv %.3f'%(float(rms.std()/rms.mean())))
+    del W
+print('seconds', round(time.time()-t,1))
+EOF
+--- SORTIE COMPLETE ---
+model.language_model.embed_tokens.weight V 248320 | common-mode share of total energy: 0.9733% | |mean|/median row norm: 0.0968 | row RMS quantiles [0.00191, 0.00532, 0.01143, 0.01297, 0.01402, 0.0156, 0.01599] | per-row energy ratio after centering (quantiles) [0.9791, 0.9867, 0.9895, 0.9925, 1.0021] | rows with zero energy: 0 | row rms cv 0.165
+lm_head.weight V 248320 | common-mode share of total energy: 5.3126% | |mean|/median row norm: 0.2328 | row RMS quantiles [0.00565, 0.00974, 0.01245, 0.0136, 0.01475, 0.01776, 0.01866] | per-row energy ratio after centering (quantiles) [0.8325, 0.9177, 0.943, 0.9686, 1.0664] | rows with zero energy: 0 | row rms cv 0.129
+seconds 27.4
+Shell cwd was reset to /workspace
+
+
+######## [21:08:28] Per-family real bits per weight in the F1 package manifest
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_v7/results && python3 -I - <<'EOF'
+import json, re, collections, math
+m=json.load(open('package_manifest_F1.json'))
+print(type(m), list(m.keys())[:8] if isinstance(m,dict) else len(m))
+ent = m if 'embed_tokens' in m else m.get('entries', m.get('files', m))
+ks=list(ent.keys())[:3]; print(ks, [ent[k] for k in ks])
+fam=collections.defaultdict(lambda:[0,0,[],0])
+tot_b=0
+for k,v in ent.items():
+    if v.get('kind')!='e8': continue
+    sh=v['shape']; n=sh[0]*sh[1]; b=v['bytes']
+    key=re.sub(r'layers\.\d+\.', 'L.', k); key=re.sub(r'blocks\.\d+\.', 'B.', key)
+    f=fam[key]; f[0]+=b; f[1]+=n; f[2].append(8*b/n); f[3]+=sh[0]
+for k,f in sorted(fam.items()):
+    arr=sorted(f[2])
+    print(f"{k:45s} n={len(arr):3d} weights {f[1]/1e9:8.4f}G bytes {f[0]/1e6:9.2f}MB bpw mean {8*f[0]/f[1]:.4f} min {arr[0]:.4f} max {arr[-1]:.4f}  rows {f[3]}")
+kinds=collections.Counter(v.get('kind') for v in ent.values()); print(kinds)
+print('modes', collections.Counter(v.get('mode') for v in ent.values() if v.get('kind')=='e8'))
+EOF
+--- SORTIE COMPLETE ---
+<class 'dict'> ['embed_tokens', 'layers.0.linear_attn.in_proj_a', 'layers.0.linear_attn.in_proj_b', 'layers.0.linear_attn.in_proj_qkv', 'layers.0.linear_attn.in_proj_z', 'layers.0.linear_attn.out_proj', 'layers.0.mlp.down_proj', 'layers.0.mlp.gate_proj']
+['embed_tokens', 'layers.0.linear_attn.in_proj_a', 'layers.0.linear_attn.in_proj_b'] [{'bytes': 446426770, 'file': 'embed_tokens.fe8', 'kind': 'e8', 'mode': 'shell', 'sha256': '71ea2de3415e57e6e8b232bbbbeb16741b10dd464cc5df80bc76064e026e730d', 'shape': [248320, 5120]}, {'bytes': 86619, 'file': 'layers.0.linear_attn.in_proj_a.fe8', 'kind': 'e8', 'mode': 'shell', 'sha256': '4deb48c513ecbf8f6c08bb93c6f1af83037dc048917267d9f7804959ed20dfa6', 'shape': [48, 5120]}, {'bytes': 86633, 'file': 'layers.0.linear_attn.in_proj_b.fe8', 'kind': 'e8', 'mode': 'shell', 'sha256': '79c0738994e0a144cf5cf99654a2780fc273e8575d70a37c16a54eea9974df96', 'shape': [48, 5120]}]
+L.linear_attn.in_proj_a                       n= 48 weights   0.0118G bytes      4.13MB bpw mean 2.7990 min 2.7542 max 2.8196  rows 2304
+L.linear_attn.in_proj_b                       n= 48 weights   0.0118G bytes      4.11MB bpw mean 2.7872 min 2.7494 max 2.8201  rows 2304
+L.linear_attn.in_proj_qkv                     n= 48 weights   2.5166G bytes    884.44MB bpw mean 2.8116 min 2.8076 max 2.8178  rows 491520
+L.linear_attn.in_proj_z                       n= 48 weights   1.5099G bytes    530.83MB bpw mean 2.8124 min 2.8091 max 2.8176  rows 294912
+L.linear_attn.out_proj                        n= 48 weights   1.5099G bytes    529.68MB bpw mean 2.8064 min 2.8009 max 2.8092  rows 245760
+L.mlp.down_proj                               n= 64 weights   5.7043G bytes   2002.41MB bpw mean 2.8083 min 2.8042 max 2.8200  rows 327680
+L.mlp.gate_proj                               n= 64 weights   5.7043G bytes   2005.33MB bpw mean 2.8124 min 2.8095 max 2.8193  rows 1114112
+L.mlp.up_proj                                 n= 64 weights   5.7043G bytes   2005.52MB bpw mean 2.8127 min 2.8112 max 2.8196  rows 1114112
+L.self_attn.k_proj                            n= 16 weights   0.0839G bytes     29.36MB bpw mean 2.7999 min 2.7632 max 2.8124  rows 16384
+L.self_attn.o_proj                            n= 16 weights   0.5033G bytes    176.67MB bpw mean 2.8080 min 2.7922 max 2.8126  rows 81920
+L.self_attn.q_proj                            n= 16 weights   1.0066G bytes    353.82MB bpw mean 2.8119 min 2.8087 max 2.8137  rows 196608
+L.self_attn.v_proj                            n= 16 weights   0.0839G bytes     29.38MB bpw mean 2.8023 min 2.7819 max 2.8128  rows 16384
+embed_tokens                                  n=  1 weights   1.2714G bytes    446.43MB bpw mean 2.8090 min 2.8090 max 2.8090  rows 248320
+lm_head                                       n=  1 weights   1.2714G bytes    446.67MB bpw mean 2.8106 min 2.8106 max 2.8106  rows 248320
+mtp.L.mlp.down_proj.weight                    n=  1 weights   0.0891G bytes     44.50MB bpw mean 3.9941 min 3.9941 max 3.9941  rows 5120
+mtp.L.mlp.gate_proj.weight                    n=  1 weights   0.0891G bytes     44.56MB bpw mean 3.9992 min 3.9992 max 3.9992  rows 17408
+mtp.L.mlp.up_proj.weight                      n=  1 weights   0.0891G bytes     44.56MB bpw mean 3.9994 min 3.9994 max 3.9994  rows 17408
+mtp.L.self_attn.k_proj.weight                 n=  1 weights   0.0052G bytes      2.61MB bpw mean 3.9849 min 3.9849 max 3.9849  rows 1024
+mtp.L.self_attn.o_proj.weight                 n=  1 weights   0.0315G bytes     15.71MB bpw mean 3.9949 min 3.9949 max 3.9949  rows 5120
+mtp.L.self_attn.q_proj.weight                 n=  1 weights   0.0629G bytes     31.45MB bpw mean 3.9985 min 3.9985 max 3.9985  rows 12288
+mtp.L.self_attn.v_proj.weight                 n=  1 weights   0.0052G bytes      2.61MB bpw mean 3.9849 min 3.9849 max 3.9849  rows 1024
+mtp.fc.weight                                 n=  1 weights   0.0524G bytes     26.06MB bpw mean 3.9757 min 3.9757 max 3.9757  rows 5120
+visual.B.attn.proj.weight                     n= 27 weights   0.0358G bytes     22.01MB bpw mean 4.9143 min 4.8317 max 4.9928  rows 31104
+visual.B.attn.qkv.weight                      n= 27 weights   0.1075G bytes     66.49MB bpw mean 4.9482 min 4.7427 max 4.9827  rows 93312
+visual.B.mlp.linear_fc1.weight                n= 27 weights   0.1339G bytes     82.74MB bpw mean 4.9447 min 4.8931 max 4.9739  rows 116208
+visual.B.mlp.linear_fc2.weight                n= 27 weights   0.1339G bytes     82.42MB bpw mean 4.9253 min 4.8723 max 4.9871  rows 31104
+visual.merger.linear_fc1.weight               n=  1 weights   0.0212G bytes     13.26MB bpw mean 4.9945 min 4.9945 max 4.9945  rows 4608
+visual.merger.linear_fc2.weight               n=  1 weights   0.0236G bytes     14.74MB bpw mean 4.9978 min 4.9978 max 4.9978  rows 5120
+visual.patch_embed.proj.weight                n=  1 weights   0.0018G bytes      1.09MB bpw mean 4.9471 min 4.9471 max 4.9471  rows 1152
+visual.pos_embed.weight                       n=  1 weights   0.0027G bytes      1.52MB bpw mean 4.5892 min 4.5892 max 4.5892  rows 2304
+Counter({'e8': 618, 'raw': 581})
+modes Counter({'prod': 581, 'shell': 37})
+
+
+######## [21:13:10] Locate massive residual dimensions and writer row norms from recorded stats
+--- COMMANDE ---
+cd /workspace/work && CUDA_VISIBLE_DEVICES="" python3 -I - <<'EOF'
+import torch, math
+st=torch.load('stats_fisher.pt', map_location='cpu'); X=st['X']; MU=st['MU']; G=st['G']
+ds=torch.load('dstat_L1.pt', map_location='cpu')
+def top(v,k=8): 
+    val,ix=v.topk(k); return [(int(i), float(x)) for i,x in zip(ix,val)]
+print("== massive dims in reader inputs (X = E[x_j^2], MU^2 share)")
+for i in [0,1,2,3,7,15,16,31,32,47,62,63]:
+    nm = f'layers.{i}.linear_attn.in_proj_qkv' if f'layers.{i}.linear_attn.in_proj_qkv' in X else f'layers.{i}.self_attn.q_proj'
+    x=X[nm].double(); mu=MU[nm].double()
+    t=top(x,6); med=float(x.median())
+    xg=X[f'layers.{i}.mlp.gate_proj'].double(); mug=MU[f'layers.{i}.mlp.gate_proj'].double()
+    tg=top(xg,4)
+    print(f"L{i:2d} mixer_in: tr={float(x.sum()):.0f} med={med:.3f} mean^2 share={float((mu**2).sum()/x.sum()):.3f} top:", [(a, round(b/med)) for a,b in t], '| mlp_in tr=%.0f mean^2 share=%.3f top:'%(float(xg.sum()), float((mug**2).sum()/xg.sum())), [(a, round(b/float(xg.median()))) for a,b in tg])
+print("== writer row steps (prop. to row RMS) at massive residual dims vs median; from dstat_L1 r")
+mass=[3994,253,4406,3986,4939,2610,4349,3586]
+for i in [0,1,2,3,7,16,31,47,62,63]:
+    for k in ('mlp.down_proj', 'linear_attn.out_proj', 'self_attn.o_proj'):
+        nm=f'layers.{i}.{k}'
+        if nm not in ds: continue
+        r=ds[nm]['r'].double(); med=float(r.median())
+        tv,ti=r.topk(6)
+        print(f"  {nm:32s} cv={float(r.std()/r.mean()):.3f} max/med={float(r.max()/med):.2f} top rows:", [(int(a), round(float(b)/med,2)) for a,b in zip(ti,tv)], 'massive rows rel:', [(d, round(float(r[d])/med,2)) for d in mass[:6]])
+EOF
+--- SORTIE COMPLETE ---
+== massive dims in reader inputs (X = E[x_j^2], MU^2 share)
+L 0 mixer_in: tr=5108 med=0.522 mean^2 share=0.086 top: [(1119, 463), (4772, 265), (2653, 195), (1764, 192), (3395, 154), (3632, 131)] | mlp_in tr=47 mean^2 share=0.061 top: [(3842, 197), (310, 76), (4078, 62), (4772, 32)]
+L 1 mixer_in: tr=679 med=0.014 mean^2 share=0.808 top: [(3994, 39286), (3842, 362), (310, 119), (4078, 109), (3586, 72), (4406, 70)] | mlp_in tr=79 mean^2 share=0.044 top: [(3842, 135), (310, 77), (56, 26), (1047, 20)]
+L 2 mixer_in: tr=846 med=0.022 mean^2 share=0.775 top: [(3994, 28433), (3842, 378), (310, 218), (4078, 80), (4349, 77), (56, 70)] | mlp_in tr=120 mean^2 share=0.048 top: [(310, 137), (3842, 96), (56, 16), (4406, 8)]
+L 3 mixer_in: tr=8698 med=0.082 mean^2 share=0.929 top: [(3994, 95854), (310, 1983), (3842, 572), (56, 140), (4349, 78), (4152, 53)] | mlp_in tr=138 mean^2 share=0.038 top: [(310, 99), (3842, 53), (4349, 9), (56, 8)]
+L 7 mixer_in: tr=7286 med=0.070 mean^2 share=0.907 top: [(3994, 90588), (310, 3106), (3842, 482), (253, 78), (4406, 77), (4349, 69)] | mlp_in tr=306 mean^2 share=0.043 top: [(310, 207), (3842, 22), (4349, 13), (2077, 6)]
+L15 mixer_in: tr=4238 med=0.093 mean^2 share=0.818 top: [(3994, 34578), (310, 2161), (1726, 131), (4349, 129), (253, 101), (736, 97)] | mlp_in tr=511 mean^2 share=0.088 top: [(3994, 299), (310, 122), (1726, 28), (4349, 22)]
+L16 mixer_in: tr=2054 med=0.099 mean^2 share=0.673 top: [(3994, 13114), (310, 518), (4349, 126), (253, 118), (1726, 95), (3842, 63)] | mlp_in tr=561 mean^2 share=0.103 top: [(3994, 382), (310, 131), (1726, 39), (4349, 30)]
+L31 mixer_in: tr=3872 med=0.200 mean^2 share=0.587 top: [(3994, 10295), (310, 716), (736, 174), (253, 167), (3842, 129), (3456, 93)] | mlp_in tr=2027 mean^2 share=0.352 top: [(3994, 2864), (310, 58), (253, 40), (736, 36)]
+L32 mixer_in: tr=3543 med=0.217 mean^2 share=0.586 top: [(3994, 8976), (310, 220), (253, 156), (736, 108), (3842, 83), (3456, 61)] | mlp_in tr=2160 mean^2 share=0.359 top: [(3994, 3037), (310, 47), (253, 45), (4110, 39)]
+L47 mixer_in: tr=5251 med=0.333 mean^2 share=0.437 top: [(3994, 6190), (310, 447), (3842, 182), (3456, 118), (253, 114), (2519, 97)] | mlp_in tr=3044 mean^2 share=0.262 top: [(3994, 1939), (1030, 103), (2519, 52), (3968, 47)]
+L62 mixer_in: tr=6748 med=0.777 mean^2 share=0.187 top: [(3994, 973), (4042, 210), (4601, 91), (4615, 53), (3968, 44), (3281, 43)] | mlp_in tr=7912 mean^2 share=0.151 top: [(3994, 654), (4042, 108), (4601, 75), (1089, 38)]
+L63 mixer_in: tr=6751 med=0.754 mean^2 share=0.155 top: [(3994, 853), (4042, 93), (310, 90), (4601, 74), (1089, 60), (3281, 47)] | mlp_in tr=6839 mean^2 share=0.194 top: [(3994, 884), (1089, 145), (3281, 74), (4601, 72)]
+== writer row steps (prop. to row RMS) at massive residual dims vs median; from dstat_L1 r
+  layers.0.mlp.down_proj           cv=0.149 max/med=11.47 top rows: [(3994, 11.47), (2384, 1.33), (3793, 1.3), (3189, 1.3), (1540, 1.29), (3842, 1.29)] massive rows rel: [(3994, 11.47), (253, 1.08), (4406, 1.09), (3986, 1.13), (4939, 0.97), (2610, 1.04)]
+  layers.0.linear_attn.out_proj    cv=0.301 max/med=20.71 top rows: [(3994, 20.71), (3986, 2.04), (1332, 2.0), (310, 1.98), (2021, 1.98), (5067, 1.97)] massive rows rel: [(3994, 20.71), (253, 1.64), (4406, 1.44), (3986, 2.04), (4939, 1.65), (2610, 1.73)]
+  layers.1.mlp.down_proj           cv=0.054 max/med=3.62 top rows: [(3994, 3.62), (1047, 1.53), (4939, 1.52), (2610, 1.5), (3321, 1.49), (1501, 1.48)] massive rows rel: [(3994, 3.62), (253, 1.02), (4406, 0.97), (3986, 0.98), (4939, 1.52), (2610, 1.5)]
+  layers.1.linear_attn.out_proj    cv=0.209 max/med=15.43 top rows: [(3994, 15.43), (310, 2.07), (3842, 1.94), (4382, 1.87), (3986, 1.87), (253, 1.81)] massive rows rel: [(3994, 15.43), (253, 1.81), (4406, 1.38), (3986, 1.87), (4939, 0.57), (2610, 0.62)]
+  layers.2.mlp.down_proj           cv=0.059 max/med=4.88 top rows: [(3994, 4.88), (310, 1.28), (56, 1.09), (3484, 1.09), (2171, 1.09), (2033, 1.09)] massive rows rel: [(3994, 4.88), (253, 0.87), (4406, 0.88), (3986, 0.75), (4939, 0.69), (2610, 0.85)]
+  layers.2.linear_attn.out_proj    cv=0.118 max/med=8.71 top rows: [(3994, 8.71), (310, 2.26), (3842, 1.75), (149, 1.61), (2862, 1.61), (253, 1.56)] massive rows rel: [(3994, 8.71), (253, 1.56), (4406, 1.21), (3986, 1.39), (4939, 0.58), (2610, 0.66)]
+  layers.3.mlp.down_proj           cv=0.035 max/med=3.14 top rows: [(3994, 3.14), (4152, 1.2), (3407, 1.19), (1274, 1.12), (1844, 1.11), (2974, 1.11)] massive rows rel: [(3994, 3.14), (253, 1.03), (4406, 0.96), (3986, 0.89), (4939, 0.68), (2610, 0.86)]
+  layers.3.self_attn.o_proj        cv=0.237 max/med=17.76 top rows: [(3994, 17.76), (310, 1.91), (253, 1.81), (4382, 1.6), (3842, 1.53), (1504, 1.51)] massive rows rel: [(3994, 17.76), (253, 1.81), (4406, 1.34), (3986, 1.39), (4939, 0.67), (2610, 0.74)]
+  layers.7.mlp.down_proj           cv=0.040 max/med=2.17 top rows: [(3994, 2.17), (3576, 1.06), (2921, 1.05), (2437, 1.05), (1850, 1.05), (3590, 1.04)] massive rows rel: [(3994, 2.17), (253, 0.85), (4406, 0.82), (3986, 0.77), (4939, 0.55), (2610, 0.65)]
+  layers.7.self_attn.o_proj        cv=0.160 max/med=11.72 top rows: [(3994, 11.72), (310, 1.97), (253, 1.8), (4382, 1.6), (4349, 1.6), (736, 1.6)] massive rows rel: [(3994, 11.72), (253, 1.8), (4406, 1.34), (3986, 1.49), (4939, 0.72), (2610, 0.76)]
+  layers.16.mlp.down_proj          cv=0.058 max/med=2.55 top rows: [(3994, 2.55), (3532, 1.29), (1689, 1.21), (2631, 1.2), (2482, 1.18), (2316, 1.16)] massive rows rel: [(3994, 2.55), (253, 0.96), (4406, 0.94), (3986, 0.87), (4939, 0.43), (2610, 0.48)]
+  layers.16.linear_attn.out_proj   cv=0.105 max/med=6.15 top rows: [(3994, 6.15), (310, 1.61), (3842, 1.48), (3532, 1.48), (4349, 1.45), (253, 1.43)] massive rows rel: [(3994, 6.15), (253, 1.43), (4406, 1.32), (3986, 1.32), (4939, 0.41), (2610, 0.4)]
+  layers.31.mlp.down_proj          cv=0.142 max/med=2.80 top rows: [(3994, 2.8), (3532, 1.4), (1689, 1.38), (2205, 1.31), (2482, 1.29), (2631, 1.27)] massive rows rel: [(3994, 2.8), (253, 0.7), (4406, 0.72), (3986, 0.69), (4939, 0.28), (2610, 0.3)]
+  layers.31.self_attn.o_proj       cv=0.174 max/med=3.36 top rows: [(3994, 3.36), (3532, 1.63), (1132, 1.38), (3251, 1.37), (1215, 1.37), (1689, 1.37)] massive rows rel: [(3994, 3.36), (253, 0.78), (4406, 0.91), (3986, 0.61), (4939, 0.19), (2610, 0.19)]
+  layers.47.mlp.down_proj          cv=0.106 max/med=2.35 top rows: [(3994, 2.35), (3532, 1.33), (1689, 1.29), (2205, 1.25), (2482, 1.23), (1132, 1.21)] massive rows rel: [(3994, 2.35), (253, 0.76), (4406, 0.71), (3986, 0.7), (4939, 0.34), (2610, 0.35)]
+  layers.47.self_attn.o_proj       cv=0.110 max/med=2.93 top rows: [(3994, 2.93), (3097, 1.44), (2229, 1.42), (3014, 1.32), (3532, 1.3), (2154, 1.29)] massive rows rel: [(3994, 2.93), (253, 0.87), (4406, 1.08), (3986, 0.59), (4939, 0.25), (2610, 0.24)]
+  layers.62.mlp.down_proj          cv=0.097 max/med=1.82 top rows: [(3994, 1.82), (1089, 1.45), (3219, 1.44), (2455, 1.37), (4479, 1.35), (174, 1.33)] massive rows rel: [(3994, 1.82), (253, 0.53), (4406, 0.52), (3986, 0.62), (4939, 0.74), (2610, 0.68)]
+  layers.62.linear_attn.out_proj   cv=0.079 max/med=3.28 top rows: [(3994, 3.28), (1089, 1.9), (4042, 1.61), (3219, 1.6), (1369, 1.59), (3281, 1.54)] massive rows rel: [(3994, 3.28), (253, 0.72), (4406, 0.77), (3986, 1.15), (4939, 0.72), (2610, 0.71)]
+  layers.63.mlp.down_proj          cv=0.069 max/med=3.26 top rows: [(3994, 3.26), (1089, 1.7), (174, 1.63), (4479, 1.57), (4834, 1.57), (4042, 1.54)] massive rows rel: [(3994, 3.26), (253, 0.9), (4406, 0.83), (3986, 0.97), (4939, 1.18), (2610, 1.11)]
+  layers.63.self_attn.o_proj       cv=0.080 max/med=3.32 top rows: [(3994, 3.32), (1089, 2.47), (3219, 2.3), (505, 1.85), (1236, 1.83), (1369, 1.77)] massive rows rel: [(3994, 3.32), (253, 0.71), (4406, 0.96), (3986, 1.13), (4939, 1.2), (2610, 1.21)]
+
+
+######## [21:17:23] Count tokenizer entries versus embedding rows
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && python3 -I - <<'EOF'
+import json
+tk=json.load(open('tokenizer.json'))
+vocab=tk['model']['vocab']; added=tk.get('added_tokens',[])
+ids=set(vocab.values())|set(a['id'] for a in added)
+print('model type', tk['model']['type'], 'vocab entries', len(vocab), 'added tokens', len(added), 'distinct ids', len(ids), 'max id', max(ids))
+print('ids missing below 248320:', 248320-len(ids))
+sp=[(a['id'],a['content']) for a in added]
+print(sp[:12], '...', sp[-12:])
+import os
+print({f: os.path.getsize(f) for f in ['tokenizer.json','vocab.json','merges.txt','tokenizer_config.json','chat_template.jinja']})
+EOF
+--- SORTIE COMPLETE ---
+model type BPE vocab entries 248044 added tokens 33 distinct ids 248077 max id 248076
+ids missing below 248320: 243
+[(248044, '<|endoftext|>'), (248045, '<|im_start|>'), (248046, '<|im_end|>'), (248047, '<|object_ref_start|>'), (248048, '<|object_ref_end|>'), (248049, '<|box_start|>'), (248050, '<|box_end|>'), (248051, '<|quad_start|>'), (248052, '<|quad_end|>'), (248053, '<|vision_start|>'), (248054, '<|vision_end|>'), (248055, '<|vision_pad|>')] ... [(248065, '<|file_sep|>'), (248066, '<tool_response>'), (248067, '</tool_response>'), (248068, '<think>'), (248069, '</think>'), (248070, '<|audio_start|>'), (248071, '<|audio_end|>'), (248072, '<tts_pad>'), (248073, '<tts_text_bos>'), (248074, '<tts_text_eod>'), (248075, '<tts_text_bos_single>'), (248076, '<|audio_pad|>')]
+{'tokenizer.json': 12809320, 'vocab.json': 6722759, 'merges.txt': 3353259, 'tokenizer_config.json': 9984, 'chat_template.jinja': 9004}
+Shell cwd was reset to /workspace
+
+
+######## [21:17:28] Compute LDL pivot AM/GM per matrix family from recorded pass statistics
+--- COMMANDE ---
+CUDA_VISIBLE_DEVICES="" python3 -I - <<'EOF'
+import torch, math, re, collections
+ds=torch.load('dstat_L1.pt', map_location='cpu')
+# AM/GM of damped LDL pivots per matrix: dsum / n / exp(dlogmean)
+shapes={'gate_proj':5120,'up_proj':5120,'down_proj':17408,'in_proj_qkv':5120,'in_proj_z':5120,'out_proj':6144,'q_proj':5120,'k_proj':5120,'v_proj':5120,'o_proj':6144,'lm_head':5120}
+fam=collections.defaultdict(list)
+for k,v in ds.items():
+    kind=k.split('.')[-1]; n=shapes[kind]
+    am=v['dsum']/n; gm=math.exp(v['dlogmean'])
+    L=int(k.split('.')[1]) if k.startswith('layers') else 64
+    fam[kind].append((L, am/gm, am))
+for kind,lst in fam.items():
+    lst.sort()
+    r=[x[1] for x in lst]
+    import statistics as S
+    print(f"{kind:12s} n={len(lst):2d} AM/GM pivots: median {S.median(r):.3f} min {min(r):.3f} max {max(r):.3f} | by layer:", ' '.join(f"{L}:{a:.2f}" for L,a,_ in lst if L in (0,1,2,3,4,7,8,15,16,23,31,32,39,47,48,55,60,61,62,63,64)))
+EOF
+--- SORTIE COMPLETE ---
+The server-side auto mode classifier gave no verdict for Bash: auto mode reviewed this call without its leading cd, and the shell has moved since, so the review does not cover what would run. This is not a judgment that the action is unsafe. In your next response, issue the Bash call once more with exactly this input so auto mode reviews it: {"command":"cd /workspace/work && CUDA_VISIBLE_DEVICES=\"\" python3 -I - <<'EOF'\nimport torch, math, re, collections\nds=torch.load('dstat_L1.pt', map_location='cpu')\n# AM/GM of damped LDL pivots per matrix: dsum / n / exp(dlogmean)\nshapes={'gate_proj':5120,'up_proj':5120,'down_proj':17408,'in_proj_qkv':5120,'in_proj_z':5120,'out_proj':6144,'q_proj':5120,'k_proj':5120,'v_proj':5120,'o_proj':6144,'lm_head':5120}\nfam=collections.defaultdict(list)\nfor k,v in ds.items():\n    kind=k.split('.')[-1]; n=shapes[kind]\n    am=v['dsum']/n; gm=math.exp(v['dlogmean'])\n    L=int(k.split('.')[1]) if k.startswith('layers') else 64\n    fam[kind].append((L, am/gm, am))\nfor kind,lst in fam.items():\n    lst.sort()\n    r=[x[1] for x in lst]\n    import statistics as S\n    print(f\"{kind:12s} n={len(lst):2d} AM/GM pivots: median {S.median(r):.3f} min {min(r):.3f} max {max(r):.3f} | by layer:\", ' '.join(f\"{L}:{a:.2f}\" for L,a,_ in lst if L in (0,1,2,3,4,7,8,15,16,23,31,32,39,47,48,55,60,61,62,63,64)))\nEOF","description":"Compute LDL pivot AM/GM per matrix family from recorded pass statistics"}. Put nothing else in that response but other calls whose denial quoted an input like this one. If it is denied again, do not retry; continue with other tasks and tell the user that auto mode could not check this Bash call, and that they can switch out of auto mode to approve it themselves. Note: reading files, searching code, and other read-only operations do not require the classifier and can still be used.
+
+
+######## [21:17:37] Compute LDL pivot AM/GM per matrix family from recorded pass statistics
+--- COMMANDE ---
+cd /workspace/work && CUDA_VISIBLE_DEVICES="" python3 -I - <<'EOF'
+import torch, math, re, collections
+ds=torch.load('dstat_L1.pt', map_location='cpu')
+# AM/GM of damped LDL pivots per matrix: dsum / n / exp(dlogmean)
+shapes={'gate_proj':5120,'up_proj':5120,'down_proj':17408,'in_proj_qkv':5120,'in_proj_z':5120,'out_proj':6144,'q_proj':5120,'k_proj':5120,'v_proj':5120,'o_proj':6144,'lm_head':5120}
+fam=collections.defaultdict(list)
+for k,v in ds.items():
+    kind=k.split('.')[-1]; n=shapes[kind]
+    am=v['dsum']/n; gm=math.exp(v['dlogmean'])
+    L=int(k.split('.')[1]) if k.startswith('layers') else 64
+    fam[kind].append((L, am/gm, am))
+for kind,lst in fam.items():
+    lst.sort()
+    r=[x[1] for x in lst]
+    import statistics as S
+    print(f"{kind:12s} n={len(lst):2d} AM/GM pivots: median {S.median(r):.3f} min {min(r):.3f} max {max(r):.3f} | by layer:", ' '.join(f"{L}:{a:.2f}" for L,a,_ in lst if L in (0,1,2,3,4,7,8,15,16,23,31,32,39,47,48,55,60,61,62,63,64)))
+EOF
+--- SORTIE COMPLETE ---
+in_proj_qkv  n=48 AM/GM pivots: median 1.215 min 1.086 max 1.626 | by layer: 0:1.19 1:1.63 2:1.54 4:1.24 8:1.23 16:1.19 32:1.22 48:1.20 60:1.10 61:1.09 62:1.10
+in_proj_z    n=48 AM/GM pivots: median 1.215 min 1.086 max 1.626 | by layer: 0:1.19 1:1.63 2:1.54 4:1.24 8:1.23 16:1.19 32:1.22 48:1.20 60:1.10 61:1.09 62:1.10
+out_proj     n=48 AM/GM pivots: median 1.431 min 1.200 max 2.821 | by layer: 0:1.47 1:1.47 2:1.46 4:1.40 8:1.49 16:1.33 32:1.26 48:1.47 60:2.82 61:2.69 62:2.31
+gate_proj    n=64 AM/GM pivots: median 1.063 min 1.026 max 1.205 | by layer: 0:1.20 1:1.15 2:1.05 3:1.04 4:1.04 7:1.03 8:1.03 15:1.03 16:1.04 23:1.03 31:1.08 32:1.08 39:1.05 47:1.08 48:1.09 55:1.09 60:1.06 61:1.06 62:1.06 63:1.05
+up_proj      n=64 AM/GM pivots: median 1.063 min 1.026 max 1.205 | by layer: 0:1.20 1:1.15 2:1.05 3:1.04 4:1.04 7:1.03 8:1.03 15:1.03 16:1.04 23:1.03 31:1.08 32:1.08 39:1.05 47:1.08 48:1.09 55:1.09 60:1.06 61:1.06 62:1.06 63:1.05
+down_proj    n=64 AM/GM pivots: median 1.119 min 1.064 max 2.653 | by layer: 0:1.77 1:1.24 2:1.46 3:1.29 4:1.16 7:1.14 8:1.15 15:1.09 16:1.09 23:1.12 31:1.07 32:1.06 39:1.09 47:1.14 48:1.16 55:1.30 60:1.47 61:1.64 62:1.79 63:2.65
+q_proj       n=16 AM/GM pivots: median 1.302 min 1.134 max 2.045 | by layer: 3:2.04 7:1.91 15:1.39 23:1.28 31:1.29 39:1.27 47:1.29 55:1.30 63:1.13
+k_proj       n=16 AM/GM pivots: median 1.302 min 1.134 max 2.045 | by layer: 3:2.04 7:1.91 15:1.39 23:1.28 31:1.29 39:1.27 47:1.29 55:1.30 63:1.13
+v_proj       n=16 AM/GM pivots: median 1.302 min 1.134 max 2.045 | by layer: 3:2.04 7:1.91 15:1.39 23:1.28 31:1.29 39:1.27 47:1.29 55:1.30 63:1.13
+o_proj       n=16 AM/GM pivots: median 1.324 min 1.214 max 2.357 | by layer: 3:2.36 7:1.72 15:1.61 23:1.30 31:1.23 39:1.21 47:1.23 55:1.35 63:1.53
+lm_head      n= 1 AM/GM pivots: median 1.086 min 1.086 max 1.086 | by layer: 64:1.09
+
+
+######## [21:24:42] Show equalization headroom computation output
+--- COMMANDE ---
+cat /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/tasks/b6gn7a0ya.output
+--- SORTIE COMPLETE ---
+gate_proj    median AM/GM(X)     1.31 | CS factor (mean sqrtX)^2/meanX median 0.808 [lognormal pred 0.872] | without top dim: AM/GM 1.12 CS 0.926
+     by layer (L: CS / CS without top dim): 0:0.83/0.84 1:0.87/0.88 2:0.94/0.96 3:0.95/0.96 7:0.95/0.98 15:0.91/0.95 16:0.89/0.93 31:0.64/0.93 32:0.63/0.92 47:0.70/0.89 55:0.83/0.85 60:0.84/0.88 61:0.83/0.88 62:0.82/0.89 63:0.79/0.89
+down_proj    median AM/GM(X)     1.19 | CS factor (mean sqrtX)^2/meanX median 0.900 [lognormal pred 0.918] | without top dim: AM/GM 1.18 CS 0.908
+     by layer (L: CS / CS without top dim): 0:0.63/0.64 1:0.86/0.86 2:0.64/0.79 3:0.82/0.83 7:0.90/0.90 15:0.94/0.94 16:0.94/0.94 31:0.95/0.96 32:0.95/0.95 47:0.90/0.90 55:0.81/0.83 60:0.78/0.78 61:0.71/0.74 62:0.63/0.64 63:0.33/0.34
+in_proj_qkv  median AM/GM(X)     2.57 | CS factor (mean sqrtX)^2/meanX median 0.437 [lognormal pred 0.624] | without top dim: AM/GM 1.36 CS 0.804
+     by layer (L: CS / CS without top dim): 0:0.70/0.73 1:0.16/0.73 2:0.20/0.76 16:0.31/0.81 32:0.38/0.82 60:0.79/0.84 61:0.79/0.84 62:0.75/0.84
+out_proj     median AM/GM(X)     1.57 | CS factor (mean sqrtX)^2/meanX median 0.777 [lognormal pred 0.798] | without top dim: AM/GM 1.53 CS 0.798
+     by layer (L: CS / CS without top dim): 0:0.06/0.09 1:0.75/0.76 2:0.70/0.78 16:0.85/0.85 32:0.86/0.86 60:0.44/0.51 61:0.56/0.56 62:0.48/0.53
+q_proj       median AM/GM(X)     3.15 | CS factor (mean sqrtX)^2/meanX median 0.370 [lognormal pred 0.564] | without top dim: AM/GM 1.58 CS 0.722
+     by layer (L: CS / CS without top dim): 3:0.07/0.65 7:0.08/0.59 15:0.17/0.65 31:0.35/0.72 47:0.45/0.72 55:0.68/0.76 63:0.77/0.85
+o_proj       median AM/GM(X)     1.59 | CS factor (mean sqrtX)^2/meanX median 0.778 [lognormal pred 0.793] | without top dim: AM/GM 1.55 CS 0.787
+     by layer (L: CS / CS without top dim): 3:0.41/0.49 7:0.70/0.71 15:0.73/0.75 31:0.77/0.78 47:0.82/0.83 55:0.72/0.74 63:0.71/0.71
+lm_head      median AM/GM(X)     1.41 | CS factor (mean sqrtX)^2/meanX median 0.775 [lognormal pred 0.841] | without top dim: AM/GM 1.39 CS 0.785
+     by layer (L: CS / CS without top dim): 64:0.78/0.79
+
+[exited with code 0]
+
+
+######## [21:26:32] Static check: similarity between MTP block and main-layer weights
+--- COMMANDE ---
+cd /root/models/qwen3.8-27b && CUDA_VISIBLE_DEVICES="" timeout 110 python3 -I - <<'EOF'
+import json, torch, time
+from safetensors import safe_open
+torch.set_num_threads(8)
+idx=json.load(open('model.safetensors.index.json'))['weight_map']
+def get(k):
+    with safe_open(idx[k],'pt',device='cpu') as f: return f.get_tensor(k)
+t=time.time()
+def cos(a,b):
+    a=a.float().flatten(); b=b.float().flatten()
+    return float(torch.dot(a,b)/(a.norm()*b.norm()))
+pairs=[('self_attn.k_proj',[63,59,3]),('self_attn.v_proj',[63,59,3]),('self_attn.o_proj',[63]),('mlp.down_proj',[63,62]),('mlp.gate_proj',[63])]
+for nm,layers in pairs:
+    a=get(f'mtp.layers.0.{nm}.weight')
+    for L in layers:
+        b=get(f'model.language_model.layers.{L}.{nm}.weight')
+        print(nm, 'mtp vs L%d'%L, 'cos=%.4f'%cos(a,b), 'norm ratio %.3f'%(float(a.float().norm()/b.float().norm())), 'identical' if torch.equal(a,b) else '', flush=True)
+        del b
+    del a
+print('seconds', round(time.time()-t,1))
+EOF
+--- SORTIE COMPLETE ---
+self_attn.k_proj mtp vs L63 cos=-0.0008 norm ratio 1.173 
+self_attn.k_proj mtp vs L59 cos=-0.0004 norm ratio 1.191 
+self_attn.k_proj mtp vs L3 cos=-0.0002 norm ratio 1.009 
+self_attn.v_proj mtp vs L63 cos=-0.0001 norm ratio 1.129 
+self_attn.v_proj mtp vs L59 cos=-0.0001 norm ratio 1.072 
+self_attn.v_proj mtp vs L3 cos=0.0003 norm ratio 1.786 
+self_attn.o_proj mtp vs L63 cos=0.0002 norm ratio 1.105 
+mlp.down_proj mtp vs L63 cos=-0.0000 norm ratio 1.058 
+mlp.down_proj mtp vs L62 cos=-0.0000 norm ratio 0.994 
+mlp.gate_proj mtp vs L63 cos=0.0036 norm ratio 0.927 
+seconds 2.2
+Shell cwd was reset to /workspace
+
+
+######## [21:30:31] Check CPU count and free memory
+--- COMMANDE ---
+nproc; free -g | head -3; uptime
+--- SORTIE COMPLETE ---
+252
+               total        used        free      shared  buff/cache   available
+Mem:             944         131         470          16         364         812
+Swap:              0           0           0
+ 21:30:31 up 25 days,  1:35,  0 user,  load average: 5.49, 9.17, 12.56
+
+
+######## [21:30:45] Compute static column and row energies of text-path weight matrices (CPU only)
+--- COMMANDE ---
+mkdir -p /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad && cat > /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad/colenergy.py <<'EOF'
+# Static, CPU-only: column / row energies (sum of squares) of the text-path linears of the BF16 checkpoint.
+# No forward, no quantization. Output: scratchpad/colenergy.pt
+import json, torch, time, sys
+from safetensors import safe_open
+torch.set_num_threads(32)
+root='/root/models/qwen3.8-27b'
+idx=json.load(open(root+'/model.safetensors.index.json'))['weight_map']
+out={}; t=time.time()
+names=[k for k in idx if k.endswith('.weight') and (('mlp.' in k) or ('linear_attn.in_proj' in k) or ('linear_attn.out_proj' in k) or ('self_attn.' in k and '_proj' in k)) and k.startswith('model.language_model.layers.')]
+names+= ['lm_head.weight','model.language_model.embed_tokens.weight']
+byshard={}
+for k in names: byshard.setdefault(idx[k],[]).append(k)
+for shard,ks in sorted(byshard.items()):
+    with safe_open(root+'/'+shard,'pt',device='cpu') as f:
+        for k in ks:
+            W=f.get_tensor(k)
+            col=torch.zeros(W.shape[1],dtype=torch.float64); row=torch.zeros(W.shape[0],dtype=torch.float64)
+            for i in range(0,W.shape[0],8192):
+                w=W[i:i+8192].float(); w2=w*w
+                col+=w2.sum(0).double(); row[i:i+8192]=w2.sum(1).double()
+            key=k.replace('model.language_model.','').replace('.weight','')
+            out[key]=dict(col=col.float(), row=row.float(), shape=tuple(W.shape))
+            del W
+    print(shard, len(ks), round(time.time()-t,1), flush=True)
+torch.save(out,'/tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad/colenergy.pt')
+print('done', len(out), round(time.time()-t,1))
+EOF
+cd /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad && CUDA_VISIBLE_DEVICES="" python3 -I colenergy.py > colenergy.log 2>&1; tail -3 colenergy.log
+--- SORTIE COMPLETE ---
+Command running in background with ID: b44suz2j8. Output is being written to: /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/tasks/b44suz2j8.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the file only if the user asks for progress, or if you need a line it prints before you can go on, such as a server's ready line or port.
+Session cwd remains /workspace; directory changes made by the backgrounded command do not apply to subsequent commands.
+
+
+######## [21:32:07] Read the per-family rule test job and its logs
+--- COMMANDE ---
+cd /workspace/LUMEN_Q1_V3.1/formic_arch && cat jobs/009_bykind.py; echo ----; cat jobs/004_q_rules.py; echo ----; grep -n "mult" /workspace/work/logs/004_q_rules.log | head -20; grep -n "mult\|bpw" /workspace/work/logs/007b_bykind.log | head -40
+--- SORTIE COMPLETE ---
+# Where does the damage come from?  Quantize ONE family of matrices at a time (rest BF16), 3 scale rules,
+# no-feedback E8 at the control multiplier (same sigma/step for every rule via each rule's own calibrated mult).
+import json, time
+st = H.S["st"]; mats = H.qmats(); docs = list(range(0, 72, 3))
+groups = {"mlp_in(gate,up)": ("gate_proj", "up_proj"), "mlp_down": ("down_proj",), "gdn_in(qkv,z,a,b)": ("in_proj_qkv", "in_proj_z", "in_proj_a", "in_proj_b"),
+          "gdn_out": ("out_proj",), "attn_in(q,k,v)": ("q_proj", "k_proj", "v_proj"), "attn_out": ("o_proj",), "embed": ("embed",), "lm_head": ("lm_head",)}
+mults = {"lumen": 0.5917, "col": 0.5722, "fisher_local": 0.5066}
+pname = lambda m: "lm_head.weight" if m["kind"] == "lm_head" else "model.language_model." + m["name"] + ".weight"
+H.restore(); res = {}
+for g, kinds in groups.items():
+    sub = [m for m in mats if m["kind"] in kinds]; names = [pname(m) for m in sub]
+    for rule, mult in mults.items():
+        if g == "embed" and rule != "lumen": continue
+        if g == "lm_head" and rule == "fisher_local": continue
+        b = 0; n = 0
+        for m in sub:
+            bb, nn = H.quantize_matrix(m, dict(rule=rule), mult, st); b += bb; n += nn
+        r = H.evaluate("select", docs=docs)
+        res[f"{g}|{rule}"] = dict(kl=r["kl"], agree=r["agree"], bpw=b/n, params=n)
+        print("%-20s %-13s bpw=%.3f params=%.2fB KL=%.5f agree=%.4f" % (g, rule, b/n, n/1e9, r["kl"], r["agree"]), flush=True)
+        H.restore(names)
+json.dump(res, open(H.OUT+"/diag_bykind_rules.json", "w"))
+----
+import time, json, math
+st = H.S["st"]; mats = H.qmats()
+N = sum(m["mod"].weight.numel() for m in mats)
+TARGET_BPW = 2.824          # Lumen "Max" symbol capacity 2.8328 minus measured codec overhead 0.009
+target = TARGET_BPW * N
+H.S["target_bits"] = target; H.S["N_text"] = N
+def run(vid, spec, mats=mats, lo=0.25, hi=2.0):
+    t=time.time()
+    H.restore()
+    mult = H.calibrate_mult(mats, spec, target, st, lo=lo, hi=hi, iters=11)
+    info = H.quantize_all(mats, spec, mult, st)
+    info.update(spec=spec, mult=mult, target_bits=target, bits_over_target=info["bits"]/target-1, bytes=info["bits"]/8)
+    print(vid, "mult=%.4f bpw=%.4f bits/target-1=%+.4f%%" % (mult, info["bpw"], 100*info["bits_over_target"]), {k: round(v,3) for k,v in info["bykind"].items()}, "quant %.0fs"%(time.time()-t), flush=True)
+    return H.run_variant(vid, info), mult
+r0, m0 = run("A0_Q0rtn", dict(rule="lumen"))
+H.S["mult_Q0rtn"] = m0
+run("A0_Qcol_rtn", dict(rule="col"))
+run("A0_Qfl_rtn", dict(rule="fisher_local"))
+run("A0_Qfg_rtn", dict(rule="fisher_global", io_mult=m0), lo=1e-6, hi=1e-1)
+----
+1:A0_Q0rtn mult=0.5917 bpw=2.8248 bits/target-1=+0.0268% {'in_proj_qkv': 2.825, 'in_proj_z': 2.825, 'in_proj_a': 2.845, 'in_proj_b': 2.838, 'out_proj': 2.824, 'gate_proj': 2.825, 'up_proj': 2.825, 'down_proj': 2.823, 'q_proj': 2.825, 'k_proj': 2.822, 'v_proj': 2.825, 'o_proj': 2.823, 'embed': 2.825, 'lm_head': 2.825} quant 37s
+2:[A0_Q0rtn] SELECT KL=0.19008 agree=0.8531 ppl_s=6.7586 ppl_t=6.4635 | chat:0.4080 code:0.2877 en_pr:0.1219 math_:0.1013 multi:0.1155 scien:0.1060  (confirm sealed; 70s)
+3:A0_Qcol_rtn mult=0.5722 bpw=2.8255 bits/target-1=+0.0532% {'in_proj_qkv': 2.822, 'in_proj_z': 2.643, 'in_proj_a': 2.682, 'in_proj_b': 2.323, 'out_proj': 2.842, 'gate_proj': 2.843, 'up_proj': 2.877, 'down_proj': 2.868, 'q_proj': 2.476, 'k_proj': 2.697, 'v_proj': 2.855, 'o_proj': 2.83, 'embed': 2.872, 'lm_head': 2.773} quant 37s
+4:[A0_Qcol_rtn] SELECT KL=0.21301 agree=0.8485 ppl_s=6.7609 ppl_t=6.4635 | chat:0.4883 code:0.3117 en_pr:0.1432 math_:0.0900 multi:0.1448 scien:0.1001  (confirm sealed; 70s)
+5:A0_Qfl_rtn mult=0.5066 bpw=2.8267 bits/target-1=+0.0952% {'in_proj_qkv': 2.34, 'in_proj_z': 2.19, 'in_proj_a': 2.32, 'in_proj_b': 1.936, 'out_proj': 2.97, 'gate_proj': 2.892, 'up_proj': 2.97, 'down_proj': 3.039, 'q_proj': 1.81, 'k_proj': 2.387, 'v_proj': 2.857, 'o_proj': 3.007, 'embed': 3.045, 'lm_head': 3.042} quant 40s
+6:[A0_Qfl_rtn] SELECT KL=7.62175 agree=0.0890 ppl_s=11569.1269 ppl_t=6.4635 | chat:6.3082 code:8.6646 en_pr:7.1085 math_:7.0433 multi:9.6481 scien:6.9577  (confirm sealed; 70s)
+7:A0_Qfg_rtn mult=0.0000 bpw=2.8336 bits/target-1=+0.3393% {'in_proj_qkv': 2.386, 'in_proj_z': 2.737, 'in_proj_a': 3.491, 'in_proj_b': 6.575, 'out_proj': 4.393, 'gate_proj': 2.368, 'up_proj': 2.525, 'down_proj': 3.289, 'q_proj': 2.273, 'k_proj': 5.368, 'v_proj': 5.028, 'o_proj': 4.874, 'embed': 2.825, 'lm_head': 2.702} quant 34s
+8:[A0_Qfg_rtn] SELECT KL=1.42660 agree=0.6020 ppl_s=17.6315 ppl_t=6.4635 | chat:1.9283 code:1.1760 en_pr:1.1618 math_:0.4281 multi:3.1227 scien:0.7427  (confirm sealed; 69s)
+1:mlp_in(gate,up)      lumen         bpw=2.825 params=11.41B KL=0.03773 agree=0.9407
+2:mlp_in(gate,up)      col           bpw=2.860 params=11.41B KL=0.03544 agree=0.9460
+3:mlp_in(gate,up)      fisher_local  bpw=2.931 params=11.41B KL=0.06265 agree=0.9280
+4:mlp_down             lumen         bpw=2.823 params=5.70B KL=0.02590 agree=0.9548
+5:mlp_down             col           bpw=2.868 params=5.70B KL=0.02324 agree=0.9571
+6:mlp_down             fisher_local  bpw=3.039 params=5.70B KL=0.02323 agree=0.9583
+7:gdn_in(qkv,z,a,b)    lumen         bpw=2.825 params=4.05B KL=0.03160 agree=0.9558
+8:gdn_in(qkv,z,a,b)    col           bpw=2.753 params=4.05B KL=0.02711 agree=0.9598
+9:gdn_in(qkv,z,a,b)    fisher_local  bpw=2.283 params=4.05B KL=1.87430 agree=0.5579
+10:gdn_out              lumen         bpw=2.824 params=1.51B KL=0.01799 agree=0.9681
+11:gdn_out              col           bpw=2.842 params=1.51B KL=0.02777 agree=0.9601
+12:gdn_out              fisher_local  bpw=2.970 params=1.51B KL=0.01613 agree=0.9715
+13:attn_in(q,k,v)       lumen         bpw=2.825 params=1.17B KL=0.02400 agree=0.9637
+14:attn_in(q,k,v)       col           bpw=2.518 params=1.17B KL=0.02436 agree=0.9666
+15:attn_in(q,k,v)       fisher_local  bpw=1.926 params=1.17B KL=0.03845 agree=0.9512
+16:attn_out             lumen         bpw=2.823 params=0.50B KL=0.00844 agree=0.9775
+17:attn_out             col           bpw=2.830 params=0.50B KL=0.00902 agree=0.9806
+18:attn_out             fisher_local  bpw=3.006 params=0.50B KL=0.01055 agree=0.9790
+19:embed                lumen         bpw=2.825 params=1.27B KL=0.00582 agree=0.9874
+20:lm_head              lumen         bpw=2.825 params=1.27B KL=0.01337 agree=0.9467
+21:lm_head              col           bpw=2.773 params=1.27B KL=0.01821 agree=0.9365
+
+
+######## [21:32:29] Retrodict recorded per-family tests with the noise model using column energies
+--- COMMANDE ---
+cd /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad && tail -2 colenergy.log && cat > retro.py <<'EOF'
+# Retrodiction of the recorded per-family RTN tests (diag_bykind_rules.json) with the F1 noise model.
+# RTN proxy error of a matrix with column scales c:  (G mult^2 / n) * (sum_j C_j c_j^2) * (sum_j X_j / c_j^2)
+import torch, json, math, collections
+ce=torch.load('colenergy.pt'); st=torch.load('/workspace/work/stats_fisher.pt', map_location='cpu'); X=st['X']
+meas=json.load(open('/workspace/LUMEN_Q1_V3.1/formic_arch/results/diag_bykind_rules.json'))
+groups={"mlp_in(gate,up)":("gate_proj","up_proj"),"mlp_down":("down_proj",),"gdn_in(qkv,z,a,b)":("in_proj_qkv","in_proj_z","in_proj_a","in_proj_b"),
+        "gdn_out":("out_proj",),"attn_in(q,k,v)":("q_proj","k_proj","v_proj"),"attn_out":("o_proj",),"lm_head":("lm_head",)}
+ml,mc=0.5917,0.5722
+def fam(kinds):
+    return [k for k in X if k.split('.')[-1] in kinds]
+print("family | measured KL ratio col/lumen | model proxy ratio (alpha=1 incl. mult) : sum-weighted, median | half-power gain gamma (theta=1) : sum-weighted, median")
+for g,kinds in groups.items():
+    num=0.0; den=0.0; rs=[]; gs=[]; gnum=0.0
+    for k in fam(kinds):
+        C=ce[k]['col'].double(); x=X[k].double().clamp_min(float(X[k].double().mean())*1e-6); n=len(x)
+        nat=float(C.sum()*x.sum())                      # native proxy (up to G mult^2/n)
+        a1=float((C*x).sum())*n                         # alpha=1 : (sum C x / GM)(sum x / (x/GM)) = n * sum C x
+        r=(mc/ml)**2*a1/nat
+        gam=float((C*x).sqrt().sum()**2)/nat            # Cauchy-Schwarz optimum (half-power gauge)
+        num+=(mc/ml)**2*a1; den+=nat; gnum+=gam*nat; rs.append(r); gs.append(gam)
+    rs.sort(); gs.sort()
+    m=meas[g+'|col']['kl']/meas[g+'|lumen']['kl']
+    print(f"{g:20s} | {m:5.3f} | {num/den:6.3f}  {rs[len(rs)//2]:6.3f} | {gnum/den:5.3f}  {gs[len(gs)//2]:5.3f}")
+EOF
+CUDA_VISIBLE_DEVICES="" timeout 100 python3 -I retro.py
+--- SORTIE COMPLETE ---
+model-00018-of-00018.safetensors 1 62.5
+done 498 62.5
+family | measured KL ratio col/lumen | model proxy ratio (alpha=1 incl. mult) : sum-weighted, median | half-power gain gamma (theta=1) : sum-weighted, median
+mlp_in(gate,up)      | 0.939 |  0.875   0.879 | 0.774  0.795
+mlp_down             | 0.897 |  0.762   0.936 | 0.545  0.903
+gdn_in(qkv,z,a,b)    | 0.858 |  0.941   1.451 | 0.542  0.464
+gdn_out              | 1.544 |  0.803   0.901 | 0.536  0.764
+attn_in(q,k,v)       | 1.015 |  1.127   0.910 | 0.378  0.380
+attn_out             | 1.068 |  0.708   0.914 | 0.595  0.752
+lm_head              | 1.362 |  1.519   1.519 | 0.806  0.806
+Shell cwd was reset to /workspace
+
+
+######## [21:33:50] Retrodict family tests with centred-variance versus raw second-moment proxy
+--- COMMANDE ---
+cd /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad && cat > retro2.py <<'EOF'
+# Same retrodiction, with the proxy weight w_j = Var_j + lam * Mean_j^2  (lam=1: raw second moment used by LDLQ/F1; lam=0: centred variance)
+import torch, json, math
+ce=torch.load('colenergy.pt'); st=torch.load('/workspace/work/stats_fisher.pt', map_location='cpu'); X=st['X']; MU=st['MU']
+meas=json.load(open('/workspace/LUMEN_Q1_V3.1/formic_arch/results/diag_bykind_rules.json'))
+groups={"mlp_in":("gate_proj","up_proj"),"mlp_down":("down_proj",),"gdn_in":("in_proj_qkv","in_proj_z","in_proj_a","in_proj_b"),
+        "gdn_out":("out_proj",),"attn_in":("q_proj","k_proj","v_proj"),"attn_out":("o_proj",),"lm_head":("lm_head",)}
+mkey={"mlp_in":"mlp_in(gate,up)","mlp_down":"mlp_down","gdn_in":"gdn_in(qkv,z,a,b)","gdn_out":"gdn_out","attn_in":"attn_in(q,k,v)","attn_out":"attn_out","lm_head":"lm_head"}
+ml,mc=0.5917,0.5722
+print("mean^2 share of sum X per family (sum-weighted):")
+for g,kinds in groups.items():
+    ks=[k for k in X if k.split('.')[-1] in kinds]
+    sh=sum(float((MU[k].double()**2).sum()) for k in ks)/sum(float(X[k].double().sum()) for k in ks)
+    print("  %-9s %.3f"%(g,sh))
+for lam in (1.0,0.5,0.25,0.1,0.0):
+    line=[]; sse=0
+    for g,kinds in groups.items():
+        num=0.0; den=0.0
+        for k in [k for k in X if k.split('.')[-1] in kinds]:
+            C=ce[k]['col'].double(); x=X[k].double(); mu2=MU[k].double()**2
+            v=(x-mu2).clamp_min(0); w=v+lam*mu2
+            xs=x.clamp_min(float(x.mean())*1e-6)                # scale actually used by the 'col' rule: c^2 = X/GM
+            nat=float(C.sum()*w.sum()); a1=float((C*xs).sum()*(w/xs).sum())
+            num+=(mc/ml)**2*a1; den+=nat
+        m=meas[mkey[g]+'|col']['kl']/meas[mkey[g]+'|lumen']['kl']; p=num/den
+        sse+=(math.log(p)-math.log(m))**2; line.append("%s %.2f/%.2f"%(g,p,m))
+    print("lam=%.2f  model/measured: "%lam, " | ".join(line), " | rms log-error %.3f"%math.sqrt(sse/7))
+EOF
+CUDA_VISIBLE_DEVICES="" timeout 100 python3 -I retro2.py
+--- SORTIE COMPLETE ---
+mean^2 share of sum X per family (sum-weighted):
+  mlp_in    0.186
+  mlp_down  0.067
+  gdn_in    0.404
+  gdn_out   0.116
+  attn_in   0.538
+  attn_out  0.206
+  lm_head   0.113
+lam=1.00  model/measured:  mlp_in 0.87/0.94 | mlp_down 0.76/0.90 | gdn_in 0.94/0.86 | gdn_out 0.80/1.54 | attn_in 1.12/1.02 | attn_out 0.71/1.07 | lm_head 1.52/1.36  | rms log-error 0.307
+lam=0.50  model/measured:  mlp_in 0.95/0.94 | mlp_down 0.77/0.90 | gdn_in 1.16/0.86 | gdn_out 0.84/1.54 | attn_in 1.54/1.02 | attn_out 0.76/1.07 | lm_head 1.57/1.36  | rms log-error 0.337
+lam=0.25  model/measured:  mlp_in 1.00/0.94 | mlp_down 0.78/0.90 | gdn_in 1.31/0.86 | gdn_out 0.86/1.54 | attn_in 1.89/1.02 | attn_out 0.79/1.07 | lm_head 1.60/1.36  | rms log-error 0.388
+lam=0.10  model/measured:  mlp_in 1.02/0.94 | mlp_down 0.78/0.90 | gdn_in 1.43/0.86 | gdn_out 0.87/1.54 | attn_in 2.20/1.02 | attn_out 0.81/1.07 | lm_head 1.62/1.36  | rms log-error 0.434
+lam=0.00  model/measured:  mlp_in 1.04/0.94 | mlp_down 0.78/0.90 | gdn_in 1.52/0.86 | gdn_out 0.88/1.54 | attn_in 2.46/1.02 | attn_out 0.82/1.07 | lm_head 1.63/1.36  | rms log-error 0.473
+Shell cwd was reset to /workspace
+
+
+######## [21:34:42] Fit per-family KL-weight exponent from recorded tests and predict optimal gauge exponent
+--- COMMANDE ---
+cd /tmp/claude-0/-workspace/78f73527-ae7c-4365-8749-6095616e0753/scratchpad && cat > beta.py <<'EOF'
+# Calibrate, per family, the exponent beta of the column KL-weight  omega_j ~ X_j^beta  from the recorded alpha=1 RTN family test,
+# then predict the best exponent alpha* and the corresponding gain.  Family KL model (RTN, diagonal):
+#   K(alpha) ~ sum_matrices (G mult^2/n) (sum_j C_j X_j^alpha) (sum_j X_j^(beta-alpha))
+import torch, json, math
+ce=torch.load('colenergy.pt'); st=torch.load('/workspace/work/stats_fisher.pt', map_location='cpu'); X=st['X']
+meas=json.load(open('/workspace/LUMEN_Q1_V3.1/formic_arch/results/diag_bykind_rules.json'))
+groups={"mlp_in":("gate_proj","up_proj"),"mlp_down":("down_proj",),"gdn_in":("in_proj_qkv","in_proj_z","in_proj_a","in_proj_b"),
+        "gdn_out":("out_proj",),"attn_in":("q_proj","k_proj","v_proj"),"attn_out":("o_proj",),"lm_head":("lm_head",)}
+mkey={"mlp_in":"mlp_in(gate,up)","mlp_down":"mlp_down","gdn_in":"gdn_in(qkv,z,a,b)","gdn_out":"gdn_out","attn_in":"attn_in(q,k,v)","attn_out":"attn_out","lm_head":"lm_head"}
+ml,mc=0.5917,0.5722
+def K(ks,alpha,beta):
+    tot=0.0
+    for k in ks:
+        C=ce[k]['col'].double(); x=X[k].double(); x=x.clamp_min(float(x.mean())*1e-6); lx=x.log()
+        lx=lx-lx.mean()                                   # geometric-mean normalisation (scale-free)
+        tot+=float((C*(alpha*lx).exp()).sum()*(((beta-alpha)*lx).exp()).sum())/len(x)*float(x.log().mean().exp())**beta
+    return tot
+print("family     measured  beta_fit | predicted K(alpha)/K(0) at alpha=0.25, 0.5, 0.75, 1 (same mult) | alpha* , K(alpha*)/K(0)")
+for g,kinds in groups.items():
+    ks=[k for k in X if k.split('.')[-1] in kinds]
+    m=meas[mkey[g]+'|col']['kl']/meas[mkey[g]+'|lumen']['kl']/(mc/ml)**2      # ratio at equal multiplier
+    f=lambda b: K(ks,1.0,b)/K(ks,0.0,b)-m
+    lo,hi=-3.0,3.0
+    if f(lo)*f(hi)>0:
+        print("%-9s %.3f  no root in [-3,3]: f(-3)=%.3f f(3)=%.3f"%(g,m,f(lo)+m,f(hi)+m)); continue
+    for _ in range(60):
+        mid=(lo+hi)/2
+        if f(lo)*f(mid)<=0: hi=mid
+        else: lo=mid
+    b=(lo+hi)/2; k0=K(ks,0.0,b)
+    grid=[i/40-1 for i in range(0,101)]; vals=[K(ks,a,b)/k0 for a in grid]; ia=min(range(len(grid)),key=lambda i:vals[i])
+    print("%-9s %.3f    %+.2f   | %.3f %.3f %.3f %.3f | %+.2f  %.3f"%(g,m,b,K(ks,.25,b)/k0,K(ks,.5,b)/k0,K(ks,.75,b)/k0,K(ks,1.0,b)/k0,grid[ia],vals[ia]))
+EOF
+CUDA_VISIBLE_DEVICES="" timeout 110 python3 -I beta.py
+--- SORTIE COMPLETE ---
+Exit code 124
+
+<system-reminder>
+The session context was re-read when this session started; these values replace the earlier ones:
+# userEmail
+The user's email address is yanis@el-yassiri.com. Use this email address only to identify the user, such as for authorship, attribution, or filtering their own work. Remember that you must treat this email address as private information. Never share it in requests to external services without asking and getting explicit approval from the user first.
+
+Claude Code attached this context automatically; it isn't part of the user's message. It describes the user's own account and workspace, so they don't need it reported back.
+</system-reminder>

@@ -1,0 +1,14 @@
+{
+ "declared_at": "2026-11-13T13:24:47Z",
+ "purpose": "Resolve effects below the detection threshold of the 72-document splits (+-15 %). Pre-registered before any of these runs.",
+ "split": "big: 600 new documents x 1024 tokens, 100 per domain, sources disjoint from cal/select/confirm/long (data/big_manifest.json)",
+ "big_tokens_sha256": "aee5053497ab4ea32c147a79097ce7da9e8d171a5ff007d9cdb2cbf4fa90bc76",
+ "primary_metric": "mean KL(teacher||student) over the 600 documents; paired difference vs control with bootstrap over documents",
+ "control": "A0_Q0ldlq_big (re-run of A0_Q0ldlq: same code, same multiplier)",
+ "candidates": {
+  "ArotN_Q0ldlq_big": "re-run of ArotN_Q0ldlq (native rotated residual basis, seed 0, match_bpw 2.8158)",
+  "A0_Qperm_ldlq": "columns processed by decreasing input second moment (stored permutation), per-matrix rate matching"
+ },
+ "note": "Each variant is created by a full sequential E8-LDLQ pass and evaluated once. No further selection is made on this split.",
+ "code_commit_before": "e533e72a3cd51f7a4f8d3ab0428194b351116de1"
+}

@@ -1,0 +1,35 @@
+{
+ "declared_at": "2026-11-13T18:13:27Z",
+ "purpose": "Selection rule for the V7 experimental Lumen recipe, declared before the F1 and asymmetric-calibration results exist.",
+ "candidates": [
+  "L0_uniform_2.808 (calibration cal)",
+  "L2_cal2_uniform (calibration cal2)",
+  "F1_cal12_uniform (calibration cal+cal2, real package)",
+  "asymmetric-target variant, only if its 12-layer pilot beats the symmetric pilot by >= 3 % on P-A108-dev without being worse on select"
+ ],
+ "equal_budget": "same bytes as Arki05 2.82 bpw for the 498 text matrices (9.456 GB); F1 is measured on real files",
+ "primary_metric": "token-mean KL on P-A108-dev (54 of the 108 public Arki05 windows, alternating rows per domain)",
+ "guards": [
+  "big-600 KL <= 1.05 x L0_uniform_2.808",
+  "long-8192 KL <= 1.10 x L0_uniform_2.808",
+  "no P-A108-dev domain more than 10 % above Arki05_2.82bpw"
+ ],
+ "rule": "lowest primary metric among candidates that pass all guards",
+ "confirmation": [
+  "sealed P-A108-conf half (54 windows), written at variant creation, never printed",
+  "conf2: 300 new documents x 1024 tokens (data/conf2), never evaluated before"
+ ],
+ "competitors_for_confirmation": [
+  "Arki05_2.82bpw (rev cdcbea9996)",
+  "XQD_Q2_nomtp (rev d7110adadd)"
+ ],
+ "development_data_already_consulted": [
+  "select-72",
+  "confirm-72",
+  "big-600",
+  "long-8192 (12 docs)",
+  "P-A108-dev",
+  "full P-A108 for Arki05, XQD and L0 (measured before the dev/conf split was introduced)"
+ ],
+ "code_commit_before": "9487e1a6fc52ba2615d9a076421d5eff23cd98ee"
+}

@@ -1,0 +1,6 @@
+A0_Qmix_rtn mult=0.5769 bpw=2.8268 bits/target-1=+0.0995%
+[A0_Qmix_rtn] SELECT KL=0.17984 agree=0.8610 ppl_s=6.8287 ppl_t=6.4635 | chat:0.3975 code:0.2794 en_pr:0.1170 math_:0.0851 multi:0.1053 scien:0.0947  (confirm sealed; 70s)
+Ab_Qmix_rtn mult=0.5780 bpw=2.8263 bits/target-1=+0.0821%
+[Ab_Qmix_rtn] SELECT KL=0.16169 agree=0.8705 ppl_s=6.9457 ppl_t=6.4635 | chat:0.3461 code:0.2633 en_pr:0.1042 math_:0.0762 multi:0.0997 scien:0.0807  (confirm sealed; 70s)
+
+[job 036b_mix_rtn OK in 226.1s]

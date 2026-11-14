@@ -1,0 +1,271 @@
+{
+ "processor": "Qwen3VLProcessor",
+ "photo_dataset": "lmms-lab/COCO-Caption2017 (COCO val2017), skipped first 500 items, kept per-image licenses in {CC BY 2.0, CC BY-SA 2.0, no-known-restrictions, US Gov}",
+ "sha256_vision_inputs_pt": "0aa09b5f7c9abfd8baf7de6bcbfacfe4cddc2aa2a73f1eee4f711e1f7834e77c",
+ "samples": [
+  {
+   "id": "photo_00",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000423123.jpg http://images.cocodataset.org/val2017/000000423123.jpg",
+   "license": "COCO per-image license id 5: CC BY-SA 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    298
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_01",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000565776.jpg http://images.cocodataset.org/val2017/000000565776.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    295
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_02",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000301135.jpg http://images.cocodataset.org/val2017/000000301135.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    300,
+    448
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_03",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000426166.jpg http://images.cocodataset.org/val2017/000000426166.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    297
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_04",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000403385.jpg http://images.cocodataset.org/val2017/000000403385.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    358
+   ],
+   "n_image_tokens": 154
+  },
+  {
+   "id": "photo_05",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000292005.jpg http://images.cocodataset.org/val2017/000000292005.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    336,
+    448
+   ],
+   "n_image_tokens": 140
+  },
+  {
+   "id": "photo_06",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000455597.jpg http://images.cocodataset.org/val2017/000000455597.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    312
+   ],
+   "n_image_tokens": 140
+  },
+  {
+   "id": "photo_07",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000400803.jpg http://images.cocodataset.org/val2017/000000400803.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    299
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_08",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000023666.jpg http://images.cocodataset.org/val2017/000000023666.jpg",
+   "license": "COCO per-image license id 4: CC BY 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    336,
+    448
+   ],
+   "n_image_tokens": 140
+  },
+  {
+   "id": "photo_09",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000492362.jpg http://images.cocodataset.org/val2017/000000492362.jpg",
+   "license": "COCO per-image license id 5: CC BY-SA 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    299,
+    448
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_10",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000246963.jpg http://images.cocodataset.org/val2017/000000246963.jpg",
+   "license": "COCO per-image license id 5: CC BY-SA 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    294
+   ],
+   "n_image_tokens": 126
+  },
+  {
+   "id": "photo_11",
+   "kind": "photo",
+   "source": "lmms-lab/COCO-Caption2017 (COCO val2017) 000000038070.jpg http://images.cocodataset.org/val2017/000000038070.jpg",
+   "license": "COCO per-image license id 5: CC BY-SA 2.0; dataset card: CC BY 4.0 annotations",
+   "image_size_wh": [
+    448,
+    336
+   ],
+   "n_image_tokens": 140
+  },
+  {
+   "id": "text_00",
+   "kind": "text",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    154
+   ],
+   "n_image_tokens": 70
+  },
+  {
+   "id": "text_01",
+   "kind": "text",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    240
+   ],
+   "n_image_tokens": 112
+  },
+  {
+   "id": "text_02",
+   "kind": "text",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    340
+   ],
+   "n_image_tokens": 154
+  },
+  {
+   "id": "text_03",
+   "kind": "text",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    194
+   ],
+   "n_image_tokens": 84
+  },
+  {
+   "id": "table_00",
+   "kind": "table",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    420,
+    220
+   ],
+   "n_image_tokens": 91
+  },
+  {
+   "id": "table_01",
+   "kind": "table",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    420,
+    220
+   ],
+   "n_image_tokens": 91
+  },
+  {
+   "id": "table_02",
+   "kind": "table",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    420,
+    220
+   ],
+   "n_image_tokens": 91
+  },
+  {
+   "id": "table_03",
+   "kind": "table",
+   "source": "generated for this project (PIL)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    420,
+    220
+   ],
+   "n_image_tokens": 91
+  },
+  {
+   "id": "chart_00",
+   "kind": "chart",
+   "source": "generated for this project (matplotlib)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    340
+   ],
+   "n_image_tokens": 154
+  },
+  {
+   "id": "chart_01",
+   "kind": "chart",
+   "source": "generated for this project (matplotlib)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    340
+   ],
+   "n_image_tokens": 154
+  },
+  {
+   "id": "chart_02",
+   "kind": "chart",
+   "source": "generated for this project (matplotlib)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    340
+   ],
+   "n_image_tokens": 154
+  },
+  {
+   "id": "chart_03",
+   "kind": "chart",
+   "source": "generated for this project (matplotlib)",
+   "license": "generated for this project",
+   "image_size_wh": [
+    448,
+    340
+   ],
+   "n_image_tokens": 154
+  }
+ ]
+}

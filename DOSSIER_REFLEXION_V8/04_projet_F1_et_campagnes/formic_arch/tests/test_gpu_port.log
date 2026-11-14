@@ -1,0 +1,49 @@
+[PASS] 1 e8_nearest: N=24000 valid=True identical(fp32)=1.000000 identical(fp64)=1.000000 max|d2_port-d2_ref|=0.000e+00 worse_than_ref=0
+[PASS] 2 e8_candidates: centers=500 set mismatches fp64=0 fp32=0
+[PASS] 3 row_steps: rows=1956 mismatches=0 max_rel=0.00e+00
+[PASS] 4 upper_ldl: max rel err U=4.85e-15 d=1.64e-14
+[PASS] 5 ldlq parity: 
+    m= 6 n=32 gauss      mult=0.5 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 gauss      mult=0.5 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 gauss      mult=0.8 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 gauss      mult=0.8 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 student_t3 mult=0.5 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 student_t3 mult=0.5 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 student_t3 mult=0.8 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m= 6 n=32 student_t3 mult=0.8 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 gauss      mult=0.5 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 gauss      mult=0.5 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 gauss      mult=0.8 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 gauss      mult=0.8 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 student_t3 mult=0.5 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 student_t3 mult=0.5 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 student_t3 mult=0.8 sb= 16: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+    m=16 n=64 student_t3 mult=0.8 sb=256: blocks_identical=1.0000 J_port/J_ref-1=+0.00e+00 finite=True ok
+[PASS] 6 rate accounting / roundtrip: max decode |diff|/step = 0.00e+00
+      64x256  gauss mult=0.4: ideal=3.3725 bpw  physical=3.7656 bpw  matrix_bits=3.7338 bpw  overhead=+0.3931 bpw (+11.66%)  phys-matrix_bits=+65 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+      64x256  gauss mult=0.6: ideal=2.7997 bpw  physical=3.1953 bpw  matrix_bits=3.1610 bpw  overhead=+0.3956 bpw (+14.13%)  phys-matrix_bits=+70 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+      64x256  gauss mult=0.9: ideal=2.2392 bpw  physical=2.6377 bpw  matrix_bits=2.6006 bpw  overhead=+0.3985 bpw (+17.79%)  phys-matrix_bits=+76 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+      64x256  t4    mult=0.4: ideal=3.4764 bpw  physical=3.8652 bpw  matrix_bits=3.8378 bpw  overhead=+0.3888 bpw (+11.18%)  phys-matrix_bits=+56 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+      64x256  t4    mult=0.6: ideal=2.7816 bpw  physical=3.1743 bpw  matrix_bits=3.1429 bpw  overhead=+0.3927 bpw (+14.12%)  phys-matrix_bits=+64 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+      64x256  t4    mult=0.9: ideal=2.2029 bpw  physical=2.6001 bpw  matrix_bits=2.5642 bpw  overhead=+0.3972 bpw (+18.03%)  phys-matrix_bits=+73 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+     128x512  gauss mult=0.4: ideal=3.3757 bpw  physical=3.4933 bpw  matrix_bits=3.4817 bpw  overhead=+0.1175 bpw (+3.48%)  phys-matrix_bits=+95 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+     128x512  gauss mult=0.6: ideal=2.8013 bpw  physical=2.9192 bpw  matrix_bits=2.9073 bpw  overhead=+0.1178 bpw (+4.21%)  phys-matrix_bits=+97 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+     128x512  gauss mult=0.9: ideal=2.2387 bpw  physical=2.3568 bpw  matrix_bits=2.3447 bpw  overhead=+0.1181 bpw (+5.27%)  phys-matrix_bits=+99 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+     128x512  t4    mult=0.4: ideal=3.5466 bpw  physical=3.6617 bpw  matrix_bits=3.6525 bpw  overhead=+0.1152 bpw (+3.25%)  phys-matrix_bits=+76 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+     128x512  t4    mult=0.6: ideal=2.7759 bpw  physical=2.8931 bpw  matrix_bits=2.8818 bpw  overhead=+0.1172 bpw (+4.22%)  phys-matrix_bits=+92 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+     128x512  t4    mult=0.9: ideal=2.1876 bpw  physical=2.3051 bpw  matrix_bits=2.2935 bpw  overhead=+0.1175 bpw (+5.37%)  phys-matrix_bits=+94 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+       1x8    gauss mult=0.6: ideal=2.3630 bpw  physical=661.0000 bpw  matrix_bits=616.3630 bpw  overhead=+658.6370 bpw (+27872.81%)  phys-matrix_bits=+45 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+       2x64   gauss mult=0.6: ideal=2.6240 bpw  physical=44.1250 bpw  matrix_bits=41.1240 bpw  overhead=+41.5010 bpw (+1581.58%)  phys-matrix_bits=+48 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+       8x128  t4    mult=0.6: ideal=2.7511 bpw  physical=8.0938 bpw  matrix_bits=7.6573 bpw  overhead=+5.3427 bpw (+194.20%)  phys-matrix_bits=+56 B  decode max|diff|=0.00e+00 (rel step 0.0e+00) roundtrip=ok
+    fixed container = 656 B (+2 B/row FP16 steps); port matrix_bits header = 612 B (under-counts by 44 B/matrix)
+    proportional residual (phys-ideal-fixed-steps)/weight per case: 0.01033 0.01280 0.01566 0.00598 0.00989 0.01437 0.00621 0.00652 0.00675 0.00385 0.00585 0.00615 0.63699 0.25098 0.09266
+    proportional part on >=16k-weight cases: mean 0.00870 bpw, max 0.01566 bpw (= 0.309% of ideal)
+    extrapolated 17408x5120 @ 2.2 bpw ideal symbols: total overhead 0.01188 bpw (0.540%), of which steps 0.00313, fixed 0.000059, proportional 0.00870
+    extrapolated 17408x5120 @ 2.8 bpw ideal symbols: total overhead 0.01188 bpw (0.424%), of which steps 0.00313, fixed 0.000059, proportional 0.00870
+    extrapolated 17408x5120 @ 3.4 bpw ideal symbols: total overhead 0.01188 bpw (0.349%), of which steps 0.00313, fixed 0.000059, proportional 0.00870
+[PASS] 7 speed 4096x2048: device=cuda
+    use_candidates=True: 0.60 s  J_LDLQ/J_RTN=0.2596  ideal bpw=2.7762
+    use_candidates=False: 0.31 s  J_LDLQ/J_RTN=0.4981  ideal bpw=2.8540
+    peak GPU mem 0.41 GiB
+
+SUMMARY (9s): 1=PASS, 2=PASS, 3=PASS, 4=PASS, 5=PASS, 6=PASS, 7=PASS

@@ -1,0 +1,7 @@
+  ldlq layer 1 done, 32s elapsed, bpw so far 2.8339
+  ldlq layer 2 done, 59s elapsed, bpw so far 2.8334
+  ldlq layer 3 done, 82s elapsed, bpw so far 2.8326
+pilot lumen LDLQ: bpw 2.8326 {'in_proj_qkv': 2.8336, 'in_proj_z': 2.8338, 'in_proj_a': 2.851, 'in_proj_b': 2.8538, 'out_proj': 2.8278, 'gate_proj': 2.8326, 'up_proj': 2.8325, 'down_proj': 2.8343, 'q_proj': 2.8311, 'k_proj': 2.831, 'v_proj': 2.8309, 'o_proj': 2.8271} 81.9s peak mem 78.3 GiB
+same layers RTN bpw 2.8247
+
+[job 007b2_ldlq_pilot OK in 119.7s]

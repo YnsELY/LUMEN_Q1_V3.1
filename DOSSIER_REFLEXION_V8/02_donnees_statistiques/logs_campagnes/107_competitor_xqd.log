@@ -1,0 +1,9 @@
+loaded 402 tensors in 413s: 2.799 bpw on 26.87 G weights (9.400 GB of the 9.469 GB file); kept BF16: 449; skipped: []
+cosine with BF16: min 0.8606 median 0.9811
+bits/weight by family: {'ffn_up': 2.516, 'ffn_down': 2.945, 'ffn_gate': 2.609, 'token_embd.weight': 2.562, 'output.weight': 3.438, 'attn_q': 2.812, 'attn_qkv': 2.688, 'ssm_out': 3.25, 'attn_output': 3.438, 'attn_gate': 3.062, 'attn_k': 3.844, 'attn_v': 4.25}
+[XQD_Q2_nomtp] select  KL=0.20144 agree=0.8518 ppl_s=7.1933 ppl_t=6.4635 | chat:0.3596 code:0.2886 en_pr:0.1455 math_:0.1440 multi:0.1714 scien:0.0995
+[XQD_Q2_nomtp] big     KL=0.21805 agree=0.8542 ppl_s=6.0384 ppl_t=5.4222 | chat:0.5067 code:0.2292 en_pr:0.1191 math_:0.1655 multi:0.1796 scien:0.1081
+[XQD_Q2_nomtp] P-A108 KL=0.1200 p99=1.239 top1=87.32% | code:0.022 encycl:0.145 instru:0.082 long:0.077 math:0.027 multil:0.293 tools:0.040 web:0.167 | dev half: P-A108-dev KL=0.1113 p99=1.088 top1=87.32% | code:0.023 encycl:0.138 instru:0.081 long:0.071 math:0.026 multil:0.278 tools:0.030 web:0.129
+[XQD_Q2_nomtp] LONG mean 0.1642
+
+[job 107_competitor_xqd OK in 1109.3s]

@@ -1,0 +1,47 @@
+# Own per-matrix allocation from a Fisher x LDL-pivot sensitivity model (no competitor information):
+#   KL_m(b) ~ A_m * 4^-b ,  A_m = (sum of LDL pivots of the input Gram) * sum_i G_i * RMS_i^2
+# (G_i: diagonal Fisher of output row i, measured once on the BF16 model; pivots recorded during a real LDLQ pass).
+# Reverse water-filling: b_m = mean + 1/2 log2(A_m / n_m) - weighted mean, shrunk by `strength`, clipped, re-normalised.
+import sys, importlib, json, math
+sys.path.insert(0, "/workspace/LUMEN_Q1_V3.1/formic_v7/lab")
+import harness, seq, formic_q, v7
+importlib.reload(formic_q); _S = dict(harness.S); importlib.reload(harness); harness.S.update(_S); H = harness
+importlib.reload(seq); SQ = seq; importlib.reload(v7); V = v7
+st = H.S["st"]; ds = torch.load("/workspace/work/dstat_L1.pt"); H.restore()
+mats = [m for m in H.qmats() if m["kind"] != "embed"]; sens = {}; n = {}
+for m in mats:
+    W = m["mod"].weight; G = st["G"][m["name"]].cuda().double()
+    rms2 = torch.cat([W[i:i + 32768].float().pow(2).mean(1) for i in range(0, W.shape[0], 32768)]).double()
+    sens[m["name"]] = float(ds[m["name"]]["dsum"] * (G * rms2).sum()); n[m["name"]] = W.numel()
+json.dump(dict(sens=sens, n=n), open(V.OUT7 + "/sensitivity_fisher_ldl.json", "w"))
+arki = json.load(open(V.OUT7 + "/alloc_arki05_2.82bpw.json"))
+def alloc(strength, lo, hi, mean_body):
+    raw = {k: 0.5 * strength * math.log2(sens[k] / n[k]) for k in sens}
+    def tot(off): return sum(n[k] * min(hi, max(lo, raw[k] + off)) for k in sens)
+    a, b = -60.0, 60.0; target = mean_body * sum(n.values())
+    for _ in range(60):
+        mid = (a + b) / 2
+        if tot(mid) > target: b = mid
+        else: a = mid
+    return {k: min(hi, max(lo, raw[k] + (a + b) / 2)) for k in sens}
+N_body = sum(n.values()); N_emb = H.S["lm"].embed_tokens.weight.numel()
+EMB = 2.808 - 0.09                                        # embedding: measured family offset (campaign 1), no Fisher available
+mean_body = (2.808 * (N_body + N_emb) - EMB * N_emb) / N_body
+kinds = {}
+for m in mats: kinds.setdefault(m["kind"], []).append(m["name"])
+out = {}
+for strength in (1.0, 0.5):
+    al = alloc(strength, 1.9, 5.0, mean_body); al["embed_tokens"] = EMB; out[str(strength)] = al
+    print("strength %.1f: by family (ours | Arki05):" % strength, {k: "%.2f|%.2f" % (sum(al[x] * n[x] for x in v) / sum(n[x] for x in v), sum(arki[x] * n[x] for x in v) / sum(n[x] for x in v)) for k, v in kinds.items()})
+    per = {}
+    for m in mats:
+        if 0 <= m["layer"] < 64: per.setdefault(m["layer"], [0.0, 0]); per[m["layer"]][0] += al[m["name"]] * n[m["name"]]; per[m["layer"]][1] += n[m["name"]]
+    print("   by layer:", [round(per[i][0] / per[i][1], 2) for i in range(64)])
+    xs = [al[k] for k in sens if n[k] > 1e6]; ys = [arki[k] for k in sens if n[k] > 1e6]
+    mx = sum(xs) / len(xs); my = sum(ys) / len(ys)
+    print("   correlation with Arki05's per-tensor bits: %.3f ; clipped at bounds: %d low, %d high" % (sum((a - mx) * (b - my) for a, b in zip(xs, ys)) / math.sqrt(sum((a - mx) ** 2 for a in xs) * sum((b - my) ** 2 for b in ys)), sum(v <= 1.9001 for v in xs), sum(v >= 4.9999 for v in xs)))
+json.dump(out, open(V.OUT7 + "/alloc_fisher_ldl.json", "w"))
+# predicted KL gain of each allocation under the model itself (relative to uniform): sum A_m 4^-b_m
+def pred(al): return sum(sens[k] * 4.0 ** (-al[k]) for k in sens)
+uni = {k: mean_body for k in sens}
+print("model-predicted KL ratio vs uniform: ours(1.0) %.3f  ours(0.5) %.3f  Arki05's allocation %.3f" % (pred(out["1.0"]) / pred(uni), pred(out["0.5"]) / pred(uni), pred({k: arki[k] for k in sens}) / pred(uni)))

@@ -1,0 +1,35 @@
+  ldlq layer 0 done, 18s elapsed, bpw so far 2.8183, peak 62.8 GiB
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/032_ldlq_bias.py", line 8, in <module>
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 292, in run_ldlq_variant
+    info = ldlq_pass(mats, spec, mult, st, drop=drop, ckpt=ckpt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 260, in ldlq_pass
+    group(first, ins); single(outk); group(L.mlp.gate_proj, ("gate_proj", "up_proj")); single("down_proj")
+    ^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 254, in group
+    for k, res in zip(kinds, _retry(run, f"L{i} {kinds[0]}")): acc(d[k], res)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 180, in _retry
+    return fn()
+           ^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 253, in run
+    return H.quantize_group([d[k] for k in kinds], spec, mult, st, hh, mu_override=mu)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 320, in quantize_group
+    prep = fq.ldl_prepare(H.pop() if isinstance(H, list) else H, c, spec.get("damp", 0.01))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/formic_q.py", line 130, in ldl_prepare
+    C = torch.linalg.cholesky(Hf); del Hf            # = upper_ldl of the reference, on the flipped matrix
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+torch._C._LinAlgError: linalg.cholesky: The factorization could not be completed because the input is not positive-definite (the leading minor of order 1126 is not positive-definite).
+
+[job 032_ldlq_bias ERROR in 32.2s]

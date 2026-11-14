@@ -1,0 +1,51 @@
+multi-group propagation parity (BF16): [{'split': 'cal', 'T': 1024, 'identical': True, 'max_abs': 0.0}, {'split': 'cal2', 'T': 2048, 'identical': True, 'max_abs': 0.0}]
+  ldlq layer 0 done, 39s elapsed, bpw so far 2.8111, peak 76.9 GiB
+  ldlq layer 8 done, 246s elapsed, bpw so far 2.8126, peak 76.9 GiB
+  ldlq layer 16 done, 449s elapsed, bpw so far 2.8123, peak 76.9 GiB
+  ldlq layer 24 done, 651s elapsed, bpw so far 2.8121, peak 76.9 GiB
+  ldlq layer 32 done, 852s elapsed, bpw so far 2.8120, peak 76.9 GiB
+  ldlq layer 40 done, 1055s elapsed, bpw so far 2.8119, peak 76.9 GiB
+  ldlq layer 48 done, 1257s elapsed, bpw so far 2.8119, peak 76.9 GiB
+  ldlq layer 56 done, 1460s elapsed, bpw so far 2.8119, peak 76.9 GiB
+  ldlq layer 63 done, 1638s elapsed, bpw so far 2.8118, peak 76.9 GiB
+  [OOM on lm_head, retry 1, allocated 76.3 GiB]
+  [OOM on lm_head, retry 2, allocated 76.3 GiB]
+  [OOM on lm_head, retry 3, allocated 76.3 GiB]
+  [OOM on lm_head, retry 4, allocated 76.3 GiB]
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/108_cal12_exported.py", line 15, in <module>
+  File "/workspace/LUMEN_Q1_V3.1/formic_v7/lab/v7.py", line 258, in run_exported
+    info, dev = run(vid, spec, mult, method=method, prepare=prepare)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_v7/lab/v7.py", line 158, in run
+    info = SQ.run_ldlq_variant(vid, spec, mult, method=method, prepare=prepare)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 544, in run_ldlq_variant
+    info = ldlq_pass(mats, spec, mult, st, drop=drop, ckpt=ckpt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 496, in ldlq_pass
+    acc(by[64]["lm_head"], _retry(run, "lm_head"))
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 265, in _retry
+    return fn()
+           ^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 491, in run
+    out_ = H.quantize_matrix(by[64]["lm_head"], spec, mult, st, H=[Hm], mu_override=mu)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 433, in quantize_matrix
+    if write: _export(m, Q, r, c)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 330, in _export
+    amax = float(U.abs().max()); dt = np.int8 if amax <= 127 else (np.int16 if amax <= 32767 else np.int32)
+                 ^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.74 GiB. GPU 0 has a total capacity of 79.25 GiB of which 2.19 GiB is free. Including non-PyTorch memory, this process has 77.04 GiB memory in use. Of the allocated memory 76.29 GiB is allocated by PyTorch, and 219.19 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+[job 108_cal12_exported ERROR in 1975.4s]

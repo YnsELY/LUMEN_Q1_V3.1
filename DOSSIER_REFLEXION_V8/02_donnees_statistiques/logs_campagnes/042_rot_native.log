@@ -1,0 +1,17 @@
+[Arot_bf16] SELECT KL=0.00302 agree=0.9882 ppl_s=6.4527 ppl_t=6.4635 | chat:0.0082 code:0.0013 en_pr:0.0008 math_:0.0062 multi:0.0006 scien:0.0009  (confirm sealed; 75s)
+Arot_bf16 LONG KL mean 3.54e-03
+rotation seed 1, BF16: KL=3.12e-03 agree=0.9884
+  ldlq layer 0 done, 25s elapsed, bpw so far 2.8188, peak 67.7 GiB
+  ldlq layer 8 done, 157s elapsed, bpw so far 2.8197, peak 67.7 GiB
+  ldlq layer 16 done, 286s elapsed, bpw so far 2.8197, peak 67.7 GiB
+  ldlq layer 24 done, 415s elapsed, bpw so far 2.8197, peak 67.7 GiB
+  ldlq layer 32 done, 544s elapsed, bpw so far 2.8199, peak 67.7 GiB
+  ldlq layer 40 done, 673s elapsed, bpw so far 2.8200, peak 67.7 GiB
+  ldlq layer 48 done, 801s elapsed, bpw so far 2.8200, peak 67.7 GiB
+  ldlq layer 56 done, 929s elapsed, bpw so far 2.8201, peak 67.7 GiB
+  ldlq layer 63 done, 1043s elapsed, bpw so far 2.8201, peak 67.7 GiB
+ArotN_Q0ldlq bpw=2.8202 bits/target-1=-0.1358% pass 1068s peak 69.3 GiB {'embed': 2.817, 'in_proj_qkv': 2.821, 'in_proj_z': 2.82, 'in_proj_a': 2.821, 'in_proj_b': 2.821, 'out_proj': 2.817, 'gate_proj': 2.82, 'up_proj': 2.821, 'down_proj': 2.82, 'q_proj': 2.821, 'k_proj': 2.821, 'v_proj': 2.821, 'o_proj': 2.821, 'lm_head': 2.821}
+[ArotN_Q0ldlq] SELECT KL=0.10581 agree=0.8979 ppl_s=6.8339 ppl_t=6.4635 | chat:0.1954 code:0.2088 en_pr:0.0780 math_:0.0439 multi:0.0683 scien:0.0404  (confirm sealed; 69s)
+ArotN_Q0ldlq LONG (8192 tok) KL by 1024-bucket: [0.106, 0.1032, 0.0909, 0.1131, 0.1095, 0.1024, 0.1052, 0.1323] mean 0.1078
+
+[job 042_rot_native OK in 1428.8s]

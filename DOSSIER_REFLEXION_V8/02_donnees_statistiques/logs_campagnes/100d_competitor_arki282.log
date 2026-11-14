@@ -1,0 +1,9 @@
+loaded 498 tensors in 476s: 2.813 bpw on 26.89 G weights (9.456 GB of the 9.478 GB file); kept BF16: 353 small tensors; low cosine: {}
+cosine with BF16: min 0.8673 median 0.9802 max 1.0000
+[Arki05_2.82bpw] select  KL=0.21103 agree=0.8547 ppl_s=6.9382 ppl_t=6.4635 | chat:0.3945 code:0.3990 en_pr:0.1447 math_:0.0939 multi:0.1358 scien:0.0982
+[Arki05_2.82bpw] confirm KL=0.21330 agree=0.8545 ppl_s=5.6249 ppl_t=5.1900 | chat:0.4021 code:0.2782 en_pr:0.1307 math_:0.1995 multi:0.1580 scien:0.1113
+[Arki05_2.82bpw] big     KL=0.21157 agree=0.8560 ppl_s=5.7950 ppl_t=5.4222 | chat:0.4529 code:0.3294 en_pr:0.1091 math_:0.1282 multi:0.1458 scien:0.1041
+[Arki05_2.82bpw] P-A108 KL=0.0868 p99=0.910 top1=89.17% | code:0.026 encycl:0.118 instru:0.076 long:0.067 math:0.027 multil:0.187 tools:0.037 web:0.090
+[Arki05_2.82bpw] LONG KL by bucket [0.209, 0.208, 0.171, 0.191, 0.183, 0.169, 0.172, 0.203] mean 0.1883
+
+[job 100d_competitor_arki282 OK in 1179.5s]

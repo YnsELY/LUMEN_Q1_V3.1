@@ -1,0 +1,17 @@
+matrices with a transplanted target: 498 range 1.75..8.50
+  ldlq layer 0 done, 19s elapsed, bpw so far 2.6320, peak 67.8 GiB
+  ldlq layer 8 done, 150s elapsed, bpw so far 2.7295, peak 67.8 GiB
+  ldlq layer 16 done, 285s elapsed, bpw so far 2.7249, peak 67.8 GiB
+  ldlq layer 24 done, 416s elapsed, bpw so far 2.8051, peak 67.8 GiB
+  ldlq layer 32 done, 543s elapsed, bpw so far 2.8728, peak 67.8 GiB
+  ldlq layer 40 done, 669s elapsed, bpw so far 2.8231, peak 67.8 GiB
+  ldlq layer 48 done, 798s elapsed, bpw so far 2.7669, peak 67.8 GiB
+  ldlq layer 56 done, 926s elapsed, bpw so far 2.7407, peak 67.8 GiB
+  ldlq layer 63 done, 1038s elapsed, bpw so far 2.7199, peak 67.8 GiB
+L1_arkialloc bpw=2.8034 bits/target-1=-0.7311% pass 1068s peak 69.4 GiB {'embed': 2.62, 'in_proj_qkv': 2.715, 'in_proj_z': 2.647, 'in_proj_a': 8.005, 'in_proj_b': 8.005, 'out_proj': 3.133, 'gate_proj': 2.513, 'up_proj': 2.627, 'down_proj': 2.825, 'q_proj': 2.756, 'k_proj': 4.016, 'v_proj': 4.57, 'o_proj': 3.332, 'lm_head': 4.485}
+[L1_arkialloc] SELECT KL=0.12759 agree=0.8938 ppl_s=6.9007 ppl_t=6.4635 | chat:0.2423 code:0.2636 en_pr:0.0924 math_:0.0494 multi:0.0770 scien:0.0408  (confirm sealed; 69s)
+[L1_arkialloc] BIG(600) KL=0.13050 agree=0.8927 ppl_s=5.8418 ppl_t=5.4222 | chat:0.3111 code:0.2094 en_pr:0.0661 math_:0.0659 multi:0.0838 scien:0.0466  (292s)
+L1_arkialloc LONG (8192 tok) KL by 1024-bucket: [0.1311, 0.1403, 0.1117, 0.1355, 0.1219, 0.1245, 0.1161, 0.1583] mean 0.1299
+[L1_arkialloc] P-A108 KL=0.0740 p99=0.744 top1=89.92% | code:0.025 encycl:0.089 instru:0.065 long:0.061 math:0.028 multil:0.157 tools:0.042 web:0.073
+
+[job 102_arki_alloc_e8 OK in 1760.1s]

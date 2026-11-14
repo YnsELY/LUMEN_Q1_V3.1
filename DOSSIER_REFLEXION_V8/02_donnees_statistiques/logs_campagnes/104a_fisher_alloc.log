@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/104a_fisher_alloc.py", line 15, in <module>
+KeyError: 'layers.0.linear_attn.in_proj_a'
+
+[job 104a_fisher_alloc ERROR in 54.5s]

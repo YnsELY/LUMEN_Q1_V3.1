@@ -1,0 +1,25 @@
+bias-free linears: 497
+means 70s
+layers.1.mlp.gate_proj               |mu|^2/tr(H)=0.044  top-8 dims share of tr(H)=0.044  of which mean part=0.484
+layers.30.mlp.gate_proj              |mu|^2/tr(H)=0.363  top-8 dims share of tr(H)=0.362  of which mean part=0.963
+layers.30.mlp.down_proj              |mu|^2/tr(H)=0.012  top-8 dims share of tr(H)=0.016  of which mean part=0.166
+layers.30.linear_attn.in_proj_qkv    |mu|^2/tr(H)=0.600  top-8 dims share of tr(H)=0.608  of which mean part=0.967
+layers.30.linear_attn.out_proj       |mu|^2/tr(H)=0.053  top-8 dims share of tr(H)=0.034  of which mean part=0.112
+layers.31.self_attn.q_proj           |mu|^2/tr(H)=0.587  top-8 dims share of tr(H)=0.608  of which mean part=0.942
+layers.31.self_attn.o_proj           |mu|^2/tr(H)=0.104  top-8 dims share of tr(H)=0.038  of which mean part=0.506
+layers.62.mlp.gate_proj              |mu|^2/tr(H)=0.151  top-8 dims share of tr(H)=0.132  of which mean part=0.731
+lm_head                              |mu|^2/tr(H)=0.113  top-8 dims share of tr(H)=0.099  of which mean part=0.312
+family bit offsets: {'gate_proj': -0.323, 'up_proj': -0.323, 'down_proj': -0.095, 'in_proj_qkv': 0.296, 'in_proj_z': 0.296, 'in_proj_a': 0.296, 'in_proj_b': 0.296, 'out_proj': 0.601, 'q_proj': 0.99, 'k_proj': 0.99, 'v_proj': 0.99, 'o_proj': 0.848, 'embed': -0.089, 'lm_head': 0.511}
+Ab_Q0rtn mult=0.5929 bpw=2.8244 bits/target-1=+0.0131% {'in_proj_qkv': 2.825, 'in_proj_z': 2.826, 'in_proj_a': 2.846, 'in_proj_b': 2.84, 'out_proj': 2.824, 'gate_proj': 2.826, 'up_proj': 2.826, 'down_proj': 2.821, 'q_proj': 2.825, 'k_proj': 2.822, 'v_proj': 2.825, 'o_proj': 2.823, 'embed': 2.822, 'lm_head': 2.826}
+[Ab_Q0rtn] SELECT KL=0.16242 agree=0.8694 ppl_s=6.6958 ppl_t=6.4635 | chat:0.3852 code:0.2443 en_pr:0.0957 math_:0.0811 multi:0.0938 scien:0.0744  (confirm sealed; 70s)
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/007b5_bias_alloc.py", line 35, in <module>
+  File "/workspace/work/queue/007b5_bias_alloc.py", line 17, in run
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 39, in restore
+    byshard.setdefault(idx[k], []).append(k)
+                       ~~~^^^
+KeyError: 'model.language_model.layers.35.mlp.up_proj.bias'
+
+[job 007b5_bias_alloc ERROR in 187.3s]

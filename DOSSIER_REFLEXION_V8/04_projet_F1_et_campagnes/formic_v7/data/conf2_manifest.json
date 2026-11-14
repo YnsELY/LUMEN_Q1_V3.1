@@ -1,0 +1,77 @@
+{
+ "seed": 1357,
+ "tokenizer": "/root/models/qwen3.8-27b",
+ "tokens_per_doc": 1024,
+ "skip_items_per_stream": 12000,
+ "arxiv_start_index_min": 40000,
+ "datasets": {
+  "en_prose": {
+   "dataset": "wikimedia/wikipedia:20231101.en",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  "multiling": {
+   "dataset": "wikimedia/wikipedia:20231101.fr",
+   "license": "CC-BY-SA-3.0 and GFDL"
+  },
+  "code": {
+   "dataset": "local:python3.12-stdlib",
+   "license": "PSF License (CPython stdlib)"
+  },
+  "math_reasoning": {
+   "dataset": "meta-math/MetaMathQA:train",
+   "license": "MIT"
+  },
+  "chat": {
+   "dataset": "HuggingFaceH4/ultrachat_200k:train_sft",
+   "license": "MIT"
+  },
+  "science_tech": {
+   "dataset": "ccdv/arxiv-summarization:train",
+   "license": "unknown/arXiv (dataset card apache-2.0; papers retain author licenses)"
+  }
+ },
+ "counts_per_domain": {
+  "en_prose": 50,
+  "multiling": 50,
+  "code": 50,
+  "math_reasoning": 50,
+  "chat": 50,
+  "science_tech": 50
+ },
+ "counts_per_language_multiling": {
+  "fr": 8,
+  "zh": 7,
+  "de": 7,
+  "es": 7,
+  "ja": 7,
+  "ar": 7,
+  "ru": 7
+ },
+ "shape": [
+  300,
+  1024
+ ],
+ "min_token_id": 0,
+ "max_token_id": 248069,
+ "vocab_limit": 248320,
+ "sha256": {
+  "conf2_tokens.pt": "2d54a3ce3ebe9d976b73f508019cf4f6d19971e5a9b3e0dacd66b633f6337a35",
+  "conf2.jsonl": "db447da4852df678c4e3236df7b20dd6473497b58b881c6a42d7b3c03b51e6b1"
+ },
+ "overlap_check": {
+  "source_id_collisions": 0,
+  "text_start_300_collisions": 0,
+  "identical_text_collisions": 0,
+  "code_path_collisions": 0,
+  "wikipedia_article_collisions": 0,
+  "ultrachat_prompt_id_collisions": 0,
+  "arxiv_index_collisions": 0,
+  "math_problem_collisions": 0,
+  "math_problems_checked": 222,
+  "competitor_window_doc_id_collisions": 0,
+  "competitor_13gram_shared_docs_excl_boilerplate": 0,
+  "retokenized_text_matches_tokens": 299,
+  "duplicate_texts_within": 0,
+  "duplicate_source_ids_within": 0
+ }
+}

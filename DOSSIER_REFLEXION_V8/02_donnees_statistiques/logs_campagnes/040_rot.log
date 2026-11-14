@@ -1,0 +1,44 @@
+min |1+w| of RMSNorm gains (input norms, post-attn norms, final norm): (0.21484375, 0.0, 0.71484375)
+basis round trip rel err: reader 5.19e-06 writer 1.81e-06
+  ldlq layer 0 done, 4s elapsed, bpw so far 0.0000, peak 68.4 GiB
+  ldlq layer 1 done, 20s elapsed, bpw so far 2.8140, peak 68.4 GiB
+  ldlq layer 2 done, 36s elapsed, bpw so far 2.8143, peak 68.4 GiB
+  ldlq layer 3 done, 49s elapsed, bpw so far 2.8144, peak 68.4 GiB
+pilot (layers 1-3) bpw 2.8144 with match_bpw 2.8095 ; control overall 2.8212 {'in_proj_qkv': 2.8121, 'in_proj_z': 2.8121, 'in_proj_a': 2.8123, 'in_proj_b': 2.8125, 'out_proj': 2.8132, 'gate_proj': 2.812, 'up_proj': 2.8123, 'down_proj': 2.8209, 'q_proj': 2.8133, 'k_proj': 2.8134, 'v_proj': 2.8133, 'o_proj': 2.8155}
+layers 1-3 only quantized in rotated basis: KL=0.00564
+match_bpw set to 2.8158
+  ldlq layer 0 done, 21s elapsed, bpw so far 2.8188, peak 69.6 GiB
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/040_rot.py", line 22, in <module>
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 372, in run_ldlq_variant
+    acc(by[64]["lm_head"], _retry(run, "lm_head"))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 335, in ldlq_pass
+    if rot: unit_gain(norm)                       # readers now hold Q' R ; gain folded
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 323, in group
+    # Gram of the gain-less normalised input N(h): measured with the gain temporarily set to 1
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 197, in _retry
+    return fn()
+           ^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 320, in run
+    def group(mod, kinds, gam, norm=None):
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 365, in quantize_group
+    prep = fq.ldl_prepare(H.pop() if isinstance(H, list) else H, c, spec.get("damp", 0.01))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/formic_q.py", line 130, in ldl_prepare
+    C = torch.linalg.cholesky(Hf); del Hf            # = upper_ldl of the reference, on the flipped matrix
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+torch._C._LinAlgError: linalg.cholesky: The factorization could not be completed because the input is not positive-definite (the leading minor of order 1 is not positive-definite).
+
+[job 040_rot ERROR in 219.6s]

@@ -1,0 +1,6 @@
+Ab2 reloaded from checkpoint (24 docs): KL=2.3490 agree=0.4588
+lm_head bias: old |b| rms 0.6107, new |b| rms 0.0554
+[Ab2h_Q0ldlq] SELECT KL=3.52156 agree=0.3816 ppl_s=107.0754 ppl_t=6.4635 | chat:4.8274 code:3.5591 en_pr:3.1532 math_:2.5019 multi:4.3969 scien:2.6907  (confirm sealed; 70s)
+Ab2h_Q0ldlq LONG KL by 1024-bucket: [3.1964, 2.9692, 2.8471, 2.8227, 2.7371, 2.8216, 2.6011, 2.764] mean 2.8449
+
+[job 036d_ab2_headfix OK in 286.2s]

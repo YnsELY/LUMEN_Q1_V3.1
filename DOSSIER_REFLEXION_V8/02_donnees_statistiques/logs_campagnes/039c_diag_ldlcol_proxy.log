@@ -1,0 +1,17 @@
+L3  mixer_in  lumen: bpw 2.823 err 0.00479 esc 1.8e-05 | ldlcol_clip2: bpw 2.817 err 0.00444 esc 3.2e-04 | ldlcol_clip4: bpw 2.823 err 0.00433 esc 9.8e-04 | ldlcol_clip64: bpw 2.823 err 0.00432 esc 1.3e-03
+L3  mixer_out lumen: bpw 2.822 err 0.00587 esc 2.5e-05 | ldlcol_clip2: bpw 2.826 err 0.00454 esc 1.4e-04 | ldlcol_clip4: bpw 2.813 err 0.00531 esc 8.2e-04 | ldlcol_clip64: bpw 2.814 err 0.00576 esc 2.3e-03
+L3  mlp_down  lumen: bpw 2.826 err 0.00857 esc 9.9e-06 | ldlcol_clip2: bpw 2.815 err 0.00927 esc 3.8e-05 | ldlcol_clip4: bpw 2.820 err 0.00971 esc 3.8e-04 | ldlcol_clip64: bpw 2.824 err 0.00978 esc 6.8e-04
+L16 mixer_in  lumen: bpw 2.822 err 0.00214 esc 3.1e-06 | ldlcol_clip2: bpw 2.814 err 0.00219 esc 1.3e-04 | ldlcol_clip4: bpw 2.816 err 0.00224 esc 5.8e-04 | ldlcol_clip64: bpw 2.819 err 0.00244 esc 1.1e-03
+L16 mixer_out lumen: bpw 2.818 err 0.01214 esc 3.2e-06 | ldlcol_clip2: bpw 2.823 err 0.01230 esc 3.6e-05 | ldlcol_clip4: bpw 2.820 err 0.01279 esc 1.5e-04 | ldlcol_clip64: bpw 2.820 err 0.01282 esc 1.8e-04
+L16 mlp_down  lumen: bpw 2.818 err 0.01328 esc 4.0e-06 | ldlcol_clip2: bpw 2.817 err 0.01431 esc 2.2e-05 | ldlcol_clip4: bpw 2.817 err 0.01438 esc 5.5e-05 | ldlcol_clip64: bpw 2.817 err 0.01439 esc 6.3e-05
+L31 mixer_in  lumen: bpw 2.823 err 0.00377 esc 9.9e-05 | ldlcol_clip2: bpw 2.813 err 0.00430 esc 9.0e-04 | ldlcol_clip4: bpw 2.820 err 0.00480 esc 2.5e-03 | ldlcol_clip64: bpw 2.816 err 0.00499 esc 3.0e-03
+L31 mixer_out lumen: bpw 2.823 err 0.01137 esc 3.0e-05 | ldlcol_clip2: bpw 2.824 err 0.01090 esc 3.6e-04 | ldlcol_clip4: bpw 2.825 err 0.01114 esc 7.7e-04 | ldlcol_clip64: bpw 2.826 err 0.01116 esc 8.1e-04
+L31 mlp_down  lumen: bpw 2.819 err 0.01397 esc 1.1e-05 | ldlcol_clip2: bpw 2.819 err 0.01453 esc 4.6e-05 | ldlcol_clip4: bpw 2.819 err 0.01457 esc 7.9e-05 | ldlcol_clip64: bpw 2.819 err 0.01457 esc 8.1e-05
+L47 mixer_in  lumen: bpw 2.823 err 0.00408 esc 1.3e-04 | ldlcol_clip2: bpw 2.815 err 0.00467 esc 8.1e-04 | ldlcol_clip4: bpw 2.822 err 0.00554 esc 2.9e-03 | ldlcol_clip64: bpw 2.825 err 0.00589 esc 3.9e-03
+L47 mixer_out lumen: bpw 2.821 err 0.01131 esc 2.7e-05 | ldlcol_clip2: bpw 2.822 err 0.01108 esc 1.6e-04 | ldlcol_clip4: bpw 2.823 err 0.01127 esc 3.9e-04 | ldlcol_clip64: bpw 2.823 err 0.01129 esc 4.2e-04
+L47 mlp_down  lumen: bpw 2.819 err 0.01409 esc 1.4e-05 | ldlcol_clip2: bpw 2.815 err 0.01495 esc 4.6e-05 | ldlcol_clip4: bpw 2.814 err 0.01517 esc 1.2e-04 | ldlcol_clip64: bpw 2.814 err 0.01519 esc 1.5e-04
+L62 mixer_in  lumen: bpw 2.823 err 0.00233 esc 1.1e-04 | ldlcol_clip2: bpw 2.813 err 0.00254 esc 6.8e-04 | ldlcol_clip4: bpw 2.823 err 0.00267 esc 1.9e-03 | ldlcol_clip64: bpw 2.823 err 0.00272 esc 2.3e-03
+L62 mixer_out lumen: bpw 2.817 err 0.00899 esc 1.3e-04 | ldlcol_clip2: bpw 2.821 err 0.00674 esc 4.4e-04 | ldlcol_clip4: bpw 2.815 err 0.00747 esc 1.1e-03 | ldlcol_clip64: bpw 2.822 err 0.00810 esc 3.0e-03
+L62 mlp_down  lumen: bpw 2.821 err 0.00807 esc 4.5e-05 | ldlcol_clip2: bpw 2.818 err 0.00778 esc 1.7e-04 | ldlcol_clip4: bpw 2.815 err 0.00869 esc 8.0e-04 | ldlcol_clip64: bpw 2.818 err 0.00951 esc 2.6e-03
+
+[job 039c_diag_ldlcol_proxy OK in 1545.6s]

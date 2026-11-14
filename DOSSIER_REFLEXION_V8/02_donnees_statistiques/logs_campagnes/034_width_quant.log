@@ -1,0 +1,6 @@
+A1_w0.125_Q0rtn mult=0.4986 bpw(on kept)=3.0677 bits/target-1=-0.0100%
+[A1_w0.125_Q0rtn] SELECT KL=0.25246 agree=0.8304 ppl_s=7.5948 ppl_t=6.4635 | chat:0.5080 code:0.3475 en_pr:0.2226 math_:0.1074 multi:0.1925 scien:0.1368  (confirm sealed; 70s)
+A1_w0.25_Q0rtn mult=0.4077 bpw(on kept)=3.3583 bits/target-1=+0.0036%
+[A1_w0.25_Q0rtn] SELECT KL=0.35526 agree=0.8007 ppl_s=7.7829 ppl_t=6.4635 | chat:0.6756 code:0.4338 en_pr:0.3522 math_:0.1287 multi:0.3456 scien:0.1956  (confirm sealed; 69s)
+
+[job 034_width_quant OK in 222.2s]

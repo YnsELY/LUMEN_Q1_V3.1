@@ -1,0 +1,5 @@
+import gc
+for k in ("E", "Wh", "M", "res", "EtE", "x", "o", "out", "l1", "l2", "ids"):
+    if k in globals(): del globals()[k]
+gc.collect(); torch.cuda.empty_cache()
+print("allocated GiB after cleanup:", torch.cuda.memory_allocated()/2**30)

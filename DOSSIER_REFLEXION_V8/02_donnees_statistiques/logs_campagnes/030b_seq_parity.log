@@ -1,0 +1,4 @@
+Seq layer-by-layer vs model forward (BF16, 16 docs): {'rel_err': 0.0, 'max_abs': 0.0, 'identical': True}
+alloc GiB 53.3
+
+[job 030b_seq_parity OK in 34.9s]

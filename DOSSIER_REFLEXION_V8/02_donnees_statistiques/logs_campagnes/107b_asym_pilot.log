@@ -1,0 +1,25 @@
+  ldlq layer 0 done, 21s elapsed, bpw so far 2.8191, peak 72.2 GiB
+  ldlq layer 3 done, 72s elapsed, bpw so far 2.8168, peak 72.2 GiB
+  ldlq layer 6 done, 125s elapsed, bpw so far 2.8154, peak 72.2 GiB
+  ldlq layer 9 done, 175s elapsed, bpw so far 2.8146, peak 72.2 GiB
+[layers 0-11 only] sym        bpw 2.8143 pass 207s | select KL 0.01587 | P-A108-dev KL=0.0085 p99=0.113 top1=96.90% | code:0.001 encycl:0.012 instru:0.003 long:0.004 math:0.001 multil:0.025 tools:0.001 web:0.012
+  asym L0: |B-W|/|W| {'in_proj_qkv': 0.0, 'in_proj_z': 0.0, 'in_proj_a': 0.0, 'in_proj_b': 0.0, 'out_proj': 0.0482, 'gate_proj': 0.121, 'up_proj': 0.1193, 'down_proj': 0.1245} ; hidden drift |h_S-h_T|/|h_T| = 0.0136
+  ldlq layer 0 done, 31s elapsed, bpw so far 2.8191, peak 74.7 GiB
+  asym L3: |B-W|/|W| {'q_proj': 0.0469, 'k_proj': 0.046, 'v_proj': 0.0451, 'o_proj': 0.1038, 'gate_proj': 0.067, 'up_proj': 0.0663, 'down_proj': 0.1475} ; hidden drift |h_S-h_T|/|h_T| = 0.0218
+  ldlq layer 3 done, 105s elapsed, bpw so far 2.8168, peak 74.7 GiB
+  asym L6: |B-W|/|W| {'in_proj_qkv': 0.0562, 'in_proj_z': 0.0564, 'in_proj_a': 0.0626, 'in_proj_b': 0.062, 'out_proj': 0.0803, 'gate_proj': 0.0652, 'up_proj': 0.0642, 'down_proj': 0.1393} ; hidden drift |h_S-h_T|/|h_T| = 0.0347
+  ldlq layer 6 done, 186s elapsed, bpw so far 2.8154, peak 74.7 GiB
+  asym L9: |B-W|/|W| {'in_proj_qkv': 0.061, 'in_proj_z': 0.0613, 'in_proj_a': 0.066, 'in_proj_b': 0.0664, 'out_proj': 0.0754, 'gate_proj': 0.066, 'up_proj': 0.0649, 'down_proj': 0.135} ; hidden drift |h_S-h_T|/|h_T| = 0.0383
+  ldlq layer 9 done, 261s elapsed, bpw so far 2.8146, peak 74.7 GiB
+[layers 0-11 only] asym_0.01  bpw 2.8143 pass 309s | select KL 0.01671 | P-A108-dev KL=0.0083 p99=0.108 top1=96.88% | code:0.001 encycl:0.012 instru:0.004 long:0.004 math:0.001 multil:0.023 tools:0.001 web:0.011
+  asym L0: |B-W|/|W| {'in_proj_qkv': 0.0, 'in_proj_z': 0.0, 'in_proj_a': 0.0, 'in_proj_b': 0.0, 'out_proj': 0.0157, 'gate_proj': 0.0776, 'up_proj': 0.0765, 'down_proj': 0.0626} ; hidden drift |h_S-h_T|/|h_T| = 0.0140
+  ldlq layer 0 done, 31s elapsed, bpw so far 2.8191, peak 74.7 GiB
+  asym L3: |B-W|/|W| {'q_proj': 0.0157, 'k_proj': 0.0154, 'v_proj': 0.0151, 'o_proj': 0.0491, 'gate_proj': 0.0531, 'up_proj': 0.0525, 'down_proj': 0.1077} ; hidden drift |h_S-h_T|/|h_T| = 0.0222
+  ldlq layer 3 done, 106s elapsed, bpw so far 2.8168, peak 74.7 GiB
+  asym L6: |B-W|/|W| {'in_proj_qkv': 0.0276, 'in_proj_z': 0.0276, 'in_proj_a': 0.0301, 'in_proj_b': 0.0298, 'out_proj': 0.0584, 'gate_proj': 0.0494, 'up_proj': 0.0489, 'down_proj': 0.1098} ; hidden drift |h_S-h_T|/|h_T| = 0.0351
+  ldlq layer 6 done, 187s elapsed, bpw so far 2.8154, peak 74.7 GiB
+  asym L9: |B-W|/|W| {'in_proj_qkv': 0.036, 'in_proj_z': 0.0361, 'in_proj_a': 0.0385, 'in_proj_b': 0.0388, 'out_proj': 0.0533, 'gate_proj': 0.0526, 'up_proj': 0.0521, 'down_proj': 0.1103} ; hidden drift |h_S-h_T|/|h_T| = 0.0385
+  ldlq layer 9 done, 263s elapsed, bpw so far 2.8146, peak 74.7 GiB
+[layers 0-11 only] asym_0.1   bpw 2.8143 pass 310s | select KL 0.01633 | P-A108-dev KL=0.0079 p99=0.106 top1=96.95% | code:0.001 encycl:0.010 instru:0.003 long:0.004 math:0.001 multil:0.023 tools:0.001 web:0.011
+
+[job 107b_asym_pilot OK in 1664.2s]

@@ -1,0 +1,20 @@
+  ldlq layer 0 done, 4s elapsed, bpw so far 0.0000, peak 69.8 GiB
+  ldlq layer 1 done, 19s elapsed, bpw so far 2.8246, peak 69.8 GiB
+  ldlq layer 2 done, 35s elapsed, bpw so far 2.8233, peak 69.8 GiB
+  ldlq layer 3 done, 48s elapsed, bpw so far 2.8222, peak 69.8 GiB
+pilot (layers 1-3) bpw 2.8222 with match_bpw 2.8110 ; control overall 2.8212 {'in_proj_qkv': 2.8259, 'in_proj_z': 2.8255, 'in_proj_a': 2.8355, 'in_proj_b': 2.839, 'out_proj': 2.8179, 'gate_proj': 2.8212, 'up_proj': 2.8207, 'down_proj': 2.8247, 'q_proj': 2.8194, 'k_proj': 2.8192, 'v_proj': 2.8196, 'o_proj': 2.8195}
+match_bpw set to 2.8095
+  ldlq layer 0 done, 19s elapsed, bpw so far 2.8191, peak 65.1 GiB
+  ldlq layer 8 done, 151s elapsed, bpw so far 2.8185, peak 65.1 GiB
+  ldlq layer 16 done, 279s elapsed, bpw so far 2.8174, peak 65.1 GiB
+  ldlq layer 24 done, 406s elapsed, bpw so far 2.8167, peak 65.1 GiB
+  ldlq layer 32 done, 532s elapsed, bpw so far 2.8164, peak 65.1 GiB
+  ldlq layer 40 done, 662s elapsed, bpw so far 2.8161, peak 65.1 GiB
+  ldlq layer 48 done, 790s elapsed, bpw so far 2.8159, peak 65.1 GiB
+  ldlq layer 56 done, 916s elapsed, bpw so far 2.8159, peak 65.1 GiB
+  ldlq layer 63 done, 1027s elapsed, bpw so far 2.8158, peak 65.1 GiB
+A0_Qldlcol_ldlq bpw=2.8159 bits/target-1=-0.2860% pass 1052s peak 66.7 GiB {'embed': 2.818, 'in_proj_qkv': 2.816, 'in_proj_z': 2.816, 'in_proj_a': 2.823, 'in_proj_b': 2.822, 'out_proj': 2.814, 'gate_proj': 2.816, 'up_proj': 2.816, 'down_proj': 2.816, 'q_proj': 2.816, 'k_proj': 2.817, 'v_proj': 2.816, 'o_proj': 2.818, 'lm_head': 2.818}
+[A0_Qldlcol_ldlq] SELECT KL=0.11864 agree=0.8914 ppl_s=6.8965 ppl_t=6.4635 | chat:0.2290 code:0.2284 en_pr:0.0878 math_:0.0466 multi:0.0770 scien:0.0430  (confirm sealed; 69s)
+A0_Qldlcol_ldlq LONG (8192 tok) KL by 1024-bucket: [0.1147, 0.1212, 0.1027, 0.1237, 0.1346, 0.1156, 0.1191, 0.1488] mean 0.1225
+
+[job 038b_ldlcol OK in 1249.8s]

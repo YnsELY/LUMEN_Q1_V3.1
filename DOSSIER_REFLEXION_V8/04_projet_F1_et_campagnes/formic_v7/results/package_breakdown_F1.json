@@ -1,0 +1,37 @@
+{
+ "groups": {
+  "texte \u2014 matrices E8": {
+   "bytes": 9448769144,
+   "weights": 26893352960,
+   "files": 498
+  },
+  "MTP \u2014 matrices E8": {
+   "bytes": 212044538,
+   "weights": 424673280,
+   "files": 8
+  },
+  "texte \u2014 petits tenseurs FP16": {
+   "bytes": 5300601,
+   "weights": 0,
+   "files": 353
+  },
+  "MTP \u2014 petits tenseurs FP16": {
+   "bytes": 52399,
+   "weights": 0,
+   "files": 7
+  },
+  "Vision \u2014 petits tenseurs FP16": {
+   "bytes": 824181,
+   "weights": 0,
+   "files": 221
+  },
+  "Vision \u2014 matrices E8": {
+   "bytes": 284276987,
+   "weights": 460320768,
+   "files": 112
+  }
+ },
+ "aux_bytes": 22909615,
+ "total_bytes_on_disk": 9974484649,
+ "n_files": 1210
+}

@@ -1,0 +1,8 @@
+{'select': (72, 1024, 5120), 'confirm': (72, 1024, 5120)} 62.37305212020874
+wrapper-vs-text-path max abs logit diff: 0.0
+teacher self-eval: KL=0.00000 agree=1.0000 ppl_s=6.4635 ppl_t=6.4635 | chat:0.0000 code:0.0000 en_pr:0.0000 math_:0.0000 multi:0.0000 scien:0.0000 34.99022650718689
+{'chat': 4.012, 'code': 0.6272, 'en_prose': 1.9677, 'math_reasoning': 0.6236, 'multiling': 1.9237, 'science_tech': 2.0429}
+mats: 498 26.89335296
+54.88708448410034 62.46520948410034
+
+[job 001_teacher OK in 99.6s]

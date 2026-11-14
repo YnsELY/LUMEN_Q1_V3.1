@@ -1,0 +1,10 @@
+A0_Q0rtn mult=0.5917 bpw=2.8248 bits/target-1=+0.0268% {'in_proj_qkv': 2.825, 'in_proj_z': 2.825, 'in_proj_a': 2.845, 'in_proj_b': 2.838, 'out_proj': 2.824, 'gate_proj': 2.825, 'up_proj': 2.825, 'down_proj': 2.823, 'q_proj': 2.825, 'k_proj': 2.822, 'v_proj': 2.825, 'o_proj': 2.823, 'embed': 2.825, 'lm_head': 2.825} quant 37s
+[A0_Q0rtn] SELECT KL=0.19008 agree=0.8531 ppl_s=6.7586 ppl_t=6.4635 | chat:0.4080 code:0.2877 en_pr:0.1219 math_:0.1013 multi:0.1155 scien:0.1060  (confirm sealed; 70s)
+A0_Qcol_rtn mult=0.5722 bpw=2.8255 bits/target-1=+0.0532% {'in_proj_qkv': 2.822, 'in_proj_z': 2.643, 'in_proj_a': 2.682, 'in_proj_b': 2.323, 'out_proj': 2.842, 'gate_proj': 2.843, 'up_proj': 2.877, 'down_proj': 2.868, 'q_proj': 2.476, 'k_proj': 2.697, 'v_proj': 2.855, 'o_proj': 2.83, 'embed': 2.872, 'lm_head': 2.773} quant 37s
+[A0_Qcol_rtn] SELECT KL=0.21301 agree=0.8485 ppl_s=6.7609 ppl_t=6.4635 | chat:0.4883 code:0.3117 en_pr:0.1432 math_:0.0900 multi:0.1448 scien:0.1001  (confirm sealed; 70s)
+A0_Qfl_rtn mult=0.5066 bpw=2.8267 bits/target-1=+0.0952% {'in_proj_qkv': 2.34, 'in_proj_z': 2.19, 'in_proj_a': 2.32, 'in_proj_b': 1.936, 'out_proj': 2.97, 'gate_proj': 2.892, 'up_proj': 2.97, 'down_proj': 3.039, 'q_proj': 1.81, 'k_proj': 2.387, 'v_proj': 2.857, 'o_proj': 3.007, 'embed': 3.045, 'lm_head': 3.042} quant 40s
+[A0_Qfl_rtn] SELECT KL=7.62175 agree=0.0890 ppl_s=11569.1269 ppl_t=6.4635 | chat:6.3082 code:8.6646 en_pr:7.1085 math_:7.0433 multi:9.6481 scien:6.9577  (confirm sealed; 70s)
+A0_Qfg_rtn mult=0.0000 bpw=2.8336 bits/target-1=+0.3393% {'in_proj_qkv': 2.386, 'in_proj_z': 2.737, 'in_proj_a': 3.491, 'in_proj_b': 6.575, 'out_proj': 4.393, 'gate_proj': 2.368, 'up_proj': 2.525, 'down_proj': 3.289, 'q_proj': 2.273, 'k_proj': 5.368, 'v_proj': 5.028, 'o_proj': 4.874, 'embed': 2.825, 'lm_head': 2.702} quant 34s
+[A0_Qfg_rtn] SELECT KL=1.42660 agree=0.6020 ppl_s=17.6315 ppl_t=6.4635 | chat:1.9283 code:1.1760 en_pr:1.1618 math_:0.4281 multi:3.1227 scien:0.7427  (confirm sealed; 69s)
+
+[job 004_q_rules OK in 426.8s]

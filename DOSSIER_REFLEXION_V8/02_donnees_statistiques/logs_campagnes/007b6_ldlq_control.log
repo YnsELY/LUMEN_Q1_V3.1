@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/007b6_ldlq_control.py", line 7, in <module>
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 39, in restore
+    byshard.setdefault(idx[k], []).append(k)
+                       ~~~^^^
+KeyError: 'model.language_model.layers.35.mlp.up_proj.bias'
+
+[job 007b6_ldlq_control ERROR in 0.0s]

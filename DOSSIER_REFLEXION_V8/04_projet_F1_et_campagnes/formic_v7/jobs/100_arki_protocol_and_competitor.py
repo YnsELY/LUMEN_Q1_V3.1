@@ -1,0 +1,21 @@
+# V7 step 1: (a) BF16 teacher cache on the public Arki05 windows; (b) Arki05 2.82 bpw dequantized into OUR graph,
+# measured on OUR splits (select / confirm / big-600, full-vocabulary KL) and on the Arki05 windows (P-A108).
+import sys, importlib, json, time
+sys.path.insert(0, "/workspace/LUMEN_Q1_V3.1/formic_v7/lab")
+import harness, seq, formic_q, v7
+importlib.reload(formic_q); _S = dict(harness.S); importlib.reload(harness); harness.S.update(_S); H = harness
+importlib.reload(seq); SQ = seq; importlib.reload(v7); V = v7
+OUT7 = "/workspace/LUMEN_Q1_V3.1/formic_v7/results"
+if "arki" not in H.S:
+    H.restore(); t = time.time(); print("arki teacher:", V.arki_teacher(), "%.0fs" % (time.time() - t), flush=True)
+rep = V.load_gguf("/workspace/work/competitors/arki05/Qwen3.8-27B-2.82bpw.gguf")
+print("loaded %d tensors in %.0fs: %.3f bpw on %.2f G weights (%.3f GB of the %.3f GB file); kept BF16: %d small tensors; low cosine: %s" % (
+    rep["loaded"], rep["seconds"], rep["bpw_loaded"], rep["loaded_params"] / 1e9, rep["loaded_bytes"] / 1e9, rep["file_bytes"] / 1e9, len(rep["kept_bf16"]), rep["low_cosine"]), flush=True)
+cs = sorted(v["cos"] for v in rep["tensors"].values()); print("cosine with BF16: min %.4f median %.4f max %.4f" % (cs[0], cs[len(cs)//2], cs[-1]), flush=True)
+res = dict(id="Arki05_2.82bpw", load=rep)
+for split in ("select", "confirm", "big"):
+    r = H.evaluate(split); res[split] = r; print("[Arki05_2.82bpw] %-7s %s" % (split, H.short(r)), flush=True)
+ra = V.arki_eval(); res["arki108"] = ra; print("[Arki05_2.82bpw]", V.arki_short(ra), flush=True)
+rl = H.evaluate_long(); res["long"] = rl; print("[Arki05_2.82bpw] LONG KL by bucket", [round(v, 3) for v in rl["kl_by_bucket"]], "mean %.4f" % rl["kl"], flush=True)
+json.dump(res, open(OUT7 + "/competitor_Arki05_2.82bpw.json", "w"))
+H.restore()

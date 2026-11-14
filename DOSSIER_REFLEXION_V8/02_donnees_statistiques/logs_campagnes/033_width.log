@@ -1,0 +1,25 @@
+prune L0 keep 15232/17408 rel_err zero=0.0127 fit=0.0020 (3.0s)
+prune L8 keep 15232/17408 rel_err zero=0.0489 fit=0.0228 (3.5s)
+prune L16 keep 15232/17408 rel_err zero=0.0579 fit=0.0347 (3.6s)
+prune L24 keep 15232/17408 rel_err zero=0.0705 fit=0.0329 (3.6s)
+prune L32 keep 15232/17408 rel_err zero=0.0804 fit=0.0479 (3.6s)
+prune L40 keep 15232/17408 rel_err zero=0.0750 fit=0.0373 (3.6s)
+prune L48 keep 15232/17408 rel_err zero=0.0647 fit=0.0352 (3.6s)
+prune L56 keep 15232/17408 rel_err zero=0.0476 fit=0.0217 (3.6s)
+prune L63 keep 15232/17408 rel_err zero=0.0057 fit=0.0019 (2.9s)
+frac 0.125 nk 15232 prune pass 268s mean rel err zero=0.0579 fit=0.0300
+[A1_w0.125_bf16] SELECT KL=0.13593 agree=0.8855 ppl_s=7.0189 ppl_t=6.4635 | chat:0.2344 code:0.2126 en_pr:0.1405 math_:0.0494 multi:0.1133 scien:0.0654  (confirm sealed; 71s)
+prune L0 keep 13056/17408 rel_err zero=0.0367 fit=0.0069 (2.9s)
+prune L8 keep 13056/17408 rel_err zero=0.1175 fit=0.0567 (3.4s)
+prune L16 keep 13056/17408 rel_err zero=0.1400 fit=0.0848 (3.4s)
+prune L24 keep 13056/17408 rel_err zero=0.1552 fit=0.0745 (3.4s)
+prune L32 keep 13056/17408 rel_err zero=0.1731 fit=0.1051 (3.4s)
+prune L40 keep 13056/17408 rel_err zero=0.1623 fit=0.0834 (3.4s)
+prune L48 keep 13056/17408 rel_err zero=0.1422 fit=0.0813 (3.4s)
+prune L56 keep 13056/17408 rel_err zero=0.1099 fit=0.0543 (3.4s)
+prune L63 keep 13056/17408 rel_err zero=0.0137 fit=0.0052 (2.8s)
+frac 0.25 nk 13056 prune pass 258s mean rel err zero=0.1309 fit=0.0699
+[A1_w0.25_bf16] SELECT KL=0.27845 agree=0.8310 ppl_s=7.8376 ppl_t=6.4635 | chat:0.4768 code:0.3699 en_pr:0.2967 math_:0.0928 multi:0.2841 scien:0.1503  (confirm sealed; 71s)
+[A1_w0.125_bf16_nocomp] SELECT KL=0.15856 agree=0.8769 ppl_s=7.2203 ppl_t=6.4635 | chat:0.3194 code:0.2126 en_pr:0.1392 math_:0.0850 multi:0.1181 scien:0.0771  (confirm sealed; 71s)
+
+[job 033_width OK in 826.0s]

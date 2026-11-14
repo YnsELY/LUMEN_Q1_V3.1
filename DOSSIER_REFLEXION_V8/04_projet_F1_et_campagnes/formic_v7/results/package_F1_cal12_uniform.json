@@ -1,0 +1,14 @@
+{
+ "pkg": "/workspace/work/packages/F1_cal12_uniform",
+ "package_bytes": 9454287005,
+ "e8_files": 498,
+ "e8_bytes": 9448769144,
+ "e8_params": 26893352960,
+ "raw_params_fp16": 2645504,
+ "decoded_matrices": 498,
+ "decode_eval_seconds": 683.9508707523346,
+ "big_kl_from_files": 0.1015058208986496,
+ "big_kl_in_memory": 0.1015058208986496,
+ "arkidev_kl_from_files": 0.05811493843793869,
+ "arkidev_kl_in_memory": 0.05811493843793869
+}

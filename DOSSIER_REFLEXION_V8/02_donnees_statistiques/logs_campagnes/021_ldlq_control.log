@@ -1,0 +1,30 @@
+  ldlq layer 0 done, 23s elapsed, bpw so far 2.8200
+  ldlq layer 8 done, 225s elapsed, bpw so far 2.8221
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/lab_server.py", line 39, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work/queue/021_ldlq_control.py", line 9, in <module>
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/seq.py", line 195, in ldlq_pass
+    for k, res in zip(("gate_proj", "up_proj"), H.quantize_group([d["gate_proj"], d["up_proj"]], spec, mult, st, Hm, mu_override=mu)): acc(d[k], res)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/harness.py", line 293, in quantize_matrix
+    _, hist = fq.quantize_rtn(Wsub[sel], r[sel], c)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/formic_q.py", line 187, in quantize_ldlq
+    if prep is None: prep = ldl_prepare(H, c, damp)
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_arch/lab/formic_q.py", line 128, in ldl_prepare
+    Hf = H.flip(0, 1); del H
+         ^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.26 GiB. GPU 0 has a total capacity of 79.25 GiB of which 1.07 GiB is free. Including non-PyTorch memory, this process has 78.16 GiB memory in use. Of the allocated memory 70.76 GiB is allocated by PyTorch, and 6.86 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+[job 021_ldlq_control ERROR in 403.0s]

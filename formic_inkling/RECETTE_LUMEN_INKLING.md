@@ -17,7 +17,7 @@ dédié et n'est jugée que sur la fidélité des logits. Résultats et preuves 
 | Matrices E8 du chemin texte | `embed`, `unembed` (200 058 lignes), et par couche : `q_proj`, `k_proj`, `v_proj`, `relative_position_bias.linear` (wr_du), `o_proj.linear`, puis **une matrice par expert** : `w13` (gate+up, 2304 × 2304) et `w2` (2304 × 1152) — 6 266 matrices | `lab/ink_quant.py : matrix_list` |
 | Quantifieur | réseau **E8**, codes doublés, poids décodé = code × pas / 2, décodé canonique `bf16_rne(f32(U)·(f32(pas)/2))` | `lab/formic_q.py` |
 | Pas | un pas **FP16 par ligne** = multiplicateur × RMS de la ligne | `row_steps` |
-| Multiplicateur | **RÉSULTAT** | `jobs/006_L0.py` |
+| Multiplicateur | **0,757082** pour toutes les matrices E8 du texte (allocation **uniforme**) ; `unembed` : 0,717596 (ajustement aux octets du budget) | `jobs/006_L0.py` |
 | Compensation | **LDLQ par blocs de 8 colonnes**, 7 candidats, amortissement 1 % de la diagonale moyenne ; experts traités par lots de 16 (vectorisation **identique bit à bit** à `ldlq_rows`, test unitaire) | `ldl_prepare_batched`, `ldlq_rows_batched` |
 | Gram des experts | **par expert, non pondéré**, comptes = tokens × applications (×3 dans le cœur) ; seuil n_min = 4·2304 (w13), 4·1152 (w2) → sinon E8 au plus proche | `Capture._exp`, `q_experts` |
 | Objectif et ordre | erreur de sortie locale, symétrique, entrées de l'**élève** capturées sur le vrai graphe Transformers (forward complet, arrêt anticipé) ; **groupes** [0–5], [6–9], [10–13], [14–17], [18–23] ; phase A (entrées d'attention, wo, w13), phase B (w2, Gram recalculé après quantification des w13) ; Gram du cœur = somme des 3 passes | `run_pass` |
@@ -43,9 +43,16 @@ dédié et n'est jugée que sur la fidélité des logits. Résultats et preuves 
 | Calibration | 409 600 tokens | 1 179 648 tokens | MoE (données par expert) ; plafonnée par le temps |
 | Petits tenseurs | FP16 | type du checkpoint, bit à bit | — |
 
-## 3. Ce qui a été essayé
+## 3. Ce qui a été essayé (phase 1)
 
-RÉSULTAT (variantes C5).
+| Variante | Résultat à octets égaux (P-I dev) | Décision |
+|---|---|---|
+| V1a : cœur +0,2 bit, prélude et coda −0,2 bit | 0,07846 contre 0,08024 (−2,2 %, IC [−5,7 ; +1,5]) ; meilleur en raisonnement, moins bon en encyclopédique | non retenue (départage par domaines : 4 contre 5) |
+| V2, V3, V4, V5 | non testées en phase 1 | voir phase 2 dans le rapport |
+
+**Résultat de la recette retenue (P-I conf, notre graphe)** : KL 0,0785 contre 0,0819 pour UD-IQ2_XXS à octets égaux (−4,2 %,
+IC [−13,4 ; +5,0]) : niveau « Échec » au sens des critères du mandat ; meilleure sur 7 domaines sur 9, moins bonne en agentique et
+raisonnement. Paquet complet 8 860 641 865 octets.
 
 ## 4. Reproduire
 

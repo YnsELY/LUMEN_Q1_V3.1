@@ -14,6 +14,7 @@ import package
 
 @torch.no_grad()
 def e8_rtn_to_pkg(W2, bpw, pkg, name):
+    fq.set_limit(16384)            # comme V7 (extension) : au-delà de ~3,6 bpw, les coquilles > 127 ne doivent pas être des échappements
     W2 = W2.float().cuda(); m, n = W2.shape; lo, hi = 0.002, 3.0
     for _ in range(22):
         mid = math.sqrt(lo * hi); r = fq.row_steps(W2, mid); _, hist = fq.quantize_rtn(W2, r)
@@ -124,8 +125,9 @@ def load_package(pkg, tmp="/dev/shm/ink_pkgdec", workers=48, blank=True):
             n += 1
     man = package.load_manifest(pkg); params = dict(model.named_parameters()); bufs = dict(model.named_buffers()); nr = 0
     for k, v in man.items():
-        if v["kind"] != "raw" or k.startswith("raw.mtp."): continue
+        if v["kind"] != "raw": continue
         _, dt, name = k.split(".", 2)
+        if name.startswith("mtp."): continue                  # drafter : non chargé dans ce graphe (non évalué)
         a = package.read_raw(pkg, k)
         t = torch.from_numpy(a.view(np.int16)).view(torch.bfloat16) if dt == "bf16" else torch.from_numpy(a)
         P = params.get(name) if name in params else (bufs.get(name) if name in bufs else dict(model.model.vision_tower.named_parameters()).get(name[7:]) if name.startswith("visual.") else None)

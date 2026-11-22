@@ -344,7 +344,7 @@ def mult_for(kind, i, spec):
     m = spec["mult"]
     if spec.get("delta") and kind in ("w13", "w2", "attn") and i is not None:
         m = spec["mult_core"] if zone(i) == "core" else spec["mult_edge"]
-    if spec.get("fine") and kind in ("attn", "unembed"):
+    if spec.get("fine") and kind in ("attn", "unembed", "embed"):
         m = spec["mult_fine"]
     return m
 

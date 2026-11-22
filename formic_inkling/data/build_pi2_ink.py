@@ -13,14 +13,14 @@ used |= set(p['source_id'] for p in json.load(open(f'{B.D}/pd32_prompts.json')))
 def add(dom, sid, t, n_have):
     if sid in used: return False
     return B.raw_window(dom, sid, t, '', '', '')
-def take(dom, it, f):
+def take(dom, it, f, nmax=N):
     n = 0
     for sid, t in it:
-        if n >= N: break
+        if n >= nmax: break
         if f(t) and add(dom, sid, t, n): n += 1
     print(dom, n, flush=True)
-take('code', ((f'codeparrot-clean/{100000 + j}', r['content']) for j, r in enumerate(load_dataset('codeparrot/codeparrot-clean', split='train', streaming=True).skip(100000))), lambda t: len(t) > 15000 and sum(1 for r in B.PI if r['domain'] == 'code') < 3)
-take('code', ((f'the-stack-rust-clean/{10000 + j}', r['content']) for j, r in enumerate(load_dataset('ammarnasr/the-stack-rust-clean', split='train', streaming=True).skip(10000))), lambda t: len(t) > 15000 and sum(1 for r in B.PI if r['domain'] == 'code') < 6)
+take('code', ((f'codeparrot-clean/{5000 + j}', r['content']) for j, r in enumerate(load_dataset('codeparrot/codeparrot-clean', split='train', streaming=True).skip(5000))), lambda t: len(t) > 15000, 3)
+take('code', ((f'the-stack-rust-clean/{3000 + j}', r['content']) for j, r in enumerate(load_dataset('ammarnasr/the-stack-rust-clean', split='train', streaming=True).skip(3000))), lambda t: len(t) > 15000, 3)
 buf = []
 for sub in ('algebra', 'counting_and_probability', 'geometry', 'intermediate_algebra', 'number_theory', 'prealgebra', 'precalculus'):
     for j, r in enumerate(load_dataset('EleutherAI/hendrycks_math', sub, split='test', streaming=True)):
@@ -33,14 +33,14 @@ while n < N and k < len(buf):
     while len(B.ids(t)) < 4096 and k < len(buf): t += buf[k]; k += 1
     if B.raw_window('math', f'hendrycks_math/test/pi2pack{s0}-{k}', t, '', '', ''): n += 1
 print('math', n)
-take('encyclopedic', ((f'wikipedia/20231101.en/{r["id"]}', r['text']) for r in load_dataset('wikimedia/wikipedia', '20231101.en', split='train', streaming=True).skip(400000)), lambda t: len(t) > 9000)
+take('encyclopedic', ((f'wikipedia/20231101.en/{r["id"]}', r['text']) for r in load_dataset('wikimedia/wikipedia', '20231101.en', split='train', streaming=True).skip(20000)), lambda t: len(t) > 9000)
 for lg in ('fr', 'de', 'es', 'ru', 'zh', 'ja'):
     n0 = sum(1 for r in B.PI if r['domain'] == 'multilingual')
-    for r in load_dataset('wikimedia/wikipedia', f'20231101.{lg}', split='train', streaming=True).skip(300000):
+    for r in load_dataset('wikimedia/wikipedia', f'20231101.{lg}', split='train', streaming=True).skip(20000):
         if len(r['text']) > 9000 and add('multilingual', f'wikipedia/20231101.{lg}/{r["id"]}', r['text'], 0): break
 print('multilingual', sum(1 for r in B.PI if r['domain'] == 'multilingual'))
 take('long', ((f'pg19/validation/{j}', r['text'][20000:]) for j, r in enumerate(load_dataset('emozilla/pg19', split='validation', streaming=True))), lambda t: len(t) > 40000)
-take('web', ((f'c4/en/validation/{50000 + j}', r['text']) for j, r in enumerate(load_dataset('allenai/c4', 'en', split='validation', streaming=True).skip(50000))), lambda t: len(t) > 14000)
+take('web', ((f'c4/en/validation/{20000 + j}', r['text']) for j, r in enumerate(load_dataset('allenai/c4', 'en', split='validation', streaming=True).skip(20000))), lambda t: len(t) > 14000)
 X = torch.tensor([r['ids'] for r in B.PI], dtype=torch.int32)
 h = hashlib.sha256(X.numpy().tobytes()).hexdigest()
 torch.save(dict(tokens=X, domain=[r['domain'] for r in B.PI], part=['conf2'] * len(B.PI), source_ids=[[r['source_id']] for r in B.PI]), f'{B.D}/pi2_tokens.pt')

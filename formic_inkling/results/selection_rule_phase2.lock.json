@@ -1,11 +1,17 @@
 {
-  "written_at": "2026-11-22T16:27Z",
-  "context": "Phase 2 demandée par l'opérateur après le gel de la phase 1 (« trouver des solutions pour que la KL de Formic V1.5 soit plus basse », 10 $ ajoutés). La moitié conf de P-I a été lue pour la phase 1 : elle n'est plus aveugle pour la phase 2 et n'est rapportée qu'à titre d'information.",
-  "written_before": "tout résultat de V4 et de C1",
-  "candidates": ["L0 (Formic V1.5 phase 1)", "V1a", "V4 (attention, embed, unembed +1 bit, experts compensés, octets égaux)", "C1 = V1a + V4 (seule combinaison)"],
-  "selection": "KL la plus basse sur P-I dev ; garde-fous : routage moyen >= L0 - 1 point ; paquet complet <= 9 000 000 000 octets ; le garde-fou par domaine (1,10 x UD-IQ2_XXS) est rapporté mais, comme en phase 1 aucun candidat ne le passait, il n'est pas éliminatoire",
-  "tie_break": "si l'écart au meilleur est dans son IC 95 % apparié : plus de domaines gagnés ; à égalité, le candidat le plus simple (L0 < V1a < V4 < C1)",
-  "confirmation": "P-I2 : nouveau jeu scellé construit après le gel de phase 1 et avant tout résultat de phase 2 (36 fenêtres de 4096, 6 domaines bruts : code, math, encyclopédique, multilingue, long, web ; disjoint par identifiant de P-I, P-W, P-D32 et de la calibration), lu une seule fois après ce gel, sur le gagnant, L0 et UD-IQ2_XXS",
-  "replacement_rule": "le paquet Formic V1.5 n'est remplacé par le gagnant de phase 2 que si son gain contre L0 sur P-I2 est négatif avec un IC 95 % entièrement sous 0 ; sinon Formic V1.5 reste L0",
-  "max_passes": "V4 puis C1 (2 passes) ; C1 n'est lancée que si V4 bat L0 sur P-I dev"
+ "written_at": "2026-11-22T16:27Z",
+ "context": "Phase 2 demandée par l'opérateur après le gel de la phase 1 (« trouver des solutions pour que la KL de Formic V1.5 soit plus basse », 10 $ ajoutés). La moitié conf de P-I a été lue pour la phase 1 : elle n'est plus aveugle pour la phase 2 et n'est rapportée qu'à titre d'information.",
+ "written_before": "tout résultat de V4 et de C1",
+ "candidates": [
+  "L0 (Formic V1.5 phase 1)",
+  "V1a",
+  "V4 (attention, embed, unembed +1 bit, experts compensés, octets égaux)",
+  "C1 = V1a + V4 (seule combinaison)"
+ ],
+ "selection": "KL la plus basse sur P-I dev ; garde-fous : routage moyen >= L0 - 1 point ; paquet complet <= 9 000 000 000 octets ; le garde-fou par domaine (1,10 x UD-IQ2_XXS) est rapporté mais, comme en phase 1 aucun candidat ne le passait, il n'est pas éliminatoire",
+ "tie_break": "si l'écart au meilleur est dans son IC 95 % apparié : plus de domaines gagnés ; à égalité, le candidat le plus simple (L0 < V1a < V4 < C1)",
+ "confirmation": "P-I2 : nouveau jeu scellé construit après le gel de phase 1 et avant tout résultat de phase 2 (36 fenêtres de 4096, 6 domaines bruts : code, math, encyclopédique, multilingue, long, web ; disjoint par identifiant de P-I, P-W, P-D32 et de la calibration), lu une seule fois après ce gel, sur le gagnant, L0 et UD-IQ2_XXS",
+ "replacement_rule": "le paquet Formic V1.5 n'est remplacé par le gagnant de phase 2 que si son gain contre L0 sur P-I2 est négatif avec un IC 95 % entièrement sous 0 ; sinon Formic V1.5 reste L0",
+ "max_passes": "V4 puis C1 (2 passes) ; C1 n'est lancée que si V4 bat L0 sur P-I dev",
+ "confirmation_amendment": "16h58–17h05Z, avant tout résultat de phase 2 : P-I2 = 48 fenêtres (36 brutes + 6 agentiques glaive + 6 instructions UltraChat test, réponses des jeux de données), sha c36ee46f38bc…, disjoint par identifiant (results/protocol_pi2.json)"
 }

@@ -190,7 +190,7 @@ def pw_eval():
 
 
 @torch.no_grad()
-def _greedy32(texts, bs=25):
+def _greedy32(texts, bs=6):
     tok = S["tok"]; model = S["model"]; tok.padding_side = "left"; outs = []
     for b in range(0, len(texts), bs):
         x = tok(texts[b:b + bs], return_tensors="pt", padding=True, add_special_tokens=False).to("cuda")

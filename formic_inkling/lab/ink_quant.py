@@ -422,7 +422,7 @@ def pkg_bytes(pkg, prefix=None):
 
 
 @torch.no_grad()
-def run_pass(vid, spec, X, bs=8, log=print):
+def run_pass(vid, spec, X, bs=4, log=print):
     """Passe complète : embed (E8 au plus proche), groupes (phase A / B), unembed (LDLQ sur Gram final, multiplicateur ajusté
     pour égaler le budget en octets réels). Les Gram sont normalisés par le nombre de lignes (comme F1)."""
     t0 = time.time(); A = dict(bits=0.0, params=0, bykind={}); cov = {}; times = {}

@@ -22,10 +22,16 @@ if __name__ == "__main__":
     os.makedirs(out, exist_ok=True); man = package.load_manifest(pkg)
     ent = man["tensors"] if "tensors" in man else man
     names = [k for k, v in ent.items() if isinstance(v, dict) and v.get("kind", "tensor") in ("tensor", "e8", "matrix")]
+    def backlog():
+        tot = 0
+        for f_ in glob.glob(out + "/*.npy"):
+            try: tot += os.path.getsize(f_)
+            except FileNotFoundError: pass          # consommé entre glob et getsize (formic_inkling)
+        return tot
     t0 = time.time()
     with ProcessPoolExecutor(workers) as ex:
         for b in range(0, len(names), workers):
-            while sum(os.path.getsize(f) for f in glob.glob(out + "/*.npy")) > limit: time.sleep(0.3)
+            while backlog() > limit: time.sleep(0.3)
             list(ex.map(work, [(pkg, n, out) for n in names[b:b + workers]]))
     open(os.path.join(out, "_DONE"), "w").write(str(len(names)))
     print("decoded %d tensors in %.0fs" % (len(names), time.time() - t0))

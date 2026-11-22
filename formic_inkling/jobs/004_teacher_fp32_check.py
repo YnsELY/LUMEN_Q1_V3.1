@@ -77,6 +77,7 @@ res = dict(rule='KL(prof_FP32 || prof_BF16) <= 1e-4 sur P-I dev -> professeur BF
            accepted=bool(float(k.mean()) <= 1e-4), frac_nvfp4_weights_not_bf16_exact=0.931,
            note='experts FP32 déquantifiés depuis les codes ; activations d\'entrée des experts en BF16 (comme le graphe), produits FP32')
 old = json.load(open(E.RES + '/teacher_check.json')) if __import__('os').path.exists(E.RES + '/teacher_check.json') else {}
+old['fp32_vs_bf16_before_fix'] = old.get('fp32_vs_bf16_before_fix', dict(kl_fp32_vs_bf16=0.018765602260828018, top1_agree=0.9755226373672485, accepted=False, note='professeur BF16 de Transformers (facteur arrondi)'))
 old['fp32_vs_bf16'] = res
 json.dump(old, open(E.RES + '/teacher_check.json', 'w'), indent=1)
 print(res)

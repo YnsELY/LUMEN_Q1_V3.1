@@ -5,11 +5,11 @@ sys.path.insert(0, '/workspace/LUMEN_Q1_V3.1/formic_inkling/lab')
 import importlib, ink_eval as E, ink_quant as Q
 for m in (E, Q): importlib.reload(m)
 E.init(model, tok); E.load_protocol(); E.teacher_cache(); Q.init(model); Q.restore()
-X = torch.load('/workspace/work_ink/data/cal_ink.pt')[:1024]
 L0 = json.load(open('/workspace/work_ink/packages/L0.pass.json'))['info']
+X = torch.load('/workspace/work_ink/data/cal_ink.pt')[:L0['spec']['_ndoc']]
 ratio = L0['spec']['_ratio']
 sbytes = Q.small_bytes(); target = (Q.BUDGET_TEXT - sbytes) * 8
-spec, est = Q.calibrate(ratio, target, dict(mult=L0['spec']['mult'], delta=0.2, delta_edge=0.2)); spec['_ratio'] = ratio
+spec, est = Q.calibrate(ratio, target, dict(mult=L0['spec']['mult'], delta=0.2, delta_edge=0.2)); spec['_ratio'] = ratio; spec['_ndoc'] = L0['spec']['_ndoc']
 print('V1a : multiplicateur commun %.6f -> coeur %.6f, bords %.6f (L0 : %.6f)' % (spec['mult'], spec['mult_core'], spec['mult_edge'], L0['spec']['mult']), flush=True)
 info, cov = Q.run_pass('V1a', spec, X)
 t1 = time.time(); per = E.evaluate(); te = time.time() - t1

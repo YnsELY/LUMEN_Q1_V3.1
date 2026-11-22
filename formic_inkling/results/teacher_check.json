@@ -1,0 +1,226 @@
+{
+ "fp32_vs_bf16": {
+  "rule": "KL(prof_FP32 || prof_BF16) <= 1e-4 sur P-I dev -> professeur BF16 accept\u00e9",
+  "windows": 54,
+  "positions": 110592,
+  "kl_fp32_vs_bf16": 0.018208488821983337,
+  "kl_p99": 0.1742889225482936,
+  "top1_agree": 0.9766438603401184,
+  "accepted": false,
+  "frac_nvfp4_weights_not_bf16_exact": 0.931,
+  "note": "experts FP32 d\u00e9quantifi\u00e9s depuis les codes ; activations d'entr\u00e9e des experts en BF16 (comme le graphe), produits FP32"
+ },
+ "transformers_loader_defect": {
+  "finding": "Transformers 5.24 (sans quantifieur) convertit les sources en BF16 avant Inkling2LoopDequantizeExperts : le facteur FP32 amax/d\u00e9nominateur par expert NVFP4 est arrondi en BF16",
+  "evidence": {
+   "all_40_tensors_equal_bf16_factor_dequant": true,
+   "mean_frac_weights_changed_by_fix": 0.22504682280123234,
+   "per_tensor": {
+    "0.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.25113391876220703
+    },
+    "0.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.24590471386909485
+    },
+    "1.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.23446698486804962
+    },
+    "1.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22779615223407745
+    },
+    "2.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22593142092227936
+    },
+    "2.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2589607834815979
+    },
+    "3.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.24433504045009613
+    },
+    "3.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.21660195291042328
+    },
+    "4.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.20572610199451447
+    },
+    "4.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.24058005213737488
+    },
+    "5.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2405766099691391
+    },
+    "5.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2089877724647522
+    },
+    "6.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.21045514941215515
+    },
+    "6.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.21846701204776764
+    },
+    "7.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.20063753426074982
+    },
+    "7.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.215024933218956
+    },
+    "8.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2143186628818512
+    },
+    "8.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22744855284690857
+    },
+    "9.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.20068895816802979
+    },
+    "9.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.24981234967708588
+    },
+    "10.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.20518362522125244
+    },
+    "10.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22474049031734467
+    },
+    "11.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.21636520326137543
+    },
+    "11.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22433000802993774
+    },
+    "12.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22855974733829498
+    },
+    "12.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.23178412020206451
+    },
+    "13.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.23353826999664307
+    },
+    "13.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2252633422613144
+    },
+    "14.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22324898838996887
+    },
+    "14.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.21664205193519592
+    },
+    "15.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2393425554037094
+    },
+    "15.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2346464991569519
+    },
+    "16.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.22221548855304718
+    },
+    "16.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.19850994646549225
+    },
+    "17.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.21868737041950226
+    },
+    "17.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2529391050338745
+    },
+    "18.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2227967381477356
+    },
+    "18.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2070978879928589
+    },
+    "19.w13": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2266441136598587
+    },
+    "19.w2": {
+     "transformers_equals_bf16_factor_dequant": true,
+     "frac_weights_changed": 0.2114827036857605
+    }
+   }
+  },
+  "kl_bad_teacher_vs_exact_fp32_dev": 0.018765602260828018,
+  "top1_bad_vs_exact": 0.9755226373672485,
+  "fix": "ink_model.fix_nvfp4_experts : red\u00e9quantification depuis les codes au facteur FP32 exact, arrondi BF16 (RNE)",
+  "consequence": "le cache du professeur, le contr\u00f4le FP32/BF16 et toutes les passes sont faits avec le professeur corrig\u00e9 ; les r\u00e9ponses g\u00e9n\u00e9r\u00e9es de P-I (agentique, raisonnement, instructions) l'ont \u00e9t\u00e9 avant correction et sont conserv\u00e9es (protocole gel\u00e9)"
+ },
+ "fp32_vs_bf16_before_fix": {
+  "kl_fp32_vs_bf16": 0.018765602260828018,
+  "top1_agree": 0.9755226373672485,
+  "accepted": false,
+  "note": "professeur BF16 de Transformers (facteur arrondi)"
+ },
+ "precision_isolated": {
+  "windows": 18,
+  "positions": 36864,
+  "rule_weights_only": {
+   "desc": "KL(poids FP32, calcul FP32 || poids BF16, calcul FP32)",
+   "kl": 0.01663077622652054,
+   "p99": 0.19664640635252026,
+   "top1": 0.9750705361366272
+  },
+  "compute_path": {
+   "fp32_vs_grouped_mm_bf16": {
+    "kl": 0.015178041532635689,
+    "p99": 0.1750524786114704,
+    "top1": 0.9758843183517456
+   },
+   "fp32_vs_eager_bf16": {
+    "kl": 0.01883617788553238,
+    "p99": 0.20794088631868482,
+    "top1": 0.97412109375
+   },
+   "eager_bf16_vs_grouped_mm_bf16": {
+    "kl": 0.018765069544315338,
+    "p99": 0.21446930155158161,
+    "top1": 0.9745280146598816
+   },
+   "bf16w_fp32c_vs_grouped_mm_bf16": {
+    "kl": 0.016705909743905067,
+    "p99": 0.20227418422699228,
+    "top1": 0.9752875566482544
+   }
+  },
+  "seconds": 344.98977041244507,
+  "accepted_bf16_weights": false
+ }
+}

@@ -5,6 +5,15 @@ import importlib, ink_eval as E, ink_quant as Q
 for m in (E, Q): importlib.reload(m)
 E.init(model, tok); E.load_protocol(); E.teacher_cache(); Q.init(model); Q.restore()
 X = torch.load('/workspace/work_ink/data/cal_ink.pt')[:1024]
+# ---------------- volume de calibration : mesure de vitesse, puis plus grand préfixe (>= 512 docs) tenant en ~70 min de passe
+t0 = time.time()
+with torch.no_grad():
+    for b in range(0, 32, 4): Q.S['lm'](input_ids=X[b:b + 4].cuda().long())
+torch.cuda.synchronize(); tps = 32 * 2048 / (time.time() - t0)
+budget_s = 70 * 60; per_doc = 2048 / tps * 8.0 * 1.25        # ~8 forwards-équivalents par passe, +25 % de crochets
+NDOC = int(max(512, min(1024, budget_s / per_doc))) // 64 * 64
+X = X[:NDOC]
+print('vitesse mesurée %.0f tokens/s (lots de 4 x 2048) -> calibration retenue : %d documents = %d tokens' % (tps, NDOC, NDOC * 2048), flush=True)
 meta = json.load(open('/workspace/work_ink/data/cal_ink_meta.json'))
 # ---------------- C3 : tokens routés par expert, couche et application, sur le professeur (calibration complète)
 cnt = {}; hooks = []
@@ -29,9 +38,9 @@ for k, c in per_app.items():
 under13 = {i: [e for e in range(128) if int(tot[i][e]) < Q.NMIN['w13']] for i in tot}
 under2 = {i: [e for e in range(128) if int(tot[i][e]) < Q.NMIN['w2']] for i in tot}
 n_under = sum(len(v) for v in under13.values())
-cal = dict(tokens=int(X.numel()), docs=int(X.shape[0]), doc_len=2048, composition_target=meta['composition_target'],
+cal = dict(tokens=int(X.numel()), docs=int(X.shape[0]), planned_tokens=2097152, speed_tokens_per_s=tps, volume_rule='plus grand préfixe (multiple de 64, >= 512 docs) tenant en ~70 min de passe ; écart budgétaire déclaré', doc_len=2048, composition_target=meta['composition_target'],
            composition_real={k: v / 1025 for k, v in meta['counts'].items()}, counts_docs=meta['counts'],
-           sources=sorted(set(d['dataset'] for d in meta['docs'])), doc_source_ids=[d['source_id'] for d in meta['docs'][:1024]],
+           sources=sorted(set(d['dataset'] for d in meta['docs'])), doc_source_ids=[d['source_id'] for d in meta['docs'][:NDOC]],
            threshold=dict(n_min_w13=Q.NMIN['w13'], n_min_w2=Q.NMIN['w2'], counted='tokens x applications (x3 dans le coeur)'),
            routed_tokens_teacher={k: v.tolist() for k, v in per_app.items()},
            routed_tokens_teacher_total_per_layer={str(i): v.tolist() for i, v in tot.items()},
@@ -45,7 +54,7 @@ print('C3: forward professeur %.0fs (%.0f tok/s) ; experts sous le seuil w13 : %
 # ---------------- C4 : pilote, calage, passe
 t0 = time.time(); ratio = Q.pilot(X); print('pilote (rapport bits LDLQ / plus proche) :', ratio, '%.0fs' % (time.time() - t0), flush=True)
 sbytes = Q.small_bytes(); target = (Q.BUDGET_TEXT - sbytes) * 8
-spec, est = Q.calibrate(ratio, target, dict(mult=0.6)); spec['_ratio'] = ratio
+spec, est = Q.calibrate(ratio, target, dict(mult=0.6)); spec['_ratio'] = ratio; spec['_ndoc'] = NDOC
 print('multiplicateur global L0 = %.6f ; bits estimés %.4e (cible %.4e) ; petits tenseurs %d octets' % (spec['mult'], est, target, sbytes), flush=True)
 info, cov = Q.run_pass('L0', spec, X)
 t1 = time.time(); per = E.evaluate(); te = time.time() - t1

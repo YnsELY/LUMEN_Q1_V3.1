@@ -69,10 +69,16 @@ if __name__ == "__main__":
     for t in sel:
         rows = int(np.prod(t["dims"][1:])); step = 2304 * 8 if rows > 2304 * 8 else rows   # morceaux de 8 experts
         for r0 in range(0, rows, step): jobs.append((path, t, out, r0, min(rows, r0 + step)))
+    def backlog():
+        tot = 0
+        for f_ in glob.glob(out + "/*.npy"):
+            try: tot += os.path.getsize(f_)
+            except FileNotFoundError: pass          # consommé entre glob et getsize
+        return tot
     t0 = time.time()
     with ProcessPoolExecutor(workers) as ex:
         for b in range(0, len(jobs), workers):
-            while sum(os.path.getsize(f) for f in glob.glob(out + "/*.npy")) > limit: time.sleep(0.3)
+            while backlog() > limit: time.sleep(0.3)
             list(ex.map(work, jobs[b:b + workers]))
     meta = {t["name"]: dict(type=t["tname"], dims=t["dims"], bytes=t["span"]) for t in T}
     json.dump(dict(file=os.path.basename(path), file_bytes=os.path.getsize(path), tensor_bytes=sum(t["span"] for t in T),

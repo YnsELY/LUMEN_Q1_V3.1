@@ -1,0 +1,911 @@
+{
+ "name": "P-I",
+ "frozen_at": "2026-11-22",
+ "sha256": "adbad956d3f3c354d833d2c736c93705b8f448c3fed534db5bfc8b0186341cca",
+ "windows": 106,
+ "window_len": 4096,
+ "scored_positions": "2048-4095 (2048 par fenêtre)",
+ "positions_scored": 217088,
+ "domains": {
+  "agentic": 11,
+  "code": 12,
+  "math": 12,
+  "reasoning": 12,
+  "encyclopedic": 12,
+  "multilingual": 12,
+  "long": 12,
+  "instructions": 11,
+  "web": 12
+ },
+ "halves": {
+  "dev": 54,
+  "conf": 52
+ },
+ "split_rule": "alternance par domaine (comme arki_teacher) : 1re, 3e, ... fenêtre = dev",
+ "first_token": "<|begin_of_text|> en tête de chaque fenêtre",
+ "teacher_generation": {
+  "decoding": "glouton",
+  "reasoning_effort": "high (0,9)",
+  "max_new_tokens": {
+   "reasoning": 1024,
+   "instructions": 768,
+   "agentic": 256
+  },
+  "batch": "remplissage à gauche, vérifié identique au décodage individuel (job 001)"
+ },
+ "vocab": "200 058 entrées utiles (unembed non rembourré dans le graphe)",
+ "logits": "30·tanh(z/30)",
+ "kl": "KL(professeur || candidat), nats, moyenne par token",
+ "disjointness": {
+  "id_intersection_with_calibration": [],
+  "n_pi_source_ids": 230,
+  "n_cal_source_ids": 1809,
+  "filter_13gram": "appliqué à la construction de la calibration (build_data_ink.py ; bloc tool_declare exclu)"
+ },
+ "deviations": [
+  "216 fenêtres prévues ; 108 retenues (12 par domaine) pour tenir le budget de temps du pod",
+  "llama.cpp abandonné (instruction opérateur) : pas de vérification llama-tokenize"
+ ],
+ "sources": [
+  {
+   "domain": "agentic",
+   "part": "dev",
+   "sources": [
+    "toolace/2",
+    "toolace/4",
+    "toolace/6"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "conf",
+   "sources": [
+    "toolace/7",
+    "toolace/8",
+    "toolace/9"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "dev",
+   "sources": [
+    "toolace/13",
+    "toolace/14",
+    "toolace/15"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "conf",
+   "sources": [
+    "toolace/18",
+    "toolace/19",
+    "toolace/25"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "dev",
+   "sources": [
+    "toolace/26",
+    "toolace/27",
+    "toolace/29",
+    "toolace/30"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "conf",
+   "sources": [
+    "toolace/35",
+    "toolace/38",
+    "toolace/39"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "dev",
+   "sources": [
+    "toolace/40",
+    "toolace/41",
+    "glaive/1",
+    "glaive/2",
+    "glaive/3"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "conf",
+   "sources": [
+    "glaive/4",
+    "glaive/5",
+    "glaive/6",
+    "glaive/8",
+    "glaive/9",
+    "glaive/10",
+    "+3"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "dev",
+   "sources": [
+    "glaive/22",
+    "glaive/24",
+    "glaive/25",
+    "glaive/27",
+    "glaive/28",
+    "glaive/29",
+    "+3"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "conf",
+   "sources": [
+    "glaive/37",
+    "glaive/41",
+    "glaive/44",
+    "glaive/45",
+    "glaive/49",
+    "glaive/51",
+    "+2"
+   ]
+  },
+  {
+   "domain": "agentic",
+   "part": "dev",
+   "sources": [
+    "glaive/55",
+    "glaive/56",
+    "glaive/60",
+    "glaive/61",
+    "glaive/63",
+    "glaive/64",
+    "+2"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "dev",
+   "sources": [
+    "codeparrot-clean/5"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "conf",
+   "sources": [
+    "codeparrot-clean/6"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "dev",
+   "sources": [
+    "codeparrot-clean/12"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "conf",
+   "sources": [
+    "the-stack-rust-clean/2"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "dev",
+   "sources": [
+    "the-stack-rust-clean/17"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "conf",
+   "sources": [
+    "the-stack-rust-clean/19"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "dev",
+   "sources": [
+    "local:/usr/include/openssl/x509v3.h"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "conf",
+   "sources": [
+    "local:/usr/lib/x86_64-linux-gnu/hdf5/serial/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/lib/include/H5pubconf.h"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "dev",
+   "sources": [
+    "local:/usr/local/cuda-12.8/targets/x86_64-linux/include/nppi_arithmetic_and_logical_operations.h"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "conf",
+   "sources": [
+    "local:/usr/local/lib/python3.12/dist-packages/jupyterlab/static/4889.054114d42698ba53.js"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "dev",
+   "sources": [
+    "local:/usr/local/share/jupyter/lab/static/9198.1ee665a54bb815d8.js"
+   ]
+  },
+  {
+   "domain": "code",
+   "part": "conf",
+   "sources": [
+    "local:/usr/local/lib/python3.12/dist-packages/notebook/static/3749.e53a29eb77218209.js"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "dev",
+   "sources": [
+    "hendrycks_math/test/pack0-16"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "conf",
+   "sources": [
+    "hendrycks_math/test/pack16-28"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "dev",
+   "sources": [
+    "hendrycks_math/test/pack28-45"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "conf",
+   "sources": [
+    "hendrycks_math/test/pack45-60"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "dev",
+   "sources": [
+    "hendrycks_math/test/pack60-72"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "conf",
+   "sources": [
+    "hendrycks_math/test/pack72-85"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "dev",
+   "sources": [
+    "hendrycks_math/test/pack85-104"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "conf",
+   "sources": [
+    "hendrycks_math/test/pack104-120"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "dev",
+   "sources": [
+    "hendrycks_math/test/pack120-131"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "conf",
+   "sources": [
+    "hendrycks_math/test/pack131-144"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "dev",
+   "sources": [
+    "hendrycks_math/test/pack144-153"
+   ]
+  },
+  {
+   "domain": "math",
+   "part": "conf",
+   "sources": [
+    "hendrycks_math/test/pack153-163"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "dev",
+   "sources": [
+    "openthoughts/0",
+    "openthoughts/1",
+    "openthoughts/2"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "conf",
+   "sources": [
+    "openthoughts/3",
+    "openthoughts/4",
+    "openthoughts/5",
+    "openthoughts/6"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "dev",
+   "sources": [
+    "openthoughts/7",
+    "openthoughts/9",
+    "openthoughts/10"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "conf",
+   "sources": [
+    "openthoughts/11",
+    "openthoughts/12",
+    "openthoughts/13"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "dev",
+   "sources": [
+    "openthoughts/14",
+    "openthoughts/15",
+    "openthoughts/16"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "conf",
+   "sources": [
+    "openthoughts/17",
+    "openthoughts/18",
+    "openthoughts/19",
+    "openthoughts/20"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "dev",
+   "sources": [
+    "openthoughts/21",
+    "openthoughts/22",
+    "openthoughts/23"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "conf",
+   "sources": [
+    "openthoughts/24",
+    "openthoughts/25",
+    "openthoughts/26"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "dev",
+   "sources": [
+    "openthoughts/27",
+    "openthoughts/28",
+    "openthoughts/29"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "conf",
+   "sources": [
+    "openthoughts/30",
+    "openthoughts/31",
+    "openthoughts/32"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "dev",
+   "sources": [
+    "openthoughts/33",
+    "openthoughts/34",
+    "openthoughts/35",
+    "openthoughts/36"
+   ]
+  },
+  {
+   "domain": "reasoning",
+   "part": "conf",
+   "sources": [
+    "openthoughts/37",
+    "openthoughts/38",
+    "openthoughts/39",
+    "openthoughts/40"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.en/27015141"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.en/11828740"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.en/21921845"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.en/62456020"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.en/28821553"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.en/71275829"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.en/21922177"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.en/379358"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.en/11826753"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.en/379531"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.en/379635"
+   ]
+  },
+  {
+   "domain": "encyclopedic",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.en/57375729"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.fr/245"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.de/5492543"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.es/561642"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.it/609405"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.pt/5895949"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.ru/288419"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.zh/414"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.ja/193525"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.ar/1485"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.hi/2949"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "dev",
+   "sources": [
+    "wikipedia/20231101.ko/271"
+   ]
+  },
+  {
+   "domain": "multilingual",
+   "part": "conf",
+   "sources": [
+    "wikipedia/20231101.tr/2268"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "dev",
+   "sources": [
+    "pg19/test/0"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "conf",
+   "sources": [
+    "pg19/test/1"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "dev",
+   "sources": [
+    "pg19/test/2"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "conf",
+   "sources": [
+    "pg19/test/3"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "dev",
+   "sources": [
+    "pg19/test/5"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "conf",
+   "sources": [
+    "pg19/test/6"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "dev",
+   "sources": [
+    "pg19/test/7"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "conf",
+   "sources": [
+    "pg19/test/8"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "dev",
+   "sources": [
+    "pg19/test/9"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "conf",
+   "sources": [
+    "pg19/test/10"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "dev",
+   "sources": [
+    "pg19/test/11"
+   ]
+  },
+  {
+   "domain": "long",
+   "part": "conf",
+   "sources": [
+    "pg19/test/12"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "dev",
+   "sources": [
+    "ultrachat/test_sft/26afb4f9bffc82fbbfdcaa8f0eec0833780e411799dceed12d639c71ce08da25",
+    "ultrachat/test_sft/3ab0d0c24777248cbc4aa33971d34e8de9393db1ea0cc1f963585788ca827ca1",
+    "ultrachat/test_sft/5dac3c072ba477af9ed0c71a31a806f307d7ea839a7977e3befa7d9b060d5bee",
+    "ultrachat/test_sft/b750ea229635aa6683e0018abd17f92804376c1b0c474dc4b3a636dd2beebece",
+    "ultrachat/test_sft/7d86ffeefdea030c92138e0b964c304508bfebed4b23261c8a741630823e6f96"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "conf",
+   "sources": [
+    "ultrachat/test_sft/548934adb3470a43b62c4e81daf1a547dff90d3535ee846e8b5395cbdf21e1de",
+    "ultrachat/test_sft/f52366b6b6d4fb79bcca917a155b4ed53341ce3c596dae297a4f9deeb2397bc2",
+    "ultrachat/test_sft/17705fb3dead237045246c9b0276bd30906793adb1a1e76437836a65cc431aa7",
+    "ultrachat/test_sft/e085d7783d36b7d4161e5b8d62b4878e44557a1925d829f813dcadf571ecac81",
+    "ultrachat/test_sft/a7d455bdc14741b56d8752a7fa806ee7593aea1c597dc7425334bfd90744e616"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "dev",
+   "sources": [
+    "ultrachat/test_sft/609d506f31f5a0c1e40cd8b3a074ed486f2daab49e3663f457518de8dda872b8",
+    "ultrachat/test_sft/b0de2e6833f6086605b68eb3af4936840fffe4a92721e45a528c4402913d1b7f",
+    "ultrachat/test_sft/5716606eaf8a48410e49b74a57726cf00a9605e8514b646159acfdd42daf84a4",
+    "ultrachat/test_sft/4f76db4eedfd03c47e8c9ed5576378cd4d639ea384bbe42728a87bb2211b049c",
+    "ultrachat/test_sft/0c6ac5b4625fd60f5dc023d58a6ed8f240b6d111739862b0843849b216cfc78a",
+    "ultrachat/test_sft/e3633211b23c3526eb9bc6a8a74e7a9d070f16ec346bc67caececc4ff7b964d3"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "conf",
+   "sources": [
+    "ultrachat/test_sft/70e5234a54373e56a01fd99879907ac8118cf787d747523c1ea796dc5f3980e4",
+    "ultrachat/test_sft/8b88568be6fca159d0b74daf6e96781291fcd268b7a8a6e904fc45408913aacf",
+    "ultrachat/test_sft/da754affe2f6586c3c611909ce68bbd42fba1fc9d09533cb441f3eb56c585121",
+    "ultrachat/test_sft/6f751c20b9a545ae0273c12c31996ac876a0d32a1de00abfcd7c3b8cc97a7474",
+    "ultrachat/test_sft/b2a13254d96c55e79aca062d34e0b3c39eeba4d9d324f7587dd567273731343a"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "dev",
+   "sources": [
+    "ultrachat/test_sft/2924cd0eea7c28715645945b94b58fc474ba68f35cd99f27072a0d785f60c68c",
+    "ultrachat/test_sft/ef90b0f9adbc3c5302c1384ce26ff16fb88f01c31c9fe09564217709634be5ca",
+    "ultrachat/test_sft/c256a70d121128eeb18b56d14271850a82362acfa3085f95867e459d793828fd",
+    "ultrachat/test_sft/08b9a2a6ee6152b94ed457616783175a2787790831e0be10b7d7ea7709d4fad5",
+    "ultrachat/test_sft/6592c8b2ab174d30efa4bfd056cfd2ce6abe652527507600a0a1f469a15be489",
+    "ultrachat/test_sft/dd1d1ea245e85c2e09ba9141ac042ebda4e60caf67990b8edec99c6904c84058"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "conf",
+   "sources": [
+    "ultrachat/test_sft/da663e7d72a11c67a692f985dfb3be631fec1b3f8550105739cd8508985b4b8a",
+    "ultrachat/test_sft/352697db58047808e4b703a89fad4094c8e2b0c562551a78144e85934aeb4307",
+    "ultrachat/test_sft/7aeda6517dfd1d08f66576b2adece410c268d5dd3a842a25259c5d6f03fbcc44",
+    "ultrachat/test_sft/e47db19e332a6017e48bfb7eb0376fddad993b3b764bcae644609efd4ed8a0b8",
+    "ultrachat/test_sft/572dde4e295c220aaadae941a87094deb6b374125adc79cb3d1f8f76f281499d"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "dev",
+   "sources": [
+    "ultrachat/test_sft/9572ae62907e151022d432f1f7e2c3c1f99d85bda97e38fb79a93133e2daceae",
+    "ultrachat/test_sft/333d0b2591e14672c723868d4b4538864a8f761590939978b68b40bfb2bbf14f",
+    "ultrachat/test_sft/b4a8ffaf85334532838990c486f8b82d8feb5bbf58b28dcc6e9a589112f1a2f9",
+    "ultrachat/test_sft/8ef59fda220723a0d295b8ba039ae9d3047fa21aa061e21d554e93bd49706bf2",
+    "ultrachat/test_sft/ef5eeaed2806c8ed063787ba05c284ca6aaa7c38367cc14052136b1d8698f567",
+    "ultrachat/test_sft/7f24181c1d75f03c62c160c759447a6b97e4ff9dee605cbd525e3bf59d05dddb"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "conf",
+   "sources": [
+    "ultrachat/test_sft/616d7d0a29bf80fb0636e6c6e6536a0e5d4bfb99c32f294f628ffc4c37a9e3d4",
+    "ultrachat/test_sft/d089d9db3769166616cbc6b5cce9f465b466fa6b93231c696381e435e5ea0030",
+    "ultrachat/test_sft/a8d14d2cfabb25a15ca3875c4a3282ba52741a9cc4155b707d252b2b5c3a1dde",
+    "ultrachat/test_sft/5f68b46a1ad7047d99c1c9c1d56f24f5b2e3d0b23064bd74b22f1fdec1daa0bf",
+    "ultrachat/test_sft/cf2945d559fc00349888997a86411873401c267cc91b546bf0b91232910fb41c",
+    "ultrachat/test_sft/c3ebd8266b937cc8d6c46cc0965534676f98cdc58477bbc9bf34aa9ce902f68e"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "dev",
+   "sources": [
+    "ultrachat/test_sft/7cf623cec04732345ff22b039ace6ebca4e4ba35d15c3be80edc9b8b4562fcf6",
+    "ultrachat/test_sft/65e7f991dc464b5e66b6e25e275a685a3d709ab5d6be4b4b47231d243f9d943a",
+    "ultrachat/test_sft/c24af8edd9821f36634c45ccedd850ef682a8b9b1e45d8af8697e09fb3f70c4a",
+    "ultrachat/test_sft/07423cab7e2224a009bade8d5c1abecc855bd7862aef70919a21d0e659d52d22",
+    "ultrachat/test_sft/7aa277f15ce3dd2a87f2c9ec9448a99040ad6f25ec3f640dad158b39b07d3140"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "conf",
+   "sources": [
+    "ultrachat/test_sft/18d585b3c543c26e71b4e83d0d3ae4408b331000c7333a07595b6df3d1b78bd7",
+    "ultrachat/test_sft/5c48dd53ca3026b3c775d8a5fd9cd5ae83169be97cd06adf70ff71c392078d2b",
+    "ultrachat/test_sft/5f8d8dd54366681c4ac7fdcb69c2fe201d7a2e6a75f9b4a9d397c72217f6fe2b",
+    "ultrachat/test_sft/ae31b40fcd3e72ca4e6ca1c982ea46ea39bef56fb11a03317c9c0c209c906779",
+    "ultrachat/test_sft/4cbffab264dd0ef48488c60edce5b5d3ba7914925be96ca05b99f294834842e8"
+   ]
+  },
+  {
+   "domain": "instructions",
+   "part": "dev",
+   "sources": [
+    "ultrachat/test_sft/03cb28236406c6fe7280991f1d9ebc16eaccc0667a26edc2ff968cec6303cdf3",
+    "ultrachat/test_sft/8cdd5bcecbf45316715d1d18c12f31830bfc30d7146fa450fee29e7f3c83bd6b",
+    "ultrachat/test_sft/43509bff807359f914ba036e90782dbe6ba2315bdfc18709a3bc790d6cd788b1",
+    "ultrachat/test_sft/1128ac2ef5f2a412e117f755aeca2ff4d5a21309167df9dc1e57aa02e43dcad0",
+    "ultrachat/test_sft/2024d0d91a9d3ea466c69e1b1dbfc52057c613e27ebe54ec05b8a50c951e352b",
+    "ultrachat/test_sft/19d2300a4da5c0a408d4158ffec8a3ce123f07cbee037a2e869e1142f07a81fc"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "dev",
+   "sources": [
+    "c4/en/validation/202"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "conf",
+   "sources": [
+    "c4/en/validation/207"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "dev",
+   "sources": [
+    "c4/en/validation/318"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "conf",
+   "sources": [
+    "c4/en/validation/365"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "dev",
+   "sources": [
+    "c4/en/validation/508"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "conf",
+   "sources": [
+    "c4/en/validation/548"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "dev",
+   "sources": [
+    "c4/en/validation/636"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "conf",
+   "sources": [
+    "c4/en/validation/677"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "dev",
+   "sources": [
+    "c4/en/validation/699"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "conf",
+   "sources": [
+    "c4/en/validation/711"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "dev",
+   "sources": [
+    "c4/en/validation/905"
+   ]
+  },
+  {
+   "domain": "web",
+   "part": "conf",
+   "sources": [
+    "c4/en/validation/1019"
+   ]
+  }
+ ]
+}

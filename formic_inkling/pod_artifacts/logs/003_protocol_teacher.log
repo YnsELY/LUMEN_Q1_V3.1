@@ -1,0 +1,7 @@
+agentic windows 11 conversations used 61 of 61
+reasoning windows 12 conversations used 40 of 48
+instructions windows 11 conversations used 64 of 64
+P-I torch.Size([106, 4096]) {'agentic': 11, 'code': 12, 'math': 12, 'reasoning': 12, 'encyclopedic': 12, 'multilingual': 12, 'long': 12, 'instructions': 11, 'web': 12} {'dev': 54, 'conf': 52} sha adbad956d3f3c354 id intersection 0
+built in 215s
+
+[job 003_protocol_teacher OK in 215.6s]

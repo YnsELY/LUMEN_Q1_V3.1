@@ -1,0 +1,12 @@
+secondaires professeur : loaded loaded
+[UD-Q8_K_XL] chargé : 218 tenseurs, cos min 1.00000, 69s ; experts NVFP4 bit-exacts : 218
+[competitor_UD-Q8_K_XL] P-I-dev KL=0.00000 p99=0.0000 top1=100.00% route=100.00% top1exp_chg=0.00% | agenti:0.0000 code:0.0000 encycl:0.0000 instru:0.0000 long:0.0000 math:0.0000 multil:0.0000 reason:0.0000 web:0.0000  (moitié conf scellée)
+[UD-IQ2_XXS] chargé : 218 tenseurs, cos min 0.87399, 66s ; experts NVFP4 bit-exacts : 31
+[competitor_UD-IQ2_XXS] P-I-dev KL=0.08616 p99=1.1202 top1=90.50% route=85.80% top1exp_chg=17.54% | agenti:0.1365 code:0.0299 encycl:0.0673 instru:0.1234 long:0.0856 math:0.0260 multil:0.0713 reason:0.1750 web:0.0606  (moitié conf scellée)
+[UD-Q2_K_XL] chargé : 218 tenseurs, cos min 0.87399, 83s ; experts NVFP4 bit-exacts : 35
+[competitor_UD-Q2_K_XL] P-I-dev KL=0.07116 p99=0.9473 top1=91.65% route=86.78% top1exp_chg=16.28% | agenti:0.1182 code:0.0237 encycl:0.0521 instru:0.1012 long:0.0663 math:0.0200 multil:0.0569 reason:0.1547 web:0.0473  (moitié conf scellée)
+[UD-IQ3_XXS] chargé : 218 tenseurs, cos min 0.93599, 74s ; experts NVFP4 bit-exacts : 44
+[competitor_UD-IQ3_XXS] P-I-dev KL=0.03761 p99=0.5533 top1=94.43% route=91.04% top1exp_chg=10.99% | agenti:0.0901 code:0.0109 encycl:0.0185 instru:0.0520 long:0.0237 math:0.0076 multil:0.0193 reason:0.0992 web:0.0172  (moitié conf scellée)
+restored teacher
+
+[job 009b_competitors OK in 2507.4s]

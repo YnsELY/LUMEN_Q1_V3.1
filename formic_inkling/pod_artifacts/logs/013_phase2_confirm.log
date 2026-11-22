@@ -1,0 +1,9 @@
+PHASE 2 — SÉLECTION GELÉE : V4 {'L0': 0.08024, 'V1a': 0.07846, 'V4': 0.06117, 'C1': 0.06269}
+P-I2 professeur : built in 98s
+P-I2 L0 P-I2 KL=0.07359 p99=0.8051 top1=92.34% route=87.54% top1exp_chg=15.04% | agenti:0.2635 code:0.0192 encycl:0.0395 instru:0.0728 long:0.0630 math:0.0135 multil:0.0547 web:0.0625
+P-I2 V4 P-I2 KL=0.05837 p99=0.6338 top1=93.57% route=89.34% top1exp_chg=12.90% | agenti:0.2318 code:0.0136 encycl:0.0251 instru:0.0618 long:0.0421 math:0.0096 multil:0.0384 web:0.0445
+P-I2 UD-IQ2_XXS P-I2 KL=0.07786 p99=0.9072 top1=91.18% route=85.56% top1exp_chg=17.72% | agenti:0.1880 code:0.0242 encycl:0.0497 instru:0.0843 long:0.0921 math:0.0244 multil:0.0769 web:0.0833
+gain V4 contre L0 : {'gain': -0.20684927279399845, 'ci95': [-0.2745672259940156, -0.146897053599106], 'windows_won': 46, 'n': 48} ; contre UD-IQ2_XXS : {'gain': -0.2502854353025975, 'ci95': [-0.39565017731385177, -0.11699716567642904], 'windows_won': 43, 'n': 48} ; L0 contre UD-IQ2_XXS : {'gain': -0.05476407071025435, 'ci95': [-0.18717536928681244, 0.0664501550459271], 'windows_won': 41, 'n': 48} ; remplacement : True
+NOUVEAU PAQUET V4 8860059425 verify 0 ; dev fichiers/mémoire 0.06117422133684158 0.06117422133684158 ; conf P-I-conf (non aveugle en phase 2) KL=0.05978 p99=0.7705 top1=93.38% route=88.72% top1exp_chg=13.70% | agenti:0.1872 code:0.0199 encycl:0.0312 instru:0.0689 long:0.0388 math:0.0122 multil:0.0425 reason:0.1347 web:0.0254 {'UD-IQ2_XXS': {'gain': -0.27043572992724896, 'ci95': [-0.3717278425143018, -0.16383349009838866], 'windows_won': 48, 'n': 52}, 'UD-Q2_K_XL': {'gain': -0.13450932809546523, 'ci95': [-0.24019820317695817, -0.023707469175699547], 'windows_won': 46, 'n': 52}, 'UD-IQ3_XXS': {'gain': 0.6154679287432583, 'ci95': [0.5343415331523804, 0.6962968574083002], 'windows_won': 0, 'n': 52}}
+
+[job 013_phase2_confirm OK in 1972.0s]

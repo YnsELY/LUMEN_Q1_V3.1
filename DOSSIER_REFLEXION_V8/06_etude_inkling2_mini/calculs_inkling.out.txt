@@ -1,0 +1,58 @@
+== 1. Inventaire (poids)
+  expert unique                     0.0080 G
+  experts / couche                  1.0192 G
+  experts, 24 couches              24.4612 G
+    prélude 0-5                     6.1153 G
+    coeur bouclé 6-17              12.2306 G
+    coda 18-23                      6.1153 G
+    dont NVFP4 0-19                20.3843 G
+    dont MXFP8 20-23                4.0769 G
+  attention wq/wk/wv/wo             0.4530 G
+  routeurs                          0.0071 G
+  embed + unembed                   0.9263 G
+  Vision (estimée)                  0.3181 G
+  drafter DSpark                    0.3180 G
+  TOTAL identifié hors drafter     26.1656 G
+  checkpoint reconstitué           19.079 Go (publié : 19,5 Go)
+  écart -> tenseurs BF16 non identifiés ≈ 0.210 G poids ; total ≈ 26.38 G (publié 26,2-26,4)
+  chemin texte retenu              26.058 G (experts 93.9%)
+
+== 2. NVFP4 : entropie des codes (simulation, blocs de 16, échelle absmax/6 arrondie en E4M3)
+  gauss     H(code) = 3.899 bit/poids ; SNR du grillage NVFP4 = 20.4 dB
+  laplace   H(code) = 3.818 bit/poids ; SNR du grillage NVFP4 = 20.7 dB
+  student5  H(code) = 3.874 bit/poids ; SNR du grillage NVFP4 = 20.7 dB
+  NVFP4 conservé bit pour bit + codage entropique ≈ 4.30 bpw (brut 4,50)
+
+== 3. Courbe Unsloth (texte seul ; bpw = 8 × octets / poids du chemin texte)
+  UD-IQ1_S      7.76 Go   2.38 bpw  KL 0.0911  top-1 89.4 %
+  UD-IQ1_M      8.02 Go   2.46 bpw  KL 0.0867  top-1 90.2 %
+  UD-IQ2_XXS    8.49 Go   2.61 bpw  KL 0.0726  top-1 90.6 %
+  UD-Q2_K_XL    9.14 Go   2.81 bpw  KL 0.0595  top-1 91.6 %
+  UD-IQ3_XXS   11.66 Go   3.58 bpw  KL 0.0269  top-1 94.7 %
+  UD-Q3_K_XL   13.63 Go   4.18 bpw  KL 0.0174  top-1 96.3 %
+  UD-IQ4_XS    15.73 Go   4.83 bpw  KL 0.0109  top-1 97.7 %
+  UD-Q4_K_M    16.61 Go   5.10 bpw  KL 0.0108  top-1 97.9 %
+  UD-Q4_K_XL   17.63 Go   5.41 bpw  KL 0.0107  top-1 98.0 %
+  ajustement ln KL = -0.156 -0.944·bpw sur 2,4-4,2 bpw -> KL × 0.389 par bit
+
+== 4. Gain LUMEN à octets égaux : F1/Arki05 = 0.670 ; Arki05/Unsloth (publié) = 0.837
+  hypothèse de transposition : KL_LUMEN = g × KL_Unsloth, g ∈ [0.56 ; 0.75]
+  équivalent en débit : 0.30 à 0.61 bpw économisés à KL égale
+
+== 5. Paliers du paquet complet (texte + Vision 5 bpw + drafter 4 bpw + annexes 0,06 Go)
+  Vision + drafter + annexes = 0.418 Go
+  experts 2.0 bpw : texte  6.78 Go (2.08 bpw moyen), complet  7.20 Go ; KL estimée 0.067-0.090 ; top-1 ~89.6-91.0 % ; Unsloth à ce débit 0.120
+  experts 2.3 bpw : texte  7.73 Go (2.37 bpw moyen), complet  8.15 Go ; KL estimée 0.051-0.068 ; top-1 ~90.9-92.2 % ; Unsloth à ce débit 0.091
+  experts 2.5 bpw : texte  8.37 Go (2.57 bpw moyen), complet  8.79 Go ; KL estimée 0.042-0.057 ; top-1 ~91.8-92.9 % ; Unsloth à ce débit 0.076
+  experts 2.8 bpw : texte  9.32 Go (2.86 bpw moyen), complet  9.74 Go ; KL estimée 0.032-0.043 ; top-1 ~92.9-94.0 % ; Unsloth à ce débit 0.057
+  experts 3.0 bpw : texte  9.96 Go (3.06 bpw moyen), complet 10.37 Go ; KL estimée 0.027-0.036 ; top-1 ~93.6-94.7 % ; Unsloth à ce débit 0.048
+  experts 3.2 bpw : texte 10.59 Go (3.25 bpw moyen), complet 11.01 Go ; KL estimée 0.022-0.030 ; top-1 ~94.3-95.4 % ; Unsloth à ce débit 0.040
+  experts 3.6 bpw : texte 11.86 Go (3.64 bpw moyen), complet 12.28 Go ; KL estimée 0.015-0.021 ; top-1 ~95.7-96.7 % ; Unsloth à ce débit 0.027
+  quasi exact (NVFP4 conservé, MXFP8 -> E8 4 bpw, reste 5 bpw) : 14.41 Go
+  variante avec attention/vocabulaire en BF16                 : 16.60 Go
+
+== 6. Calibration et lecture mémoire
+    409,600 tokens ->    25,600 tokens/expert en moyenne (coeur bouclé : ×3 = 76,800) ; ratio/dim 2304 = 11.1
+  2,000,000 tokens ->   125,000 tokens/expert en moyenne (coeur bouclé : ×3 = 375,000) ; ratio/dim 2304 = 54.3
+  4,000,000 tokens ->   250,000 tokens/expert en moyenne (coeur bouclé : ×3 = 750,000) ; ratio/dim 2304 = 108.5
+  octets lus par token à 2,8 bpw (borne haute, poids re-lus à chaque passe) ≈ 1.77 Go (Qwen F1 : 9,45 Go)

@@ -1,0 +1,4 @@
+torch.Size([106, 4096])
+built in 216s
+
+[job 003c_teacher_cache OK in 216.3s]

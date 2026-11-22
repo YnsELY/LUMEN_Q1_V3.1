@@ -73,6 +73,8 @@ python -B codec/package.py verify /workspace/work_ink/packages/<VID>
 
 ## 5. Limites
 
+- Domaine agentique : seul domaine où UD-IQ2_XXS reste devant (réponses d'outil, système, jetons spéciaux) ; plan : `PLAN_AMELIORATION_AGENTIQUE.md`.
+
 - Protocole maison (P-I, 106 fenêtres) ; le corpus de la KL publiée par Unsloth est inconnu : leurs chiffres ne sont que des repères.
 - Aucune tâche exécutée ; Vision mesurée en KL sur 96 invites ; drafter non évalué ; une seule graine.
 - Capture par groupes de couches (écart déclaré) ; calibration plafonnée à 1,18 M tokens.

@@ -1,0 +1,23 @@
+secondaires professeur : built built
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_inkling/lab/lab_server_ink.py", line 35, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work_ink/queue/008_competitors.py", line 13, in <module>
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_inkling/lab/ink_gguf.py", line 42, in load_gguf
+    if proc.poll() is not None and not done: raise RuntimeError("déquantification échouée : " + open(tmp + "_stdout.log").read()[-1500:])
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: déquantification échouée : Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_inkling/lab/gguf_dequant_ink.py", line 75, in <module>
+    while sum(os.path.getsize(f) for f in glob.glob(out + "/*.npy")) > limit: time.sleep(0.3)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_inkling/lab/gguf_dequant_ink.py", line 75, in <genexpr>
+    while sum(os.path.getsize(f) for f in glob.glob(out + "/*.npy")) > limit: time.sleep(0.3)
+              ^^^^^^^^^^^^^^^^^^
+  File "<frozen genericpath>", line 62, in getsize
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/ink_deq/token_embd.weight@184320.npy'
+
+
+[job 008_competitors ERROR in 520.5s]

@@ -1,0 +1,18 @@
+SÉLECTION GELÉE : L0 {'L0': {'kl': 0.08023560792207718, 'guard_domains': False, 'guard_routing': True, 'guard_size': False, 'worst_domain_ratio_vs_iq2': 1.1998911848718365, 'routing': 0.8752235130027488, 'text_bytes': 8474167056}, 'V1a': {'kl': 0.07845592498779297, 'guard_domains': False, 'guard_routing': True, 'guard_size': False, 'worst_domain_ratio_vs_iq2': 1.197133792491101, 'routing': 0.8787733949260947, 'text_bytes': 8474163580}}
+vision professeur : built
+vision paquet {'e8_bytes': 158532917, 'e8_params': 317898752, 'raw_params': 357376, 'raw_bytes': 721752, 'bpw': 3.9895197072053934}
+vision (tour du paquet, texte professeur) : {'prompts': 96, 'positions': 6144, 'kl': 0.023005397990345955, 'agree': 0.9609375, 'by_domain': {'documents': {'kl': 0.023568488657474518, 'agree': 0.970703125}, 'charts': {'kl': 0.019289538264274597, 'agree': 0.9759114384651184}, 'screenshots': {'kl': 0.030659502372145653, 'agree': 0.9407551884651184}, 'photos': {'kl': 0.01850406639277935, 'agree': 0.9563801884651184}}}
+drafter {'e8_bytes': 150435691, 'e8_params': 317865984, 'raw_params': 31888, 'raw_bytes': 64384, 'bpw': 3.7861412940618395}
+Traceback (most recent call last):
+  File "/workspace/LUMEN_Q1_V3.1/formic_inkling/lab/lab_server_ink.py", line 35, in <module>
+    exec(compile(src, job, "exec"), NS)
+  File "/workspace/work_ink/queue/010_finalize.py", line 56, in <module>
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/LUMEN_Q1_V3.1/formic_inkling/lab/ink_package.py", line 132, in load_package
+    if P is None: raise RuntimeError("petit tenseur inconnu " + k)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: petit tenseur inconnu raw.bf16.mtp.fuse_weight
+
+[job 010_finalize ERROR in 1616.9s]

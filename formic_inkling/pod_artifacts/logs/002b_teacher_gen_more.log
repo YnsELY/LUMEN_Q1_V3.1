@@ -1,0 +1,9 @@
+reasoning batch 0 16 time 246s
+instructions batch 0 16 time 182s
+instructions batch 16 16 time 181s
+agentic batch 0 16 time 69s
+agentic batch 16 16 time 68s
+agentic batch 32 16 time 61s
+agentic batch 48 13 time 60s
+
+[job 002b_teacher_gen_more OK in 867.2s]

@@ -1,0 +1,16 @@
+sélection gelée relue : L0
+vision professeur : loaded
+vision paquet {'e8_bytes': 195791532, 'e8_params': 317898752, 'raw_params': 357376, 'raw_bytes': 721752, 'bpw': 4.927141884470185}
+vision (tour du paquet, texte professeur) : {'prompts': 96, 'positions': 6144, 'kl': 0.010895497165620327, 'agree': 0.97265625, 'by_domain': {'documents': {'kl': 0.010012083686888218, 'agree': 0.9791666865348816}, 'charts': {'kl': 0.007360302377492189, 'agree': 0.984375}, 'screenshots': {'kl': 0.01675526611506939, 'agree': 0.95703125}, 'photos': {'kl': 0.009454338811337948, 'agree': 0.9700520634651184}}}
+drafter {'e8_bytes': 158291917, 'e8_params': 317865984, 'raw_params': 31888, 'raw_bytes': 64384, 'bpw': 3.983865527429321}
+reconstruit depuis les fichiers : {'e8_loaded': 6408, 'raw_loaded': 803, 'seconds': 100.28043174743652}
+KL dev depuis les fichiers 0.080236 / en mémoire 0.080236 -> identiques à 6 décimales : True
+vision (paquet complet) : {'prompts': 96, 'positions': 6144, 'kl': 0.0650004968047142, 'agree': 0.9270833134651184, 'by_domain': {'documents': {'kl': 0.0518127977848053, 'agree': 0.9505208134651184}, 'charts': {'kl': 0.03973091393709183, 'agree': 0.9635416865348816}, 'screenshots': {'kl': 0.08074052631855011, 'agree': 0.8990885615348816}, 'photos': {'kl': 0.08771777898073196, 'agree': 0.8951823115348816}}}
+CONF : P-I-conf KL=0.07847 p99=0.9933 top1=92.15% route=86.80% top1exp_chg=16.00% | agenti:0.2086 code:0.0290 encycl:0.0444 instru:0.0896 long:0.0587 math:0.0174 multil:0.0628 reason:0.1815 web:0.0378
+UD-IQ2_XXS P-I-conf KL=0.08194 p99=1.0743 top1=91.07% route=85.11% top1exp_chg=18.34% | agenti:0.1559 code:0.0362 encycl:0.0608 instru:0.0971 long:0.0812 math:0.0257 multil:0.0876 reason:0.1609 web:0.0469 {'gain': -0.042353443405086844, 'ci95': [-0.1342851762967695, 0.05005847728559654], 'windows_won': 38, 'n': 52}
+UD-Q2_K_XL P-I-conf KL=0.06907 p99=0.9438 top1=92.03% route=86.04% top1exp_chg=17.18% | agenti:0.1394 code:0.0301 encycl:0.0472 instru:0.0790 long:0.0666 math:0.0198 multil:0.0709 reason:0.1440 web:0.0381 {'gain': 0.13606737022873316, 'ci95': [0.04121847699496972, 0.23002135617053465], 'windows_won': 29, 'n': 52}
+UD-IQ3_XXS P-I-conf KL=0.03701 p99=0.5342 top1=94.85% route=90.51% top1exp_chg=11.60% | agenti:0.1103 code:0.0136 encycl:0.0169 instru:0.0426 long:0.0218 math:0.0076 multil:0.0248 reason:0.0952 web:0.0134 {'gain': 1.1205085867160527, 'ci95': [1.0088903445594473, 1.2670124256732258], 'windows_won': 0, 'n': 52}
+niveau : échec ; paquet 8860641865 octets ; verify rc 0 verified 7265 entries, 26495257088 coded weights, package_bytes=8860641865 (2.6754 bits/coded weight incl. everything)
+
+
+[job 010b_finalize_rest OK in 1487.2s]

@@ -11,6 +11,7 @@ Mandat : écrire `PROPOSITIONS_ARCHITECTURALES_FORMIC_F1.md` (voir `01_mandat/`)
 | `03_code_modele_qwen/` | Code `transformers` 5.22.2 du modèle (`modeling_qwen3_5.py`…), config du checkpoint, index des shards |
 | `04_projet_F1_et_campagnes/` | Copie de `formic_v7/` (recette, rapport, codec, manifestes) et `formic_arch/` (labo, jobs, résultats JSON, rapports), plus les dossiers de pistes historiques |
 | `05_artefacts_sessions/` | `colenergy.pt` (énergies colonnes/lignes), scripts de calcul, sorties complètes des commandes des deux sessions, rapports bibliographiques, transcripts bruts |
+| `06_etude_inkling2_mini/` | Hors mandat V8 (22 novembre 2026) : faisabilité de LUMEN sur Inkling 2 Mini (MoE bouclé, NVFP4 natif), paliers de taille estimés, plan de campagne ; script de calcul et sa sortie. Rien n'a été exécuté sur ce modèle |
 
 ## Non inclus (trop volumineux ou inutiles à la réflexion)
 - Poids du modèle BF16 : `/root/models/qwen3.8-27b` (≈ 55 Go), révision `37561816e66b5b9153b1b64c10968c18c1e6f4a0`.

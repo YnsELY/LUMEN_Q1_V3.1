@@ -1,0 +1,19 @@
+V4 {'agentic': 0.1609, 'reasoning': 0.1436} 48s
+V4_experts_only {'agentic': 0.1389, 'reasoning': 0.1302} 48s
+IQ2 {'agentic': 0.1453, 'reasoning': 0.1679} 48s
+IQ2_experts_only {'agentic': 0.164, 'reasoning': 0.1794} 48s
+
+segment                               V4      V4exp    IQ2     IQ2exp     n
+agentic/model_text                   0.0234  0.0186  0.0460  0.0480    5284
+agentic/model_thinking               0.0390  0.0303  0.0622  0.0649    2630
+agentic/model_tool_call              0.0005  0.0005  0.0014  0.0019    1551
+agentic/special_token                0.1976  0.1244  0.1574  0.2080    1017
+agentic/system_text                  1.0019  0.9480  0.6840  0.9400     341
+agentic/tool_declare_json            0.1194  0.1063  0.1096  0.1221    7470
+agentic/tool_response                0.6843  0.5898  0.4840  0.5430    2349
+agentic/user_text                    0.1892  0.1718  0.2753  0.2920    1875
+reasoning/model_text                 0.0022  0.0021  0.0032  0.0036    1201
+reasoning/model_thinking             0.0302  0.0231  0.0486  0.0519   14975
+reasoning/user_text                  0.3672  0.3405  0.4081  0.4368    8077
+
+[job 014_diag_agentic OK in 447.5s]

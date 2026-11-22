@@ -1,0 +1,7 @@
+check layer 0 True True
+check layer 13 True True
+check layer 21 True True
+fp32 teacher pass 423s
+{'rule': 'KL(prof_FP32 || prof_BF16) <= 1e-4 sur P-I dev -> professeur BF16 accepté', 'windows': 54, 'positions': 110592, 'kl_fp32_vs_bf16': 0.018208488821983337, 'kl_p99': 0.1742889225482936, 'top1_agree': 0.9766438603401184, 'accepted': False, 'frac_nvfp4_weights_not_bf16_exact': 0.931, 'note': "experts FP32 déquantifiés depuis les codes ; activations d'entrée des experts en BF16 (comme le graphe), produits FP32"}
+
+[job 004_teacher_fp32_check OK in 454.0s]

@@ -1,0 +1,32 @@
+{
+ "pw": {
+  "protocol": "P-W (Wikitext-2 test, 40 x 512, positions 256-511)",
+  "positions": 10240,
+  "kl": 0.07628422975540161,
+  "kl_p99": 0.68806786477566,
+  "agree": 0.882031261920929
+ },
+ "pd32": {
+  "protocol": "P-D32 (300 invites, glouton 32 tokens)",
+  "n": 283,
+  "identical_share": 0.13074204946996468,
+  "mean_first_divergence": 12.201413427561837,
+  "by_domain": {
+   "agentic": {
+    "identical_share": 0.05,
+    "mean_first_divergence": 11.7,
+    "n": 100
+   },
+   "math": {
+    "identical_share": 0.24,
+    "mean_first_divergence": 15.7,
+    "n": 100
+   },
+   "non_latin": {
+    "identical_share": 0.0963855421686747,
+    "mean_first_divergence": 8.590361445783133,
+    "n": 83
+   }
+  }
+ }
+}

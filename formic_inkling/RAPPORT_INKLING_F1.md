@@ -223,9 +223,9 @@ Total sur disque : 8 860 641 865 octets
   « aucun candidat admissible », elle a été appliquée à tous les candidats (décision notée dans `selection.lock.json`).
 * **Sélection** (`results/selection.lock.json`, commit `8f0adfa`, avant toute lecture de la moitié conf) : V1a a la KL la plus basse,
   mais l'écart à L0 est inférieur à son IC 95 % ; départage par domaines gagnés : **L0 5, V1a 4 → L0 retenu**.
-* Non exécutées faute de crédit : **V2** (second balayage du cœur), **V3** (Gram pondéré par le routage), **V4** (attention et tête
-  plus fines), **V5** (calibration doublée) : **non testé**. Vu les résultats par domaine (retard sur l'agentique, où UD-IQ2_XXS garde
-  l'attention en Q6_K/Q8_0 et le vocabulaire en IQ4_XS), V4 est la piste la plus prometteuse (estimé, non testé).
+* Non exécutées en phase 1 faute de crédit : V2 (second balayage du cœur), V3 (Gram pondéré par le routage), V4 (attention et tête
+  plus fines), V5 (calibration doublée). **V4 et la combinaison V1a + V4 ont été exécutées en phase 2 (§ 11)** ; V2, V3 et V5 restent
+  **non testées**.
 
 ## 7. Gel, confirmation et paquet complet (C6) — mesuré
 
@@ -270,7 +270,7 @@ Total sur disque : 8 860 641 865 octets
 
 Liste complète et raisons : `results/decisions_log.md`. Principaux : volet llama.cpp abandonné (instruction de l'opérateur, disque) ;
 P-I à 106 fenêtres au lieu de 216 ; calibration de 1,18 M tokens au lieu de 2,1 M ; capture des Gram par groupes de couches au lieu
-de couche par couche ; une seule variante sur trois autorisées ; réponses de P-I générées par le professeur avant le correctif du
+de couche par couche ; phase 1 avec une seule variante (V1a), V4 et C1 en phase 2 ; réponses de P-I générées par le professeur avant le correctif du
 chargeur.
 
 Limites : protocole maison ; corpus de la KL publiée par Unsloth inconnu (leurs 0,0726 / 0,0595 / 0,0269 ne sont que des repères
@@ -280,7 +280,8 @@ Limites : protocole maison ; corpus de la KL publiée par Unsloth inconnu (leurs
 ## 10. Ce qui n'a pas été exécuté
 
 - Volet llama.cpp : `llama-perplexity`, export GGUF BF16 de Formic, vérification `llama-tokenize` (critère « Contrôle » : non testé).
-- Variantes V2, V3, V4, V5 et combinaison.
+- Variantes V2, V3 et V5 (V4 et la combinaison V1a + V4 : exécutées en phase 2).
+- P-D32 sur le paquet V4 ; diagnostic agentique sur P-I2 et P-I conf (fait sur les 22 fenêtres agentiques de P-I seulement).
 - Taux d'acceptation du drafter DSpark (non évalué : pas de chemin d'exécution du drafter dans Transformers 5.24).
 - Benchmarks de tâches (hors mandat sans accord de l'opérateur) ; runtime d'inférence (projet séparé).
 
@@ -384,7 +385,7 @@ Lecture :
 * Chez UD-IQ2_XXS, remettre l'attention du professeur **augmente** la KL sur plusieurs segments (compensations croisées entre tenseurs
   quantifiés) : la décomposition n'est pas additive.
 
-Plan d'amélioration (non testé) : (1) déclarer une métrique « positions générées par le modèle » (réponse, raisonnement, appels) à
+**Plan détaillé pour la prochaine session : `PLAN_AMELIORATION_AGENTIQUE.md`.** En résumé (non testé) : (1) déclarer une métrique « positions générées par le modèle » (réponse, raisonnement, appels) à
 côté de la KL tout jeton ; (2) calibration agentique enrichie (2 à 3 × plus de conversations outillées avec des réponses d'outil
 réelles et longues, rendues au gabarit, réponses du professeur) — **hors mandat, accord de l'opérateur requis** ; (3) lignes des
 jetons spéciaux de `embed`/`unembed` à +2 bits (coût < 1 Mo) ; (4) V3 (Gram pondéré par le routage). Coût estimé : une passe

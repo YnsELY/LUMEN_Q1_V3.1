@@ -1,0 +1,77 @@
+{
+ "frozen_at": "2026-11-22T19:05Z",
+ "rule": "results/selection_rule_phase2.lock.json",
+ "candidates": {
+  "L0": {
+   "kl": 0.08023560792207718,
+   "routing": 0.8752235130027488,
+   "guard_routing": true,
+   "worst_domain_ratio_vs_iq2": 1.1998911848718365,
+   "vs_L0": null
+  },
+  "V1a": {
+   "kl": 0.07845592498779297,
+   "routing": 0.8787733949260947,
+   "guard_routing": true,
+   "worst_domain_ratio_vs_iq2": 1.197133792491101,
+   "vs_L0": {
+    "gain": -0.02217946790971137,
+    "ci95": [
+     -0.05696116906578319,
+     0.015330247720601431
+    ],
+    "windows_won": 28,
+    "n": 54
+   }
+  },
+  "V4": {
+   "kl": 0.06117422133684158,
+   "routing": 0.893251183592243,
+   "guard_routing": true,
+   "worst_domain_ratio_vs_iq2": 1.017773683531847,
+   "vs_L0": {
+    "gain": -0.23756865815532546,
+    "ci95": [
+     -0.2665071674137781,
+     -0.20870910641775442
+    ],
+    "windows_won": 53,
+    "n": 54
+   }
+  },
+  "C1": {
+   "kl": 0.06269233673810959,
+   "routing": 0.8948824611710914,
+   "guard_routing": true,
+   "worst_domain_ratio_vs_iq2": 1.1150471581355905,
+   "vs_L0": {
+    "gain": -0.21863996857267376,
+    "ci95": [
+     -0.2564302255744346,
+     -0.17661674237806213
+    ],
+    "windows_won": 52,
+    "n": 54
+   }
+  }
+ },
+ "selected": "V4",
+ "ties": [
+  {
+   "other": "C1",
+   "vs": "V4",
+   "ratio": {
+    "gain": 0.02482674641477156,
+    "ci95": [
+     -0.015596775039826705,
+     0.0680873738180332
+    ],
+    "windows_won": 18,
+    "n": 54
+   },
+   "won_other": 3,
+   "won_first": 6
+  }
+ ],
+ "pi2_read_before_freeze": false
+}

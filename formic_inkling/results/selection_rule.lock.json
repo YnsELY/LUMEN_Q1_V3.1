@@ -1,0 +1,26 @@
+{
+  "written_at": "2026-11-22T11:06Z",
+  "written_before": "toute variante (C5) et tout résultat de L0",
+  "protocol": "P-I dev (54 fenêtres, 9 domaines x 6), KL(professeur || candidat) en nats, moyenne par token, 200 058 entrées, softcap 30",
+  "candidates": "L0 et les variantes déclarées exécutées ; au plus une combinaison des variantes gagnantes",
+  "selection": "KL la plus basse sur P-I dev parmi les candidats qui respectent les trois garde-fous",
+  "guardrails": [
+    "aucun domaine au-dessus de 1,10 x la KL du même domaine pour UD-IQ2_XXS (P-I dev, notre graphe)",
+    "accord de routage moyen >= celui de L0 - 1 point",
+    "paquet complet <= 9 000 000 000 octets (octets texte égaux à UD-IQ2_XXS à +-0,1 %)"
+  ],
+  "tie_break": "si l'écart de KL au meilleur est inférieur à son IC 95 % apparié (bootstrap des fenêtres, méthode V7), plus grand nombre de domaines gagnés ; à égalité, L0 (recette stricte)",
+  "planned_variants_in_order": [
+    {"id": "V1a", "change": "coeur boucle (couches 6-17, experts + attention) +0,2 bit, prelude et coda -0,2 bit, a octets egaux (deux multiplicateurs, multiplicateur commun recale)"},
+    {"id": "V4", "change": "attention et unembed a un multiplicateur plus fin (+1 bit), experts compenses a octets egaux"},
+    {"id": "V1b ou combinaison", "change": "Delta = 0,4 si V1a gagne, ou combinaison V1a+V4 si les deux gagnent ; une seule passe"}
+  ],
+  "max_extra_full_passes_without_operator": 3,
+  "note_budget_temps": "le nombre de variantes réellement exécutées dépend du crédit du pod ; celles non exécutées seront déclarées « non testé »",
+  "success_criteria_P_I_conf_equal_text_bytes_vs_UD_IQ2_XXS_our_graph": {
+    "echec": "KL Formic >= KL UD-IQ2_XXS, ou IC 95 % du gain qui contient 0",
+    "atteint": "gain >= 10 %, IC 95 % entierement sous 0",
+    "renforce": "gain >= 25 % (hypothese de l'etude : 25-45 %, estimee)",
+    "controle": "même conclusion dans llama.cpp : volet abandonné sur instruction de l'opérateur (non testé)"
+  }
+}

@@ -1,4 +1,9 @@
-# Recette retenue — LUMEN « Formic V1.5 » pour Inkling 2 Mini (F1 transposée)
+# Recette retenue — LUMEN « Formic V1.5 » pour Inkling 2 Mini (F1 transposée + V4)
+
+> **Phase 2 (22/11, 19h40) : la recette retenue est désormais F1 transposée + V4.** Seul changement par rapport au tableau ci-dessous :
+> multiplicateurs **0,787197 pour les experts** et **0,393599 pour l'attention (q, k, v, wr_du, wo) et `embed`** ; `unembed` ajusté au
+> budget (0,365758). Débits idéaux : experts 2,44, attention 3,44, embed 3,41, unembed 3,52 bpw. Confirmé sur P-I2 (jeu neuf scellé) :
+> KL 0,0584 contre 0,0779 pour UD-IQ2_XXS (−25,0 %, IC [−39,6 ; −11,7]). Code : `jobs/011_V4.py`. Paquet : 8 860 059 425 octets.
 
 **22 novembre 2026.** Recette de quantification sélectionnée à l'issue de la campagne FORMIC-Ink pour
 `thinkingmachines/Inkling-2-Mini` (révision `b85c3cfa615fc413cc9af3379f491b963f3b586a`). Nom du modèle quantifié : **Formic V1.5**.

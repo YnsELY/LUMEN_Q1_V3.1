@@ -9,6 +9,12 @@ Résultats bruts : `results/`. Journal des écarts : `results/decisions_log.md`.
 
 ## Réponse en une page
 
+> **Mise à jour phase 2 (22/11, 19h40).** Après le gel de phase 1 et à la demande de l'opérateur, la variante **V4** (attention,
+> embeddings et tête +1 bit, experts compensés, octets égaux) a été sélectionnée sur P-I dev puis confirmée sur un jeu neuf scellé
+> (P-I2, 48 fenêtres) : **KL 0,0584 contre 0,0779 pour UD-IQ2_XXS (−25,0 %, IC 95 % [−39,6 ; −11,7])** et −20,7 % contre L0. **Formic
+> V1.5 = V4** ; paquet de **8 860 059 425 octets**, vérifié et relu. Seul l'agentique reste derrière UD-IQ2_XXS. Détails : § 11. La
+> réponse ci-dessous est celle de la phase 1 (L0), conservée telle quelle.
+
 **Ce qui a été produit (mesuré).** Formic V1.5 = recette F1 transposée (« L0 ») : E8 doublé, pas FP16 par ligne = 0,757082 × RMS,
 LDLQ par blocs de 8 avec 7 candidats, Gram par expert sur les entrées de l'élève, aucun apprentissage. Le paquet complet existe :
 **8 860 641 865 octets** (texte 8 474 167 056, Vision 196 Mo à 4,93 bpw, drafter 158 Mo à 3,98 bpw, annexes), `package.py verify` OK.
@@ -280,4 +286,75 @@ Limites : protocole maison ; corpus de la KL publiée par Unsloth inconnu (leurs
 
 ## 11. Phase 2 (après le gel, à la demande de l'opérateur)
 
-⟪PHASE2⟫
+### 11.1 Cadre
+
+* Demande de l'opérateur à 16h25 (après le gel de phase 1, moitié conf de P-I déjà lue) : « trouver des solutions pour que la KL de
+  Formic V1.5 soit plus basse », crédit ajouté.
+* Règle écrite et commitée **avant** tout résultat (`results/selection_rule_phase2.lock.json`, commit `88bde90`) : candidats L0, V1a,
+  V4, C1 = V1a + V4 (C1 seulement si V4 bat L0 sur dev) ; sélection sur P-I dev ; **confirmation sur P-I2**, jeu neuf scellé
+  (48 fenêtres : 36 brutes code / math / encyclopédique / multilingue / long / web + 6 agentiques glaive + 6 instructions UltraChat
+  test, réponses des jeux de données ; disjoint par identifiant ; gelé avant tout résultat, commit `1eea8e1`) ; **remplacement de
+  Formic V1.5 seulement si le gain contre L0 sur P-I2 a un IC 95 % entièrement sous 0**.
+* La moitié conf de P-I n'est plus aveugle pour la phase 2 : ses chiffres de phase 2 sont donnés à titre d'information seulement.
+
+### 11.2 V4 — mesuré (P-I dev)
+
+| | L0 | V4 |
+|---|---:|---:|
+| Multiplicateur experts | 0,757082 | 0,787197 |
+| Multiplicateur attention, embed (et tête visée) | 0,757082 | 0,393599 (tête ajustée 0,365758) |
+| bpw idéal : experts / attention / embed / unembed | 2,49 / 2,49 / 2,48 / 2,56 | 2,44 / 3,44 / 3,41 / 3,52 |
+| Octets texte réels | 8 474 167 056 | 8 473 584 587 (−0,008 %) |
+| KL P-I dev | 0,08024 | **0,06117** |
+| top-1 / routage / top-1 expert changé | 91,61 % / 87,52 % / 15,20 % | 93,04 % / 89,33 % / 13,02 % |
+| contre L0 [IC 95 %] | — | **−23,8 %** [−26,7 ; −20,9], 53/54 fenêtres |
+| contre UD-IQ2_XXS [IC 95 %] | −6,9 % [−14,8 ; +0,7] | **−29,0 %** [−36,5 ; −21,9], 51/54 |
+
+Par domaine (V4) : agentique 0,1389, code 0,0167, math 0,0121, raisonnement 0,1524, encyclopédique 0,0328, multilingue 0,0336,
+long 0,0414, instructions 0,0924, web 0,0303 — tous meilleurs que L0. V4 est aussi en dessous de UD-Q2_K_XL (0,0712), plus gros de
+652 Mo de texte. Lecture : ce que l'allocation uniforme de F1 coûte sur Inkling vient surtout de l'attention et du vocabulaire
+(3,5 % des poids), que le cœur MoE de 24 G poids ne compense pas : retirer 0,05 bit aux experts pour donner +1 bit à ces chemins
+paie massivement. C'est l'inverse du résultat de Qwen, où les allocations non uniformes essayées avaient perdu.
+
+### 11.3 C1 = V1a + V4 — mesuré (P-I dev)
+
+KL 0,06269 (contre L0 −21,9 % [−25,6 ; −17,7] ; contre UD-IQ2_XXS −27,2 % [−35,0 ; −19,3]) : légèrement moins bonne que V4 seul
+(0,06117). Octets texte 8 473 641 336 (−0,007 %). Passe 4 236 s.
+
+### 11.4 Sélection et confirmation sur P-I2 — mesuré
+
+Sélection gelée sur P-I dev (`results/selection_phase2.lock.json`, avant lecture de P-I2) : **V4** (L0 0,08024 ; V1a 0,07846 ;
+V4 0,06117 ; C1 0,06269). Lecture unique de P-I2 (48 fenêtres, 98 304 positions, scellé) :
+
+| Modèle | octets texte | KL P-I2 | p99 | top-1 | routage | top-1 expert changé |
+|---|---:|---:|---:|---:|---:|---:|
+| UD-IQ2_XXS | 8 474 257 664 | 0,07786 | 0,907 | 91,18 % | 85,56 % | 17,72 % |
+| Formic L0 (V1.5 phase 1) | 8 474 167 056 | 0,07359 | 0,805 | 92,34 % | 87,54 % | 15,04 % |
+| **Formic V4** | **8 473 584 587** | **0,05837** | **0,634** | **93,57 %** | **89,34 %** | **12,90 %** |
+
+* **V4 contre L0 : −20,7 %**, IC 95 % [−27,5 ; −14,7], 46/48 fenêtres → la règle de remplacement est remplie : **Formic V1.5 = V4**.
+* **V4 contre UD-IQ2_XXS (octets égaux) : −25,0 %**, IC 95 % [−39,6 ; −11,7], 43/48 fenêtres. (L0 contre UD-IQ2_XXS sur P-I2 :
+  −5,5 %, IC [−18,7 ; +6,6] — même conclusion qu'en phase 1.)
+* Par domaine sur P-I2 (V4 / UD-IQ2_XXS) : code 0,0136 / 0,0242, math 0,0096 / 0,0244, encyclopédique 0,0251 / 0,0497, multilingue
+  0,0384 / 0,0769, long 0,0421 / 0,0921, web 0,0445 / 0,0833, instructions 0,0618 / 0,0843, **agentique 0,2318 / 0,1880** (seul domaine
+  perdu, voir § 11.6).
+* Lecture au regard des critères du mandat (définis sur P-I conf, qui n'est plus aveugle en phase 2) : sur le jeu de confirmation neuf
+  et scellé, le gain de −25,0 % avec un IC entièrement sous 0 correspondrait au niveau « Renforcé » (≥ 25 %) à la limite, et au moins
+  « Atteint » (≥ 10 %). **Cette lecture porte sur P-I2, pas sur P-I conf** ; elle est donnée comme telle.
+
+### 11.5 Nouveau paquet Formic V1.5 (V4) — mesuré
+
+* `/workspace/work_ink/packages/V4` : **8 860 059 425 octets** sur disque (dans 8–9 Go), `verify` OK ; texte 8 473 584 587 octets,
+  Vision 195,8 Mo (4,93 bpw), drafter 158,3 Mo (3,98 bpw, non évalué), annexes. Manifeste : `results/package_manifest_ink_phase2.json`.
+* **Reconstruit depuis les fichiers** (6 408 matrices, 803 petits tenseurs, 110 s) : KL P-I dev **0,061174 = 0,061174 en mémoire**.
+* P-I conf (**non aveugle en phase 2**, information seulement) : KL 0,0598, top-1 93,38 %, routage 88,72 % ; contre UD-IQ2_XXS −27,0 %
+  [−37,2 ; −16,4] (48/52) ; contre UD-Q2_K_XL (+652 Mo) −13,5 % [−24,0 ; −2,4] (46/52) ; contre UD-IQ3_XXS +61,5 %.
+* P-W : KL 0,0464 (L0 0,0647 ; UD-IQ2_XXS 0,0948 ; UD-Q2_K_XL 0,0763 ; UD-IQ3_XXS 0,0297). Vision, paquet complet : KL 0,0520,
+  top-1 93,4 % (L0 : 0,0650). P-D32 non refait pour V4 (temps).
+
+### 11.6 Le domaine agentique
+
+Seul domaine où UD-IQ2_XXS reste meilleur (P-I2 : 0,232 contre 0,188 ; P-I conf : 0,187 contre 0,156). Diagnostic par type de
+segment : `results/diag_agentic.json` (§ 11.7).
+
+⟪DIAG⟫

@@ -1,0 +1,301 @@
+{
+ "rows": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44,
+  45,
+  46
+ ],
+ "results": {
+  "V4": {
+   "by_segment": {
+    "agentic/model_text": {
+     "kl": 0.023414466279099874,
+     "n": 5284
+    },
+    "agentic/model_thinking": {
+     "kl": 0.03903551706796363,
+     "n": 2630
+    },
+    "agentic/model_tool_call": {
+     "kl": 0.0004926073712583206,
+     "n": 1551
+    },
+    "agentic/other": {
+     "kl": 0.01955214413729581,
+     "n": 11
+    },
+    "agentic/special_token": {
+     "kl": 0.1975948247351595,
+     "n": 1017
+    },
+    "agentic/system_text": {
+     "kl": 1.0018780827522278,
+     "n": 341
+    },
+    "agentic/tool_declare_json": {
+     "kl": 0.11936110904417842,
+     "n": 7470
+    },
+    "agentic/tool_response": {
+     "kl": 0.6842563921413608,
+     "n": 2349
+    },
+    "agentic/user_text": {
+     "kl": 0.18920229399998983,
+     "n": 1875
+    },
+    "reasoning/model_text": {
+     "kl": 0.0021540467983280787,
+     "n": 1201
+    },
+    "reasoning/model_thinking": {
+     "kl": 0.030165051737293377,
+     "n": 14975
+    },
+    "reasoning/other": {
+     "kl": 0.01558080812295278,
+     "n": 12
+    },
+    "reasoning/special_token": {
+     "kl": 0.3651801983039536,
+     "n": 167
+    },
+    "reasoning/system_text": {
+     "kl": 0.3282082701722781,
+     "n": 144
+    },
+    "reasoning/user_text": {
+     "kl": 0.36718196214035004,
+     "n": 8077
+    }
+   },
+   "by_domain": {
+    "agentic": 0.16085133701562881,
+    "reasoning": 0.14357386901974678
+   }
+  },
+  "V4_experts_only": {
+   "by_segment": {
+    "agentic/model_text": {
+     "kl": 0.01860832950321677,
+     "n": 5284
+    },
+    "agentic/model_thinking": {
+     "kl": 0.030331729142838104,
+     "n": 2630
+    },
+    "agentic/model_tool_call": {
+     "kl": 0.0005039963546989043,
+     "n": 1551
+    },
+    "agentic/other": {
+     "kl": 0.013578165661204945,
+     "n": 11
+    },
+    "agentic/special_token": {
+     "kl": 0.12438139281324463,
+     "n": 1017
+    },
+    "agentic/system_text": {
+     "kl": 0.9479547087048505,
+     "n": 341
+    },
+    "agentic/tool_declare_json": {
+     "kl": 0.10628430335078054,
+     "n": 7470
+    },
+    "agentic/tool_response": {
+     "kl": 0.5897527107181525,
+     "n": 2349
+    },
+    "agentic/user_text": {
+     "kl": 0.171826468817393,
+     "n": 1875
+    },
+    "reasoning/model_text": {
+     "kl": 0.0020841572008760247,
+     "n": 1201
+    },
+    "reasoning/model_thinking": {
+     "kl": 0.023144723963060842,
+     "n": 14975
+    },
+    "reasoning/other": {
+     "kl": 0.012629523873329163,
+     "n": 12
+    },
+    "reasoning/special_token": {
+     "kl": 0.2808807345921408,
+     "n": 167
+    },
+    "reasoning/system_text": {
+     "kl": 0.3654196490016248,
+     "n": 144
+    },
+    "reasoning/user_text": {
+     "kl": 0.3405190730753166,
+     "n": 8077
+    }
+   },
+   "by_domain": {
+    "agentic": 0.13894823464480313,
+    "reasoning": 0.13017362356185913
+   }
+  },
+  "IQ2": {
+   "by_segment": {
+    "agentic/model_text": {
+     "kl": 0.04600247852419652,
+     "n": 5284
+    },
+    "agentic/model_thinking": {
+     "kl": 0.06217275978041239,
+     "n": 2630
+    },
+    "agentic/model_tool_call": {
+     "kl": 0.0014425853926623583,
+     "n": 1551
+    },
+    "agentic/other": {
+     "kl": 0.02567635882984508,
+     "n": 11
+    },
+    "agentic/special_token": {
+     "kl": 0.15735550991084607,
+     "n": 1017
+    },
+    "agentic/system_text": {
+     "kl": 0.6839587637755877,
+     "n": 341
+    },
+    "agentic/tool_declare_json": {
+     "kl": 0.10956786307624705,
+     "n": 7470
+    },
+    "agentic/tool_response": {
+     "kl": 0.483980936438746,
+     "n": 2349
+    },
+    "agentic/user_text": {
+     "kl": 0.2752713653564453,
+     "n": 1875
+    },
+    "reasoning/model_text": {
+     "kl": 0.0031538453328420874,
+     "n": 1201
+    },
+    "reasoning/model_thinking": {
+     "kl": 0.04857491477303991,
+     "n": 14975
+    },
+    "reasoning/other": {
+     "kl": 0.09851390620072682,
+     "n": 12
+    },
+    "reasoning/special_token": {
+     "kl": 0.3022636956797389,
+     "n": 167
+    },
+    "reasoning/system_text": {
+     "kl": 0.33225269946787095,
+     "n": 144
+    },
+    "reasoning/user_text": {
+     "kl": 0.4081295468111476,
+     "n": 8077
+    }
+   },
+   "by_domain": {
+    "agentic": 0.14532354406335138,
+    "reasoning": 0.16793473064899445
+   }
+  },
+  "IQ2_experts_only": {
+   "by_segment": {
+    "agentic/model_text": {
+     "kl": 0.047961147320171274,
+     "n": 5284
+    },
+    "agentic/model_thinking": {
+     "kl": 0.06490348756539957,
+     "n": 2630
+    },
+    "agentic/model_tool_call": {
+     "kl": 0.001917927400440189,
+     "n": 1551
+    },
+    "agentic/other": {
+     "kl": 0.027728432958776302,
+     "n": 11
+    },
+    "agentic/special_token": {
+     "kl": 0.2079646815358127,
+     "n": 1017
+    },
+    "agentic/system_text": {
+     "kl": 0.9399800347792439,
+     "n": 341
+    },
+    "agentic/tool_declare_json": {
+     "kl": 0.12213148073339399,
+     "n": 7470
+    },
+    "agentic/tool_response": {
+     "kl": 0.5429734762753259,
+     "n": 2349
+    },
+    "agentic/user_text": {
+     "kl": 0.2919872272809346,
+     "n": 1875
+    },
+    "reasoning/model_text": {
+     "kl": 0.0035519333902147786,
+     "n": 1201
+    },
+    "reasoning/model_thinking": {
+     "kl": 0.05188321311008154,
+     "n": 14975
+    },
+    "reasoning/other": {
+     "kl": 0.10098310311635335,
+     "n": 12
+    },
+    "reasoning/special_token": {
+     "kl": 0.272274110845463,
+     "n": 167
+    },
+    "reasoning/system_text": {
+     "kl": 0.3627785092426671,
+     "n": 144
+    },
+    "reasoning/user_text": {
+     "kl": 0.43678769867388023,
+     "n": 8077
+    }
+   },
+   "by_domain": {
+    "agentic": 0.16400384902954102,
+    "reasoning": 0.17936494698127112
+   }
+  }
+ }
+}

@@ -357,4 +357,35 @@ V4 0,06117 ; C1 0,06269). Lecture unique de P-I2 (48 fenêtres, 98 304 positions
 Seul domaine où UD-IQ2_XXS reste meilleur (P-I2 : 0,232 contre 0,188 ; P-I conf : 0,187 contre 0,156). Diagnostic par type de
 segment : `results/diag_agentic.json` (§ 11.7).
 
-⟪DIAG⟫
+### 11.7 Diagnostic agentique — mesuré (P-I, 22 fenêtres agentiques, 22 528 positions)
+
+KL moyenne par type de segment du jeton prédit. « Experts seuls » = attention, embed et unembed remis au professeur.
+
+| Segment | positions | Formic V4 | V4 experts seuls | UD-IQ2_XXS | IQ2 experts seuls |
+|---|---:|---:|---:|---:|---:|
+| Texte de réponse du modèle | 5 284 | **0,0234** | 0,0186 | 0,0460 | 0,0480 |
+| Raisonnement du modèle | 2 630 | **0,0390** | 0,0303 | 0,0622 | 0,0649 |
+| Appels d'outil du modèle (JSON) | 1 551 | **0,0005** | 0,0005 | 0,0014 | 0,0019 |
+| Texte de l'utilisateur | 1 875 | **0,189** | 0,172 | 0,275 | 0,292 |
+| Déclarations d'outils (JSON) | 7 470 | 0,119 | 0,106 | **0,110** | 0,122 |
+| **Réponses d'outil** | 2 349 | 0,684 | 0,590 | **0,484** | 0,543 |
+| Message système | 341 | 1,002 | 0,948 | **0,684** | 0,940 |
+| Jetons spéciaux | 1 017 | 0,198 | 0,124 | **0,157** | 0,208 |
+| **Domaine entier** | 22 528 | 0,1609 | 0,1389 | **0,1453** | 0,1640 |
+
+Lecture :
+* **Sur tout ce que le modèle génère lui-même** (réponse, raisonnement, appels d'outil), Formic V4 est **2 à 3 fois plus fidèle**
+  qu'UD-IQ2_XXS. L'écart défavorable vient entièrement de jetons que le modèle **ne génère jamais en usage agentique** : réponses
+  d'outil (≈ 470 des ≈ 690 unités de KL en excès), message système, déclarations JSON, jetons spéciaux. La KL « tout jeton » du
+  domaine agentique mesure donc surtout la prédiction de textes d'entrée à haute entropie, pas la qualité des actions de l'agent.
+* Sur ces segments, remettre l'attention et le vocabulaire du professeur n'enlève que 14 % (réponses d'outil) à 37 % (jetons spéciaux)
+  de la KL de V4 : l'essentiel vient des **experts**, donc vraisemblablement de la **calibration** (≈ 130 k tokens d'outils dans nos
+  1,18 M, réponses d'outil courtes et synthétiques ; imatrix d'Unsloth sur un corpus conversationnel, `imx_s0.conv.jsonl`).
+* Chez UD-IQ2_XXS, remettre l'attention du professeur **augmente** la KL sur plusieurs segments (compensations croisées entre tenseurs
+  quantifiés) : la décomposition n'est pas additive.
+
+Plan d'amélioration (non testé) : (1) déclarer une métrique « positions générées par le modèle » (réponse, raisonnement, appels) à
+côté de la KL tout jeton ; (2) calibration agentique enrichie (2 à 3 × plus de conversations outillées avec des réponses d'outil
+réelles et longues, rendues au gabarit, réponses du professeur) — **hors mandat, accord de l'opérateur requis** ; (3) lignes des
+jetons spéciaux de `embed`/`unembed` à +2 bits (coût < 1 Mo) ; (4) V3 (Gram pondéré par le routage). Coût estimé : une passe
+de 75 min + confirmation par variante.

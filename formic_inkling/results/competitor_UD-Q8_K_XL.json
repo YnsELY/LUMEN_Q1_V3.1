@@ -1,0 +1,3063 @@
+{
+ "id": "UD-Q8_K_XL",
+ "dev": {
+  "protocol": "P-I-dev",
+  "windows": 54,
+  "positions": 110592,
+  "kl": 0.0,
+  "kl_p99": 0.0,
+  "agree": 1.0,
+  "by_domain": {
+   "agentic": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "code": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "encyclopedic": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "instructions": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "long": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "math": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "multilingual": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "reasoning": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   },
+   "web": {
+    "kl": 0.0,
+    "kl_p99": 0.0,
+    "agree": 1.0,
+    "n": 12288,
+    "windows": 6
+   }
+  },
+  "per_window": [
+   {
+    "row": 0,
+    "domain": "agentic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 2,
+    "domain": "agentic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 4,
+    "domain": "agentic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 6,
+    "domain": "agentic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 8,
+    "domain": "agentic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 10,
+    "domain": "agentic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 11,
+    "domain": "code",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 13,
+    "domain": "code",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 15,
+    "domain": "code",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 17,
+    "domain": "code",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 19,
+    "domain": "code",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 21,
+    "domain": "code",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 23,
+    "domain": "math",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 25,
+    "domain": "math",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 27,
+    "domain": "math",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 29,
+    "domain": "math",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 31,
+    "domain": "math",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 33,
+    "domain": "math",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 35,
+    "domain": "reasoning",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 37,
+    "domain": "reasoning",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 39,
+    "domain": "reasoning",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 41,
+    "domain": "reasoning",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 43,
+    "domain": "reasoning",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 45,
+    "domain": "reasoning",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 47,
+    "domain": "encyclopedic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 49,
+    "domain": "encyclopedic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 51,
+    "domain": "encyclopedic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 53,
+    "domain": "encyclopedic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 55,
+    "domain": "encyclopedic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 57,
+    "domain": "encyclopedic",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 59,
+    "domain": "multilingual",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 61,
+    "domain": "multilingual",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 63,
+    "domain": "multilingual",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 65,
+    "domain": "multilingual",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 67,
+    "domain": "multilingual",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 69,
+    "domain": "multilingual",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 71,
+    "domain": "long",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 73,
+    "domain": "long",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 75,
+    "domain": "long",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 77,
+    "domain": "long",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 79,
+    "domain": "long",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 81,
+    "domain": "long",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 83,
+    "domain": "instructions",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 85,
+    "domain": "instructions",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 87,
+    "domain": "instructions",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 89,
+    "domain": "instructions",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 91,
+    "domain": "instructions",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 93,
+    "domain": "instructions",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 94,
+    "domain": "web",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 96,
+    "domain": "web",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 98,
+    "domain": "web",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 100,
+    "domain": "web",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 102,
+    "domain": "web",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   },
+   {
+    "row": 104,
+    "domain": "web",
+    "part": "dev",
+    "n": 2048,
+    "kl": 0.0,
+    "agree": 1.0
+   }
+  ],
+  "routing": {
+   "mean_overlap": 1.0,
+   "mean_top1_changed": 0.0,
+   "by_layer_application": {
+    "0.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "1.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "2.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "3.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "4.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "5.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "6.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "6.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "6.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "7.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "7.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "7.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "8.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "8.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "8.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "9.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "9.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "9.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "10.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "10.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "10.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "11.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "11.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "11.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "12.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "12.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "12.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "13.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "13.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "13.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "14.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "14.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "14.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "15.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "15.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "15.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "16.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "16.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "16.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "17.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "17.1": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "17.2": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "18.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "19.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "20.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "21.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "22.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    },
+    "23.0": {
+     "overlap": 1.0,
+     "top1_changed": 0.0
+    }
+   }
+  },
+  "info": {
+   "file": "Inkling-2-Mini-UD-Q8_K_XL.gguf",
+   "file_bytes": 22867451616,
+   "text_tensor_bytes": 22855473152
+  }
+ },
+ "load_report": {
+  "file": "Inkling-2-Mini-UD-Q8_K_XL.gguf",
+  "file_bytes": 22867451616,
+  "tensor_bytes": 22855473152,
+  "loaded": 218,
+  "loaded_bytes": 22763372544,
+  "skipped_quantized": [
+   "blk.10.loop_attn_down.weight",
+   "blk.10.loop_attn_forget.weight",
+   "blk.10.loop_attn_gain.weight",
+   "blk.10.loop_k_down.weight",
+   "blk.10.loop_k_forget.weight",
+   "blk.10.loop_k_gain.weight",
+   "blk.10.loop_mlp_down.weight",
+   "blk.10.loop_mlp_forget.weight",
+   "blk.10.loop_mlp_gain.weight",
+   "blk.10.loop_v_down.weight",
+   "blk.10.loop_v_forget.weight",
+   "blk.10.loop_v_gain.weight",
+   "blk.11.attn_k_conv_proj.weight",
+   "blk.11.attn_v_conv_proj.weight",
+   "blk.11.loop_attn_down.weight",
+   "blk.11.loop_attn_forget.weight",
+   "blk.11.loop_attn_gain.weight",
+   "blk.11.loop_k_down.weight",
+   "blk.11.loop_k_forget.weight",
+   "blk.11.loop_k_gain.weight",
+   "blk.11.loop_mlp_down.weight",
+   "blk.11.loop_mlp_forget.weight",
+   "blk.11.loop_mlp_gain.weight",
+   "blk.11.loop_v_down.weight",
+   "blk.11.loop_v_forget.weight",
+   "blk.11.loop_v_gain.weight",
+   "blk.12.loop_attn_down.weight",
+   "blk.12.loop_attn_forget.weight",
+   "blk.12.loop_attn_gain.weight",
+   "blk.12.loop_k_down.weight",
+   "blk.12.loop_k_forget.weight",
+   "blk.12.loop_k_gain.weight",
+   "blk.12.loop_mlp_down.weight",
+   "blk.12.loop_mlp_forget.weight",
+   "blk.12.loop_mlp_gain.weight",
+   "blk.12.loop_v_down.weight",
+   "blk.12.loop_v_forget.weight",
+   "blk.12.loop_v_gain.weight",
+   "blk.13.loop_attn_down.weight",
+   "blk.13.loop_attn_forget.weight",
+   "blk.13.loop_attn_gain.weight",
+   "blk.13.loop_k_down.weight",
+   "blk.13.loop_k_forget.weight",
+   "blk.13.loop_k_gain.weight",
+   "blk.13.loop_mlp_down.weight",
+   "blk.13.loop_mlp_forget.weight",
+   "blk.13.loop_mlp_gain.weight",
+   "blk.13.loop_v_down.weight",
+   "blk.13.loop_v_forget.weight",
+   "blk.13.loop_v_gain.weight",
+   "blk.14.loop_attn_down.weight",
+   "blk.14.loop_attn_forget.weight",
+   "blk.14.loop_attn_gain.weight",
+   "blk.14.loop_k_down.weight",
+   "blk.14.loop_k_forget.weight",
+   "blk.14.loop_k_gain.weight",
+   "blk.14.loop_mlp_down.weight",
+   "blk.14.loop_mlp_forget.weight",
+   "blk.14.loop_mlp_gain.weight",
+   "blk.14.loop_v_down.weight",
+   "blk.14.loop_v_forget.weight",
+   "blk.14.loop_v_gain.weight",
+   "blk.15.loop_attn_down.weight",
+   "blk.15.loop_attn_forget.weight",
+   "blk.15.loop_attn_gain.weight",
+   "blk.15.loop_k_down.weight",
+   "blk.15.loop_k_forget.weight",
+   "blk.15.loop_k_gain.weight",
+   "blk.15.loop_mlp_down.weight",
+   "blk.15.loop_mlp_forget.weight",
+   "blk.15.loop_mlp_gain.weight",
+   "blk.15.loop_v_down.weight",
+   "blk.15.loop_v_forget.weight",
+   "blk.15.loop_v_gain.weight",
+   "blk.16.loop_attn_down.weight",
+   "blk.16.loop_attn_forget.weight",
+   "blk.16.loop_attn_gain.weight",
+   "blk.16.loop_k_down.weight",
+   "blk.16.loop_k_forget.weight",
+   "blk.16.loop_k_gain.weight",
+   "blk.16.loop_mlp_down.weight",
+   "blk.16.loop_mlp_forget.weight",
+   "blk.16.loop_mlp_gain.weight",
+   "blk.16.loop_v_down.weight",
+   "blk.16.loop_v_forget.weight",
+   "blk.16.loop_v_gain.weight",
+   "blk.17.attn_k_conv_proj.weight",
+   "blk.17.attn_v_conv_proj.weight",
+   "blk.17.loop_attn_down.weight",
+   "blk.17.loop_attn_forget.weight",
+   "blk.17.loop_attn_gain.weight",
+   "blk.17.loop_k_down.weight",
+   "blk.17.loop_k_forget.weight",
+   "blk.17.loop_k_gain.weight",
+   "blk.17.loop_mlp_down.weight",
+   "blk.17.loop_mlp_forget.weight",
+   "blk.17.loop_mlp_gain.weight",
+   "blk.17.loop_v_down.weight",
+   "blk.17.loop_v_forget.weight",
+   "blk.17.loop_v_gain.weight",
+   "blk.23.attn_k_conv_proj.weight",
+   "blk.23.attn_v_conv_proj.weight",
+   "blk.5.attn_k_conv_proj.weight",
+   "blk.5.attn_v_conv_proj.weight",
+   "blk.6.loop_attn_down.weight",
+   "blk.6.loop_attn_forget.weight",
+   "blk.6.loop_attn_gain.weight",
+   "blk.6.loop_k_down.weight",
+   "blk.6.loop_k_forget.weight",
+   "blk.6.loop_k_gain.weight",
+   "blk.6.loop_mlp_down.weight",
+   "blk.6.loop_mlp_forget.weight",
+   "blk.6.loop_mlp_gain.weight",
+   "blk.6.loop_v_down.weight",
+   "blk.6.loop_v_forget.weight",
+   "blk.6.loop_v_gain.weight",
+   "blk.7.loop_attn_down.weight",
+   "blk.7.loop_attn_forget.weight",
+   "blk.7.loop_attn_gain.weight",
+   "blk.7.loop_k_down.weight",
+   "blk.7.loop_k_forget.weight",
+   "blk.7.loop_k_gain.weight",
+   "blk.7.loop_mlp_down.weight",
+   "blk.7.loop_mlp_forget.weight",
+   "blk.7.loop_mlp_gain.weight",
+   "blk.7.loop_v_down.weight",
+   "blk.7.loop_v_forget.weight",
+   "blk.7.loop_v_gain.weight",
+   "blk.8.loop_attn_down.weight",
+   "blk.8.loop_attn_forget.weight",
+   "blk.8.loop_attn_gain.weight",
+   "blk.8.loop_k_down.weight",
+   "blk.8.loop_k_forget.weight",
+   "blk.8.loop_k_gain.weight",
+   "blk.8.loop_mlp_down.weight",
+   "blk.8.loop_mlp_forget.weight",
+   "blk.8.loop_mlp_gain.weight",
+   "blk.8.loop_v_down.weight",
+   "blk.8.loop_v_forget.weight",
+   "blk.8.loop_v_gain.weight",
+   "blk.9.loop_attn_down.weight",
+   "blk.9.loop_attn_forget.weight",
+   "blk.9.loop_attn_gain.weight",
+   "blk.9.loop_k_down.weight",
+   "blk.9.loop_k_forget.weight",
+   "blk.9.loop_k_gain.weight",
+   "blk.9.loop_mlp_down.weight",
+   "blk.9.loop_mlp_forget.weight",
+   "blk.9.loop_mlp_gain.weight",
+   "blk.9.loop_v_down.weight",
+   "blk.9.loop_v_forget.weight",
+   "blk.9.loop_v_gain.weight"
+  ],
+  "kept_from_teacher_types": [
+   "BF16",
+   "F32"
+  ],
+  "min_cos": 0.9999985323960214,
+  "seconds": 69.31945610046387
+ },
+ "tensors": {
+  "blk.0.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986067293706,
+   "rel_err": 0.0016697717833252634,
+   "norm_ratio": 1.0000445146890573,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.0.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999985860005205,
+   "rel_err": 0.0016995331451216372,
+   "norm_ratio": 1.0000117398170227,
+   "bit_exact_vs_teacher": true
+  },
+  "token_embd.weight": {
+   "type": "BF16",
+   "bytes": 926318592,
+   "params": 463159296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986330817879,
+   "rel_err": 0.0016473329818272855,
+   "norm_ratio": 0.9999602511486787,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.1.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986523258424,
+   "rel_err": 0.0016556998401042857,
+   "norm_ratio": 1.0000841963714036,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986517341954,
+   "rel_err": 0.0016539938501229357,
+   "norm_ratio": 0.99999724052325,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.10.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986519838591,
+   "rel_err": 0.0016534099481658223,
+   "norm_ratio": 1.0000177052771921,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986165299826,
+   "rel_err": 0.0016698750852140057,
+   "norm_ratio": 1.000055322016458,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.11.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999987306586112,
+   "rel_err": 0.001610442965417382,
+   "norm_ratio": 0.999926928269459,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985953243848,
+   "rel_err": 0.0016761107514382686,
+   "norm_ratio": 1.0000025045718541,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.12.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.999998646527191,
+   "rel_err": 0.001661526753893862,
+   "norm_ratio": 0.9999511172350383,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985962919009,
+   "rel_err": 0.0016816775761188975,
+   "norm_ratio": 1.0000512514566497,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.13.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986550013191,
+   "rel_err": 0.0016564057485740685,
+   "norm_ratio": 1.0000049361357948,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985756742987,
+   "rel_err": 0.001702592391913129,
+   "norm_ratio": 1.0000323877000905,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.14.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999987047359888,
+   "rel_err": 0.0016407972680385088,
+   "norm_ratio": 1.000008855142789,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985924612415,
+   "rel_err": 0.0016951366280627763,
+   "norm_ratio": 1.0000455958873204,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.15.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999987113279726,
+   "rel_err": 0.0016175487763955183,
+   "norm_ratio": 1.0000200224532798,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.999998650931643,
+   "rel_err": 0.001664079137957581,
+   "norm_ratio": 1.000006314548682,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.16.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999985998888381,
+   "rel_err": 0.0016845446878411719,
+   "norm_ratio": 0.9999474105668293,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985888790833,
+   "rel_err": 0.001686207335202443,
+   "norm_ratio": 1.0000480715928322,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.17.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986384997449,
+   "rel_err": 0.0016742110224584642,
+   "norm_ratio": 0.9999711814875781,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999987148425366,
+   "rel_err": 0.0016059223736624405,
+   "norm_ratio": 0.9999625318189017,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.18.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986208410861,
+   "rel_err": 0.001672990123415246,
+   "norm_ratio": 0.9999332883209568,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986156789887,
+   "rel_err": 0.0016637314416014628,
+   "norm_ratio": 1.0000388889511633,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.19.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986748315665,
+   "rel_err": 0.0016325853860144207,
+   "norm_ratio": 0.9999825920739208,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986289505584,
+   "rel_err": 0.0016594519838979901,
+   "norm_ratio": 1.000003073285554,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.2.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986623883111,
+   "rel_err": 0.0016426297144083403,
+   "norm_ratio": 0.9999786809026731,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.ffn_down_exps.weight": {
+   "type": "BF16",
+   "bytes": 679477248,
+   "params": 339738624,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.20.ffn_gate_up_exps.weight": {
+   "type": "BF16",
+   "bytes": 1358954496,
+   "params": 679477248,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.ffn_gate_up_exps.weight": {
+   "type": "BF16",
+   "bytes": 1358954496,
+   "params": 679477248,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.21.ffn_down_exps.weight": {
+   "type": "BF16",
+   "bytes": 679477248,
+   "params": 339738624,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.ffn_down_exps.weight": {
+   "type": "BF16",
+   "bytes": 679477248,
+   "params": 339738624,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.22.ffn_gate_up_exps.weight": {
+   "type": "BF16",
+   "bytes": 1358954496,
+   "params": 679477248,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.ffn_down_exps.weight": {
+   "type": "BF16",
+   "bytes": 679477248,
+   "params": 339738624,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.23.ffn_gate_up_exps.weight": {
+   "type": "BF16",
+   "bytes": 1358954496,
+   "params": 679477248,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986052962172,
+   "rel_err": 0.0016746646454430549,
+   "norm_ratio": 1.0001127301753612,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.3.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986556404544,
+   "rel_err": 0.0016341952611519579,
+   "norm_ratio": 0.9999850519754957,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986871213191,
+   "rel_err": 0.0016259105533722124,
+   "norm_ratio": 0.9999392430287839,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.4.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986854322205,
+   "rel_err": 0.001637091408287346,
+   "norm_ratio": 0.9999869628357813,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986524888906,
+   "rel_err": 0.001653619880461189,
+   "norm_ratio": 1.0000317467544817,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.5.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986399085934,
+   "rel_err": 0.0016615418562932398,
+   "norm_ratio": 1.0000457929725322,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985323960214,
+   "rel_err": 0.001701331808530805,
+   "norm_ratio": 1.0000774481247532,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.6.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.999998668817879,
+   "rel_err": 0.001646175874407625,
+   "norm_ratio": 0.9999882704898552,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999986677220802,
+   "rel_err": 0.0016280125205362912,
+   "norm_ratio": 1.0000720626190545,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.7.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999987424129897,
+   "rel_err": 0.0016048061106547881,
+   "norm_ratio": 0.9999597586069942,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0000000000000002,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985897187004,
+   "rel_err": 0.0016956411726618118,
+   "norm_ratio": 1.0000396630551083,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.8.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986688625951,
+   "rel_err": 0.0016562136622304132,
+   "norm_ratio": 0.9999813088179014,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_gate.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_k.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_output.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_q.weight": {
+   "type": "BF16",
+   "bytes": 14155776,
+   "params": 7077888,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_rel.weight": {
+   "type": "BF16",
+   "bytes": 1769472,
+   "params": 884736,
+   "scaled": false,
+   "cos": 0.9999999999999999,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_sink_proj.weight": {
+   "type": "BF16",
+   "bytes": 110592,
+   "params": 55296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.attn_v.weight": {
+   "type": "BF16",
+   "bytes": 4718592,
+   "params": 2359296,
+   "scaled": false,
+   "cos": 1.0,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.ffn_down_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 191102976,
+   "params": 339738624,
+   "scaled": true,
+   "cos": 0.9999985966823459,
+   "rel_err": 0.001688516636303564,
+   "norm_ratio": 0.9999495088282293,
+   "bit_exact_vs_teacher": true
+  },
+  "blk.9.ffn_gate_up_exps.weight": {
+   "type": "NVFP4",
+   "bytes": 382205952,
+   "params": 679477248,
+   "scaled": true,
+   "cos": 0.9999986485948749,
+   "rel_err": 0.001661502818628086,
+   "norm_ratio": 1.0000037230146523,
+   "bit_exact_vs_teacher": true
+  },
+  "output.weight": {
+   "type": "BF16",
+   "bytes": 926318592,
+   "params": 42467328,
+   "scaled": false,
+   "cos": 0.9999999999999998,
+   "rel_err": 0.0,
+   "norm_ratio": 1.0,
+   "bit_exact_vs_teacher": true
+  }
+ },
+ "eval_seconds": 239.58589434623718
+}

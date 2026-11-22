@@ -1,0 +1,44 @@
+{
+ "frozen_at": "2026-11-22T15:36Z",
+ "rule": "results/selection_rule.lock.json",
+ "candidates": {
+  "L0": {
+   "kl": 0.08023560792207718,
+   "guard_domains": false,
+   "guard_routing": true,
+   "guard_size": false,
+   "worst_domain_ratio_vs_iq2": 1.1998911848718365,
+   "routing": 0.8752235130027488,
+   "text_bytes": 8474167056
+  },
+  "V1a": {
+   "kl": 0.07845592498779297,
+   "guard_domains": false,
+   "guard_routing": true,
+   "guard_size": false,
+   "worst_domain_ratio_vs_iq2": 1.197133792491101,
+   "routing": 0.8787733949260947,
+   "text_bytes": 8474163580
+  }
+ },
+ "all_guardrails_passed": [],
+ "selected": "L0",
+ "tie_break": [
+  {
+   "other": "L0",
+   "vs": "V1a",
+   "ratio": {
+    "gain": 0.022682554908412644,
+    "ci95": [
+     -0.014869912308880462,
+     0.06047352278127649
+    ],
+    "windows_won": 26,
+    "n": 54
+   },
+   "domains_won_other": 5,
+   "domains_won_best": 4
+  }
+ ],
+ "conf_read_before_freeze": false
+}
